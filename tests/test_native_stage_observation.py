@@ -74,8 +74,9 @@ def test_sampler_loss_stops_work_and_retains_failure(
     assert receipt["cleanup_complete"]
 
 
+@pytest.mark.parametrize("io_capability", ["denied", "unsupported"])
 def test_io_permission_gap_does_not_disable_the_rss_limit(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, io_capability: str
 ) -> None:
     import io
     import time
@@ -108,12 +109,17 @@ def test_io_permission_gap_does_not_disable_the_rss_limit(
         def io_counters(self):
             raise psutil.AccessDenied(42)
 
+    if io_capability == "unsupported":
+        delattr(Process, "io_counters")
     monkeypatch.setattr(
         "scripts.observe_native_stage.psutil.Process", lambda *args: Process()
     )
     observer.sample(io.StringIO())
     assert observer.report["reason"] == "memory_limit"
     assert observer.report["io_counter_gaps"][0]["pid"] == 42
+    assert observer.report["io_measurement_complete"] is False
+    if io_capability == "unsupported":
+        assert observer.report["io_counters_supported"] is False
 
 
 @pytest.mark.skipif(

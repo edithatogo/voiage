@@ -61,18 +61,28 @@ class StageObserver:
                     },
                 )
                 counters.update(user_seconds=cpu.user, system_seconds=cpu.system)
-                try:
-                    io = process.io_counters()
-                    counters.update(
-                        read_bytes=io.read_bytes, write_bytes=io.write_bytes
-                    )
-                except psutil.AccessDenied:
-                    self.report.setdefault("io_counter_gaps", []).append(
-                        {
-                            "pid": pid,
-                            "reason": "permission_denied_during_exec_or_runtime",
-                        }
-                    )
+                io_method = getattr(process, "io_counters", None)
+                if io_method is None:
+                    if self.report.get("io_counters_supported", True):
+                        self.report.setdefault("io_counter_gaps", []).append(
+                            {"pid": pid, "reason": "not_supported_by_process_api"}
+                        )
+                    self.report["io_counters_supported"] = False
+                    self.report["io_measurement_complete"] = False
+                else:
+                    try:
+                        io = io_method()
+                        counters.update(
+                            read_bytes=io.read_bytes, write_bytes=io.write_bytes
+                        )
+                    except psutil.AccessDenied:
+                        self.report["io_measurement_complete"] = False
+                        self.report.setdefault("io_counter_gaps", []).append(
+                            {
+                                "pid": pid,
+                                "reason": "permission_denied_during_exec_or_runtime",
+                            }
+                        )
             except psutil.NoSuchProcess, psutil.ZombieProcess:
                 continue
         free = psutil.disk_usage(self.workspace).free
@@ -128,6 +138,7 @@ class StageObserver:
             },
             "interval_seconds": self.interval,
             "gnu_time_available": Path("/usr/bin/time").is_file(),
+            "io_measurement_complete": True,
             "cleanup_complete": False,
             "subreaper": True,
             "python": sys.version,
@@ -264,11 +275,33 @@ def main() -> int:
     command = args.command[1:] if args.command[:1] == ["--"] else args.command
     if not command:
         parser.error("A trusted stage command is required")
+    backend = os.environ.get("VOIAGE_NATIVE_USER_NAMESPACE", "0")
+    if backend not in {"0", "1"}:
+        parser.error("VOIAGE_NATIVE_USER_NAMESPACE must be 0 or 1")
+    mappings = []
+    if backend == "1":
+        mappings = [
+            "--user",
+            "--map-user=0",
+            f"--map-users={args.uid}:{args.uid}:1",
+            "--map-group=0",
+            f"--map-groups={args.gid}:{args.gid}:1",
+            "--setgroups=allow",
+        ]
     isolated = [
         "/usr/bin/unshare",
+        *mappings,
         "--net",
-        f"--setgid={args.gid}",
-        f"--setuid={args.uid}",
+        "--",
+        sys.executable,
+        str(Path(__file__).resolve().with_name("enter_native_namespace.py")),
+        "--parent-namespace",
+        os.readlink("/proc/self/ns/net"),
+        "--uid",
+        str(args.uid),
+        "--gid",
+        str(args.gid),
+        *(["--require-identity-maps"] if backend == "1" else []),
         "--",
         *command,
     ]
