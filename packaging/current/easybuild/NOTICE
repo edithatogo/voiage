@@ -4,3 +4,8 @@ packaging/easybuild-2023a-rust-overlay/NOTICE, packaging/easybuild-2024a-rust-ov
 and the corresponding Arrow and Polars overlay NOTICE and LICENSE files.
 Upstream Python, Rust, Arrow, Polars and dependency source licences remain unchanged.
 Native source fetching, builds and installed probes remain acceptance gates.
+
+hwloc 2.9.1/2.10.0 recipes are derived from easybuilders/easybuild-easyconfigs
+revision 262892aea5e99b65cdb54072f3ff633e74483eb1. Only the source download
+host changed. Their upstream GPL-2.0 terms are retained in LICENSE.easybuild;
+hwloc source code retains its separate upstream BSD licence.

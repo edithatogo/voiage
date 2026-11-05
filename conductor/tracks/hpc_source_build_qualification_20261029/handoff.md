@@ -356,16 +356,20 @@ PR #1269 merged as `dcc09c810` after all seventeen required checks, valid signed
 commits, resolved review threads and full tox/native controls on `6ebc61dc7`.
 The same integrator chat `01a1a104-80d7-7501-86bd-85be63cb2cab` continues in
 `/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-scoped-delivery-20261103`,
-branch `codex/hpc-two-backend-evidence-20261105`, owning this evidence and handoff
-only. Earlier assignments remain historical. Frozen native checkouts stay on
-`6ebc61dc7`; they are not updated beneath running operations.
+branch `codex/hpc-two-backend-evidence-20261105`, owning this evidence, handoff
+and the two hwloc source URL backports. Earlier assignments remain historical.
+Retained native attempts bind `6ebc61dc7`; checkouts are not updated beneath
+running operations.
 
 [The checkpoint manifest](evidence/two-backend-20261105/README.md) retains Colab's
 terminal source-fetch failure, Spack's terminal Python interpreter crash, and
-explicitly nonterminal WSL EasyBuild source-fetch snapshots. Colab was released
-after preserving its terminal receipts. The next native operation is bounded
-readback of the two attached WSL EasyBuild sessions and collection of their
-terminal aggregate reports. Exact private workspace paths, process/session IDs
+both WSL EasyBuild terminal source-fetch failures. The initial running snapshot
+remains historical in the preceding Git revision. Colab was released after
+preserving its terminal receipts. Both attached WSL sessions returned exit41 for hwloc download
+failures and completed cleanup. No qualification process remains active. The
+next operation is source replay of the scoped URL repair, followed by fresh
+installed attempts if replay passes; Spack requires separate crash diagnosis.
+Exact private workspace paths, process/session IDs
 and next-operation ownership remain in the ignored local diagnosis handoff.
 The NAS remains read-only. No installed matrix cell is accepted or archived.
 

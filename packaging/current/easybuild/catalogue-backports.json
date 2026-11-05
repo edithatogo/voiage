@@ -46,5 +46,13 @@
   "libpciaccess-0.18.1-GCCcore-13.3.0.eb": {
     "catalogue": "262892aea5e99b65cdb54072f3ff633e74483eb1",
     "change": "Meson dependency 1.12.1"
+  },
+  "hwloc-2.9.1-GCCcore-12.3.0.eb": {
+    "catalogue": "262892aea5e99b65cdb54072f3ff633e74483eb1",
+    "change": "Official release download host; unchanged source checksum, dependencies and build/test settings"
+  },
+  "hwloc-2.10.0-GCCcore-13.3.0.eb": {
+    "catalogue": "262892aea5e99b65cdb54072f3ff633e74483eb1",
+    "change": "Official release download host; unchanged source checksum, dependencies and build/test settings"
   }
 }

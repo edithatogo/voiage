@@ -8,9 +8,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 - [ ] Finish native HPC acceptance in `conductor/tracks/hpc_source_build_qualification_20261029/` and `conductor/tracks/scientific_ecosystem_alignment_20261029/`; preserve all existing native gates.
   - Isolation/profile and named sudo/Lmod/source-attempt repairs merged in
-    #1268 and #1269. Both backends passed fifteen admission controls. Two WSL
-    EasyBuild cells remain active; Colab source fetching and Spack Python 3.15.1
-    concretization stopped with retained failures. Installed acceptance stays open.
+    #1268 and #1269. Both backends passed fifteen admission controls. All attempts
+    stopped with retained failures. Both EasyBuild generations need the verified
+    official hwloc download-host repair and fresh source replay; Spack Python
+    3.15.1 concretization remains blocked. Installed acceptance stays open.
 
 - [x] Add local verification resource limits and termination receipts before
   continuing Python 3.15.1 acceptance testing.

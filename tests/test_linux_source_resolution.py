@@ -179,9 +179,21 @@ def test_staged_source_allows_only_private_cache_aliases(
             "https://github.com/mpimd-csc/flexiblas/releases/download/v3.4.4/",
             "05040ae092142dd0bf38d1bb9ce33f6b475d9f9bb455e33be997932ae855c22b",
         ),
+        (
+            "2023a",
+            "hwloc-2.9.1-GCCcore-12.3.0.eb",
+            "https://download.open-mpi.org/release/hwloc/v%(version_major_minor)s/",
+            "a440e2299f7451dc10a57ddbfa3f116c2a6c4be1bb97c663edd3b9c7b3b3b4cf",
+        ),
+        (
+            "2024a",
+            "hwloc-2.10.0-GCCcore-13.3.0.eb",
+            "https://download.open-mpi.org/release/hwloc/v%(version_major_minor)s/",
+            "c7fd8a1404a9719c76aadc642864b9f77aed1dc1fc8882d6af861a9260ba240d",
+        ),
     ],
 )
-def test_flexiblas_resolves_authenticated_release_source(
+def test_recipe_resolves_authenticated_release_source(
     generation: str, recipe: str, url: str, checksum: str
 ) -> None:
     root = Path(__file__).resolve().parents[1]

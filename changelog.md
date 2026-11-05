@@ -1,7 +1,8 @@
 # Changelog
 
-- Retain separate Colab and WSL admission, source-fetch failures and running
-  EasyBuild snapshots without claiming installed HPC acceptance.
+- Repair hwloc source download URLs for both current EasyBuild generations,
+  preserving authenticated checksums and build settings. Retain separate Colab
+  and WSL failures without claiming installed HPC acceptance.
 
 - Preserve declared HPC source, compiler and receipt settings by name across
   sudo boundaries, supporting sudo-rs without forwarding credentials. Initialize
