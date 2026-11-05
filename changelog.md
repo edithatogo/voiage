@@ -1,5 +1,8 @@
 # Changelog
 
+- Enable isolated loopback for native dependency tests while retaining external
+  network denial, non-root execution and guarded descendant cleanup.
+
 - Declare checksum-bound Rust bootstrap SDK inputs for both EasyBuild
   generations and bound LLVM linking to one job in current HPC compiler recipes.
 

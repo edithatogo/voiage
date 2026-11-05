@@ -13,6 +13,8 @@ on:
       - "scripts/probe_current_hpc_install.py"
       - "scripts/observe_native_driver.py"
       - "scripts/observe_native_stage.py"
+      - "scripts/enter_native_namespace.py"
+      - "tests/test_native_network_namespace.py"
       - "scripts/guard_verification.py"
       - "scripts/qualify_hpc_source.py"
       - "specs/dependency-runtime-policy.json"
@@ -32,6 +34,8 @@ on:
       - "scripts/probe_current_hpc_install.py"
       - "scripts/observe_native_driver.py"
       - "scripts/observe_native_stage.py"
+      - "scripts/enter_native_namespace.py"
+      - "tests/test_native_network_namespace.py"
       - "scripts/guard_verification.py"
       - "scripts/qualify_hpc_source.py"
       - "specs/dependency-runtime-policy.json"
@@ -109,7 +113,7 @@ jobs:
           export SPACK_PYTHON="$PWD/.venv/bin/python"
           mkdir -p receipts/graph
           if [[ "$QUALIFICATION" == installed || "$QUALIFICATION" == installed-controls ]]; then
-            sudo --preserve-env env "PATH=$PATH" "VOIAGE_CONTROL_UID=$(id -u)" "VOIAGE_CONTROL_GID=$(id -g)" .venv/bin/python -m pytest --noconftest -o addopts= -q --basetemp="$PWD/receipts/controls" tests/test_native_installed_supervision.py
+            sudo --preserve-env env "PATH=$PATH" "VOIAGE_CONTROL_UID=$(id -u)" "VOIAGE_CONTROL_GID=$(id -g)" .venv/bin/python -m pytest --noconftest -o addopts= -q --basetemp="$PWD/receipts/controls" tests/test_native_installed_supervision.py tests/test_native_network_namespace.py
           fi
           if [[ "$QUALIFICATION" == installed-controls ]]; then
             echo "Privileged aggregate cleanup controls passed"

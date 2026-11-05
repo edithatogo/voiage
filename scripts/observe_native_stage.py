@@ -267,8 +267,16 @@ def main() -> int:
     isolated = [
         "/usr/bin/unshare",
         "--net",
-        f"--setgid={args.gid}",
-        f"--setuid={args.uid}",
+        "--",
+        sys.executable,
+        "-m",
+        "scripts.enter_native_namespace",
+        "--parent-namespace",
+        os.readlink("/proc/self/ns/net"),
+        "--uid",
+        str(args.uid),
+        "--gid",
+        str(args.gid),
         "--",
         *command,
     ]

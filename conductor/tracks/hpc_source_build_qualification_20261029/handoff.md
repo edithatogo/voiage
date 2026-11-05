@@ -244,3 +244,33 @@ Small frozen receipts are retained in `evidence/installed-admission-20261104/`.
 No installed cell or complete native matrix has passed at this checkpoint.
 Next: inspect terminal native receipts, fix only demonstrated failures, then
 merge PR #1267 after current-head required checks, signatures and threads pass.
+
+## Colab network diagnosis ownership — 5 November 2026
+
+Chat `01a1a104-80d7-7501-86bd-85be63cb2cab` continues in the standard worktree
+`/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-scoped-delivery-20261103`,
+branch `codex/hpc-native-install-results-20261104`, based on merged `308adce20`.
+Scope is the isolated build network helper, affected controls, Colab diagnosis
+and retained terminal receipts. The owned Colab CPU session is
+`voiage-hpc-diagnosis-20261105`; no full matrix build is dispatched yet.
+Earlier assignments remain history. Pleiades and NAS checks are read-only;
+no workload, environment, storage or service changes are owned there.
+
+The first installed Spack attempt and both corrected EasyBuild attempts stopped
+at the four-hour install-stage budget, with cleanup_complete=true. Spack installed
+the dated compiler then stopped in stable Rust; 2023a was in Tcl tests and 2024a
+in Perl tests. Neither RSS nor free space triggered these stops. A real Colab
+regression proves the existing fresh network namespace cannot complete a local
+TCP exchange with loopback down. The new helper enables only loopback in a
+namespace distinct from the parent, checks interfaces through the current
+namespace socket API, clears supplementary groups and drops GID/UID before exec.
+External ENETUNREACH and parent-network rejection remain required.
+
+Agent review corrected an inherited-sysfs-view assumption. Colab's normal netns
+mode denies loopback configuration (EPERM); a separate private user/net namespace
+can configure loopback, but exact root/runner mappings are rejected by the
+installed mapping policy. That platform remains unqualified; no full build was
+dispatched there and no mapping policy was changed. The CPU diagnosis session
+is being released after receipt retrieval. GitHub root controls must qualify
+the new helper before another installed dispatch. Tests are retained rather than
+skipped to conceal a platform gap. Private network-host inventory stays local.

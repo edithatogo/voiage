@@ -129,3 +129,13 @@ hashes. Verification used a standard Git worktree on the external SSD; the
 8 GiB reserve was preserved, with over 15 GiB minimum free on the final rerun.
 No system or shared artifacts were deleted. Full installed HPC matrix, hosted
 delivery and final cleanup/audit requirements remain open; B8 stays in progress.
+
+## Native continuation — 5 November 2026
+
+PRs #1263–#1267 merged after current required checks and review resolution.
+The last coverage lane passed 5,855 tests with 20 skips and 94.84% coverage.
+Actual installed Spack and both EasyBuild attempts reached their four-hour
+stage limits with complete cleanup; native B6.2 acceptance remains open.
+The linked HPC track owns the isolated-loopback regression, platform admission
+and bounded continuation. Colab full qualification is blocked by runner identity
+mapping policy; source/control success does not substitute for installed proof.

@@ -15,6 +15,7 @@ on:
     paths:
       - .github/workflows/native-rust-llvm-qualification.yml
       - scripts/observe_native_stage.py
+      - scripts/enter_native_namespace.py
       - scripts/qualify_native_rust.py
       - tests/test_native_stage_observation.py
       - tests/test_native_rust_build.py
@@ -31,6 +32,7 @@ on:
     paths:
       - .github/workflows/native-rust-llvm-qualification.yml
       - scripts/observe_native_stage.py
+      - scripts/enter_native_namespace.py
       - scripts/qualify_native_rust.py
       - tests/test_native_stage_observation.py
       - tests/test_native_rust_build.py
