@@ -2942,6 +2942,11 @@
       "category": "frozen_historical_evidence",
       "reason": "Immutable installed-consumer receipt records observed absence of legacy libraries.",
       "sha256": "3a6ae7dd93090f7589125a701778d19c328f70edcc326b50732eeb051c10f0ed"
+    },
+    "docs/reviews/polars-runtime-audit-20261105.md": {
+      "category": "frozen_historical_evidence",
+      "reason": "Dated source-bound audit records absence checks and producer compatibility; no runtime import exemption.",
+      "sha256": "3f3371ea02ec9468dedf16ec93ba3815cdfdc3a316d0118fb8d74265b9e3a1fb"
     }
   }
 }
