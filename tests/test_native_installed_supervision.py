@@ -9,6 +9,8 @@ import sys
 import psutil
 import pytest
 
+from scripts.enter_native_namespace import preserved_environment_names
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -18,6 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 )
 def test_aggregate_stop_owns_privileged_monitor_and_detached_native_child(
     tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     uid = int(os.environ["VOIAGE_CONTROL_UID"])
     gid = int(os.environ["VOIAGE_CONTROL_GID"])
@@ -25,8 +28,11 @@ def test_aggregate_stop_owns_privileged_monitor_and_detached_native_child(
     os.chown(tmp_path, uid, gid)
     tmp_path.chmod(0o750)
     pids = tmp_path / "native-pids.json"
+    receipts = str(tmp_path / "compiler-receipts")
+    monkeypatch.setenv("VOIAGE_COMPILER_RECEIPTS", receipts)
     payload = (
         "import json,os,subprocess,sys,time,psutil; from pathlib import Path; "
+        f"assert os.environ.get('VOIAGE_COMPILER_RECEIPTS')=={receipts!r}; "
         "child=subprocess.Popen([sys.executable,'-c','import time;time.sleep(60)'],start_new_session=True); "
         f"Path({str(pids)!r}).write_text(json.dumps(["
         "{'pid':p,'created':psutil.Process(p).create_time()} for p in [os.getpid(),child.pid]])); "
@@ -35,7 +41,7 @@ def test_aggregate_stop_owns_privileged_monitor_and_detached_native_child(
     stage = [
         "/usr/bin/sudo",
         "--non-interactive",
-        "--preserve-env",
+        f"--preserve-env={preserved_environment_names()}",
         "env",
         f"PATH={os.environ['PATH']}",
         sys.executable,

@@ -107,6 +107,20 @@ BUILD_ENVIRONMENT = frozenset(
 )
 
 
+def preserved_environment_names() -> str:
+    """Name declared sudo inputs, including settings created later in a driver."""
+    names = (
+        BUILD_ENVIRONMENT
+        | {"HOME", "USER", "LOGNAME"}
+        | {
+            key
+            for key in os.environ
+            if key.startswith(("EBROOT", "EBVERSION", "EBDEVEL"))
+        }
+    )
+    return ",".join(sorted(names))
+
+
 def build_environment(uid: int) -> dict[str, str]:
     """Select the real runner profile and declared inputs without root credentials."""
     identity = pwd.getpwuid(uid)

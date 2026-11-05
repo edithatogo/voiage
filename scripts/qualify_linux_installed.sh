@@ -11,7 +11,8 @@ work="${RUNNER_TEMP:?}/voiage-sources-$cell"
 bash scripts/qualify_linux_sources.sh "$cell" "$out/source"
 export VOIAGE_COMPILER_RECEIPTS="$out/compiler-configurations"
 mkdir -p "$VOIAGE_COMPILER_RECEIPTS" "$work/consumer"
-build=(sudo --preserve-env env "PATH=$PATH" "$root/.venv/bin/python" -m scripts.observe_native_stage
+preserved=$("$PWD/.venv/bin/python" -c 'from scripts.enter_native_namespace import preserved_environment_names; print(preserved_environment_names())')
+build=(sudo --non-interactive "--preserve-env=$preserved" env "PATH=$PATH" "$root/.venv/bin/python" -m scripts.observe_native_stage
   --evidence "$out/install-stage" --workspace "$work" --cwd "$root" --timeout 14400 --uid "$(id -u)" --gid "$(id -g)" --)
 export CARGO_NET_OFFLINE=true CARGO_NET_RETRY=0
 if [[ "$cell" == spack ]]; then

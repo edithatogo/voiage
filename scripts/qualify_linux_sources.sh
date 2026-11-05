@@ -13,7 +13,8 @@ bash scripts/qualify_linux_graph.sh "$cell" "$out/graph"
 
 # Verify this kernel can deny networking before relying on offline replay.
 # Drop back to the ordinary runner user inside the private network namespace.
-offline=(sudo --preserve-env unshare --net -- sudo --preserve-env -u "$(id -un)")
+preserved=$("$PWD/.venv/bin/python" -c 'from scripts.enter_native_namespace import preserved_environment_names; print(preserved_environment_names())')
+offline=(sudo --non-interactive "--preserve-env=$preserved" unshare --net -- sudo --non-interactive "--preserve-env=$preserved" -u "$(id -un)")
 "${offline[@]}" "$PWD/.venv/bin/python" - "$out/network-denial.json" <<'PY'
 import errno
 import json
