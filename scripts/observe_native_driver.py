@@ -6,6 +6,7 @@ import argparse
 import os
 from pathlib import Path
 
+from scripts.enter_native_namespace import build_environment
 from scripts.observe_native_stage import StageObserver
 
 
@@ -34,7 +35,7 @@ def main() -> int:
         *command,
     ]
     observer = StageObserver(args.evidence, args.workspace, timeout=args.timeout)
-    return observer.run(unprivileged, cwd=args.cwd)
+    return observer.run(unprivileged, env=build_environment(args.uid), cwd=args.cwd)
 
 
 if __name__ == "__main__":

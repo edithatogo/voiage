@@ -296,3 +296,17 @@ limits and marks I/O measurement incomplete. Its new regression failed before
 the repair and passes afterward. New native admission and current-candidate
 hosted/full-tox checks remain required before installed dispatch. Private host
 addresses, hardware inventory, access files and connection receipts stay local.
+
+## Privilege-context review repairs — 5 November 2026
+
+Both backends passed all thirteen affected native admission checks at `61bf3434e`.
+The first full attempts stopped during source preparation, before compilation.
+WSL sudo-rs explicitly rejected preserve-entire-environment, and the unprivileged
+driver inherited the root profile; Colab's source packaging lacked a Cargo
+frontend. Attempts remain preserved in their private roots. A selected-user
+build-environment allowlist now derives HOME/USER/LOGNAME from the real account
+and excludes privileged authentication variables. The stage helper also uses an
+absolute sibling path, fixing native Rust stages whose working directory lies
+outside the checkout. The new runtime regression uses that consumer directory.
+These review fixes require fresh admission and final-current-candidate hosted
+checks; no earlier native attempt is relabeled as successful.

@@ -7,6 +7,118 @@ import os
 from pathlib import Path
 import socket
 import struct
+lazy import pwd
+
+# These are build inputs, paths and compiler controls. Authentication is never
+# forwarded from the privileged monitor. Module names carry only tool locations.
+BUILD_ENVIRONMENT = frozenset(
+    [
+        "PATH",
+        "LANG",
+        "LC_ALL",
+        "LC_CTYPE",
+        "LC_MESSAGES",
+        "TZ",
+        "TERM",
+        "TMPDIR",
+        "TMP",
+        "TEMP",
+        "SOURCE_DATE_EPOCH",
+        "CARGO",
+        "CARGO_HOME",
+        "CARGO_NET_OFFLINE",
+        "CARGO_NET_RETRY",
+        "CARGO_BUILD_JOBS",
+        "CARGO_TARGET_DIR",
+        "CARGO_HTTP_CAINFO",
+        "CMAKE_BUILD_PARALLEL_LEVEL",
+        "RUSTC",
+        "RUSTDOC",
+        "RUSTFLAGS",
+        "RUSTDOCFLAGS",
+        "RUSTUP_HOME",
+        "RUSTUP_TOOLCHAIN",
+        "CC",
+        "CXX",
+        "FC",
+        "F77",
+        "F90",
+        "AR",
+        "AS",
+        "LD",
+        "NM",
+        "OBJCOPY",
+        "OBJDUMP",
+        "RANLIB",
+        "STRIP",
+        "CFLAGS",
+        "CXXFLAGS",
+        "CPPFLAGS",
+        "FCFLAGS",
+        "FFLAGS",
+        "LDFLAGS",
+        "LIBRARY_PATH",
+        "LD_LIBRARY_PATH",
+        "CPATH",
+        "C_INCLUDE_PATH",
+        "CPLUS_INCLUDE_PATH",
+        "PKG_CONFIG_PATH",
+        "PKG_CONFIG_LIBDIR",
+        "PKG_CONFIG_SYSROOT_DIR",
+        "PYTHONPATH",
+        "PYTHONNOUSERSITE",
+        "PYTHONDONTWRITEBYTECODE",
+        "PYTHONUNBUFFERED",
+        "SPACK_ROOT",
+        "SPACK_PYTHON",
+        "SPACK_ENV",
+        "SPACK_USER_CONFIG_PATH",
+        "SPACK_USER_CACHE_PATH",
+        "SPACK_DISABLE_LOCAL_CONFIG",
+        "VOIAGE_COMPILER_RECEIPTS",
+        "VOIAGE_SOURCE_ROOTS",
+        "VOIAGE_SOURCE_RECEIPTS",
+        "VOIAGE_QUALIFIED_SOURCE_ARCHIVE",
+        "VOIAGE_QUALIFIED_SOURCE_SHA256",
+        "VOIAGE_SOURCE_REVISION",
+        "VOIAGE_SOURCE_TREE_GIT_OID",
+        "VOIAGE_SOURCE_CLEAN",
+        "VOIAGE_NATIVE_USER_NAMESPACE",
+        "UV_CACHE_DIR",
+        "UV_PYTHON_INSTALL_DIR",
+        "UV_OFFLINE",
+        "UV_NO_PROGRESS",
+        "MAKEFLAGS",
+        "MODULEPATH",
+        "MODULESHOME",
+        "LOADEDMODULES",
+        "_LMFILES_",
+        "LMOD_CMD",
+        "LMOD_DIR",
+        "LMOD_PKG",
+        "SSL_CERT_FILE",
+        "SSL_CERT_DIR",
+        "OMP_NUM_THREADS",
+        "OPENBLAS_NUM_THREADS",
+        "MKL_NUM_THREADS",
+        "NUMEXPR_MAX_THREADS",
+    ]
+)
+
+
+def build_environment(uid: int) -> dict[str, str]:
+    """Select the real runner profile and declared inputs without root credentials."""
+    identity = pwd.getpwuid(uid)
+    selected = {
+        key: value
+        for key, value in os.environ.items()
+        if key in BUILD_ENVIRONMENT
+        or key.startswith(("EBROOT", "EBVERSION", "EBDEVEL"))
+    }
+    selected.update(
+        HOME=identity.pw_dir, USER=identity.pw_name, LOGNAME=identity.pw_name
+    )
+    return selected
 
 
 def enter_namespace(
@@ -52,7 +164,7 @@ def enter_namespace(
     os.setgroups([])
     os.setgid(gid)
     os.setuid(uid)
-    os.execvpe(command[0], command, os.environ)  # noqa: S606 - trusted stage argv
+    os.execvpe(command[0], command, build_environment(uid))  # noqa: S606 - trusted stage argv
 
 
 def main() -> None:
