@@ -1,8 +1,11 @@
 # Colab and WSL qualification checkpoint
 
-The canonical uncompressed `manifest.json.gz` SHA-256 is `8e5875fa375210a6311e867c0f082e6221e5097ee33e3d29137607f7bfdc3cca`.
-Report contents replace private workspace roots; each original report's digest
-remains bound to its private retained bytes. The frozen executable candidate is
+The canonical uncompressed `manifest.json.gz` SHA-256 is `850895e96a552163d47f677ad4ebdbd19f7fd53f06da7cd11b69c4a824557332`.
+Report contents redact private workspace roots and process IDs. Log `content`
+contains bounded excerpts (Colab leading, WSL trailing); byte counts and hashes
+cover full original logs. The SDK frontend entry is derived metadata without an
+original-file digest. Retained report hashes bind their private original bytes.
+The frozen executable candidate is
 `6ebc61dc70d9996de836bbcd44ceea998d9f0cc5`, merged by PR #1269 as
 `dcc09c81059fbfb919d107d64cec633364919f8e`.
 
