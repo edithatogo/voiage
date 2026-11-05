@@ -1,5 +1,9 @@
 # voiage Project Roadmap (v3)
 
+Current execution status: [5 November reconciliation](conductor/reconciliation-20261105.md).
+HPC execution is deferred except MLX/Metal; historical setup/completion labels
+do not claim installed package acceptance or device speedup.
+
 ## Vision
 
 To establish `voiage` as the premier, cross-domain, high-performance library for Value of Information analysis. It will be distinguished by its analytical rigor, computational performance, and exceptional user experience.
@@ -49,7 +53,9 @@ now directs readers to the consolidated plan.
 [Agent-safe engineering improvements](conductor/tracks/agent_safe_engineering_20260907/index.md)
 adds eight bounded workstreams for drift checks, dependency features, API/ABI
 compatibility, measured CI, adversarial numerics, bounded execution, capability
-reports and automation recovery. All implementation tasks remain pending; the
+reports and automation recovery. Bounded G01–G08 slices are delivered, while
+G03.4 provider acceptance, G04.4 measurement/replay evidence, G05.4 live-target
+witness and final review remain open; the
 worker guide specifies exact scopes, prerequisites, witnesses and escalation.
 [Repository allocations and integration order](conductor/tracks/agent_safe_engineering_20260907/repository-boundaries.md)
 keep generic engines and applications in their capability-owner repositories.
@@ -60,8 +66,8 @@ to these engineering prerequisites without activating them.
 
 Prepared track records:
 
-- `conductor/tracks/hpc_source_build_qualification_20261029/` (in progress; baseline Rust/LLVM source builds and installed probes accepted; full HPC matrix pending)
-- `conductor/tracks/scientific_ecosystem_alignment_20261029/` (linked delivery; acceptance pending)
+- `conductor/tracks/hpc_source_build_qualification_20261029/` (execution deferred except MLX/Metal; baseline Rust/LLVM source builds and installed probes accepted; full HPC matrix unaccepted)
+- `conductor/tracks/scientific_ecosystem_alignment_20261029/` (HPC portion deferred except MLX/Metal; independent scientific delivery remains eligible)
 
 - `conductor/tracks/execution_packet_guard_20260907/`
 - `conductor/tracks/version_identity_contracts_20260907/`
@@ -1379,7 +1385,8 @@ flowchart LR
 
 ## Detailed logging and versioning sequence
 
-Six pending tracks and their parallel investigation/serial integration boundaries
+Five completed implementation tracks and the separately gated optional telemetry
+track, with their investigation/serial integration boundaries
 are defined in [Conductor orchestration](conductor/tracks/agent_safe_engineering_20260907/orchestration.md).
 They separate execution controls, version identities, native logging, privacy and
 resilience, the first installed VOP pilot, and optional telemetry qualification.
