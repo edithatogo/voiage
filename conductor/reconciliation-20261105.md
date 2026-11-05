@@ -16,8 +16,9 @@ The execution packet guard, version identities, native structured logging,
 logging privacy/resilience and VOP pilot tracks record completed implementation.
 The parent engineering programme still requires the G03.4 provider-compatibility
 acceptance, G04.4 artifact/measurement/replay evidence, G05.4 live-target
-witness, and final review. Optional native telemetry is separately gated by demonstrated
-need; its exporter is not implemented. Do not repeat the five completed tracks.
+witness, and final review. The opt-in OTLP/HTTP telemetry exporter is implemented;
+further qualification is deferred until demonstrated need. Its unmet acceptance
+gates remain open. Do not repeat the five completed tracks.
 
 Polars container, pandas-free I/O and translation-reference delivery are accepted
 through the retained PR #1209 and related receipts. Optional producer tests still
