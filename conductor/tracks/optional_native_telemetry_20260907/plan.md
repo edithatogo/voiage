@@ -1,5 +1,10 @@
 # Implementation plan: Optional native telemetry qualification
 
+**Current direction, 5 November 2026:** Optional telemetry is deferred until
+a demonstrated need; retain existing opt-in implementation and all unsatisfied
+qualification gates. Earlier implementation instructions below are historical
+context and do not authorize continuing the deferred work.
+
 The [need assessment](./need-assessment-20261029.md) records the AC1 deferral accepted in PR #1238. On 1 November the maintainer requested the capability itself. Local OTLP/HTTP qualification proceeds independently of the historical VOP assessment. Use [START_HERE.md](./START_HERE.md) and the exact phase commands/file reservations in [implementation-packet.json](./implementation-packet.json). Prerequisites: vop_logging_version_pilot_20260907. Follow the [orchestration plan](../agent_safe_engineering_20260907/orchestration.md).
 
 ## Phase 1: Need
