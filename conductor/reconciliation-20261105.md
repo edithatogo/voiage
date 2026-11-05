@@ -61,8 +61,8 @@ No WSL termination or cleanup is claimed while the host is unreachable.
 
 ## Recommended next implementation
 
-Deliver the scoped critical PyPI action security fix in PR #1271 through
-protected checks. Then close the parent engineering
+The scoped critical PyPI action security fix merged in PR #1271 as
+`f7c23b10b` after full local and hosted checks. Close the parent engineering
 witness and review gaps. Optional telemetry should
 wait for demonstrated need. MLX/Metal starts with one measured kernel and CPU
 fallback rather than a general acceleration framework. An isolated GPU probe
