@@ -1,8 +1,8 @@
 //! Independent references for expected-utility information pricing.
 
 use voiage_numerics::{
-    expected_utility_information, ExpectedUtilityInformationInput, InformationStructure,
-    SolverSettings, UtilityDescriptor,
+    ExpectedUtilityInformationInput, InformationStructure, SolverSettings, UtilityDescriptor,
+    expected_utility_information,
 };
 
 use serde_json::Value;
@@ -99,18 +99,20 @@ fn logarithmic_reference_preserves_buy_sell_asymmetry() {
     // adverse signal, but safe remains feasible. Support-conditional action
     // infeasibility must not invalidate the valid contingent policy.
     assert_eq!(result.bpi_root.status, "converged");
-    assert!(result
-        .bpi_root
-        .evaluated_policies
-        .iter()
-        .flat_map(|evaluation| &evaluation.policies)
-        .flat_map(|policy| &policy.domain_exclusions)
-        .any(|exclusion| {
-            exclusion.signal_id.as_deref() == Some("state-1")
-                && exclusion.action_id == "action-1"
-                && exclusion.state_ids == ["state-1"]
-                && exclusion.reason == "utility_domain"
-        }));
+    assert!(
+        result
+            .bpi_root
+            .evaluated_policies
+            .iter()
+            .flat_map(|evaluation| &evaluation.policies)
+            .flat_map(|policy| &policy.domain_exclusions)
+            .any(|exclusion| {
+                exclusion.signal_id.as_deref() == Some("state-1")
+                    && exclusion.action_id == "action-1"
+                    && exclusion.state_ids == ["state-1"]
+                    && exclusion.reason == "utility_domain"
+            })
+    );
     assert!(!result.bpi_root.policy_switched);
     assert_eq!(
         result.bpi_root.transitions,
@@ -280,12 +282,8 @@ fn fixture_problem(payload: &Value) -> (ExpectedUtilityInformationInput, Utility
 #[test]
 fn committed_normative_fixtures_drive_rust_conformance() {
     let fixtures = [
-        include_str!(
-            "../../../../specs/frontier/expected-utility-information-pricing/v1/fixtures/normative/affine-clairvoyant.json"
-        ),
-        include_str!(
-            "../../../../specs/frontier/expected-utility-information-pricing/v1/fixtures/normative/log-buy-sell-asymmetry.json"
-        ),
+        include_str!("fixtures/affine-clairvoyant.json"),
+        include_str!("fixtures/log-buy-sell-asymmetry.json"),
     ];
     for fixture in fixtures {
         let payload: Value = serde_json::from_str(fixture).expect("valid normative fixture");
@@ -302,5 +300,26 @@ fn committed_normative_fixtures_drive_rust_conformance() {
             let reference = expected[field].as_f64().expect("numeric reference");
             assert!((actual - reference).abs() < tolerance, "{field}");
         }
+    }
+}
+
+#[test]
+fn packaged_fixtures_match_repository_references_when_available() {
+    let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("../../../specs/frontier/expected-utility-information-pricing/v1/fixtures/normative");
+    if !root.is_dir() {
+        return; // Published crate archives do not contain repository specifications.
+    }
+    for (name, packaged) in [
+        (
+            "affine-clairvoyant.json",
+            include_str!("fixtures/affine-clairvoyant.json"),
+        ),
+        (
+            "log-buy-sell-asymmetry.json",
+            include_str!("fixtures/log-buy-sell-asymmetry.json"),
+        ),
+    ] {
+        assert_eq!(std::fs::read_to_string(root.join(name)).unwrap(), packaged);
     }
 }
