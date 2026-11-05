@@ -13,6 +13,7 @@ lazy import pwd
 # forwarded from the privileged monitor. Module names carry only tool locations.
 BUILD_ENVIRONMENT = frozenset(
     [
+        "RUNNER_TEMP",
         "PATH",
         "LANG",
         "LC_ALL",
