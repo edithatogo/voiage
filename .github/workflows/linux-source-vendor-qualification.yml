@@ -80,6 +80,20 @@ jobs:
         run: |
           uv venv --python 3.15.1 .venv
           uv pip install --python .venv/bin/python psutil==7.2.2
+      - name: Release unused hosted SDK capacity for Rust sources
+        if: (matrix.entry == 'rust-stable' || matrix.entry == 'rust-nightly') && runner.environment == 'github-hosted'
+        run: |
+          mkdir -p receipts
+          df -B1 "$GITHUB_WORKSPACE" > receipts/source-capacity-before.txt
+          # This fresh, job-exclusive VM qualifies Linux Rust sources only.
+          # Preserve selected Rust/Python tools and every source/resource guard.
+          if [[ -d /usr/local/lib/android && ! -L /usr/local/lib/android ]]; then
+            sudo rm -rf -- /usr/local/lib/android
+            echo unused_android_sdk_removed > receipts/source-capacity-action.txt
+          else
+            echo sdk_absent_or_symlink_preserved > receipts/source-capacity-action.txt
+          fi
+          df -B1 "$GITHUB_WORKSPACE" > receipts/source-capacity-after.txt
       - name: Authenticate source and prove locked offline vendor replay
         env:
           ENTRY: ${{ matrix.entry }}
@@ -87,7 +101,7 @@ jobs:
         run: |
           cargo_bin=$(rustup which --toolchain "$TOOLCHAIN" cargo)
           rustc_bin=$(rustup which --toolchain "$TOOLCHAIN" rustc)
-          mkdir receipts
+          mkdir -p receipts
           git rev-parse HEAD > receipts/source-commit.txt
           git rev-parse 'HEAD^{tree}' > receipts/source-tree.txt
           .venv/bin/python --version > receipts/python.txt

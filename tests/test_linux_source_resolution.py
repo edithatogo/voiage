@@ -179,22 +179,88 @@ def test_staged_source_allows_only_private_cache_aliases(
             "https://github.com/mpimd-csc/flexiblas/releases/download/v3.4.4/",
             "05040ae092142dd0bf38d1bb9ce33f6b475d9f9bb455e33be997932ae855c22b",
         ),
+        (
+            "2023a",
+            "hwloc-2.9.1-GCCcore-12.3.0.eb",
+            "https://download.open-mpi.org/release/hwloc/v%(version_major_minor)s/",
+            "a440e2299f7451dc10a57ddbfa3f116c2a6c4be1bb97c663edd3b9c7b3b3b4cf",
+        ),
+        (
+            "2024a",
+            "hwloc-2.10.0-GCCcore-13.3.0.eb",
+            "https://download.open-mpi.org/release/hwloc/v%(version_major_minor)s/",
+            "c7fd8a1404a9719c76aadc642864b9f77aed1dc1fc8882d6af861a9260ba240d",
+        ),
+        (
+            "2023a",
+            "OpenMPI-4.1.5-GCC-12.3.0.eb",
+            "https://download.open-mpi.org/release/open-mpi/v%(version_major_minor)s/",
+            "a640986bc257389dd379886fdae6264c8cfa56bc98b71ce3ae3dfbd8ce61dbe3",
+        ),
+        (
+            "2024a",
+            "OpenMPI-5.0.3-GCC-13.3.0.eb",
+            "https://download.open-mpi.org/release/open-mpi/v%(version_major_minor)s/",
+            "990582f206b3ab32e938aa31bbf07c639368e4405dca196fabe7f0f76eeda90b",
+        ),
     ],
 )
-def test_flexiblas_resolves_authenticated_release_source(
+def test_recipe_resolves_authenticated_release_source(
     generation: str, recipe: str, url: str, checksum: str
 ) -> None:
     root = Path(__file__).resolve().parents[1]
     tree = ast.parse(
         (root / "packaging/current/easybuild" / generation / recipe).read_text()
     )
-    strings = {
-        node.value
-        for node in ast.walk(tree)
-        if isinstance(node, ast.Constant) and isinstance(node.value, str)
+    assignments = {
+        node.targets[0].id: node.value
+        for node in tree.body
+        if isinstance(node, ast.Assign) and isinstance(node.targets[0], ast.Name)
     }
-    assert url in strings
-    assert checksum in strings
+    if "source_urls" not in assignments:
+        component = assignments["components"].elts[0].elts[2]
+        assignments.update(
+            (key.value, value)
+            for key, value in zip(component.keys, component.values, strict=True)
+            if key.value in {"source_urls", "checksums"}
+        )
+    assert ast.literal_eval(assignments["source_urls"]) == [url]
+    checksums = ast.literal_eval(assignments["checksums"])
+    assert checksum in {
+        value
+        for entry in checksums
+        for value in (entry.values() if isinstance(entry, dict) else [entry])
+    }
+
+
+@pytest.mark.parametrize(
+    ("generation", "recipe"),
+    [
+        ("2023a", "OpenMPI-4.1.5-GCC-12.3.0.eb"),
+        ("2024a", "OpenMPI-5.0.3-GCC-13.3.0.eb"),
+    ],
+)
+def test_openmpi_overlay_retains_authenticated_patch_closure(
+    generation: str, recipe: str
+) -> None:
+    root = Path(__file__).resolve().parents[1]
+    directory = root / "packaging/current/easybuild" / generation
+    assignments = {
+        node.targets[0].id: node.value
+        for node in ast.parse((directory / recipe).read_text()).body
+        if isinstance(node, ast.Assign) and isinstance(node.targets[0], ast.Name)
+    }
+    checksums = {
+        name: checksum
+        for entry in ast.literal_eval(assignments["checksums"])
+        for name, checksum in entry.items()
+    }
+    for entry in ast.literal_eval(assignments["patches"]):
+        name = entry[0] if isinstance(entry, tuple) else entry
+        assert (
+            hashlib.sha256((directory / name).read_bytes()).hexdigest()
+            == checksums[name]
+        )
 
 
 def test_hook_accepts_exact_authenticated_lock_patch_outside_cache(

@@ -1,5 +1,13 @@
 # Changelog
 
+- Resolve a current Node 22 patch for documentation checks and align the declared
+  engine with the pinned Astro release.
+
+- Repair hwloc and OpenMPI source download URLs for both current EasyBuild generations,
+  preserving authenticated checksums and build settings. Reclaim unused hosted
+  SDK capacity for Rust source checks with the existing disk reserve. Retain separate Colab
+  and WSL failures without claiming installed HPC acceptance.
+
 - Preserve declared HPC source, compiler and receipt settings by name across
   sudo boundaries, supporting sudo-rs without forwarding credentials. Initialize
   Lmod safely under strict Bash and isolate candidate checkouts per source attempt.

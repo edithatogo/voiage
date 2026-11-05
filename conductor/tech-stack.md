@@ -66,7 +66,8 @@ subject to the evaluated extra and committed lock, not a promotion claim.
 - **starlight-llms-txt**: 0.11.0 — LLM-friendly text export
 - **Griffe**: >=1.14,<2 — Python API extraction for the initial polyglot lane
 - **Vale**: prose linting for Markdown
-- **pnpm**: 10.34.4 package manager for the Starlight/Astro site
+- **Node.js**: >=22.23.4 for the pinned Astro release; CI resolves the current 22.x patch
+- **pnpm**: 10.34.5 site package manager (full-gate bootstrap 10.34.9)
 
 - **cbindgen**: optional header generation for a narrow Rust C ABI edge
 

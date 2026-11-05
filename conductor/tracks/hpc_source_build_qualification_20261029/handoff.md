@@ -349,3 +349,79 @@ places the candidate checkout inside the already unique VOIAGE_SOURCE_WORK,
 avoiding collisions without deleting or moving prior worktrees. The source-driver
 failure regression verifies that this attempt-specific workspace reaches the
 graph subprocess. Existing historical paths remain historical receipts.
+
+## Two-backend execution checkpoint — 5 November 2026
+
+PR #1269 merged as `dcc09c810` after all seventeen required checks, valid signed
+commits, resolved review threads and full tox/native controls on `6ebc61dc7`.
+The same integrator chat `01a1a104-80d7-7501-86bd-85be63cb2cab` continues in
+`/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-scoped-delivery-20261103`,
+branch `codex/hpc-two-backend-evidence-20261105`, owning this evidence, handoff
+and the hwloc/OpenMPI source URL backports. Earlier assignments remain historical.
+Retained native attempts bind `6ebc61dc7`; checkouts are not updated beneath
+running operations.
+
+[The checkpoint manifest](evidence/two-backend-20261105/README.md) retains Colab's
+terminal source-fetch failure, Spack's terminal Python interpreter crash, and
+both WSL EasyBuild terminal source-fetch failures. The initial running snapshot
+remains historical in the preceding Git revision. Colab was released after
+preserving its terminal receipts. Both attached WSL sessions returned exit41 for hwloc download
+failures and completed cleanup. No qualification process remains active. The
+next operation is source replay of the scoped URL repair, followed by fresh
+installed attempts if replay passes; Spack requires separate crash diagnosis.
+Exact private workspace paths, process/session IDs
+and next-operation ownership remain in the ignored local diagnosis handoff.
+The NAS remains read-only. No installed matrix cell is accepted or archived.
+
+Only this lane's inactive reproducible tox environments were reclaimed after
+checking for active process references and retaining their metadata/logs. Its
+frozen FlexiBLAS probe was copied to internal storage, verified file-for-file,
+and removed from the SSD. Source work, other lanes, active verification tools
+and native environments were preserved. Heavy qualification continues remotely;
+no broad local gate is claimed from this cleanup.
+
+The first repaired source run41991750912 accepted both hwloc archives, then
+exposed the identical obsolete-host issue in the pinned OpenMPI recipes. Their
+URL-only backports include the original, hash-verified local patch closure.
+Full tox41991743917 passed `7622c6f2d`; final-current-candidate source replay and
+required hosted checks remain gates. A bounded Spack diagnostic executed the
+reported `is_virtual` function 100,000 times on the same Python 3.15.1 without
+reproducing the fatal error. This narrows diagnosis but does not clear the full
+concretization failure or authorize an interpreter downgrade.
+
+The complete repaired EasyBuild source replay41993727314 and full tox41993722034
+pass at `63030a42e`. Native checkouts stay frozen on that executable candidate
+while this branch addresses only hosted source-job capacity and retains receipts.
+The nightly vendor job41993722518 stopped at the unchanged disk reserve; its
+report is retained and the scoped hosted-only SDK cleanup requires fresh checks.
+
+WSL's transient read-only creation error is retained alongside kernel warnings
+about a prior I/O failure and filesystem-check recommendation. A subsequent
+exact-workspace write/read/fsync/cleanup probe passed. Guest mounts and the actual
+host backing location/free space were checked; no manual filesystem repair or
+global shutdown was performed. Fresh default-mode and debug-mode Spack solves
+both passed, but neither relabels the prior fatal attempt. The same chat owns
+new guarded attempts on `63030a42e`; their private session/PID/path records remain
+in the local live handoff. Installed/native acceptance remains open.
+
+Source/vendor capacity repair is proven by all cells in41997177559, including
+stable and nightly Rust, with before/after receipts. Full tox41997170981 exposed
+the same reserve limit on a smaller VM; the equivalent hosted-only cleanup is
+applied to the full-gate job. Full gate and final-current-head hosted checks
+remain required before merging this packet. Native63030a42e remains frozen.
+
+Full tox at273ebcb74 confirms the disk fix: fourteen environments pass and docs
+alone reject cached Node22.23.3. Runtime-selection fix23a0e4957 resolves current
+Node22 patches and aligns the site engine floor with pinned Astro. Final full
+tox42006398652 tests that executable candidate; the subsequent receipt-only
+commit leaves those runtime, dependency and test inputs unchanged. Current-head
+required checks and receipt integrity remain gates. The SBOM HTTP504 recovered
+once with pinned asset/schema checks intact. Python upgrade resolution stayed
+isolated; production Python locks and native sources remain unchanged.
+
+WSL Spack63030a42e passed complete offline source replay, then failed in Boost b2
+with SIGSEGV(-11) and completed cleanup. The same chat owns a new Colab Spack
+attempt on63030a42e after fifteen passing controls and API/SSH identity matching.
+Two WSL EasyBuild attempts remain active on that frozen candidate. Private live
+paths, pins and process/session IDs remain in the local handoff. No active native
+checkout or environment is promoted beneath running operations.
