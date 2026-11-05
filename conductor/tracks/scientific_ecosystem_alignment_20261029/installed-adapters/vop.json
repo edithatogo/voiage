@@ -1,0 +1,12 @@
+{
+  "matrix_sha256": "509411114afe90617f0f60a7743ad11f1160fb1288bb4ef144b572e5294050d9",
+  "rows": 500,
+  "seed": 20260727,
+  "export_revision": "2c46db2fe5f907d894bb07f1127c008f10ee462e",
+  "candidate_wheel_sha256": "8f46b93023c35962e7848c5e49215156395de9338aa7b0168119248e1eeaf231",
+  "wheel_members_verified": 837,
+  "installed_voiage_evpi": 0.0,
+  "reference_evpi": 0.0,
+  "export_receipt_sha256": "b3baa72b178be1a807dd1b1d302209a0fbb2fd44f7a229f8f2968550fae158f4",
+  "scope": "Pinned VOP source export, installed candidate evaluation; public wheel gate separate"
+}

@@ -3,7 +3,7 @@ arxiv-collector==0.4.1
 arxiv-latex-cleaner==1.0.11
 # arxiv-latex-cleaner 1.0.11 omits its runtime dependencies from package metadata.
 absl-py==2.5.1
-pillow==12.3.0
+pillow==13.0.0
 pyyaml==6.0.3
 regex==2026.9.29
 textstat==0.7.13

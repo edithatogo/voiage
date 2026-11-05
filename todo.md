@@ -4,7 +4,16 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
-- [ ] Qualify `conductor/tracks/hpc_source_build_qualification_20261029/` and `conductor/tracks/scientific_ecosystem_alignment_20261029/`; preserve all existing native gates.
+- [x] Qualify the bounded Linux Cargo/compiler-source and vendor checkpoint with authenticated inputs, offline replay and retained source/resource receipts. Full native HPC acceptance remains open.
+
+- [ ] Finish native HPC acceptance in `conductor/tracks/hpc_source_build_qualification_20261029/` and `conductor/tracks/scientific_ecosystem_alignment_20261029/`; preserve all existing native gates.
+  - Isolation/profile and named sudo/Lmod/source-attempt repairs merged in
+    #1268 and #1269. Both backends passed fifteen admission controls. Both repaired
+    EasyBuild source graphs now pass authenticated offline replay and full tox
+    at `63030a42e`. Earlier failures remain retained; fresh Spack solves also pass.
+    Spack also passes offline replay, then stops at Boost b2 SIGSEGV on WSL;
+    Colab reproduction and both WSL EasyBuild attempts continue. Final docs/runtime
+    selection checks and installed acceptance remain open.
 
 - [x] Add local verification resource limits and termination receipts before
   continuing Python 3.15.1 acceptance testing.
@@ -746,6 +755,14 @@ as recorded in the active task above; earlier route decisions below are historic
 
 ## Done
 
+- [x] Qualify the baseline stable Rust 1.99.1 and dated-nightly Rust/LLVM source
+  builds and installed compiler/Cargo EVPI/linkage probes on GitHub Actions.
+  Retain failed attempts, complete vendor closure and per-stage resource receipts
+  in `conductor/tracks/hpc_source_build_qualification_20261029/`. Full Spack and
+  both EasyBuild generation installs remain open.
+
+- Port the perspective tensor contract from vop_poc_nz with reference parity fixtures.
+
 - [x] Add source-bound dated Rust/compiler bootstrap candidates and authenticate
   their stage-zero manifest binding; separate the stable core compiler role.
   This is source qualification only; native builds and matrix gates remain open.
@@ -1396,3 +1413,12 @@ as recorded in the active task above; earlier route decisions below are historic
 - [ ] Continue in order with `conductor/tracks/logging_privacy_resilience_20260907/`.
 - [ ] Continue in order with `conductor/tracks/vop_logging_version_pilot_20260907/`.
 - [ ] Continue in order with `conductor/tracks/optional_native_telemetry_20260907/`.
+
+Release and base installed-package qualification are complete. See
+[2 November reconciliation](conductor/tracks/scientific_ecosystem_alignment_20261029/reconciliation-20261102.md) for remaining scope.
+
+
+- [x] Qualify all three Linux dependency graphs with source-bound and resource-bound
+  receipts (PR #1260). Native source/build/install acceptance remains open.
+- [ ] Next HPC step: qualify complete source/vendor fetching for the current
+  compiler and Cargo provider candidates before dispatching bounded native builds.

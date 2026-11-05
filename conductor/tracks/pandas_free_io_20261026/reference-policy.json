@@ -2904,6 +2904,11 @@
         }
       ]
     },
+    "conductor/tracks/tobac_consumer_qualification_20261025/evidence/installed-20261101/numerical-receipt.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "The November installed-consumer oracle records the independent consumer environment used for this qualification.",
+      "sha256": "ae13f00612eccbbf70457c2e77d25fb6fcd7ddb177eb93985a867246bad4b8ba"
+    },
     "conductor/tracks/tobac_consumer_qualification_20261025/evidence/installed-20261029/consumer-receipt.json": {
       "category": "frozen_historical_evidence",
       "reason": "Exact installed consumer receipt records its independently installed historical producer dependencies; no runtime dependency is introduced.",

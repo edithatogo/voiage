@@ -5,14 +5,145 @@ guard limits runaway growth but is not a kernel-enforced allocation limit.
 """
 
 import argparse
+import hashlib
 import json
 import os
 from pathlib import Path
 import shutil
 import signal
+import stat
 import subprocess
+import sys
 import tempfile
 import time
+from typing import Any
+
+
+class DiskMeasurements:
+    """Sample each selected filesystem once; deltas are not job attribution."""
+
+    def __init__(self, paths: list[Path]) -> None:
+        self.records: dict[int, dict[str, Any]] = {}
+        for selected in paths:
+            path = selected.resolve(strict=True)
+            device = path.stat().st_dev
+            record = self.records.setdefault(
+                device, {"device": device, "paths": [], "samples": 0}
+            )
+            if str(path) not in record["paths"]:
+                record["paths"].append(str(path))
+
+    def sample(self) -> int:
+        """Record free bytes and return the lowest free space across devices."""
+        for device, record in self.records.items():
+            path = Path(record["paths"][0])
+            if path.stat().st_dev != device:
+                raise OSError(f"Filesystem changed during verification: {path}")
+            usage = shutil.disk_usage(path)
+            if not record["samples"]:
+                record.update(start_free_bytes=usage.free, min_free_bytes=usage.free)
+            record.update(
+                total_bytes=usage.total,
+                end_free_bytes=usage.free,
+                min_free_bytes=min(record["min_free_bytes"], usage.free),
+            )
+            record["samples"] += 1
+        return min(item["end_free_bytes"] for item in self.records.values())
+
+
+def artifact_size(path: Path) -> dict[str, Any]:
+    """Measure a selected tree once, without following links or mounted trees.
+
+    Allocation uses st_blocks and deduplicates hardlinks within this snapshot.
+    Reflinks, compression and shared blocks prevent physical-exclusive claims.
+    """
+    path = path.absolute()
+    result: dict[str, Any] = {"path": str(path), "status": "absent"}
+    try:
+        root = path.lstat()
+    except FileNotFoundError:
+        return result
+    if not stat.S_ISDIR(root.st_mode):
+        raise ValueError(f"Artifact root must be a real directory: {path}")
+    result.update(
+        status="measured",
+        regular_file_bytes=0,
+        allocated_bytes=0,
+        symlinks_skipped=0,
+        cross_device_skipped=0,
+    )
+    seen: set[tuple[int, int]] = set()
+
+    def visit(entry: Path) -> bool:
+        info = entry.lstat()
+        if stat.S_ISLNK(info.st_mode):
+            result["symlinks_skipped"] += 1
+            return False
+        if info.st_dev != root.st_dev:
+            result["cross_device_skipped"] += 1
+            return False
+        key = (info.st_dev, info.st_ino)
+        if key not in seen:
+            seen.add(key)
+            result["allocated_bytes"] += info.st_blocks * 512
+            if stat.S_ISREG(info.st_mode):
+                result["regular_file_bytes"] += info.st_size
+        return stat.S_ISDIR(info.st_mode)
+
+    visit(path)
+
+    def walk_error(error: OSError) -> None:
+        raise error
+
+    for directory, children, files in os.walk(
+        path, followlinks=False, onerror=walk_error
+    ):
+        children[:] = [name for name in children if visit(Path(directory) / name)]
+        for name in files:
+            visit(Path(directory) / name)
+    return result
+
+
+def workload_identity(args: argparse.Namespace, command: list[str]) -> dict[str, Any]:
+    """Bind the checked-out source, runtime, configuration and declared cache state."""
+    root = (
+        args.source_root.resolve(strict=True)
+        if args.source_root is not None
+        else Path(__file__).resolve().parents[1]
+    )
+
+    def git(*arguments: str) -> str:
+        return subprocess.check_output(  # noqa: S603 - fixed read-only git arguments
+            ["/usr/bin/git", "-C", str(root), *arguments], text=True
+        ).strip()
+
+    identity = {
+        "id": args.workload_id,
+        "cache_state": args.cache_state,
+        "command": command,
+        "python": sys.version,
+        "executable": sys.executable,
+        "source_root": str(root),
+        "source_head": git("rev-parse", "HEAD"),
+        "source_tree": git("rev-parse", "HEAD^{tree}"),
+        "tracked_diff_sha256": hashlib.sha256(
+            git("diff", "HEAD", "--no-ext-diff").encode()
+        ).hexdigest(),
+        "untracked_paths": git(
+            "ls-files", "--others", "--exclude-standard"
+        ).splitlines(),
+        "configuration_sha256": {
+            name: hashlib.sha256((root / name).read_bytes()).hexdigest()
+            for name in ("uv.lock", "pyproject.toml", "tox.ini")
+        },
+        "declared_configuration": {},
+    }
+    if args.identity_file:
+        extra = json.loads(args.identity_file.read_text())
+        if not isinstance(extra, dict):
+            raise ValueError("Identity file must contain a JSON object")
+        identity["declared_configuration"] = extra
+    return identity
 
 
 def group_rss_kib(group: int) -> int:
@@ -62,6 +193,18 @@ def main() -> int:
     parser.add_argument("--min-free-mib", type=int, default=2048)
     parser.add_argument("--interval-seconds", type=float, default=2)
     parser.add_argument("--work-dir", type=Path, required=True)
+    parser.add_argument("--workload-id", default="unspecified")
+    parser.add_argument(
+        "--cache-state", choices=("cold", "warm", "mixed", "unknown"), default="unknown"
+    )
+    parser.add_argument("--identity-file", type=Path)
+    parser.add_argument(
+        "--source-root",
+        type=Path,
+        help="Repository root whose Git state and configuration identify the workload",
+    )
+    parser.add_argument("--artifact-dir", type=Path, action="append", default=[])
+    parser.add_argument("--disk-path", type=Path, action="append", default=[])
     parser.add_argument("command", nargs=argparse.REMAINDER)
     args = parser.parse_args()
 
@@ -77,14 +220,41 @@ def main() -> int:
     ):
         parser.error("Provide a command and positive resource limits")
     args.work_dir.mkdir(parents=True, exist_ok=True)
-    report = {"peak_rss_kib": 0, "reason": "starting", "returncode": None}
+    report: dict[str, Any] = {
+        "peak_rss_kib": 0,
+        "reason": "starting",
+        "returncode": None,
+    }
+    disk: DiskMeasurements | None = None
+    report["disk"] = {
+        "sampling_interval_seconds": args.interval_seconds,
+        "filesystems": [],
+        "artifacts_before": [],
+        "artifacts_after": [],
+        "physical_capacity_qualified": False,
+        "limitations": [
+            "Sampled free space can miss short peaks and includes unrelated activity.",
+            "Directory snapshots are not peaks; allocated blocks may be shared.",
+            "VM capacity requires separate guest and host-backing evidence.",
+            "Cache state and additional configuration are operator declarations.",
+        ],
+    }
     child = None
     temp_dir = None
     started = time.monotonic()
     try:
-        if shutil.disk_usage(args.work_dir).free < args.min_free_mib * 1024**2:
+        report["workload"] = workload_identity(args, command)
+        # Check the temporary-file volume before creating or launching anything.
+        disk = DiskMeasurements(
+            [args.work_dir, Path(__file__).resolve().parents[2], *args.disk_path]
+        )
+        report["disk"]["filesystems"] = list(disk.records.values())
+        if disk.sample() < args.min_free_mib * 1024**2:
             report["reason"] = "insufficient_free_space"
             return 125
+        report["disk"]["artifacts_before"] = [
+            artifact_size(p) for p in args.artifact_dir
+        ]
         # Build/consumer fixtures require temporary trees outside the checkout.
         # A unique sibling stays on the repository volume without nesting in it.
         temp_dir = Path(
@@ -115,19 +285,14 @@ def main() -> int:
         child = subprocess.Popen(command, env=env, start_new_session=True)  # noqa: S603
         report["reason"] = "completed"
         while child.poll() is None:
+            free = disk.sample()
             rss = group_rss_kib(child.pid)
             report["peak_rss_kib"] = max(report["peak_rss_kib"], rss)
             if rss > args.max_rss_mib * 1024:
                 report["reason"] = "memory_limit"
             elif time.monotonic() - started > args.timeout_seconds:
                 report["reason"] = "time_limit"
-            elif (
-                min(
-                    shutil.disk_usage(args.work_dir).free,
-                    shutil.disk_usage(temp_dir).free,
-                )
-                < args.min_free_mib * 1024**2
-            ):
+            elif free < args.min_free_mib * 1024**2:
                 report["reason"] = "free_space_limit"
             if report["reason"] != "completed":
                 stop_group(child.pid)
@@ -140,15 +305,23 @@ def main() -> int:
         report["reason"] = "interrupted_or_monitor_failed"
         raise
     finally:
-        if child is not None:
-            stop_group(child.pid)
-            child.wait()
-        report["elapsed_seconds"] = round(time.monotonic() - started, 3)
-        report["temporary_directory"] = str(temp_dir) if temp_dir else None
         try:
+            if child is not None:
+                stop_group(child.pid)
+                child.wait()
+            if disk is not None:
+                disk.sample()
+            report["disk"]["artifacts_after"] = [
+                artifact_size(p) for p in args.artifact_dir
+            ]
             if temp_dir is not None and report["returncode"] == 0:
                 clear_temporary_directory(temp_dir)
+        except BaseException:
+            report["reason"] = "interrupted_or_monitor_failed"
+            raise
         finally:
+            report["elapsed_seconds"] = round(time.monotonic() - started, 3)
+            report["temporary_directory"] = str(temp_dir) if temp_dir else None
             (args.work_dir / "resource-report.json").write_text(
                 json.dumps(report, indent=2) + "\n", encoding="utf-8"
             )

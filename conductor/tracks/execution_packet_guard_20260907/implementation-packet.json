@@ -15,8 +15,8 @@
     "conductor/tracks/agent_safe_engineering_20260907/repository-boundaries.md"
   ],
   "input_sha256": {
-    "scripts/repo_harness.py": "7b5174504280b5a5b6d79ebf089979f8a34af0efa1a4bbcd06c5368cb90b2f51",
-    "tests/test_repo_harness.py": "999410030265a935daead3667a0ca2e464735b50f6dcb5563d688bd2fddfc630",
+    "scripts/repo_harness.py": "e389e77170d290317410e92abb52347d15bd406c6577f7a59080697ef8663d8a",
+    "tests/test_repo_harness.py": "0c2bbf9183b658a8307cfaf32c08c95d64866c07d49060fb1a5c0ab65d5b755a",
     "conductor/tracks/agent_safe_engineering_20260907/packets.json": "608905347ef80ab9d63e0ae563444a8d3fdb811193c11dd9f3ee04f322a51c3a"
   },
   "reserved_implementation_files": [

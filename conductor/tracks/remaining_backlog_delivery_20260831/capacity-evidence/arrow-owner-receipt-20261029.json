@@ -1,0 +1,339 @@
+{
+  "schema_version": "voiage.arrow-capacity-readback.v1",
+  "source_receipt": {
+    "scope": "Arrow/PyArrow source capacity; not Spack or full HPC acceptance",
+    "commit": "1db97ce0c6cadd95cafa45a716f453c488cb9c7e",
+    "run_url": "https://github.com/edithatogo/voiage/actions/runs/40713503189",
+    "inputs_sha256": "7b4fccfb9ac0e96cae259051d584ba3b2da8eb8480da0128ef0a52960c77e38c",
+    "python": "3.15.1 (main, Oct 21 2026, 14:53:25) [GCC 13.3.0]",
+    "cpu_count": 4,
+    "top_level_build_jobs": 2,
+    "bundled_dependency_parallelism": "Upstream processor-count defaults; nested commands may exceed the top-level limit",
+    "initial_free_bytes": 91880161280,
+    "minimum_free_bytes": 90282962944,
+    "maximum_sampled_disk_growth_bytes": 1597198336,
+    "sampling_interval_seconds": 5,
+    "steps": [
+      {
+        "name": "compiler-sdk",
+        "argv": [
+          "g++",
+          "--version"
+        ],
+        "exit_code": 0,
+        "descendant_resource_reason": "completed",
+        "elapsed_seconds": 4.02
+      },
+      {
+        "name": "cmake-sdk",
+        "argv": [
+          "cmake",
+          "--version"
+        ],
+        "exit_code": 0,
+        "descendant_resource_reason": "completed",
+        "elapsed_seconds": 4.02
+      },
+      {
+        "name": "create-environment",
+        "argv": [
+          "uv",
+          "venv",
+          "--python",
+          "/opt/hostedtoolcache/Python/3.15.1/x64/bin/python",
+          "/home/runner/work/_temp/voiage-arrow-capacity/venv"
+        ],
+        "exit_code": 0,
+        "descendant_resource_reason": "completed",
+        "elapsed_seconds": 4.02
+      },
+      {
+        "name": "numpy-sdk",
+        "argv": [
+          "uv",
+          "pip",
+          "install",
+          "--python",
+          "/home/runner/work/_temp/voiage-arrow-capacity/venv/bin/python",
+          "numpy==2.5.4"
+        ],
+        "exit_code": 0,
+        "descendant_resource_reason": "completed",
+        "elapsed_seconds": 4.02
+      },
+      {
+        "name": "cpp-configure",
+        "argv": [
+          "cmake",
+          "-S",
+          "/home/runner/work/_temp/voiage-arrow-capacity/cpp-source/arrow-446167169a0dc547e00e1bc29f417a40c0ca267a/cpp",
+          "-B",
+          "/home/runner/work/_temp/voiage-arrow-capacity/cpp-build",
+          "-G",
+          "Ninja",
+          "-DCMAKE_BUILD_TYPE=Release",
+          "-DCMAKE_INSTALL_PREFIX=/home/runner/work/_temp/voiage-arrow-capacity/install",
+          "-DCMAKE_INSTALL_LIBDIR=lib",
+          "-DPython3_EXECUTABLE=/home/runner/work/_temp/voiage-arrow-capacity/venv/bin/python",
+          "-DARROW_DEPENDENCY_SOURCE=BUNDLED",
+          "-DARROW_BUILD_SHARED=ON",
+          "-DARROW_BUILD_STATIC=OFF",
+          "-DARROW_BUILD_TESTS=OFF",
+          "-DARROW_BUILD_EXAMPLES=OFF",
+          "-DARROW_NO_DEPRECATED_API=ON",
+          "-DARROW_COMPUTE=ON",
+          "-DARROW_CSV=ON",
+          "-DARROW_DATASET=ON",
+          "-DARROW_FILESYSTEM=ON",
+          "-DARROW_IPC=ON",
+          "-DARROW_MIMALLOC=ON",
+          "-DARROW_PARQUET=ON",
+          "-DARROW_PYTHON=ON",
+          "-DARROW_WITH_BROTLI=ON",
+          "-DARROW_WITH_BZ2=ON",
+          "-DARROW_WITH_LZ4=ON",
+          "-DARROW_WITH_SNAPPY=ON",
+          "-DARROW_WITH_ZLIB=ON",
+          "-DARROW_WITH_ZSTD=ON"
+        ],
+        "exit_code": 0,
+        "descendant_resource_reason": "completed",
+        "elapsed_seconds": 46.19
+      },
+      {
+        "name": "cpp-build",
+        "argv": [
+          "cmake",
+          "--build",
+          "/home/runner/work/_temp/voiage-arrow-capacity/cpp-build",
+          "--parallel",
+          "2"
+        ],
+        "exit_code": 0,
+        "descendant_resource_reason": "completed",
+        "elapsed_seconds": 913.57
+      },
+      {
+        "name": "cpp-install",
+        "argv": [
+          "cmake",
+          "--install",
+          "/home/runner/work/_temp/voiage-arrow-capacity/cpp-build"
+        ],
+        "exit_code": 0,
+        "descendant_resource_reason": "completed",
+        "elapsed_seconds": 4.02
+      },
+      {
+        "name": "pyarrow-source-build",
+        "argv": [
+          "uv",
+          "pip",
+          "install",
+          "--python",
+          "/home/runner/work/_temp/voiage-arrow-capacity/venv/bin/python",
+          "--no-deps",
+          "--no-binary",
+          "pyarrow",
+          "--verbose",
+          "/home/runner/work/_temp/voiage-arrow-capacity/pyarrow-26.0.0.tar.gz"
+        ],
+        "exit_code": 0,
+        "descendant_resource_reason": "completed",
+        "elapsed_seconds": 173.01
+      },
+      {
+        "name": "installed-native-probe",
+        "argv": [
+          "/home/runner/work/_temp/voiage-arrow-capacity/venv/bin/python",
+          "-I",
+          "-c",
+          "import io, tempfile, pathlib, json\nimport pyarrow as pa\nimport pyarrow.compute as pc\nimport pyarrow.csv as csv\nimport pyarrow.dataset as ds\nimport pyarrow.ipc as ipc\nimport pyarrow.parquet as pq\nassert pa.__version__ == '26.0.0', pa.__version__\nt = csv.read_csv(io.BytesIO(b'x\\n1\\n2\\n3\\n'))\nassert pc.sum(t['x']).as_py() == 6\nsink = pa.BufferOutputStream()\nwith ipc.new_stream(sink, t.schema) as writer: writer.write_table(t)\nassert ipc.open_stream(sink.getvalue()).read_all().equals(t)\nwith tempfile.TemporaryDirectory() as directory:\n    path = pathlib.Path(directory) / 'data.parquet'\n    pq.write_table(t, path, compression='zstd')\n    assert pq.read_table(path).equals(t)\n    assert ds.dataset(directory, format='parquet').to_table().equals(t)\nfor codec in ('brotli', 'bz2', 'lz4_frame', 'snappy', 'gzip', 'zstd'):\n    assert pa.Codec.is_available(codec), codec\nassert 'mimalloc' in pa.supported_memory_backends()\nprint(json.dumps({'version':pa.__version__, 'extension':pa.lib.__file__, 'cpp_version':pa.cpp_version,\n                  'memory_backends':pa.supported_memory_backends(), 'csv_ipc_parquet_dataset_compute':True}))\n"
+        ],
+        "exit_code": 0,
+        "descendant_resource_reason": "completed",
+        "elapsed_seconds": 4.02
+      },
+      {
+        "name": "native-linkage",
+        "argv": [
+          "ldd",
+          "/home/runner/work/_temp/voiage-arrow-capacity/venv/lib/python3.15/site-packages/pyarrow/_acero.cpython-315-x86_64-linux-gnu.so",
+          "/home/runner/work/_temp/voiage-arrow-capacity/venv/lib/python3.15/site-packages/pyarrow/_compute.cpython-315-x86_64-linux-gnu.so",
+          "/home/runner/work/_temp/voiage-arrow-capacity/venv/lib/python3.15/site-packages/pyarrow/_csv.cpython-315-x86_64-linux-gnu.so",
+          "/home/runner/work/_temp/voiage-arrow-capacity/venv/lib/python3.15/site-packages/pyarrow/_dataset.cpython-315-x86_64-linux-gnu.so",
+          "/home/runner/work/_temp/voiage-arrow-capacity/venv/lib/python3.15/site-packages/pyarrow/_dataset_parquet.cpython-315-x86_64-linux-gnu.so",
+          "/home/runner/work/_temp/voiage-arrow-capacity/venv/lib/python3.15/site-packages/pyarrow/_feather.cpython-315-x86_64-linux-gnu.so",
+          "/home/runner/work/_temp/voiage-arrow-capacity/venv/lib/python3.15/site-packages/pyarrow/_fs.cpython-315-x86_64-linux-gnu.so",
+          "/home/runner/work/_temp/voiage-arrow-capacity/venv/lib/python3.15/site-packages/pyarrow/_hdfs.cpython-315-x86_64-linux-gnu.so",
+          "/home/runner/work/_temp/voiage-arrow-capacity/venv/lib/python3.15/site-packages/pyarrow/_json.cpython-315-x86_64-linux-gnu.so",
+          "/home/runner/work/_temp/voiage-arrow-capacity/venv/lib/python3.15/site-packages/pyarrow/_parquet.cpython-315-x86_64-linux-gnu.so",
+          "/home/runner/work/_temp/voiage-arrow-capacity/venv/lib/python3.15/site-packages/pyarrow/_pyarrow_cpp_tests.cpython-315-x86_64-linux-gnu.so",
+          "/home/runner/work/_temp/voiage-arrow-capacity/venv/lib/python3.15/site-packages/pyarrow/lib.cpython-315-x86_64-linux-gnu.so",
+          "/home/runner/work/_temp/voiage-arrow-capacity/venv/lib/python3.15/site-packages/pyarrow/libarrow_python.so",
+          "/home/runner/work/_temp/voiage-arrow-capacity/venv/lib/python3.15/site-packages/pyarrow/libarrow_python.so.2600",
+          "/home/runner/work/_temp/voiage-arrow-capacity/venv/lib/python3.15/site-packages/pyarrow/libarrow_python.so.2600.0.0"
+        ],
+        "exit_code": 0,
+        "descendant_resource_reason": "completed",
+        "elapsed_seconds": 4.02
+      }
+    ],
+    "outcome": "passed_scoped_source_build",
+    "full_hpc_matrix_qualified": false,
+    "compiler_source_build_executed": false,
+    "elapsed_seconds": 1165.23,
+    "free_bytes_after": 90339348480,
+    "monitor_errors": []
+  },
+  "descendant_resources": {
+    "numpy-sdk": {
+      "scope": "All descendants, including separate process groups",
+      "peak_rss_kib": 15720,
+      "sampling_interval_seconds": 2,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 4.02
+    },
+    "cpp-configure": {
+      "scope": "All descendants, including separate process groups",
+      "peak_rss_kib": 76856,
+      "sampling_interval_seconds": 2,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 46.19
+    },
+    "installed-native-probe": {
+      "scope": "All descendants, including separate process groups",
+      "peak_rss_kib": 16372,
+      "sampling_interval_seconds": 2,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 4.02
+    },
+    "pyarrow-source-build": {
+      "scope": "All descendants, including separate process groups",
+      "peak_rss_kib": 2916700,
+      "sampling_interval_seconds": 2,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 173.01
+    },
+    "compiler-sdk": {
+      "scope": "All descendants, including separate process groups",
+      "peak_rss_kib": 15852,
+      "sampling_interval_seconds": 2,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 4.02
+    },
+    "cmake-sdk": {
+      "scope": "All descendants, including separate process groups",
+      "peak_rss_kib": 15836,
+      "sampling_interval_seconds": 2,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 4.02
+    },
+    "create-environment": {
+      "scope": "All descendants, including separate process groups",
+      "peak_rss_kib": 15724,
+      "sampling_interval_seconds": 2,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 4.02
+    },
+    "cpp-build": {
+      "scope": "All descendants, including separate process groups",
+      "peak_rss_kib": 1862480,
+      "sampling_interval_seconds": 2,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 913.57
+    },
+    "cpp-install": {
+      "scope": "All descendants, including separate process groups",
+      "peak_rss_kib": 15728,
+      "sampling_interval_seconds": 2,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 4.02
+    },
+    "native-linkage": {
+      "scope": "All descendants, including separate process groups",
+      "peak_rss_kib": 16000,
+      "sampling_interval_seconds": 2,
+      "reason": "completed",
+      "returncode": 0,
+      "elapsed_seconds": 4.02
+    }
+  },
+  "installed_native_probe": {
+    "version": "26.0.0",
+    "extension": "/home/runner/work/_temp/voiage-arrow-capacity/venv/lib/python3.15/site-packages/pyarrow/lib.cpython-315-x86_64-linux-gnu.so",
+    "cpp_version": "26.0.0",
+    "memory_backends": [
+      "mimalloc",
+      "system"
+    ],
+    "csv_ipc_parquet_dataset_compute": true
+  },
+  "sample_count": 234,
+  "peak_descendant_rss_kib": 2916700,
+  "maximum_sampled_disk_growth_bytes": 1597198336,
+  "artifact": {
+    "id": 12829231303,
+    "sha256": "e2da44e3ce78cf562b5e2aabe03acd8b9fa62fe5ae72ed3050d5eb379bf948a5",
+    "retention_days": 14
+  },
+  "sdk": {
+    "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+    "cmake": "cmake version 3.31.6"
+  },
+  "evidence_sha256": {
+    "CMakeCache.txt": "7fd697e7c2b8c86df407ab7fba391eb10ec38b3aec0f478adc74a4be8b7f313b",
+    "build-commands.ninja": "1716f3002cdf58e1a412d015ec2fd55340983dee794aa3afbe43049715cf51f1",
+    "cmake-sdk-descendant-resources.json": "01c673d352b81ef5e644aaf14374d196ee23b1998712a62ca26daf7490b9e091",
+    "cmake-sdk-guard/resource-report.json": "3d786f5a755ec1769df2269ebabce824ffe802b8c02812423e67e9ad150fdb0e",
+    "cmake-sdk.log": "f6e81c2559f3ce00c5fdad01d7b226c301f5d6b07ee04f65db6dbfdc1cc5970b",
+    "compiler-sdk-descendant-resources.json": "333662ec17f28c29d8dc0c7789781de6c4e1e70ab199b3da468e47f9a4b5ed7d",
+    "compiler-sdk-guard/resource-report.json": "4b670eea3ba61d2b06fc0475a87de00707a03d470ef025979d312ba879c2b5cb",
+    "compiler-sdk.log": "59d1cbef41d4ae78d5063d525b7aa13d18dc0493ea00537efc19b2ee398cb5a8",
+    "cpp-build-descendant-resources.json": "a1afeb9031de51b635298bc0e2a119bf7b625ee05ca547d73544230b4d889294",
+    "cpp-build-guard/resource-report.json": "e5d7319454391ca877cf49474f299c86d52824d6b156d4b39c2bfc374f50aeac",
+    "cpp-build.log": "fe0b6e095ad42f41ed36a7edc9c64b10f4f10bd6a3adbdc526ad6165836a99f3",
+    "cpp-configure-descendant-resources.json": "0f1321da49e6a37fd25fbecf2d680d5511a34827545f4aac6b096574ecb421ec",
+    "cpp-configure-guard/resource-report.json": "99055df5b94a31eeb7943486076d260b7509b0b5e5221a55c135b2d6339f7fe4",
+    "cpp-configure.log": "f2192d4a11baaa3b1aa2548078c6b55cd4befc1f9a0ef75606b14c132e43a91b",
+    "cpp-install-descendant-resources.json": "279049ec5248d1f55cefff010d0ecb2b58b9a49130df5cf7cc81c26735ec7b22",
+    "cpp-install-guard/resource-report.json": "643dc35916e87ecd7ae5f707a2b10018f7551cd2d3c8d8427be51b2bf14b60cc",
+    "cpp-install.log": "59c5f1937c75ee0a7de53859ec760594dfece30887c49583d13e56fa16aa580a",
+    "create-environment-descendant-resources.json": "5fe9dcbc416df8eccf3676c90aa0131f336d28909424c20ccbf11f1204499df5",
+    "create-environment-guard/resource-report.json": "1f39ea17586ca2bfd55e9eb21d9cbdbed0caa217c31ae29b790e212ac8d798b3",
+    "create-environment.log": "117d24fb2c2790ab3ca9a8b9a2193ded8cbc5d5c76b3f4c7a7b60dedfcf77fb7",
+    "filesystem-samples.jsonl": "6a2b130bbcd07f7f9f2f51a056ed62651827ec785583a98881791f8d078616d4",
+    "inputs.json": "7b4fccfb9ac0e96cae259051d584ba3b2da8eb8480da0128ef0a52960c77e38c",
+    "installed-native-probe-descendant-resources.json": "9755ab9438a381d598facc721119a257870b7ede7458d8353ecc8369fb138484",
+    "installed-native-probe-guard/resource-report.json": "0661685752326fda0485e71353921c9348785dab007e75d738329cbaf3501a37",
+    "installed-native-probe.log": "1fbeb424b2a21e3add9e92bdcf233b04991a89230a4cbbbc81eeb4696cc6482b",
+    "native-linkage-descendant-resources.json": "f60a12cfa9d350f15ce1a5232458da93438cfe60c300f8dfc16c0423e402ad2a",
+    "native-linkage-guard/resource-report.json": "f3ebe1c3ed7041d94b0bab98c8e6b628aeb2f2a35a98528151e2261249d455cd",
+    "native-linkage.log": "252de7c81634be938198951435d3159afcf3b88e8cac88ece3d910a765c4feea",
+    "numpy-sdk-descendant-resources.json": "0a89d3ff47adab97a5eb74ef9e762bfa434bad99e258157c8b2a5b52c0467b3f",
+    "numpy-sdk-guard/resource-report.json": "633e17f11b82d3a905cc0843436441ac9d3b233513c0543df98c9ba924f10bc2",
+    "numpy-sdk.log": "278fc7b8b475c55e007720d0ab2c365446d748ce4aacb31b6f362bd9011aca1e",
+    "pyarrow-source-build-descendant-resources.json": "1480ece75173c917c8211e9141bd43758c5dc3ddc78335f4009eb59877f8b0f5",
+    "pyarrow-source-build-guard/resource-report.json": "260caffa0aedb51d40823ea56ff5d19c66ff3779f18263061143aa2c5580b59f",
+    "pyarrow-source-build.log": "019ef9aaa78f006c7095c6e50c3e7e05c3b1f08e1f50b19f273dc759433016c5",
+    "receipt.json": "99552202274f764e0b1004e2187af1f14f22d333afca96c26fe648fee90c370d",
+    "retained-directory-sizes.txt": "a1da2f4ab1543e3c6a70b6887064369c5c87736febab2413be51e4f7fe57d2ad"
+  },
+  "scope_limits": [
+    "Hosted compiler and NumPy/build-tool SDKs",
+    "Upstream BUNDLED dependencies, not Spack SYSTEM",
+    "Shared C++ libraries only; no static duplicate build",
+    "Top-level jobs=2, upstream nested dependency parallelism",
+    "Sampled resources, not kernel-enforced allocations",
+    "No Rust/LLVM source bootstrap or full HPC/compiler-matrix qualification"
+  ]
+}

@@ -20,5 +20,9 @@
     "partial_perspective_information",
     "sample_perspective_information"
   ],
-  "notes": "Only directional current-information EVoP is implemented in the Python experimental surface."
+  "notes": "Experimental Python supports directional current-information EVoP, tensor frontiers and Monte Carlo diagnostics.",
+  "python_modules": [
+    "voiage/methods/perspective_diagnostics.py",
+    "voiage/methods/perspective_tensor.py"
+  ]
 }

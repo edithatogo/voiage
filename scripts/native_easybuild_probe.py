@@ -16,7 +16,7 @@ def within(path: str, prefix: Path) -> bool:
     """Return whether an existing path is contained by the install prefix."""
     try:
         Path(path).resolve(strict=True).relative_to(prefix.resolve(strict=True))
-    except (FileNotFoundError, ValueError):
+    except FileNotFoundError, ValueError:
         return False
     else:
         return True

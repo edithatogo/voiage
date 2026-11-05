@@ -1,0 +1,13 @@
+[1m[92m    Updating[0m git repository `https://github.com/orlp/color-backtrace`
+[1m[92m    Updating[0m git repository `https://github.com/pola-rs/hashbrown`
+[1m[92m    Updating[0m git repository `https://github.com/pola-rs/jemallocator`
+[1m[92m    Updating[0m git submodule `https://github.com/jemalloc/jemalloc`
+[1m[92m    Updating[0m crates.io index
+[1m[91merror[0m: failed to sync
+
+Caused by:
+  failed to load lockfile for /home/runner/work/_temp/source-work/unpacked/polars_runtime_32-2.1.0
+
+Caused by:
+  cannot update the lock file /home/runner/work/_temp/source-work/unpacked/polars_runtime_32-2.1.0/Cargo.lock because --locked was passed to prevent this
+  help: to generate the lock file without accessing the network, remove the --locked flag and use --offline instead.

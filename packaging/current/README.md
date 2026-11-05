@@ -50,6 +50,94 @@ archives and their licence metadata. Check the actual downloaded archives with:
 ```
 
 A successful check proves source/declaration agreement. The dated compiler and
-bootstrap provider, unmodified solve, native build and installed-module checks
+bootstrap source candidates are present; their actual compiler builds remain
+unqualified. The unmodified full solve, native build and installed-module checks
 remain required. No optional integrations or source features are silently
 substituted to make the catalogue solve.
+
+## Arrow source prerequisites
+
+The current LibCST source prerequisite selects Python 3.15.1, its native parser,
+the matching runtime dependency markers and upstream MIT/PSF notices. Check the
+actual source archive using `.venv/bin/python -m scripts.check_current_arrow_providers`
+with the selected repo-local Python 3.15.1 interpreter. The `cpp` profile additionally
+requires `--builtin-arrow /path/to/pinned/catalogue/arrow/package.py`; it authenticates
+the immutable Arrow C++ source and preserves its upstream allocator declaration.
+These are source checks; the complete Arrow profile and native installed matrix
+remain unqualified.
+
+Use a private Spack `config:build_stage` directory for source staging. Do not use
+`spack stage --path` for this multi-resource candidate: Spack 1.2.2 assigns that
+same custom directory to the root and resource, preventing normal resource
+placement. Keep checksums enabled. The allocator source is pinned as a Spack
+resource and supplied to CMake through its documented source URL override; it
+is not disabled to avoid the fetch.
+
+The obsolete physical-space estimate has been removed from the EasyBuild helper
+and receipt schema. The completed GitHub Polars source-build pilot measured
+9.76 GiB of disk growth (approximately 10 GB):
+https://github.com/edithatogo/voiage/actions/runs/40691333092.
+Retain resource guards and measure the actual workload rather than imposing the
+retired estimate. This completed pilot used a binary compiler SDK; it does not
+by itself qualify every compiler-generation or installed-module matrix gate.
+
+## Stable compiler for the current candidate
+
+The Voiage Spack root and the EasyBuild candidate select Rust 1.99.1. Its
+source archive identifies Rust 1.98.0 as stage0. The [source and SDK record](stable-rust-inputs.json)
+retains the archive hashes, the dated bootstrap channel identity and the five
+catalogue targets. Linux x86-64 SDK and component bytes were verified.
+The Polars runtime retains its dated nightly. The Rust workspace supports
+1.85 as its minimum version. Source-built Rust and LLVM, both foss generations
+and the full Linux Spack root require their own installed verification.
+
+## Linux source and vendor qualification
+
+`linux-source-vendor-qualification.yml` authenticates the six Cargo-backed
+provider sdists, the frozen Voiage HPC candidate, both compiler source archives
+and their explicit bootstrap SDK archives. Each Cargo cell uses locked vendoring,
+verifies every vendor file, then replays all-feature metadata offline with an
+empty Cargo cache and blocked proxy. Compiler source cells cover the main,
+bootstrap and Cargo workspaces. The bootstrap SDK is authenticated input and is
+not counted as source-built output.
+
+The Polars 2.1.0 sdist retains a lockfile for a larger upstream workspace.
+`polars-runtime-32-2.1.0-lock.patch` freezes Cargo's pruning for the shipped
+workspace, introducing no new package identities, versions or checksums. The
+input manifest pins the upstream and repaired lock hashes. Both current
+EasyBuild generations and Spack apply the same patch. Its upstream material
+retains the MIT terms in `LICENSE.polars`.
+
+The separate EasyBuild 5.4.2 fetch-only probe compares its three fixed Git
+revisions to the authenticated Polars lock, independently fetches each twice,
+checks reproducible archive bytes and requires the resulting hashes in both
+provider recipes. Checksum discovery runs only against temporary Git-only probe
+recipes. It never replaces an existing trusted checksum or builds a package.
+
+Receipts include exact source identities, unchanged qualified lock hashes,
+per-package vendor checksums, offline metadata, complete command diagnostics
+and bounded resource reports. Native Rust/LLVM builds and installed full-graph
+scientific acceptance remain separate, open gates.
+
+## Complete package-manager source preflight
+
+The opt-in `Linux dependency graphs` workflow also accepts
+`qualification=sources`, with `cells=all`, `spack`, or `easybuild`. It freezes
+the concrete Spack environment, authenticates its mirror and private cache,
+then stages the entire DAG inside a network namespace without external access.
+Staged archives retain concrete DAG identities and hashes; constrained Spack
+stage-to-cache aliases are recorded rather than mistaken for external inputs.
+EasyBuild fetches each selected generation with checksums enforced, records
+actual source/patch/extension paths through a supported post-fetch hook, and
+compares those receipts with a network-denied replay. The auxiliary
+`config.guess` must resolve too. Failed or unavailable inputs remain failures.
+
+This preflight covers package-manager fetching, not every later bootstrap,
+compiler-generated input, installation or installed-module acceptance. Those
+steps retain their separate source/vendor, configuration and resource gates.
+The source caches and build roots are private to one ephemeral Linux job.
+
+For a capacity-constrained developer machine, `qualification=full-tox` runs
+the unchanged `tox run-parallel -p 2` gate on Linux with repo-local Python
+3.15.1, complete repository history, bounded memory/time and an 8 GiB free-space
+reserve. It is separate Linux evidence; retain any local capacity stop.

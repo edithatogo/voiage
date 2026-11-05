@@ -1,0 +1,10 @@
+{
+  "scope": "macOS direct clonefile syscall on one synthetic 8 MiB file on external SSD; not a Linux build or physical-space measurement",
+  "clonefile_return": 0,
+  "errno": null,
+  "errno_name": null,
+  "source_sha256": "3992f47a939b16ea1410a80ead852a73421c14f3d779d9cb7dff29b058ae70fc",
+  "direct_clone_succeeded": true,
+  "physical_space_saved_verified": false,
+  "clone_mutation_preserved_source": true
+}

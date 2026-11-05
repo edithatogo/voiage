@@ -1,0 +1,20 @@
+{
+  "tobac-regulatory-research": {
+    "revision": "2b1c9c41a67687c18e3e5ac53a4244b233a935f0",
+    "source_tree": "1fd04cce03450d8d656c8a9fa0d41051cabfb99b",
+    "version": "0.2.0",
+    "wheel": "tobac_regulatory_research-0.2.0-py3-none-any.whl",
+    "wheel_sha256": "535083f4a90c6ad67c91659d0b6356195ab68e4bdb37e3758097f45565cc1e13",
+    "installed_members_verified": 41,
+    "import_relative_to_environment": "lib/python3.15/site-packages/tobac/__init__.py"
+  },
+  "voiage": {
+    "revision": "7516cb6126a8ad8dcdc6bf88c8bacfabd8a10f37",
+    "source_tree": "8d46eb4fbd452f858a50934c5b780d06210b92c5",
+    "version": "2.2.0",
+    "wheel": "voiage-2.2.0-cp315-abi3-macosx_11_0_arm64.whl",
+    "wheel_sha256": "9da83cf11795cfe936bdc28408d630ff2507b3bbd82a81ed780db8ea2dbddf1a",
+    "installed_members_verified": 837,
+    "import_relative_to_environment": "lib/python3.15/site-packages/voiage/__init__.py"
+  }
+}

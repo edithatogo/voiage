@@ -1,0 +1,116 @@
+name: Native Rust and LLVM qualification
+on:
+  workflow_call:
+    inputs:
+      entry:
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      entry:
+        type: choice
+        options: [rust-stable, rust-nightly]
+        default: rust-stable
+  pull_request:
+    paths:
+      - .github/workflows/native-rust-llvm-qualification.yml
+      - scripts/observe_native_stage.py
+      - scripts/enter_native_namespace.py
+      - scripts/qualify_native_rust.py
+      - tests/test_native_stage_observation.py
+      - tests/test_native_rust_build.py
+      - tests/test_arrow_capacity_observation.py
+      - tests/test_source_vendor_qualification.py
+      - scripts/observe_arrow_capacity.py
+      - scripts/qualify_source_vendor.py
+      - scripts/guard_verification.py
+      - packaging/current/source-vendor-inputs.json
+      - packaging/current/stable-rust-inputs.json
+      - packaging/current/rust-provider-sources.json
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/native-rust-llvm-qualification.yml
+      - scripts/observe_native_stage.py
+      - scripts/enter_native_namespace.py
+      - scripts/qualify_native_rust.py
+      - tests/test_native_stage_observation.py
+      - tests/test_native_rust_build.py
+      - tests/test_arrow_capacity_observation.py
+      - tests/test_source_vendor_qualification.py
+      - scripts/observe_arrow_capacity.py
+      - scripts/qualify_source_vendor.py
+      - scripts/guard_verification.py
+      - packaging/current/source-vendor-inputs.json
+      - packaging/current/stable-rust-inputs.json
+      - packaging/current/rust-provider-sources.json
+permissions:
+  contents: read
+jobs:
+  controls:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+        with:
+          version: "0.13.6"
+      - run: |
+          uv venv --python 3.15.1 .venv
+          uv pip install --python .venv/bin/python pytest==9.1.1 psutil==7.2.2
+          .venv/bin/python -m pytest --noconftest --basetemp="$RUNNER_TEMP/native-controls" -o addopts= -q tests/test_native_stage_observation.py tests/test_native_rust_build.py tests/test_arrow_capacity_observation.py tests/test_source_vendor_qualification.py
+      - name: Retain native control receipts
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: native-controls-${{ github.run_id }}
+          path: ${{ runner.temp }}/native-controls/
+          if-no-files-found: error
+          retention-days: 30
+  native:
+    if: github.event_name == 'workflow_dispatch'
+    needs: controls
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    concurrency:
+      group: native-rust-${{ github.ref }}-${{ inputs.entry }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+        with:
+          version: "0.13.6"
+          enable-cache: false
+      - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
+        with:
+          toolchain: nightly-2026-09-01
+      - name: Prepare native build tools
+        run: |
+          uv venv --python 3.15.1 .venv
+          uv pip install --python .venv/bin/python psutil==7.2.2
+          sudo apt-get update -qq
+          sudo apt-get install -y cmake ninja-build pkg-config libssl-dev zlib1g-dev time
+          df -h
+          free -h
+          nproc
+          sudo unshare --net --setgid="$(id -g)" --setuid="$(id -u)" -- .venv/bin/python -c 'import os,socket; assert os.geteuid()!=0; s=socket.socket();s.settimeout(1);assert s.connect_ex(("1.1.1.1",443))!=0'
+      - name: Build and install authenticated Rust and LLVM sources
+        env:
+          ENTRY: ${{ inputs.entry }}
+        run: |
+          export PATH="$PWD/.venv/bin:$PATH"
+          cargo_bin=$(rustup which --toolchain nightly-2026-09-01 cargo)
+          rustc_bin=$(rustup which --toolchain nightly-2026-09-01 rustc)
+          .venv/bin/python -m scripts.qualify_native_rust --entry "$ENTRY" --work "$RUNNER_TEMP/native-rust" --evidence "$PWD/native-rust-evidence" --cargo "$cargo_bin" --rustc "$rustc_bin"
+      - name: Retain every native source-stage and resource receipt
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: native-rust-${{ inputs.entry }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: native-rust-evidence/
+          if-no-files-found: error
+          retention-days: 30

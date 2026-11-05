@@ -1,0 +1,18 @@
+{
+  "implementation_head": "09f3bc7643330201c5bab0b01feded30c1ffbb35",
+  "local_root": "/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-capacity-conductor-20261028/.conductor/local/capacity",
+  "files_sha256": {
+    "red.log": "8cdd715191b33ac8283445619363c72568f8f67386c4dbc2e86b270fefd8df9c",
+    "focused-final.log": "9fd080dcc514444abc04b4cf77dac7ebe411749e3fe25a94548ac0a2d565dc6e",
+    "full-gate.log": "838c438065323f9144362ef08edc3aad8ac1d443171d997199cd874ce841f291",
+    "full-tox-results.json": "3d65dc7dbf6e478b7a9fb7e36ae7128d9efc21b4c8ecbd301b7cda9d46ad56cc",
+    "full-gate/resource-report.json": "b2acba0d803b12dd58e8ef2db635381aa5e4c0f7f3e6464a11894675ceebd354",
+    "normalization-fixed.log": "031bd2178339e8a83b8ff70d664ac63dc7a5bc473bc3bb37c30296cb85d52fcd",
+    "normalization-fixed-explicit.log": "1e4658667ecbf004c8fd3f54b5b994224f46a13379fba9fa28bbc69c1ce121c8",
+    "records-final.log": "4ae14dbeffefbba53d44715f9f2ea067aaa2085312a70a4adf93619260f07e6c",
+    "docs-fixed.log": "0e6f28e23f4c6ac7204d95df3cd4243e6cac57cc1f5fa1af75bda779a708c3dd",
+    "docs-fixed/resource-report.json": "80514bfcf77d9acdc8f6121de8bc500724b054f199e999f03edac7b5ddd56c27"
+  },
+  "full_run_outcome": "failed; focused corrections passed",
+  "hosted_delivery": "not claimed"
+}

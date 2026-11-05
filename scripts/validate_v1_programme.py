@@ -92,9 +92,7 @@ def validate(repo_root: Path, *, now: datetime | None = None) -> None:
     if missing_active:
         raise ValidationError("active track directories do not contain the baseline")
 
-    registered_active = set(
-        re.findall(r"\./(?:tracks|archive)/([^/]+)/", registry)
-    )
+    registered_active = set(re.findall(r"\./(?:tracks|archive)/([^/]+)/", registry))
     missing_registered = expected_active - registered_active
     if missing_registered:
         raise ValidationError("active registry links do not contain the baseline")

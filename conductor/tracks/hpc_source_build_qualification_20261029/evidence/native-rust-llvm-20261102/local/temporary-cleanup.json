@@ -1,0 +1,16 @@
+{
+  "resource_report_sha256": "6ccf99ad526e31818631863a0e0185c116bcc1f1de8b42bcf0a613a38b5101f6",
+  "scope": "Only completed, owned synthetic verification temporary tree",
+  "before": {
+    "path": "/Users/doughnut/Library/Caches/innovate-arrow26-qual.Q7IJ07/.voiage-verification-1y9b13fr",
+    "status": "measured",
+    "regular_file_bytes": 1529286132,
+    "allocated_bytes": 1634455552,
+    "symlinks_skipped": 848,
+    "cross_device_skipped": 0
+  },
+  "after": {
+    "exists": false,
+    "status": "completed_owned_temporary_cleanup"
+  }
+}

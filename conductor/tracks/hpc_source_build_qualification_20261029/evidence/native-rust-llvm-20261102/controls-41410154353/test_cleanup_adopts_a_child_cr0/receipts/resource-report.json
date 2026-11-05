@@ -1,0 +1,51 @@
+{
+  "command": [
+    "/home/runner/work/voiage/voiage/.venv/bin/python",
+    "-c",
+    "raise SystemExit(7)"
+  ],
+  "cwd": "/home/runner/work/voiage/voiage",
+  "reason": "command_failed",
+  "returncode": 7,
+  "peak_rss_kib": 21772,
+  "minimum_free_bytes": 91585757184,
+  "limits": {
+    "rss_mib": 12288,
+    "timeout_seconds": 5,
+    "min_free_mib": 1
+  },
+  "interval_seconds": 0.05,
+  "gnu_time_available": true,
+  "cleanup_complete": true,
+  "subreaper": true,
+  "python": "3.15.1 (main, Oct 21 2026, 17:48:50) [Clang 23.1.3 ]",
+  "limitations": [
+    "RSS sums shared pages and can miss short-lived peaks.",
+    "CPU and IO samples can miss short-lived processes; GNU time retains wait4 totals.",
+    "Filesystem free space includes unrelated activity; directory snapshots are not peaks."
+  ],
+  "io_counter_gaps": [
+    {
+      "pid": 2750,
+      "reason": "permission_denied_during_exec_or_runtime"
+    }
+  ],
+  "trigger_reason": "command_failed",
+  "cleanup_passes": 2,
+  "observed_processes": 1,
+  "sampled_totals": {
+    "user_seconds": 0.0,
+    "system_seconds": 0.0,
+    "read_bytes": 0,
+    "write_bytes": 0
+  },
+  "elapsed_seconds": 3.106,
+  "artifacts_after": {
+    "path": "/home/runner/work/_temp/native-controls/test_cleanup_adopts_a_child_cr0",
+    "status": "measured",
+    "regular_file_bytes": 1414,
+    "allocated_bytes": 16384,
+    "symlinks_skipped": 0,
+    "cross_device_skipped": 0
+  }
+}

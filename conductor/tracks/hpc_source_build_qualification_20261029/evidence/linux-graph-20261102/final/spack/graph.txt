@@ -1,0 +1,138 @@
+ -   q6mqlqu  py-voiage@develop build_system=python_pip commit=3df3cb49e5c927075c0609a48a2535b4457424d4 platform=linux os=ubuntu24.04 target=zen2
+ -   m2l7egj      ^py-click@8.5.0 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   26ydn4g          ^py-flit-core@3.12.0 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   bkveton      ^py-jsonschema@4.26.0~format-nongpl build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   bhdmqil          ^py-attrs@26.1.0 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   7rq2gg5          ^py-hatch-fancy-pypi-readme@25.1.0 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   erytwlk          ^py-hatch-vcs@0.5.0 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   4uz7ilf          ^py-hatchling@1.29.0 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   wnd5eqc              ^py-packaging@26.2 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   mkktnk7              ^py-pathspec@1.1.1 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   gpltvhx              ^py-pluggy@1.6.0 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   hlrfqal              ^py-trove-classifiers@2026.6.1.19 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   y7jwsb3                  ^py-calver@2025.10.20 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   antp6an          ^py-jsonschema-specifications@2025.9.1 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   rgrhgrg          ^py-referencing@0.37.0 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   f36bu5k          ^py-rpds-py@2026.6.3 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   mfttnuc      ^py-maturin@1.14.1 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   3h2gmto          ^bzip2@1.0.8~debug~pic+shared build_system=generic platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   lytcndb              ^diffutils@3.12 build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   2qgvq2i          ^compiler-wrapper@1.1.0 build_system=generic platform=linux os=ubuntu24.04 target=zen2
+[e]  ezv3zlg          ^gcc@14.2.0+binutils+bootstrap+futex~graphite+libsanitizer~mold~nvptx~piclibs~profiled~strip build_system=autotools build_type=Release languages:='c,c++,fortran' platform=linux os=ubuntu24.04 target=x86_64
+ -   4akyyme          ^gcc-runtime@14.2.0 build_system=generic platform=linux os=ubuntu24.04 target=zen2
+[e]  thy5vqo          ^glibc@2.39 build_system=autotools platform=linux os=ubuntu24.04 target=x86_64
+ -   wsmz4pd          ^py-setuptools@83.0.0 build_system=generic platform=linux os=ubuntu24.04 target=zen2
+ -   al3eryp          ^py-setuptools-rust@1.13.0 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   umox5d2              ^py-semantic-version@2.10.0 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   6m2ys2h      ^py-numpy@2.5.4 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   6tp4a2k          ^openblas@0.3.34~bignuma~consistent_fpcsr+dynamic_dispatch+fortran~ilp64+locking+pic+shared~static build_system=makefile patches:=7cf59b4,b047da5,cea51fd,e192335 symbol_suffix=none threads=none platform=linux os=ubuntu24.04 target=zen2 %c,cxx,fortran=gcc@14.2.0
+ -   4e3jknb          ^py-cython@3.3.0 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   vnun2lu          ^py-meson-python@0.19.0 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   gj42o2c              ^py-pyproject-metadata@0.11.0 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   wqbhpwm      ^py-pip@26.2.2 build_system=generic platform=linux os=ubuntu24.04 target=zen2
+ -   7rtwy35      ^py-polars@2.1.0 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   nkzssac          ^py-polars-runtime-32@2.1.0 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   5tk52zq              ^rust-polars@nightly-2026-09-01~dev~docs+src build_system=generic platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   i2lqoo3                  ^rust-bootstrap-polars@beta-2026-08-18 build_system=generic platform=linux os=ubuntu24.04 target=zen2
+ -   fjq6ol5      ^py-pyarrow@26.0.0 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   bjfcudv          ^arrow@26.0.0+brotli+bz2+compute+csv~cuda+dataset+filesystem~gandiva~glog~hdfs+ipc~ipo~jemalloc+lz4+mimalloc~orc+parquet+python+shared+snappy~tensorflow+zlib+zstd build_system=cmake build_type=Release generator=make platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   7fp3mc7              ^boost@1.90.0~atomic~charconv~chrono~clanglibcpp~cobalt~container~context~contract~conversion~date_time~debug~exception~fiber+filesystem~graph~graph_parallel~icu~iostreams~json~locale~log~math~mpi~mqtt5+multithreaded~nowide~numpy~openmethod~pic~process~program_options~python~random~regex~serialization+shared~signals2~singlethreaded~stacktrace+system~taggedlayout~test~thread~timer~type_erasure~url~versionedlayout~wave build_system=generic cxxstd=11 patches:=a440f96 visibility=hidden platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   jqlvdk3              ^brotli@1.2.0~ipo build_system=cmake build_type=Release generator=make platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   4vfe7p7              ^flatbuffers@25.9.23~ipo~python+shared build_system=cmake build_type=Release generator=make platform=linux os=ubuntu24.04 target=zen2 %cxx=gcc@14.2.0
+ -   34m6j7k              ^lz4@1.10.0+pic build_system=makefile libs:=shared,static platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   6i4imqs              ^rapidjson@1.2.0-2024-08-16~doc~ipo build_system=cmake build_type=Release commit=7c73dd7de7c4f14379b781418c6e947ad464c818 generator=make patches:=ee123c7 platform=linux os=ubuntu24.04 target=zen2 %cxx=gcc@14.2.0
+ -   vwqq4lz              ^re2@2025-11-05~icu~ipo+pic+shared build_system=cmake build_type=Release generator=make platform=linux os=ubuntu24.04 target=zen2 %cxx=gcc@14.2.0
+ -   dty7kka                  ^abseil-cpp@20260107.1~ipo+shared build_system=cmake build_type=Release cxxstd=17 generator=make platform=linux os=ubuntu24.04 target=zen2 %cxx=gcc@14.2.0
+ -   cuk74c3              ^snappy@1.2.1~ipo+pic+shared build_system=cmake build_type=Release generator=make platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   nhjtnfb              ^thrift@0.22.0~c_glib+cpp~ipo~java~javascript~libevent~nodejs~openssl~python~qt5+shared~zlib build_system=cmake build_type=Release generator=make platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   d3zuwie                  ^bison@3.8.2~color build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   faxc45m                  ^flex@2.6.3+lex~nls build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   5tb2une                      ^findutils@4.10.0 build_system=autotools patches:=440b954 platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   dzy4nxt              ^utf8proc@2.10.0~ipo+shared build_system=cmake build_type=Release generator=make platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   bzqz7ni              ^xsimd@14.3.0~ipo build_system=cmake build_type=Release generator=make platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   ax4efvn          ^cmake@3.31.12~doc+ncurses+ownlibs~qtgui build_system=generic build_type=Release platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   b7wv5mq          ^pkgconf@3.0.10 build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   lnohdrx          ^py-libcst@1.9.0 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   qflltrw              ^py-pyyaml@6.0.3+libyaml build_system=python_pip platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   tuk5pg7                  ^libyaml@0.2.5 build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   yqhcebl          ^py-scikit-build-core@1.0.3~pyproject build_system=python_pip platform=linux os=ubuntu24.04 target=zen2 %c,cxx,fortran=gcc@14.2.0
+ -   djwso23          ^py-setuptools-scm@10.3.4+toml build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   b56ucxp              ^git@2.55.0+man+nls+perl+subtree~tcltk build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   xgt45l6                  ^autoconf@2.73 build_system=autotools platform=linux os=ubuntu24.04 target=zen2
+ -   foilfcj                  ^automake@1.19 build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   r6vvc62                  ^libidn2@2.3.8 build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   ookxlgy                      ^libunistring@1.4.2 build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   ifiuu36                  ^libtool@2.5.4 build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   asyclov                      ^file@5.48+static build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   fpetvw4                  ^m4@1.4.21+sigsegv build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   qcpqhpe                      ^libsigsegv@2.15 build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   r26vtfq                  ^openssh@10.3p1+gssapi build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   n4uuzsq                      ^krb5@1.22.2+shared build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   oayidvc                      ^libedit@3.1-20260512 build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   5qrzqab                      ^libxcrypt@4.5.2~obsolete_api build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   fuad4b6                  ^pcre2@10.47~jit+multibyte+pic build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   axiq4ii              ^py-vcs-versioning@2.5.0 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   gwsc4bj      ^py-pydantic@2.13.4~dotenv build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   gbeiag6          ^py-annotated-types@0.7.0 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   mubt4w3          ^py-pydantic-core@2.46.4 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   cqkiws4          ^py-typing-inspection@0.4.2 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   k77b3ze      ^py-scikit-learn@1.9.1 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   ufar2d3          ^py-joblib@1.5.3 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   j2qp3at          ^py-narwhals@2.24.0 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   ccnl4vl              ^py-uv-build@0.11.33 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   7kgwere          ^py-threadpoolctl@3.6.0 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   pciotek      ^py-scipy@1.18.1 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2 %c,cxx,fortran=gcc@14.2.0
+ -   636a5xm          ^meson@1.12.0 build_system=python_pip patches:=0f0b1bd,26cf8d5 platform=linux os=ubuntu24.04 target=zen2
+ -   t2q3kz3          ^py-pybind11@3.1.0+ipo build_system=cmake build_type=Release generator=ninja platform=linux os=ubuntu24.04 target=zen2 %cxx=gcc@14.2.0
+ -   wgv3oo2          ^py-pythran@0.19.0 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2 %cxx=gcc@14.2.0
+ -   5zrdd2z              ^py-beniget@0.5.0 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   36hekwe              ^py-gast@0.7.0 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   ymcivjq              ^py-ply@3.11 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   n776z4q      ^py-typer@0.27.3 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   qzid7uw          ^py-annotated-doc@0.0.4 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   odq4wil          ^py-pdm-backend@2.4.7 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   44ct55k          ^py-rich@15.0.0 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   kg3xazq              ^py-markdown-it-py@4.2.0~linkify build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   6oncjii                  ^py-mdurl@0.1.2 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   7j664mj              ^py-poetry-core@2.3.2 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   lgrzda5              ^py-pygments@2.20.0 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   rpzb7hd          ^py-shellingham@1.5.0 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   3xzwy67      ^py-typing-extensions@4.16.0 build_system=python_pip platform=linux os=ubuntu24.04 target=zen2
+ -   vsphcd5      ^py-wheel@0.45.1 build_system=generic platform=linux os=ubuntu24.04 target=zen2
+ -   glq5g4p      ^python@3.15.1+bz2+ctypes+curses+dbm~debug~freethreading+libxml2+lzma~optimizations+pic+pyexpat+pythoncmd+readline+shared+sqlite3+ssl~static~tests~tkinter+uuid+zlib+zstd build_system=generic platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   dyoqhtm          ^expat@2.9.0+libbsd+pic build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   q23wemu              ^libbsd@0.12.2 build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   rjwq36e                  ^libmd@1.1.0 build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   de3gikx          ^gdbm@1.26 build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   y5dxh33          ^gettext@1.0+bzip2+curses+git~libunistring+libxml2+pic+shared+tar+xz build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   todvpdh              ^libiconv@1.18 build_system=autotools libs:=shared,static platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   tq4c4cv              ^libxml2@2.15.3+pic~python+shared build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   2gic6d4              ^tar@1.35 build_system=autotools patches:=85cb6b4 zip=pigz platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   grugu6e                  ^pigz@2.8 build_system=makefile platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   kjxvpf7          ^gmake@4.4.1~guile build_system=generic platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   mb2u66u          ^libffi@3.8.0 build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   3bxqgkz          ^mpdecimal@2.5.1 build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   akemngv          ^ncurses@6.6~symlinks+termlib abi=none build_system=autotools patches:=7a351bc platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   klvu2te          ^openssl@3.6.1~docs+shared build_system=generic certs=mozilla platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   vl2icbr              ^ca-certificates-mozilla@2026-10-20 build_system=generic platform=linux os=ubuntu24.04 target=zen2
+ -   smyjlhk              ^perl@5.42.2+cpanm+opcode+open+shared+threads build_system=generic platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   yw2hozz                  ^berkeley-db@18.1.40+cxx~docs+stl build_system=autotools patches:=26090f4,b231fcc platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   3ktnhyp                  ^less@710 build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   sahff57          ^readline@8.3 build_system=autotools patches:=21f0a03,72dee13,e273643 platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   da7sl6x          ^sqlite@3.54.1+column_metadata+fts+rtree build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   h52yrry          ^util-linux-uuid@2.41 build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   4qaaedw          ^xz@5.8.3~pic build_system=autotools libs:=shared,static platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   y5vjq7g          ^zlib-ng@2.3.3+compat+new_strategies+opt+pic+shared build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   awhi6sn          ^zstd@1.5.7+programs build_system=makefile compression:=none libs:=shared,static platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   7vyykel      ^python-venv@1.0 build_system=generic platform=linux os=ubuntu24.04 target=zen2
+ -   be6hjo6      ^rust@1.99.1~dev~docs+src build_system=generic platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   radn35u          ^curl@8.22.0~gssapi~ldap~libidn2~librtmp~libssh~libssh2+nghttp2 build_system=autotools libs:=shared,static tls:=openssl platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   7iulwee              ^nghttp2@1.67.1 build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   y7rshcu          ^libgit2@1.9.1~curl~ipo+mmap+ssh build_system=cmake build_type=Release generator=make https=system platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   iypagdg              ^pcre@8.45~jit+multibyte+pic+shared+static+utf build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   np762mc          ^libssh2@1.11.1+shared build_system=autotools crypto=openssl platform=linux os=ubuntu24.04 target=zen2 %c=gcc@14.2.0
+ -   ygl52g6          ^ninja@1.13.2+re2c build_system=generic platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   ag3gopq              ^re2c@4.4 build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+ -   mf3syoo          ^rust-bootstrap@1.98.0 build_system=generic platform=linux os=ubuntu24.04 target=zen2
+ -   qlxuugd              ^patchelf@0.19.2 build_system=autotools platform=linux os=ubuntu24.04 target=zen2 %c,cxx=gcc@14.2.0
+

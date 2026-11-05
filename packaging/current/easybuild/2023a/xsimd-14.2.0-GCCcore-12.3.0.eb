@@ -1,0 +1,13 @@
+easyblock = 'CMakeMake'
+name = 'xsimd'
+version = '14.2.0'
+homepage = 'https://arrow.apache.org'
+description = 'Source-bound Arrow 25 build provider for the Voiage foss 2023a candidate.'
+toolchain = {'name': 'GCCcore', 'version': '12.3.0'}
+source_urls = ['https://codeload.github.com/xtensor-stack/xsimd/tar.gz/refs/tags']
+sources = [{'download_filename': '14.2.0', 'filename': 'xsimd-14.2.0.tar.gz'}]
+checksums = ['21e841ab684b05331e81e7f782431753a029ef7b7d9d6d3ddab837e7782a40ee']
+builddependencies = [('binutils', '2.40'), ('CMake', '3.26.3')]
+moduleclass = 'lib'
+configopts = '-DBUILD_TESTS=OFF -DBUILD_BENCHMARK=OFF -DBUILD_EXAMPLES=OFF -DENABLE_XTL_COMPLEX=OFF'
+sanity_check_paths = {'files': ['include/xsimd/xsimd.hpp'], 'dirs': ['share/cmake/xsimd']}

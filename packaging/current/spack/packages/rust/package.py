@@ -4,6 +4,8 @@
 
 import os
 import re
+import shutil
+import tomllib
 from typing import TYPE_CHECKING
 
 from spack_repo.builtin.build_systems.generic import Package
@@ -64,6 +66,10 @@ class Rust(Package):
     )
 
     # Stable versions.
+    version(
+        "1.99.1",
+        sha256="6451598a99e77f07571960f6b21d577399d3a30f33e80cbd2e3a4aae6535d265",
+    )
     version(
         "1.97.1",
         sha256="0ed06fdaffd4722a7702e0b4eebfafc897ab8f513e8e1b247cdd7e5c6df6ded2",
@@ -188,8 +194,10 @@ class Rust(Package):
     )
 
     # Stable version dependencies
+    depends_on("rust-bootstrap@=1.98.0", type="build", when="@=1.99.1")
     depends_on("rust-bootstrap@1.96:1.97", type="build", when="@1.97")
     depends_on("rust-bootstrap@1.95:1.96", type="build", when="@1.96")
+    depends_on("rust-bootstrap@=1.95.0", type="build", when="@=1.96.0")
     depends_on("rust-bootstrap@1.91:1.92", type="build", when="@1.92")
     depends_on("rust-bootstrap@1.90:1.91", type="build", when="@1.91")
     depends_on("rust-bootstrap@1.89:1.90", type="build", when="@1.90")
@@ -339,7 +347,10 @@ class Rust(Package):
 
         # Disable bootstrap LLVM download.
         opts.append("llvm.download-ci-llvm=false")
-        if spec.satisfies("@=nightly-2026-09-01"):
+        opts.append("llvm.link-jobs=1")
+        if any(
+            spec.satisfies(v) for v in ("@=nightly-2026-09-01", "@=1.96.0", "@=1.99.1")
+        ):
             opts.append("rust.download-rustc=false")
 
         # Use vendored resources to perform offline build.
@@ -369,12 +380,29 @@ class Rust(Package):
             flags.append("--release-channel=stable")
 
         configure(*flags)
+        receipt_dir = os.environ.get("VOIAGE_COMPILER_RECEIPTS")
+        if receipt_dir:
+            configuration = join_path(self.stage.source_path, "bootstrap.toml")
+            with open(configuration, "rb") as stream:
+                effective = tomllib.load(stream)
+            if (
+                effective["llvm"]["download-ci-llvm"] is not False
+                or effective["llvm"]["link-jobs"] != 1
+                or effective["rust"]["download-rustc"] is not False
+                or effective["build"]["vendor"] is not True
+            ):
+                raise ValueError("Unqualified effective source compiler configuration")
+            os.makedirs(receipt_dir, exist_ok=True)
+            shutil.copy2(
+                configuration,
+                join_path(receipt_dir, f"{self.name}-{self.spec.dag_hash()}.toml"),
+            )
 
     def build(self, spec, prefix):
-        python("./x.py", "build", "-j", str(make_jobs))
+        python("./x.py", "build", "--stage", "2", "-j", str(make_jobs))
 
     def install(self, spec, prefix):
-        python("./x.py", "install", "-j", str(make_jobs))
+        python("./x.py", "install", "--stage", "2", "-j", str(make_jobs))
 
     # known issue: https://github.com/rust-lang/rust/issues/132604
     unresolved_libraries = ["libz.so.*"]

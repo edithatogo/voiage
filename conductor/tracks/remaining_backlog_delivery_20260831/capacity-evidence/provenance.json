@@ -1,0 +1,13 @@
+{
+  "run_url": "https://github.com/edithatogo/voiage/actions/runs/40691333092",
+  "head": "dc5e71525e120183e97611bb8c40d9c1c9b00e08",
+  "artifact": "native-capacity-40691333092-1",
+  "files_sha256": {
+    "receipt.json": "3b1fed9a22c0ed50f282a3f513d0423fdd629e32d76049976b5a17745d49ed2d",
+    "source-inputs.json": "614606208dbd605d5d48ffa699aa24eed15052a46bdc71ccdbd80a6eaf19223c",
+    "resource-report.json": "2a32a3f7b15b85f70c845ed0d3e2191f9bcd5c825fba820f375470866585d899",
+    "retained-directory-sizes.txt": "38024403df7493cc932eed4de095a4b0de1faf6263bcdb5cee8e40ba724509db",
+    "filesystem-samples.jsonl": "c73a7ce5e0f82530279dcd2c1a643246c01da1429c95061071075f5467c5d8e6"
+  },
+  "scope": "Polars SDK source-build only; no compiler-source or complete HPC acceptance"
+}

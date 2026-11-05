@@ -209,3 +209,27 @@ narrow permissions preserve caller behavior; the runtime AST import ban still
 has no exemption. Old source-bound HPC inputs remain unchanged and independently
 validated; current candidate declarations have separate unfulfilled native
 source/solver/build/installed-module gates.
+
+## Build-capacity observations
+
+The obsolete fixed EasyBuild replay admission floor has been removed from the
+current candidate. Current sizing and the
+accepted support scope are tracked by B6-CAP1–B6-CAP4; G04.4/G04.5 own
+common instrumentation and ordinary verification calibration.
+
+The guard accepts `--workload-id`, `--cache-state` (cold, warm, mixed or unknown),
+`--identity-file` (a JSON object describing feature/toolchain configuration),
+repeatable `--artifact-dir` and repeatable `--disk-path`. Disk paths must exist;
+artifact directories may be absent before a build. It records source/configuration
+hashes, interpreter identity, start/end/minimum filesystem free space and
+before/after directory allocation. Declare cache state honestly; do not purge
+shared caches. Pass explicit cache/temporary volumes via `--disk-path` when needed.
+
+Filesystem samples deduplicate device IDs and run at the existing guard interval.
+Directory scans occur only before launch and after termination, before successful
+private-temporary cleanup. Failed runs retain their private temporary evidence.
+Snapshots are not peaks; filesystem deltas include unrelated activity and sampled
+peaks may miss spikes. Directory allocations can include shared blocks and must
+not be summed across overlapping roots. A VM needs separate host-backing evidence;
+this guard alone never claims physical-capacity qualification. Monitoring failures
+remain failures even when the child command succeeded.

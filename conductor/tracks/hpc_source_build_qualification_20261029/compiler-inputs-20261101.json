@@ -1,0 +1,44 @@
+{
+  "scope": "Compiler requirements and authenticated inputs; combined Linux graph and native outputs pending",
+  "source_candidate": "3df3cb49e5c927075c0609a48a2535b4457424d4",
+  "cells": {
+    "linux-spack": {
+      "core": "stable rust@1.85:1; 1.96.0 is the reviewed candidate",
+      "polars": "nightly-2026-09-01",
+      "status": "full solve pending"
+    },
+    "linux-easybuild-foss-2023a": {
+      "gcccore": "12.3.0",
+      "status": "generation-specific current graph pending",
+      "core": "Rust 1.96.0; maturin 1.13.1 in current system candidate",
+      "polars": "Rust nightly-2026-09-01 for Polars 2.1.0 native runtime",
+      "python": "3.15.1"
+    },
+    "linux-easybuild-foss-2024a": {
+      "gcccore": "13.3.0",
+      "status": "generation-specific current graph pending",
+      "core": "Rust 1.96.0; maturin 1.13.1 in current system candidate",
+      "polars": "Rust nightly-2026-09-01 for Polars 2.1.0 native runtime",
+      "python": "3.15.1"
+    }
+  },
+  "polars": {
+    "compiler": {
+      "version": "nightly-2026-09-01",
+      "compiler_version": "1.100.0-nightly",
+      "commit": "0dfb098f3aeecbe38c2566ca090193280e7349e7",
+      "url": "https://static.rust-lang.org/dist/2026-09-01/rustc-nightly-src.tar.xz",
+      "sha256": "15bbdd27bf5d7156847cff3f843ab6dda469be1b6ee0c00b5aab8bba13fabf84",
+      "bootstrap": "beta-2026-08-18"
+    },
+    "bootstrap_version": "beta-2026-08-18",
+    "linux_x86_64_sdk_sha256": "f28c53c3142262b9842a4d85d5f3a2eec95cb6a32a0a9401ebb37b9ea4809497",
+    "evidence": "packaging/current/rust-provider-sources.json"
+  },
+  "native_acceptance": {
+    "linux_full_solve": false,
+    "rust_and_llvm_source_build": false,
+    "installed_matrix": false
+  },
+  "stable_inputs": "packaging/current/history/stable-rust-1.96.0-inputs.json"
+}

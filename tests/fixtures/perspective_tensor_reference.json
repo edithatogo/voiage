@@ -1,0 +1,172 @@
+{
+  "grid": [
+    {
+      "left_perspective": "left",
+      "right_perspective": "right",
+      "left_weight": 1.0,
+      "right_weight": 0.0,
+      "strategy": "A",
+      "probability_optimal": 1.0,
+      "expected_net_benefit": 10.0,
+      "expected_value_rank": 1,
+      "tie_policy": "split",
+      "method_contract_version": "1.1.0"
+    },
+    {
+      "left_perspective": "left",
+      "right_perspective": "right",
+      "left_weight": 1.0,
+      "right_weight": 0.0,
+      "strategy": "B",
+      "probability_optimal": 0.0,
+      "expected_net_benefit": 0.0,
+      "expected_value_rank": 2,
+      "tie_policy": "split",
+      "method_contract_version": "1.1.0"
+    },
+    {
+      "left_perspective": "left",
+      "right_perspective": "right",
+      "left_weight": 0.5,
+      "right_weight": 0.5,
+      "strategy": "A",
+      "probability_optimal": 0.0,
+      "expected_net_benefit": 5.0,
+      "expected_value_rank": 2,
+      "tie_policy": "split",
+      "method_contract_version": "1.1.0"
+    },
+    {
+      "left_perspective": "left",
+      "right_perspective": "right",
+      "left_weight": 0.5,
+      "right_weight": 0.5,
+      "strategy": "B",
+      "probability_optimal": 1.0,
+      "expected_net_benefit": 10.0,
+      "expected_value_rank": 1,
+      "tie_policy": "split",
+      "method_contract_version": "1.1.0"
+    },
+    {
+      "left_perspective": "left",
+      "right_perspective": "right",
+      "left_weight": 0.0,
+      "right_weight": 1.0,
+      "strategy": "A",
+      "probability_optimal": 0.0,
+      "expected_net_benefit": 0.0,
+      "expected_value_rank": 2,
+      "tie_policy": "split",
+      "method_contract_version": "1.1.0"
+    },
+    {
+      "left_perspective": "left",
+      "right_perspective": "right",
+      "left_weight": 0.0,
+      "right_weight": 1.0,
+      "strategy": "B",
+      "probability_optimal": 1.0,
+      "expected_net_benefit": 20.0,
+      "expected_value_rank": 1,
+      "tie_policy": "split",
+      "method_contract_version": "1.1.0"
+    }
+  ],
+  "exact": [
+    {
+      "left_perspective": "left",
+      "right_perspective": "right",
+      "right_weight": 0.3333333333333333,
+      "from_strategies": [
+        "A"
+      ],
+      "to_strategies": [
+        "B"
+      ],
+      "method_contract_version": "1.1.0"
+    }
+  ],
+  "sampled": [
+    {
+      "left_perspective": "left",
+      "right_perspective": "right",
+      "right_weight": 0.25,
+      "from_strategies": [
+        "A"
+      ],
+      "to_strategies": [
+        "B"
+      ],
+      "method_contract_version": "1.1.0"
+    }
+  ],
+  "mcda": [
+    {
+      "case_id": null,
+      "reference_perspective": "left",
+      "evaluate_under": "left",
+      "strategy": "A",
+      "expected_net_benefit": 10.0,
+      "probability_optimal": 1.0,
+      "expected_value_rank": 1,
+      "evop_reference_to_evaluation_per_person": 0.0,
+      "evop_reference_to_evaluation_population": 0.0,
+      "perspective_discordance_probability": 0.0,
+      "method_contract_version": "1.1.0"
+    },
+    {
+      "case_id": null,
+      "reference_perspective": "left",
+      "evaluate_under": "left",
+      "strategy": "B",
+      "expected_net_benefit": 0.0,
+      "probability_optimal": 0.0,
+      "expected_value_rank": 2,
+      "evop_reference_to_evaluation_per_person": 0.0,
+      "evop_reference_to_evaluation_population": 0.0,
+      "perspective_discordance_probability": 0.0,
+      "method_contract_version": "1.1.0"
+    },
+    {
+      "case_id": null,
+      "reference_perspective": "left",
+      "evaluate_under": "right",
+      "strategy": "A",
+      "expected_net_benefit": 0.0,
+      "probability_optimal": 0.0,
+      "expected_value_rank": 2,
+      "evop_reference_to_evaluation_per_person": 20.0,
+      "evop_reference_to_evaluation_population": 740.0,
+      "perspective_discordance_probability": 1.0,
+      "method_contract_version": "1.1.0"
+    },
+    {
+      "case_id": null,
+      "reference_perspective": "left",
+      "evaluate_under": "right",
+      "strategy": "B",
+      "expected_net_benefit": 20.0,
+      "probability_optimal": 1.0,
+      "expected_value_rank": 1,
+      "evop_reference_to_evaluation_per_person": 20.0,
+      "evop_reference_to_evaluation_population": 740.0,
+      "perspective_discordance_probability": 1.0,
+      "method_contract_version": "1.1.0"
+    }
+  ],
+  "scaled": {
+    "choose_under": "left",
+    "evaluate_under": "right",
+    "decision_rule": "expected_value",
+    "chosen_strategy": "A",
+    "target_strategy": "B",
+    "per_person": 20.0,
+    "population": 37,
+    "population_value": 740.0,
+    "discordance_probability": 1.0,
+    "selection_tie_policy": "first",
+    "tie_detected": false,
+    "method_contract_version": "1.1.0"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "source_head": "30aadb579",
+  "runtime": "repo-local Python 3.15.1",
+  "attempts": [
+    {
+      "attempt": "initial",
+      "receipt": "initial.json",
+      "sha256": "0f5461b7dd4453824e04c1196fdff0d4a2e94fc45be6badbd1f3ae19f217762f",
+      "reason": "interrupted_or_monitor_failed",
+      "accepted": false
+    },
+    {
+      "attempt": "explicit-interpreter",
+      "receipt": "explicit-interpreter.json",
+      "sha256": "17b6539ec90fb4d6305fbc74361a332a868829319896b6df916e69148c5e5ff9",
+      "reason": "free_space_limit",
+      "accepted": false
+    }
+  ],
+  "first_failure_observation": "tox-uv 1.37.2 rendered python3.15.1 as cpython3.15 and selected Homebrew Python 3.15.2. commands_pre rejected it; owned run was terminated. Original lint logs were observed before environment recreation, not retained as independent files.",
+  "retry_override": "testenv.base_python=/Users/doughnut/.codex/worktrees/hpc-arrow-qualification/voiage/.venv/bin/python",
+  "retry_observation": "lint commands_pre verified Python 3.15.1; runtime AST import check passed; free-space guard stopped run before full gate completed",
+  "limits": "Filesystem free-space changes include concurrent activity; no exclusive disk usage or full-suite success inferred. py315 factor interpreter still requires qualification separately because tox-uv can derive an interpreter from the environment name.",
+  "next_action": "Recover adequate owned verification capacity without deleting shared artifacts, qualify interpreter selection for every environment, then resume failed or unexecuted gate checks. Full installed HPC matrix remains separate.",
+  "track_complete": false,
+  "archive_criteria_satisfied": false
+}

@@ -1,0 +1,113 @@
+{
+  "scope": "Current Polars source-build capacity pilot; not the HPC matrix",
+  "run_url": "https://github.com/edithatogo/voiage/actions/runs/40691333092",
+  "commit": "dc5e71525e120183e97611bb8c40d9c1c9b00e08",
+  "manifest_sha256": "614606208dbd605d5d48ffa699aa24eed15052a46bdc71ccdbd80a6eaf19223c",
+  "python": "3.15.1 (main, Oct 21 2026, 14:53:25) [GCC 13.3.0]",
+  "cpu_count": 4,
+  "cargo_build_jobs": "2",
+  "default_features": [
+    "full",
+    "nightly"
+  ],
+  "free_bytes_before": 91879972864,
+  "minimum_free_bytes": 81404911616,
+  "maximum_observed_disk_growth_bytes": 10475061248,
+  "sampling_interval_seconds": 5,
+  "compiler_source_build_executed": false,
+  "full_hpc_matrix_qualified": false,
+  "steps": [
+    {
+      "name": "compiler-sdk",
+      "argv": [
+        "rustup",
+        "toolchain",
+        "install",
+        "nightly-2026-09-01",
+        "--profile",
+        "minimal"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 7.52
+    },
+    {
+      "name": "compiler-identity",
+      "argv": [
+        "rustc",
+        "--version",
+        "--verbose"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.01
+    },
+    {
+      "name": "create-environment",
+      "argv": [
+        "uv",
+        "venv",
+        "--python",
+        "/opt/hostedtoolcache/Python/3.15.1/x64/bin/python",
+        "/home/runner/work/_temp/voiage-native-capacity/venv"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.04
+    },
+    {
+      "name": "runtime-source-build",
+      "argv": [
+        "/opt/hostedtoolcache/Python/3.15.1/x64/bin/python",
+        "scripts/guard_verification.py",
+        "--max-rss-mib",
+        "11264",
+        "--min-free-mib",
+        "2048",
+        "--timeout-seconds",
+        "1500",
+        "--work-dir",
+        "/home/runner/work/voiage/voiage/native-capacity-evidence/runtime-guard",
+        "--",
+        "uv",
+        "pip",
+        "install",
+        "--python",
+        "/home/runner/work/_temp/voiage-native-capacity/venv/bin/python",
+        "--no-deps",
+        "--verbose",
+        "--no-binary",
+        "polars-runtime-32",
+        "/home/runner/work/_temp/voiage-native-capacity/polars_runtime_32-2.1.0.tar.gz"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1275.67
+    },
+    {
+      "name": "frontend-source-build",
+      "argv": [
+        "uv",
+        "pip",
+        "install",
+        "--python",
+        "/home/runner/work/_temp/voiage-native-capacity/venv/bin/python",
+        "--no-deps",
+        "--verbose",
+        "/home/runner/work/_temp/voiage-native-capacity/polars-2.1.0.tar.gz"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.54
+    },
+    {
+      "name": "installed-native-probe",
+      "argv": [
+        "/home/runner/work/_temp/voiage-native-capacity/venv/bin/python",
+        "-I",
+        "-c",
+        "import polars as pl; import importlib.metadata as m; assert pl.__version__ == '2.1.0'; assert m.version('polars-runtime-32') == '2.1.0'; assert pl.DataFrame({'x': [1, 2, 3]}).select(pl.col('x').sum()).item() == 6; pl.show_versions()"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.53
+    }
+  ],
+  "outcome": "passed_scoped_source_build",
+  "elapsed_seconds": 1291.15,
+  "free_bytes_after": 82646855680
+}

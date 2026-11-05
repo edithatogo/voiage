@@ -17,7 +17,7 @@ export default defineConfig({
     starlight({
       title: "voiage",
       description:
-        "Cross-domain Value of Information (VOI) analysis library for Rust, Python, Mojo, R, and Julia",
+        "Cross-domain Value of Information (VOI) analysis library with a Rust core and Python, R, and Julia interfaces",
       favicon: "/favicon.ico",
 
       social: [

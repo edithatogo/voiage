@@ -25,7 +25,7 @@
     "voiage/versioning.py": "3b8d1f85e68522b2cd509396cc967c7144b5f779fdcd4b1576dd9abcf1c4e61e",
     "scripts/validate_version_sync.py": "1512cdc797be9424d83e9ae517c7b5357a91a019b6f610c23406d2a5986f131a",
     "tests/test_version_sync.py": "c43baf7b983994a89fc3ae128c2d3fa4782efcf3d7b45b3d43c2b6ea0994342d",
-    "rust/Cargo.toml": "91c0037f1361b837afc5c45c1e1d6edec1f51b094ee2739cc963895e930c7c36"
+    "rust/Cargo.toml": "eff0367d2ff8e155788ba8bc20bd07a6806a57fb377ecec26e0ca7b0b4c092e5"
   },
   "reserved_implementation_files": [
     "specs/version-identities.json",

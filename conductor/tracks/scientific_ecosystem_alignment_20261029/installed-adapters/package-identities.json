@@ -1,0 +1,9 @@
+{
+  "platform": "macOS arm64",
+  "python": "3.15.1",
+  "innovate_rust_toolchain": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+  "candidate_voiage": {"source": "89ab5f5ac466149c308496bb57b451bfb8fd8a38", "wheel_sha256": "8f46b93023c35962e7848c5e49215156395de9338aa7b0168119248e1eeaf231", "members_verified": 837},
+  "mars": {"source": "d68b54a1c9a5eee40e1b7a724e002d5083ff6d8f", "wheel": "mars_earth-1.0.4-cp39-abi3-macosx_11_0_arm64.whl", "wheel_sha256": "7d53a275a89603f675a4147a9a5e4f218aefe2d1b4da3c7f46202f52372ac045"},
+  "innovate": {"source": "83d556ba4995fd5f5238f4953e9a8af34976f464", "python_wheel_sha256": "113d1e7a80bebf90eabb8564575b8e36c137d179122022d931c089157ddc00cd", "python_install_status": "missing compatible binary Arrow distribution under >=23.0.1,<26", "rust_native_predict": "passed"},
+  "vop": {"source": "2c46db2fe5f907d894bb07f1127c008f10ee462e", "installed_vop_status": "source checkout only; historical and current VOP package exclude Python 3.15", "candidate_voiage_status": "passed", "published_voiage_wheel_sha256": "c7c26afe72de58c02a49f0b734fa0f69adf4c8c073a59b71ea888feaa77e1056", "published_voiage_install": "dependency build failed for Arrow 25.0.1 on the independent Python 3.15.1 environment"}
+}

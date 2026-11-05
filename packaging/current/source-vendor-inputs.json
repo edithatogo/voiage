@@ -1,0 +1,160 @@
+{
+  "schema_version": "1.0",
+  "entries": {
+    "libcst": {
+      "kind": "archive",
+      "source": {
+        "filename": "libcst-1.9.0.tar.gz",
+        "url": "https://files.pythonhosted.org/packages/02/c0/098e5c91ff1537f00c85a6438b6cb1863d17144680cc91f47c87f104a200/libcst-1.9.0.tar.gz",
+        "sha256": "087b58a9afe076bb08e2d726478e1f16cb928d67ffa9092817e033c335de522a"
+      },
+      "manifests": "auto",
+      "toolchain": "1.99.1",
+      "recipes": [
+        "packaging/current/easybuild/2023a/libcst-1.9.0-GCCcore-12.3.0.eb",
+        "packaging/current/easybuild/2024a/libcst-1.9.0-GCCcore-13.3.0.eb"
+      ]
+    },
+    "maturin": {
+      "kind": "archive",
+      "source": {
+        "filename": "maturin-1.13.1.tar.gz",
+        "url": "https://files.pythonhosted.org/packages/39/16/b284a7bc4af3dd87717c784278c1b8cb18606ad1f6f7a671c47bfd9c3df0/maturin-1.13.1.tar.gz",
+        "sha256": "9a87ff3b8e4d1c6eac33ebfe8e261e8236516d98d45c0323550621819b5a1a2f"
+      },
+      "manifests": "auto",
+      "toolchain": "1.99.1",
+      "recipes": [
+        "packaging/current/easybuild/2023a/maturin-1.13.1-GCCcore-12.3.0.eb",
+        "packaging/current/easybuild/2024a/maturin-1.13.1-GCCcore-13.3.0.eb"
+      ]
+    },
+    "polars-runtime-32": {
+      "kind": "archive",
+      "source": {
+        "filename": "polars_runtime_32-2.1.0.tar.gz",
+        "url": "https://files.pythonhosted.org/packages/e0/a6/46e09af693326735b1fba3a8bf5a725b57136fb1342e707e75d3113c826b/polars_runtime_32-2.1.0.tar.gz",
+        "sha256": "c575f5f3cdb8a5f9be65477b9b4202b062593687fe62a0082add87fbd4571067"
+      },
+      "manifests": "auto",
+      "toolchain": "nightly-2026-09-01",
+      "recipes": [
+        "packaging/current/easybuild/2023a/polars-runtime-32-2.1.0-GCCcore-12.3.0.eb",
+        "packaging/current/easybuild/2024a/polars-runtime-32-2.1.0-GCCcore-13.3.0.eb"
+      ],
+      "lock_patch": {
+        "path": "packaging/current/polars-runtime-32-2.1.0-lock.patch",
+        "sha256": "6ec9eb135e8690484ffaa5e61da79ed08d0fb595b7459ad394777f94bfc4d058",
+        "original_sha256": "5a9f1d9e5bd1393fa3dc638ee19743defe9d5cec05917a0a35ced77886ff5edc",
+        "qualified_sha256": "c0be1ad176f46d4934baf3ce003801e8639c7af5575bc87b5335c44ab8456c18"
+      }
+    },
+    "pydantic-core": {
+      "kind": "archive",
+      "source": {
+        "filename": "pydantic_core-2.46.4.tar.gz",
+        "url": "https://files.pythonhosted.org/packages/9d/56/921726b776ace8d8f5db44c4ef961006580d91dc52b803c489fafd1aa249/pydantic_core-2.46.4.tar.gz",
+        "sha256": "62f875393d7f270851f20523dd2e29f082bcc82292d66db2b64ea71f64b6e1c1"
+      },
+      "manifests": "auto",
+      "toolchain": "1.99.1",
+      "recipes": [
+        "packaging/current/easybuild/2023a/pydantic-core-2.46.4-GCCcore-12.3.0.eb",
+        "packaging/current/easybuild/2024a/pydantic-core-2.46.4-GCCcore-13.3.0.eb"
+      ]
+    },
+    "rpds-py": {
+      "kind": "archive",
+      "source": {
+        "filename": "rpds_py-2026.6.3.tar.gz",
+        "url": "https://files.pythonhosted.org/packages/aa/2a/9618a122aeb2a169a28b03889a2995fe297588964333d4a7d67bdf46e147/rpds_py-2026.6.3.tar.gz",
+        "sha256": "1cebd1337c242e4ec2293e541f712b2da849b29f48f0c293684b71c0632625d4"
+      },
+      "manifests": "auto",
+      "toolchain": "1.99.1",
+      "recipes": [
+        "packaging/current/easybuild/2023a/rpds-py-2026.6.3-GCCcore-12.3.0.eb",
+        "packaging/current/easybuild/2024a/rpds-py-2026.6.3-GCCcore-13.3.0.eb"
+      ]
+    },
+    "uv-build": {
+      "kind": "archive",
+      "source": {
+        "filename": "uv_build-0.13.6.tar.gz",
+        "url": "https://files.pythonhosted.org/packages/8f/98/8b9e028aa5d00f4c6f48183f3a2d9d343cd3adeb21bbd6dcc24916cd1538/uv_build-0.13.6.tar.gz",
+        "sha256": "8a03355d73117d136dbf6a34e20429755598a73d752dc6ae3aa5894942b6fd4b"
+      },
+      "manifests": "auto",
+      "toolchain": "1.99.1",
+      "recipes": [
+        "packaging/current/easybuild/2023a/uv-build-0.13.6-GCCcore-12.3.0.eb",
+        "packaging/current/easybuild/2024a/uv-build-0.13.6-GCCcore-13.3.0.eb"
+      ]
+    },
+    "rust-stable": {
+      "kind": "archive",
+      "source": {
+        "filename": "rustc-1.99.1-src.tar.xz",
+        "url": "https://static.rust-lang.org/dist/rustc-1.99.1-src.tar.xz",
+        "sha256": "6451598a99e77f07571960f6b21d577399d3a30f33e80cbd2e3a4aae6535d265"
+      },
+      "manifests": [
+        "Cargo.toml",
+        "src/tools/cargo/Cargo.toml",
+        "src/tools/clippy/clippy_test_deps/Cargo.toml",
+        "src/tools/rust-analyzer/Cargo.toml",
+        "compiler/rustc_codegen_cranelift/Cargo.toml",
+        "compiler/rustc_codegen_gcc/Cargo.toml",
+        "library/Cargo.toml",
+        "library/stdarch/Cargo.toml",
+        "src/bootstrap/Cargo.toml",
+        "src/tools/rustbook/Cargo.toml",
+        "src/tools/rustc-perf/Cargo.toml",
+        "src/tools/opt-dist/Cargo.toml",
+        "src/doc/book/packages/trpl/Cargo.toml"
+      ],
+      "toolchain": "nightly-2026-09-01",
+      "bootstrap": {
+        "url": "https://static.rust-lang.org/dist/2026-08-20/rust-1.98.0-x86_64-unknown-linux-gnu.tar.xz",
+        "sha256": "ed8ee2df70909c88cbaf87a6cfa3920dac00b537de12a6abe6906641e0f5952f"
+      }
+    },
+    "rust-nightly": {
+      "kind": "archive",
+      "source": {
+        "filename": "rustc-nightly-src.tar.xz",
+        "url": "https://static.rust-lang.org/dist/2026-09-01/rustc-nightly-src.tar.xz",
+        "sha256": "15bbdd27bf5d7156847cff3f843ab6dda469be1b6ee0c00b5aab8bba13fabf84"
+      },
+      "manifests": [
+        "Cargo.toml",
+        "src/tools/cargo/Cargo.toml",
+        "src/tools/clippy/clippy_test_deps/Cargo.toml",
+        "src/tools/rust-analyzer/Cargo.toml",
+        "compiler/rustc_codegen_cranelift/Cargo.toml",
+        "compiler/rustc_codegen_gcc/Cargo.toml",
+        "library/Cargo.toml",
+        "library/stdarch/Cargo.toml",
+        "src/bootstrap/Cargo.toml",
+        "src/tools/rustbook/Cargo.toml",
+        "src/tools/rustc-perf/Cargo.toml",
+        "src/tools/opt-dist/Cargo.toml",
+        "src/doc/book/packages/trpl/Cargo.toml"
+      ],
+      "toolchain": "nightly-2026-09-01",
+      "bootstrap": {
+        "url": "https://static.rust-lang.org/dist/2026-08-18/rust-beta-x86_64-unknown-linux-gnu.tar.xz",
+        "sha256": "f28c53c3142262b9842a4d85d5f3a2eec95cb6a32a0a9401ebb37b9ea4809497"
+      }
+    },
+    "voiage": {
+      "kind": "git",
+      "revision": "3df3cb49e5c927075c0609a48a2535b4457424d4",
+      "tree": "3a178a7479907f93dc8b514a4db27d7ab6615b06",
+      "manifests": [
+        "rust/Cargo.toml"
+      ],
+      "toolchain": "1.99.1"
+    }
+  }
+}

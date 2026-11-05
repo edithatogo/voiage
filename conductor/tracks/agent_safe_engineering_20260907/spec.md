@@ -100,3 +100,15 @@ The six tracks linked in [orchestration.md](./orchestration.md) own the transfer
 execution-guard, versioning, logging, privacy, pilot and optional-telemetry slices.
 Parent acceptance criteria remain requirements; implementation is recorded only
 in the owning child track. No duplicate implementation is authorized.
+
+## G04 capacity follow-up
+
+G04.4 adds disk observations without changing existing report fields or success
+criteria. Deduplicate filesystem samples; retain start/end/minimum free bytes,
+interval, source/runtime/configuration identity, declared cache state and
+before/after sizes for explicitly selected directories. Filesystem deltas are
+not attributable job allocation; directory snapshots are not peaks. VM physical
+capacity requires guest plus host-backing evidence. Monitoring errors must
+retain a failure receipt. G04.5 records current Python 3.15.1 cold/warm
+observations separately from history; no shared-cache purges or inferred budget.
+B6 owns native workload scope and interpretation; B12 owns cleanup.

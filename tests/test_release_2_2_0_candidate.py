@@ -14,13 +14,13 @@ def _json(relative: str) -> dict[str, object]:
     return json.loads((ROOT / relative).read_text(encoding="utf-8"))
 
 
-def test_v2_2_0_is_the_synchronized_release_identity() -> None:
-    """Every current package surface must project the selected minor version."""
+def test_current_release_identity() -> None:
+    """Every current package surface must project the selected release version."""
     canonical, mismatches = validate_version_sync(ROOT)
 
-    assert canonical == "2.2.0"
+    assert canonical == "3.1.0"
     assert mismatches == []
-    assert validate_release_tag("v2.2.0", ROOT) == "2.2.0"
+    assert validate_release_tag("v3.1.0", ROOT) == "3.1.0"
 
 
 def test_citation_metadata_matches_the_verified_public_release() -> None:

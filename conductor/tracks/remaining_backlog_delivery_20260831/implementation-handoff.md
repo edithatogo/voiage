@@ -11,7 +11,7 @@ unchanged. Read `continuation-audit-20261028.json` before implementation.
 ## Current source and ownership
 
 - Accepted source baseline: `3df3cb49e5c927075c0609a48a2535b4457424d4`.
-- Integrator branch: `codex/hpc-compiler-toolchains-20261028`; primary checkout.
+- Integrator branch: `codex/hpc-arrow-providers-20261028`; primary checkout.
 - Root owns shared governance, locks, workflows and packaging changes.
 - Parallel investigations are read-only; no concurrent tox/cache writers.
 - Use repo-local Python 3.15.1 and `scripts/guard_verification.py` for execution.
@@ -112,3 +112,68 @@ v1 normative behavior and cost-basis/optimum tampering checks, on Python
 not acceptance: verify source and wheel schema packaging, clean installation,
 remaining edge cases, the full local gate, current hosted checks and the named
 tobac consumer before completing the track or merging.
+
+## Parent status reconciliation — 3 November 2026
+
+Chat `01a1a104-80d7-7501-86bd-85be63cb2cab` owns this bounded parent
+metadata/plan/review reconciliation in the managed worktree
+`/Users/doughnut/.codex/worktrees/hpc-arrow-qualification/voiage` on
+`codex/hpc-arrow-qualification-20261103`. Earlier assignments remain history.
+No native operation is active locally. The review verified 953 file bindings
+across the merged Linux graph, source/vendor and source-compiler packets.
+See `review-reconciliation-20261103.json`. These checkpoints supersede older
+next-solve statements but do not satisfy full installed matrix acceptance.
+Next: qualify actual package-manager sources/offline execution and compiler
+configuration binding on Linux, preserving installed-module and isolation gates.
+The system-volume capacity stop remains unresolved; no shared caches, active
+worktrees or unrelated outputs were deleted. Archival criteria remain unsatisfied.
+
+## Interpreter and external verification lane — 3 November 2026
+
+Chat `01a1a104-80d7-7501-86bd-85be63cb2cab` owns the tox runner/interpreter
+fix in the existing managed worktree, including `tox.ini`, its runtime-policy
+contract test and contributor instructions. Native probes verified both `py315`
+and an ordinary environment with the repo-local Python 3.15.1 executable.
+The effective setting is `[testenv] runner = virtualenv`; the former `[tox]`
+`env_runner` entry did not select that runner. `VOIAGE_TOX_PYTHON` supplies the
+explicit executable and commands_pre retains the exact-version assertion.
+
+The next verification operation uses the standard Git worktree
+`/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-backlog-gate-20261103`.
+It is not app-managed: the managed-worktree tool has no destination-path option.
+Only this lane's clean candidate is checked out there. It owns fresh verification
+environments, Rust/documentation outputs and guarded temporary files there;
+shared caches, other checkouts and active Kairos operations retain their owners.
+Retain both earlier failed tox receipts. No cleanup of another lane is authorized.
+
+## Terminal local verification handoff — 3 November 2026
+
+The interpreter and external verification lane above completed its local checks.
+Candidate `56f603e0d` combines 13 unchanged passing environments from the full
+`a3972c810` run with passing lint/full-coverage reruns and 33 affected tests.
+The full coverage rerun reports 5,803 passed, 27 skipped and 94.83% coverage.
+See `evidence/tox315-20261103/manifest.json.gz`; raw logs, tox JSON and XML remain
+in the standard external worktree's `.conductor/local/` directories, bound by
+hash. Preserve this worktree and its evidence for delivery; it is not app-managed.
+No native job remains active in this lane. Next: split the owned source changes
+into scoped delivery packets, complete hosted gates, then resume actual Linux
+package-manager source/offline/toolchain and installed matrix qualification.
+Earlier disk stops and interpreter failures remain historical evidence.
+
+## Scoped delivery integrator — 3 November 2026
+
+Chat `01a1a104-80d7-7501-86bd-85be63cb2cab` owns sequential scoped PR delivery
+in the standard Git worktree
+`/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-scoped-delivery-20261103`.
+PR #1263 merged the tox interpreter configuration, runtime policy tests and
+contributor instructions as signed `f822da8f8`. The current branch is
+`codex/hpc-evidence-cache-20261103`; it owns the HPC cache guard and frozen
+verification receipts. No native install is running in this lane. Next:
+required hosted checks and protected merge, followed by the separate venue
+packet and installed Spack/EasyBuild qualification.
+The full combined verification snapshot is preserved on
+`codex/backlog-evidence-20261103`; its 15 local environments passed across
+the full run and scoped failed-lane reruns, with 94.83% coverage. The real
+`py315` and ordinary probe environments both executed Python 3.15.1.
+That combined receipt is not an assertion that this isolated PR ran that suite.
+Earlier ownership entries retain their historical scope.

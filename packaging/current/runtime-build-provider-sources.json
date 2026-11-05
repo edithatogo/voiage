@@ -1,0 +1,30 @@
+{
+  "python_profile": "3.15.1",
+  "providers": {
+    "py-cython": {
+      "version": "3.3.0",
+      "source": {
+        "filename": "cython-3.3.0.tar.gz",
+        "url": "https://files.pythonhosted.org/packages/a9/d8/4981ef716ad0e3ff0d3ef383aefc6b03c4a88dee33b272bf8e0d833001ca/cython-3.3.0.tar.gz",
+        "sha256": "eed0d93fbca7087f143b42c34b05a825849bdf17f101572c2105acfa49aa88b8"
+      },
+      "license": "Apache-2.0",
+      "licenses": {
+        "COPYING.txt": "e1eb1c49a8508e8173dac30157e4a6439a44ad8846194746c424fbc3fc2b95d7",
+        "LICENSE.txt": "9568a2b155e66ac3e0ba1fd80b52b827b9460e6cf6f233125e7cbca8e206ddc3"
+      }
+    },
+    "py-pydantic-core": {
+      "version": "2.46.4",
+      "source": {
+        "filename": "pydantic_core-2.46.4.tar.gz",
+        "url": "https://files.pythonhosted.org/packages/9d/56/921726b776ace8d8f5db44c4ef961006580d91dc52b803c489fafd1aa249/pydantic_core-2.46.4.tar.gz",
+        "sha256": "62f875393d7f270851f20523dd2e29f082bcc82292d66db2b64ea71f64b6e1c1"
+      },
+      "license": "MIT",
+      "licenses": {
+        "LICENSE": "2afdd30d54b4d62b6f488a6bcc1546e84ec5061f13f4209c03d012348783795a"
+      }
+    }
+  }
+}

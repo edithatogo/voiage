@@ -2,7 +2,7 @@
 """Source-bound native runtime for the current Polars frontend."""
 
 from spack_repo.builtin.build_systems.python import PythonPackage
-from spack.package import EnvironmentModifications, depends_on, license, version
+from spack.package import EnvironmentModifications, depends_on, license, patch, version
 
 
 class PyPolarsRuntime32(PythonPackage):
@@ -20,10 +20,11 @@ class PyPolarsRuntime32(PythonPackage):
     depends_on("c", type="build")
     depends_on("cxx", type="build")
     depends_on("py-maturin@1.9:1", type="build")
-    depends_on("rust@=nightly-2026-09-01", type="build")
+    depends_on("rust-polars@=nightly-2026-09-01", type="build")
+    patch("../../../polars-runtime-32-2.1.0-lock.patch", when="@2.1.0")
     import_modules = ["_polars_runtime_32"]
 
     def setup_build_environment(self, env: EnvironmentModifications) -> None:
         """Use the selected Spack compiler, without rustup fallback downloads."""
-        env.set("RUSTC", str(self.spec["rust"].prefix.bin.rustc))
-        env.set("CARGO", str(self.spec["rust"].prefix.bin.cargo))
+        env.set("RUSTC", str(self.spec["rust-polars"].prefix.bin.rustc))
+        env.set("CARGO", str(self.spec["rust-polars"].prefix.bin.cargo))

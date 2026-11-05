@@ -32,8 +32,11 @@ Digest = Annotated[str, StringConstraints(pattern=r"^[a-f0-9]{64}$")]
 _MANIFEST_KEY = b"voiage.normalized.manifest"
 _TABLE_ID_KEY = b"voiage.normalized.table_id"
 _ORIGINAL_METADATA_KEY = b"voiage.normalized.original_schema_metadata"
+_ORIGINAL_SCHEMA_KEY = b"voiage.normalized.original_arrow_schema"
+_ORIGINAL_CHUNKS_KEY = b"voiage.normalized.original_column_chunks"
 _METADATA_MAGIC = b"voiage-schema-metadata-v1:"
 _MANIFEST_FORMAT_MARKER = b"\n "
+_PARQUET_SCHEMA_FORMAT_MARKER = b"\n \n "
 
 
 def _encode_schema_metadata(metadata: Mapping[bytes, bytes] | None) -> bytes:
@@ -84,6 +87,82 @@ def _restore_schema_metadata(
             raise ValueError("duplicate original Arrow schema metadata key")
         restored[key] = value
     return restored
+
+
+def _parquet_type_compatible(original: pa.DataType, actual: pa.DataType) -> bool:
+    """Return whether *actual* is a lossless Parquet normalization of *original*."""
+    if original.equals(actual):
+        return True
+    if pa.types.is_timestamp(original) and pa.types.is_timestamp(actual):
+        return original.tz == actual.tz
+    if pa.types.is_dictionary(original):
+        return _parquet_type_compatible(original.value_type, actual) or (
+            pa.types.is_dictionary(actual)
+            and _parquet_type_compatible(original.value_type, actual.value_type)
+        )
+    for narrow, wide in (
+        (pa.string(), pa.large_string()),
+        (pa.binary(), pa.large_binary()),
+        (pa.date32(), pa.date64()),
+    ):
+        if {original, actual} == {narrow, wide}:
+            return True
+    return False
+
+
+def _rechunk(column: pa.ChunkedArray, lengths: list[int]) -> list[pa.Array]:
+    """Rebuild recorded chunk boundaries without combining the whole column."""
+    sources = list(column.chunks)
+    source_index = 0
+    source_offset = 0
+    rebuilt: list[pa.Array] = []
+    for length in lengths:
+        parts: list[pa.Array] = []
+        remaining = length
+        while remaining > 0:
+            source = sources[source_index]
+            take = min(remaining, len(source) - source_offset)
+            if take > 0:
+                parts.append(source.slice(source_offset, take))
+                source_offset += take
+                remaining -= take
+            if source_offset >= len(source):
+                source_index += 1
+                source_offset = 0
+        rebuilt.append(
+            pa.concat_arrays(parts) if parts else pa.array([], type=column.type)
+        )
+    return rebuilt
+
+
+def _restore_column_chunks(
+    table: pa.Table, metadata: Mapping[bytes, bytes]
+) -> list[pa.ChunkedArray]:
+    """Restore original column chunk boundaries when recorded in metadata."""
+    raw = metadata.get(_ORIGINAL_CHUNKS_KEY)
+    if raw is None:
+        return list(table.columns)
+    try:
+        layout = json.loads(raw)
+    except (ValueError, UnicodeDecodeError) as error:
+        raise ValueError("invalid original Arrow column chunks") from error
+    if not isinstance(layout, list) or len(layout) != len(table.columns):
+        raise ValueError("invalid original Arrow column chunks")
+    columns: list[pa.ChunkedArray] = []
+    for column, lengths in zip(table.columns, layout, strict=True):
+        if (
+            not isinstance(lengths, list)
+            or any(
+                not isinstance(length, int) or isinstance(length, bool) or length < 0
+                for length in lengths
+            )
+            or sum(lengths) != len(column)
+            or (len(column) > 0 and not lengths)
+        ):
+            raise ValueError("invalid original Arrow column chunks")
+        chunks = _rechunk(column, lengths)
+        columns.append(pa.chunked_array(chunks, type=column.type))
+    return columns
 
 
 class _Digest(Protocol):
@@ -533,9 +612,16 @@ class NormalizedInputBundle:
         table_name, table = next(iter(self.tables.items()))
         metadata = {
             **(table.schema.metadata or {}),
-            _MANIFEST_KEY: self.canonical_json.encode() + _MANIFEST_FORMAT_MARKER,
+            _MANIFEST_KEY: self.canonical_json.encode() + _PARQUET_SCHEMA_FORMAT_MARKER,
             _TABLE_ID_KEY: table_name.encode(),
             _ORIGINAL_METADATA_KEY: _encode_schema_metadata(table.schema.metadata),
+            _ORIGINAL_SCHEMA_KEY: table.schema.remove_metadata()
+            .serialize()
+            .to_pybytes(),
+            _ORIGINAL_CHUNKS_KEY: json.dumps(
+                [[len(chunk) for chunk in column.chunks] for column in table.columns],
+                separators=(",", ":"),
+            ).encode("ascii"),
         }
         path.parent.mkdir(parents=True, exist_ok=True)
         pq.write_table(
@@ -572,11 +658,34 @@ class NormalizedInputBundle:
             table_name = metadata[_TABLE_ID_KEY].decode()
         except KeyError as error:
             raise ValueError("not a voiage normalized Parquet file") from error
-        return cls(
-            manifest=manifest,
-            tables={
-                table_name: table.replace_schema_metadata(
-                    _restore_schema_metadata(metadata)
+        restored_metadata = _restore_schema_metadata(metadata)
+        if metadata[_MANIFEST_KEY].endswith(_PARQUET_SCHEMA_FORMAT_MARKER):
+            try:
+                original_schema = ipc.read_schema(
+                    pa.BufferReader(metadata[_ORIGINAL_SCHEMA_KEY])
                 )
-            },
-        )
+            except (KeyError, pa.ArrowInvalid) as error:
+                raise ValueError("invalid original Arrow schema") from error
+            if len(original_schema) != len(table.schema) or any(
+                original.name != actual.name
+                or original.nullable != actual.nullable
+                or not _parquet_type_compatible(original.type, actual.type)
+                for original, actual in zip(original_schema, table.schema, strict=True)
+            ):
+                raise ValueError("original Arrow schema does not match Parquet data")
+            restored_schema = (
+                original_schema.remove_metadata()
+                if restored_metadata is None
+                else original_schema.with_metadata(restored_metadata)
+            )
+            try:
+                table = table.cast(original_schema.remove_metadata(), safe=True)
+            except (pa.ArrowInvalid, pa.ArrowNotImplementedError) as error:
+                raise ValueError(
+                    "original Arrow schema does not match Parquet data"
+                ) from error
+            columns = _restore_column_chunks(table, metadata)
+            table = pa.Table.from_arrays(columns, schema=restored_schema)
+        else:
+            table = table.replace_schema_metadata(restored_metadata)
+        return cls(manifest=manifest, tables={table_name: table})

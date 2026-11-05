@@ -1,0 +1,17 @@
+{
+  "scope": "Read-only CLI capability inspection; no container started",
+  "docker_cli": "/usr/local/bin/docker",
+  "daemon": {"os_type": "linux", "operating_system": "OrbStack", "server_version": "29.8.2"},
+  "existing_network": {"name": "none", "driver": "null", "scope": "local"},
+  "documented_route": "docker run --network none",
+  "documentation": "https://docs.docker.com/engine/network/drivers/none/",
+  "requires_qualification": [
+    "Use only an owner-approved isolated builder and pinned pre-existing image",
+    "Verify network access is denied from the actual build container, including DNS and HTTP negative controls",
+    "Pre-stage and verify the complete source inventory, tools and base image before network isolation",
+    "Verify mounted sockets, host network and other host proxies cannot bypass the intended boundary",
+    "Retain source resolution, checksums, workload logs, installed probes and physical backing storage evidence"
+  ],
+  "native_build_executed": false,
+  "source_store_qualified": false
+}

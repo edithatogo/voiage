@@ -1,0 +1,6 @@
+{
+  "points": 33,
+  "max_absolute_error": 4.440892098500626e-16,
+  "extension_sha256": "f3258376ddba5230382ffed9462b79ff69fdf134138a9192b0fb635cfe682da6",
+  "scope": "Rust prediction from fitted MARS model; no Rust training claim"
+}

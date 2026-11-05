@@ -90,7 +90,7 @@ jobs:
           command: build
           docker-options: -e VOIAGE_SOURCE_REVISION -e VOIAGE_SOURCE_TREE_GIT_OID -e VOIAGE_SOURCE_CLEAN -e SOURCE_DATE_EPOCH
           manylinux: "2014"
-          maturin-version: v1.14.1
+          maturin-version: v1.15.0
           rust-toolchain: "1.85"
       - name: Inspect wheel tags and contents
         run: |
@@ -167,7 +167,7 @@ jobs:
           - os: ubuntu-24.04
             platform-suffix: manylinux_2_17_x86_64.manylinux2014_x86_64
             compatibility: manylinux2014
-          - os: macos-14
+          - os: macos-15
             platform-suffix: macosx_11_0_arm64
             compatibility: pypi
           - os: windows-2025
@@ -214,7 +214,7 @@ jobs:
           command: build
           docker-options: -e VOIAGE_SOURCE_REVISION -e VOIAGE_SOURCE_TREE_GIT_OID -e VOIAGE_SOURCE_CLEAN -e SOURCE_DATE_EPOCH
           manylinux: "2014"
-          maturin-version: v1.14.1
+          maturin-version: v1.15.0
           rust-toolchain: "1.85"
       - name: Inspect wheel tags and contents
         env:

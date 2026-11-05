@@ -1,0 +1,10 @@
+{
+  "framework": "5.4.0",
+  "easyblocks": "5.4.1 (inspection environment only)",
+  "options_source": "/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-capacity-conductor-20261028/.conductor/local/capacity/continuation/easybuild-historical/extracted/easybuild_framework-5.4.0/easybuild/tools/options.py",
+  "options_sha256": "63e5f2adb9089c670cffa3f6ac80a53d7dc96876e9ec2b6a1b1402929729c3a9",
+  "command": "python -m easybuild.main --disable-download --show-config",
+  "exit_code": 2,
+  "result": "no such option: --disable-download",
+  "scope": "actual framework option parser using private checksum-verified PyPI source; mixed easyblocks version; no full build or historical replay executed"
+}

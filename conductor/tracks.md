@@ -1118,17 +1118,17 @@ track at the top of this registry; completed repository slices stay closed.
 
 ---
 
-- [ ] **Track: tobac weighted VOI consumer qualification**
+- [~] **Track: tobac weighted VOI consumer qualification**
   *Link: [./tracks/tobac_consumer_qualification_20261025/index.md](./tracks/tobac_consumer_qualification_20261025/index.md)*
   Implementation authorised on 29 October 2026; reuses existing capability owners. Downstream proof remains pending.
   GitHub: https://github.com/edithatogo/voiage/issues/1193
 
 ---
-- [ ] **Track: Rust/LLVM source builds and full HPC qualification**
+- [~] **Track: Rust/LLVM source builds and full HPC qualification**
   *Link: [./tracks/hpc_source_build_qualification_20261029/index.md](./tracks/hpc_source_build_qualification_20261029/index.md)*
-  Planning prepared; specification/plan review and native execution remain pending.
+  Compiler requirements, all three Linux dependency graphs, complete compiler vendor closure and both baseline Rust/LLVM source-build/install probes have retained evidence. Full package-manager/generation installs and downstream compiler consumption remain pending.
 
 ---
-- [ ] **Track: Scientific ecosystem alignment (voiage)**
+- [~] **Track: Scientific ecosystem alignment (voiage)**
   *Link: [./tracks/scientific_ecosystem_alignment_20261029/index.md](./tracks/scientific_ecosystem_alignment_20261029/index.md)*
-  Linked delivery; native acceptance pending.
+  Stable Rust 1.99.1 candidate and cross-project adapters under qualification; full HPC acceptance remains open.

@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0",
+  "python_profile": "3.15.1",
+  "scope": "Source/declaration checks only; native compiler, solve, build and installed probes remain required",
+  "providers": {
+    "py-polars": {
+      "version": "2.1.0",
+      "source": {
+        "filename": "polars-2.1.0.tar.gz",
+        "url": "https://files.pythonhosted.org/packages/b9/da/c27daf205a824f89f71172a75ad0098c5837a5a31ddeaac7f8737ea8574b/polars-2.1.0.tar.gz",
+        "sha256": "9eee488d6e10773c028753dfc8dac647fd60a708108dcb818a733e85d33df253",
+        "size": 811508
+      },
+      "license": "MIT",
+      "license_sha256": "8296022372dc83cc8ef234b3d4889ef8f8b1779754a78bebf13d2c5178a6b4c4",
+      "requires_python": ">=3.11",
+      "build_requires": [
+        "setuptools>=61",
+        "wheel"
+      ],
+      "run_requires": [
+        "polars-runtime-32 == 2.1.0"
+      ],
+      "spack_dependencies": {
+        "python@3.15.1": [
+          "build",
+          "run"
+        ],
+        "py-setuptools@61:": [
+          "build"
+        ],
+        "py-wheel": [
+          "build"
+        ],
+        "py-polars-runtime-32@=2.1.0": [
+          "run"
+        ]
+      },
+      "build_backend": "setuptools.build_meta"
+    },
+    "py-polars-runtime-32": {
+      "version": "2.1.0",
+      "source": {
+        "filename": "polars_runtime_32-2.1.0.tar.gz",
+        "url": "https://files.pythonhosted.org/packages/e0/a6/46e09af693326735b1fba3a8bf5a725b57136fb1342e707e75d3113c826b/polars_runtime_32-2.1.0.tar.gz",
+        "sha256": "c575f5f3cdb8a5f9be65477b9b4202b062593687fe62a0082add87fbd4571067",
+        "size": 3878004
+      },
+      "license": "MIT",
+      "license_sha256": "8296022372dc83cc8ef234b3d4889ef8f8b1779754a78bebf13d2c5178a6b4c4",
+      "requires_python": ">=3.11",
+      "build_requires": [
+        "maturin>=1.3.2"
+      ],
+      "run_requires": [],
+      "maturin_manifest": "py-polars/runtime/polars-runtime-32/Cargo.toml",
+      "rust_toolchain": "nightly-2026-09-01",
+      "default_features": [
+        "full",
+        "nightly"
+      ],
+      "spack_dependencies": {
+        "python@3.15.1": [
+          "build",
+          "run"
+        ],
+        "py-maturin@1.9:1": [
+          "build"
+        ],
+        "rust@=nightly-2026-09-01": [
+          "build"
+        ],
+        "c": [
+          "build"
+        ],
+        "cxx": [
+          "build"
+        ]
+      },
+      "build_backend": "maturin"
+    }
+  }
+}

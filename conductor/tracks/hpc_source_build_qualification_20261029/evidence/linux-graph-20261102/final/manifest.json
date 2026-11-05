@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "workflow_run": "https://github.com/edithatogo/voiage/actions/runs/41386711954",
+  "source_commit": "ffb150f073b0f5cba60cfea7d4375198cb28a86a",
+  "input_git_oids": {
+    ".github/workflows/linux-graph-qualification.yml": "23c9dea00aba08224c168210ed121c3c3aa72c27",
+    "scripts/qualify_linux_graph.sh": "991458542fa7f77651c6a178c73949f73b6168aa",
+    "scripts/guard_verification.py": "a06f60ff2a7f767474487ec9e8ef82fcf0fcf306",
+    "packaging/current": "2385be10354599ed5943b6ffaeea75613fd6f267",
+    "pyproject.toml": "0eea05fa6c7b77914801d7918c53a5b50463ae87",
+    "uv.lock": "0133c934f7328fc67d10d90e893165c467b614ec",
+    ".python-version": "c3df54c9b835b17994ccc5840d0eedee4ffd53bb"
+  },
+  "cells": {
+    "spack": {
+      "returncode": 0,
+      "elapsed_seconds": 307.011,
+      "peak_rss_kib": 2366108,
+      "artifacts": {
+        "graph.json": "602e09522f1c1cbd508026e4f5aef97eeef4d5e00015dc50e7997b47445f8e4c",
+        "graph.txt": "cdbd2a9a84646af70e7af0f4545200b52c1cc3135f96d591881d16c53dd4a718",
+        "host.txt": "a64b6d81308dc728b286592ae78f6594e185e6db8c474be3c8886f7694f38bb7",
+        "manager-version.txt": "644da3f47288fdc9d0c1537b4a095d10c4a285b47e0d731a39781ce3850dad38",
+        "python.txt": "36eccae64c73138a6ce898fb4100d385bf3618b6f07bf251cdfe60cccdd43a41",
+        "resource-report.json": "6204033caeec2575f91b4939b13f4add2a5a71945c56b19211956226085d5200",
+        "source-commit.txt": "9a5cef7c668806c656f995c1b67e63c08ea08938df2038a08a5f0032badde315",
+        "source-tree.txt": "1d6c375d62dd77a17360207a335b515498aabe31a2e123b840da1a7d17be0b14"
+      }
+    },
+    "easybuild-2023a": {
+      "returncode": 0,
+      "elapsed_seconds": 8.182,
+      "peak_rss_kib": 58188,
+      "artifacts": {
+        "graph.dot": "16e941eb2f6548d5f834e66cb5446f6403d4c8d879be596a0affe8c0efeed414",
+        "graph.txt": "d6dbc1b91154dbc00ced8be1e0efed026a5e1236715651bd1a2c9a2a98a00884",
+        "host.txt": "a64b6d81308dc728b286592ae78f6594e185e6db8c474be3c8886f7694f38bb7",
+        "manager-version.txt": "3df61dc313357f46d3a2f7402a257f3683ec64e4fe0d99aca977f288edc1a584",
+        "python.txt": "36eccae64c73138a6ce898fb4100d385bf3618b6f07bf251cdfe60cccdd43a41",
+        "resource-report.json": "25f7bc8738989b84bcc8f0dc13f1873b4775bcda8328c40e663f90b00c888a1d",
+        "source-commit.txt": "9a5cef7c668806c656f995c1b67e63c08ea08938df2038a08a5f0032badde315",
+        "source-qualification.json": "340f7ac357649349e0d368c5eebe8e74bebfcca2c95f5f5adf2771dfeb3665d9",
+        "source-tree.txt": "1d6c375d62dd77a17360207a335b515498aabe31a2e123b840da1a7d17be0b14"
+      }
+    },
+    "easybuild-2024a": {
+      "returncode": 0,
+      "elapsed_seconds": 8.169,
+      "peak_rss_kib": 57076,
+      "artifacts": {
+        "graph.dot": "7d98d93da85912f2fbdf8bd23d4134835def50c22a1a5485ab54c48f4c05cb76",
+        "graph.txt": "8185296f49b560c33b86de7e0205b5798a28ea900dff392640633c61bc9e24e8",
+        "host.txt": "a64b6d81308dc728b286592ae78f6594e185e6db8c474be3c8886f7694f38bb7",
+        "manager-version.txt": "3df61dc313357f46d3a2f7402a257f3683ec64e4fe0d99aca977f288edc1a584",
+        "python.txt": "36eccae64c73138a6ce898fb4100d385bf3618b6f07bf251cdfe60cccdd43a41",
+        "resource-report.json": "52ca873338bbd0a6f3b04eadc2e50dbaeedf6c08d296ecd0a6adfe05b26d4bbb",
+        "source-commit.txt": "9a5cef7c668806c656f995c1b67e63c08ea08938df2038a08a5f0032badde315",
+        "source-qualification.json": "340f7ac357649349e0d368c5eebe8e74bebfcca2c95f5f5adf2771dfeb3665d9",
+        "source-tree.txt": "1d6c375d62dd77a17360207a335b515498aabe31a2e123b840da1a7d17be0b14"
+      }
+    }
+  },
+  "native_build_accepted": false,
+  "installed_module_accepted": false
+}

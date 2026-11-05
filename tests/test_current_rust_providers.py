@@ -34,18 +34,22 @@ def method(package: str, name: str, context: dict[str, object]) -> Callable[...,
     return cast("Callable[..., Any]", namespace["_method_under_test"])
 
 
-@pytest.mark.parametrize("dated", [True, False])
-def test_compiler_channel_bootstrap_and_source_construction_flags(dated: bool) -> None:
+@pytest.mark.parametrize("channel", ["@=nightly-2026-09-01", "@=1.96.0", "@=1.99.1"])
+def test_compiler_channel_bootstrap_and_source_construction_flags(channel: str) -> None:
+    dated = channel == "@=nightly-2026-09-01"
     commands = []
     function = method(
-        "rust", "configure", {"configure": lambda *args: commands.extend(args)}
+        "rust",
+        "configure",
+        {
+            "configure": lambda *args: commands.extend(args),
+            "os": SimpleNamespace(environ={}),
+        },
     )
 
     class Spec:
         def satisfies(self, constraint: str) -> bool:
-            return constraint == "+src" or (
-                dated and constraint == "@=nightly-2026-09-01"
-            )
+            return constraint in ("+src", channel)
 
         def __getitem__(self, name: str) -> SimpleNamespace:
             assert name == "rust-bootstrap"
@@ -60,11 +64,12 @@ def test_compiler_channel_bootstrap_and_source_construction_flags(dated: bool) -
     spec = Spec()
     function(SimpleNamespace(spec=spec), spec, "/compiler")
     assert "llvm.download-ci-llvm=false" in commands
+    assert "llvm.link-jobs=1" in commands
     assert "build.vendor=true" in commands
     assert "build.cargo=/bootstrap/cargo" in commands
     assert "build.rustc=/bootstrap/rustc" in commands
+    assert "rust.download-rustc=false" in commands
     if dated:
-        assert "rust.download-rustc=false" in commands
         assert "--release-channel=nightly" in commands
         assert "--release-channel=stable" not in commands
     else:
@@ -114,7 +119,15 @@ def test_dated_bootstrap_dependency_is_not_the_unversioned_sdk() -> None:
         spec == "rust-bootstrap@nightly" and opts.get("when") == "@nightly"
         for spec, opts in declarations
     )
+    assert (
+        "rust-bootstrap@=1.98.0",
+        {"type": "build", "when": "@=1.99.1"},
+    ) in declarations
     assert ("python@3.15.1", {"type": "build"}) in declarations
+    assert (
+        "rust-bootstrap@=1.95.0",
+        {"type": "build", "when": "@=1.96.0"},
+    ) in declarations
 
 
 @pytest.fixture
@@ -300,3 +313,98 @@ def test_failed_external_openssl_probe_preserves_certificate_fallback() -> None:
     )
     assert values["AR"] == "/compiler/ar"
     assert values["CARGO_HTTP_CAINFO"] == "/spack/openssl/etc/openssl/cert.pem"
+
+
+def test_current_solver_profile_keeps_two_compiler_roles_and_one_python() -> None:
+    import yaml
+
+    profile = ROOT / "packaging/current/spack"
+    solver = yaml.safe_load((profile / "concretizer.yaml").read_text())
+    assert solver == {
+        "concretizer": {
+            "duplicates": {
+                "strategy": "full",
+                "max_dupes": {"rust": 2, "rust-bootstrap": 2},
+            }
+        }
+    }
+    packages = yaml.safe_load((profile / "packages.yaml").read_text())
+    assert packages == {"packages": {"python": {"require": ["@=3.15.1"]}}}
+
+
+def test_bootstrap_is_classified_as_a_build_tool_for_minimal_duplication() -> None:
+    tree = ast.parse((PACKAGES / "rust-bootstrap/package.py").read_text())
+    tags = [
+        ast.literal_eval(node.value)
+        for node in ast.walk(tree)
+        if isinstance(node, ast.Assign)
+        and any(isinstance(t, ast.Name) and t.id == "tags" for t in node.targets)
+    ]
+    assert tags == [["build-tools"]]
+
+
+@pytest.mark.parametrize(
+    ("receipt_path", "stable", "stage0"),
+    [
+        ("stable-rust-inputs.json", "1.99.1", "1.98.0"),
+        ("history/stable-rust-1.96.0-inputs.json", "1.96.0", "1.95.0"),
+    ],
+)
+def test_stable_bootstrap_catalogue_matches_authenticated_manifest(
+    receipt_path: str, stable: str, stage0: str
+) -> None:
+    import json
+    import re
+
+    receipt = json.loads((ROOT / "packaging/current" / receipt_path).read_text())
+    expected = receipt["published_sdk_hashes"]
+    recipe = ast.parse((PACKAGES / "rust-bootstrap/package.py").read_text())
+    table = next(
+        ast.literal_eval(node.value)
+        for node in ast.walk(recipe)
+        if isinstance(node, ast.Assign)
+        and any(
+            isinstance(target, ast.Name) and target.id == "rust_releases"
+            for target in node.targets
+        )
+    )
+    suffix = {"darwin": "apple-darwin", "linux": "unknown-linux-gnu"}
+    assert receipt["version"] == stable
+    assert receipt["bootstrap_version"] == stage0
+    source_recipe = ast.parse((PACKAGES / "rust/package.py").read_text())
+    pins = [
+        ast.literal_eval(kw.value)
+        for call in ast.walk(source_recipe)
+        if isinstance(call, ast.Call)
+        and isinstance(call.func, ast.Name)
+        and call.func.id == "version"
+        and call.args
+        and isinstance(call.args[0], ast.Constant)
+        and call.args[0].value == stable
+        for kw in call.keywords
+        if kw.arg == "sha256"
+    ]
+    assert pins == [receipt["source_sha256"]]
+    source_url = method("rust", "url_for_version", {"Version": Version})
+    assert source_url(None, Version(stable)) == receipt["source_url"]
+    entries = table[stage0]
+    actual = {
+        f"{arch}-{suffix[os_name]}": sha
+        for os_name, arches in entries.items()
+        for arch, sha in arches.items()
+    }
+    assert set(expected) == {
+        "x86_64-unknown-linux-gnu",
+        "aarch64-unknown-linux-gnu",
+        "powerpc64le-unknown-linux-gnu",
+        "aarch64-apple-darwin",
+        "x86_64-apple-darwin",
+    }
+    assert actual == expected
+    url = method("rust-bootstrap", "url_for_version", {"Version": Version, "re": re})
+    for os_name, arches in entries.items():
+        for arch in arches:
+            instance = SimpleNamespace(os=os_name, target=arch, rust_os=suffix)
+            assert url(instance, Version(stage0)) == (
+                f"https://static.rust-lang.org/dist/rust-{stage0}-{arch}-{suffix[os_name]}.tar.xz"
+            )

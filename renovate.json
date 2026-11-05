@@ -175,6 +175,13 @@
       "enabled": false
     },
     {
+      "description": "Hold nltk at 3.10.3 per governed residual advisory disposition until an installable patched release exists on PyPI",
+      "matchPackageNames": [
+        "nltk"
+      ],
+      "allowedVersions": "<=3.10.3"
+    },
+    {
       "description": "Keep the declared Rust MSRV and its release qualification lanes at 1.85; upgrades require compatibility-policy review",
       "matchManagers": [
         "github-actions"
@@ -210,6 +217,12 @@
       "groupSlug": null,
       "dependencyDashboardApproval": true,
       "automerge": false
+    },
+    {
+      "description": "Hold sha2 at 0.11.0 because 0.11.1 requires rustc 1.88 while the workspace MSRV stays at 1.85; lift this hold only with a compatibility-policy review",
+      "matchManagers": ["cargo"],
+      "matchPackageNames": ["sha2"],
+      "allowedVersions": "<=0.11.0"
     },
     {
       "description": "Review executable source and lock changes through pull requests",

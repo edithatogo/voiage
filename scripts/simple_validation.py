@@ -81,9 +81,7 @@ def validate_structural_functionality():
             # Make strategy 1 slightly better on average
             nb_values[:, 1] += 100
 
-            return ValueArray.from_numpy(
-                nb_values, ["Standard Care", "New Treatment"]
-            )
+            return ValueArray.from_numpy(nb_values, ["Standard Care", "New Treatment"])
 
         def simple_modeler2(psa_samples):
             """Another simple modeler for testing."""
@@ -93,9 +91,7 @@ def validate_structural_functionality():
             # Make strategy 0 slightly better on average
             nb_values[:, 0] += 100
 
-            return ValueArray.from_numpy(
-                nb_values, ["Standard Care", "New Treatment"]
-            )
+            return ValueArray.from_numpy(nb_values, ["Standard Care", "New Treatment"])
 
         # Create parameter samples
         np.random.seed(42)

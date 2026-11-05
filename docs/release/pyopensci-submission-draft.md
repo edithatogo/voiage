@@ -37,6 +37,31 @@ Date accepted: Not applicable before external acceptance
   the repository records the approved best-effort maintenance policy and
   two-year post-acceptance commitment in `GOVERNANCE.md` and `SUPPORT.md`.
 
+## Development Best Practices & GenerativeAI Use Disclosure
+
+The current template asks the submitting maintainer to assess these statements
+for the exact material submitted. The 31 August 2026 confirmations below are
+historical; unchecked boxes here do not revoke them or assert new confirmation.
+
+- [ ] This package has a public development history spanning 3–6 months with iterative, thoughtful development.
+- [ ] All code in this package has been carefully reviewed by a human and its implementation is understood by the submitting authors.
+- [ ] All communication on this issue will be written by a human, with only limited translation or grammar assistance if needed.
+- [ ] Generative AI tools were used to develop and maintain this package.
+
+### Please list the tools and frameworks used
+
+Reference material: see the dated disclosure in the policy section below and
+`AI_CONTRIBUTIONS.md`. The maintainer must assess the exact submission.
+
+### Describe the nature and scope of AI support
+
+Reference material: the dated policy section below describes recorded assistance;
+the maintainer must review and provide the submission's own disclosure.
+
+### If you have a policy around generative AI use
+
+Project reference: `AI_USAGE.md`.
+
 ## Description
 
 `voiage` is an open-source Value of Information (VOI) library for researchers
@@ -145,8 +170,8 @@ and reviewed-version archive evidence. No JOSS submission is claimed.
 
 ## Current policy: development history, AI and communication
 
-This supplemental section follows the current policy page, which has disclosure
-requirements beyond the unchanged pinned issue template.
+This section preserves the 31 August 2026 decision and disclosure as historical
+evidence. The current template fields above require assessment for submission.
 
 - [x] I confirm sustained human-led development and the design decisions behind
   the public history. The repository has public history since July 2025;

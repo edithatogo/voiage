@@ -35,7 +35,7 @@
     {
       "requirement": "Native execution capacity",
       "state": "blocked_for_full_easybuild_matrix",
-      "evidence": "Selected OrbStack daemon stopped; shared configured memory is 16384 MiB and is left unchanged. Historical Lima /Users/doughnut/.lima-voiage-internal/hpc does not exist. SSD backing free 164 GiB and internal free 18 GiB; retained native EasyBuild 250 GiB floor cannot be met. Do not treat sparse virtual capacity or old running statements as proof."
+      "evidence": "Selected OrbStack daemon stopped; shared configured memory is 16384 MiB and is left unchanged. Historical Lima /Users/doughnut/.lima-voiage-internal/hpc does not exist. SSD backing free 164 GiB and internal free 18 GiB; obsolete physical-space floor withdrawn on 29 October; GitHub capacity pilot completed with approximately 10 GB disk growth. Do not treat sparse virtual capacity or old running statements as proof."
     },
     {
       "requirement": "Optional native telemetry",

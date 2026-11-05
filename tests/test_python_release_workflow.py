@@ -57,7 +57,7 @@ def test_python_release_workflow_builds_and_publishes_aggregated_artifacts() -> 
         in release_workflow
     )
     assert "os: ubuntu-24.04" in release_workflow
-    assert "os: macos-14" in release_workflow
+    assert "os: macos-15" in release_workflow
     assert "os: windows-2025" in release_workflow
     assert "cp315-abi3" in release_workflow
     assert "voiage/_core." in release_workflow
@@ -230,7 +230,14 @@ def test_python_release_keeps_staging_separate_from_publication() -> None:
         "test-pypi:\n    name: Publish Reviewed Draft to TestPyPI"
     )
     assert stage_job < publish_job
-    assert "environment: testpypi" not in release_workflow[:publish_job]
+    jobs = yaml.safe_load(release_workflow)["jobs"]
+    assert jobs["authenticate"]["if"] == (
+        "github.event_name == 'workflow_dispatch' && inputs.authentication_only"
+    )
+    assert jobs["resolve-tag"]["if"] == "${{ !inputs.authentication_only }}"
+    for name, job in jobs.items():
+        if name not in {"authenticate", "test-pypi", "pypi"}:
+            assert "environment" not in job
     assert "expected_wheel_sha256" in release_workflow
     assert "expected_sdist_sha256" in release_workflow
     assert "sha256sum" in release_workflow

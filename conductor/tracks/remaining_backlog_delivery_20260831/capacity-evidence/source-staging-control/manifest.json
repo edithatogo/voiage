@@ -1,0 +1,57 @@
+{
+  "scope": "Feasibility controls only; no native build, exclusive allocation, or host write protection established",
+  "files": [
+    {
+      "file": "source-store-control--observation.json",
+      "sha256": "193174101219fe7b5bc911ff8052a0dbd5804703ecb40f8c0b17fbacf263c9e4"
+    },
+    {
+      "file": "source-store-control--gen1.log",
+      "sha256": "88dae99addf3e8f9125eed67a9902fbdc14304f111c6c54b8f6999e6af30a4cb"
+    },
+    {
+      "file": "source-store-control--gen2.log",
+      "sha256": "88dae99addf3e8f9125eed67a9902fbdc14304f111c6c54b8f6999e6af30a4cb"
+    },
+    {
+      "file": "source-store-control--checksum-negative.log",
+      "sha256": "f322c23ad1d7891aa7cf4ae95310e196c3da0b36f29a4a47600d1d7773398c76"
+    },
+    {
+      "file": "cow-control-20261029--direct-clonefile-observation.json",
+      "sha256": "ba2b5b8c8841e3898b69b3ca9f48cd2c9b7cc2fe5a8c9887fe283344156df3a0"
+    },
+    {
+      "file": "cow-control-20261029--qualified-source-observation.json",
+      "sha256": "351bbe4ad3c177382397f2628d196261c07104c3a600faa23724f6ab7de71313"
+    },
+    {
+      "file": "cow-control-20261029--linux-always.log",
+      "sha256": "255f21bfbaec9104a4f4a6c5b8c9e6f969ee7422d845ea0beff6491449710489"
+    },
+    {
+      "file": "cow-control-20261029--real-gen1.log",
+      "sha256": "9271dc9f15820597ab0cdf0f945cc890d89be34a7535f0fdd71cc7f96087c2cc"
+    },
+    {
+      "file": "cow-control-20261029--real-gen2.log",
+      "sha256": "9271dc9f15820597ab0cdf0f945cc890d89be34a7535f0fdd71cc7f96087c2cc"
+    },
+    {
+      "file": "easybuild-historical--cli-readback.json",
+      "sha256": "5882827cfec5ae049702ea398cca0af7b5840447a895f298f83545a6cb8f29d4"
+    },
+    {
+      "file": "source-resolution-observation.json",
+      "sha256": "a78dd2a1ea81757df73d75736e4e824f332994a7c2db27b700b896c00ac1b637"
+    },
+    {
+      "file": "offline-image-identity.txt",
+      "sha256": "fffab54c701d17e295411f0f0a65c1d26674e47b4ac3f079e9cbba316a41d95b"
+    },
+    {
+      "file": "offline-container-route.json",
+      "sha256": "b72a5f0484352247f3e113778c3e6aa4905a78af27f28765cf343dcfcca8f0c9"
+    }
+  ]
+}

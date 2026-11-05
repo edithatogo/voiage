@@ -45,3 +45,18 @@ def test_hosted_interpreters_and_python_matrices_use_qualified_patch() -> None:
                     continue
                 value = str(step.get("with", {}).get("python-version", ""))
                 assert value in {"3.15.1", "3.15.1t", "${{ matrix.python }}"}, path
+
+
+def test_tox_selects_the_qualified_patch_before_creating_environments() -> None:
+    import configparser
+
+    config = configparser.ConfigParser(interpolation=None)
+    config.read(ROOT / "tox.ini")
+    qualified = "python" + (ROOT / ".python-version").read_text().strip()
+    selected = {
+        config[section]["base_python"]
+        for section in config.sections()
+        if "base_python" in config[section]
+    }
+    assert selected == {"{env:VOIAGE_TOX_PYTHON:" + qualified + "}"}
+    assert config["testenv"]["runner"] == "virtualenv"

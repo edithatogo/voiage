@@ -1,0 +1,16 @@
+Derived provider recipes retain the terms and attribution in the existing
+packaging/easybuild-2023a-overlay/NOTICE, packaging/easybuild-overlay/NOTICE,
+packaging/easybuild-2023a-rust-overlay/NOTICE, packaging/easybuild-2024a-rust-overlay/NOTICE,
+and the corresponding Arrow and Polars overlay NOTICE and LICENSE files.
+Upstream Python, Rust, Arrow, Polars and dependency source licences remain unchanged.
+Native source fetching, builds and installed probes remain acceptance gates.
+
+hwloc 2.9.1/2.10.0 recipes are derived from easybuilders/easybuild-easyconfigs
+revision 262892aea5e99b65cdb54072f3ff633e74483eb1. Only the source download
+host changed. Their upstream GPL-2.0 terms are retained in LICENSE.easybuild;
+hwloc source code retains its separate upstream BSD licence.
+
+OpenMPI 4.1.5/5.0.3 recipes and their verbatim patches are derived from the same
+easybuild-easyconfigs revision above under its retained GPL-2.0 terms. Only the
+recipe source download host changed. Existing patch attribution and OpenMPI
+source licences remain unchanged.

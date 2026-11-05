@@ -28,16 +28,26 @@
     solver/build/installed-module evidence and the required compiler matrix.
     Polars frontend/runtime source declarations were delivered in PR #1214.
     Dated Rust source/bootstrap bindings and stable compiler-role separation
-    are being qualified; Arrow providers, native builds and the full matrix
-    remain open.
+    were accepted in PR #1215 (`e336cd9f`); Arrow providers, native builds
+    and the full matrix remain open.
     Source slices: stable compiler roles `07c556ec`, dated source/bootstrap
     binding `1d9be54d`; upstream licensing retained separately. See the dated
     compiler receipt and review. All 15 local tox environments pass; protected
-    PR delivery is still required.
+    PR #1215 delivery is accepted; this is not native build acceptance.
+    Later merged checkpoints: PR #1260 resolves all three Linux graphs;
+    PR #1261 qualifies the bounded source/vendor closure; PR #1262 builds
+    and probes both baseline source Rust/LLVM roles. The 3 November review
+    verified 953 retained file bindings, including declared decompressed bytes.
+    Compiler binaries were not retained. Effective package-manager settings
+    and full installed/generation-isolation acceptance remain open; see
+    [review reconciliation](./review-reconciliation-20261103.json).
 - [x] B7: Complete remaining R, governance, identifier and venue preparation;
   retain external acceptance requirements (AC2, AC4).
 - [~] B8: Review all changes, run full tox and relevant language-native checks,
   and record failures and subsequent verification without weakening gates (AC2).
+  The [3 November full-gate attempts](./evidence/local-gate-20261103/manifest.json)
+  retain the interpreter-selection failure and subsequent free-space stop.
+  Neither is a passing full gate; installed HPC acceptance remains open.
 
 ## Phase 3 — Protected delivery and issue reconciliation
 
@@ -74,3 +84,60 @@
   import style and all 62 affected tests now pass. Private Spack class loading
   passes on Python 3.15.1. Current-head hosted checks and native build gates
   remain required; this does not complete B6.2.
+
+## Arrow prerequisite source slices
+
+- [~] B6.2-LibCST: Freeze and challenge the Python 3.15 LibCST source, marker,
+  licence and compiler contract; implement the bounded readiness packet, then
+  qualify the actual provider without inferring the full Arrow/native matrix.
+  Source/declaration slice: `227f1583`; 32 affected tests, authenticated source
+  and actual private Spack class load pass. The full integrated Arrow candidate
+  gate remains pending.
+
+## Build capacity follow-up
+
+The [capacity plan](./capacity-plan.md) retains both EasyBuild generations and
+source-built compiler qualification. The integrator has brought the measurement
+guard, budget validator and retained pilot evidence into the local candidate.
+
+- [~] B6-CAP1: Reconcile the accepted support scope and corrected admission
+  requirement with the terminal capacity packet.
+- [~] B6-CAP2: Retain the Polars and Arrow pilot observations; source compiler
+  and full native graph measurements remain pending.
+- [ ] B6-CAP3: Qualify immutable source staging, cleanup and cache reuse on
+  matched inputs without sharing mutable build roots.
+- [ ] B6-CAP4: Publish workload-specific budgets only after representative
+  successful measurements and explicit headroom are established.
+
+B8 consumes capacity receipts alongside behavioural checks; B12 retains
+preservation-backed cleanup ownership. These tasks do not close native acceptance.
+
+## Current B8 verification — 3 November 2026
+
+The interpreter-selection fix uses `[testenv] runner = virtualenv` and the
+explicit `VOIAGE_TOX_PYTHON` repo-local executable. All 15 environments verified
+Python 3.15.1. The full run at `a3972c810` passed 13 environments and exposed
+formatting, metadata encoding and a missing selected-cache-directory failure.
+At corrected candidate `56f603e0d`, all 33 affected tests passed, followed by
+successful lint and the complete coverage lane: 5,803 passed, 27 skipped,
+94.83% coverage. The other 13 unchanged environments retain their passing proof.
+The first failing full run remains retained; it is not retrospectively a pass.
+
+[Verification manifest](./evidence/tox315-20261103/manifest.json.gz) and terminal
+resource receipts bind both sources, configurations, commands and raw artifact
+hashes. Verification used a standard Git worktree on the external SSD; the
+8 GiB reserve was preserved, with over 15 GiB minimum free on the final rerun.
+No system or shared artifacts were deleted. Full installed HPC matrix, hosted
+delivery and final cleanup/audit requirements remain open; B8 stays in progress.
+
+## Native continuation — 5 November 2026
+
+PRs #1263–#1267 merged after current required checks and review resolution.
+The last coverage lane passed 5,855 tests with 20 skips and 94.84% coverage.
+Actual installed Spack and both EasyBuild attempts reached their four-hour
+stage limits with complete cleanup; native B6.2 acceptance remains open.
+The linked HPC track owns the isolated-loopback regression, platform admission
+and bounded continuation. Colab initially rejected runner identity mappings; a user-authorized disposable
+runtime prerequisite now permits exact mappings. Colab and WSL admission are
+being qualified separately. Source/control success does not substitute for
+installed proof.

@@ -22,7 +22,7 @@ The source/declaration slice passes its local gates; the full native packaging r
 
 ### High: Completed source declarations do not establish native acceptance
 
-- **Context**: Bootstrap binary digests are authenticated manifest entries, not downloaded binary/runtime proof. Actual compiler source builds, the full solve and installed matrix remain required. Local free space is below the retained 250 GiB EasyBuild floor.
+- **Context**: Bootstrap binary digests are authenticated manifest entries, not downloaded binary/runtime proof. Actual compiler source builds, the full solve and installed matrix remain required. The obsolete disk floor is withdrawn; the GitHub Polars capacity pilot completed with approximately 10 GB disk growth.
 - **Resolution**: Keep native flags false and B6.2 open. Record actual source/archive, method tests and host class loading separately. The selected GCP project rejected cloud builder reads; no billing/API/resource changes were made.
 
 No public Python API, runtime lock or upstream Polars feature default changed. Review compared copied recipes with the pinned Spack catalogue; supplied upstream copyright, notices and both licence texts remain intact. The source-checking helper uses streaming archive reads and never extracts or executes archive content.

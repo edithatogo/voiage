@@ -1,0 +1,22 @@
+{
+  "python": "3.15.1",
+  "voiage": "2.2.0",
+  "voiage_in_environment": true,
+  "fixture_revision": "83d556ba4995fd5f5238f4953e9a8af34976f464",
+  "files": {
+    "manifest.json": "b61feb8ed857dc1ab5f9b6d18d75091fe5b458c345cdace66338d0ae6afcbc5e",
+    "parameter_draws.csv": "411cf641d44260a35f5359550cf36459d64ea52e2d659368f289df4231c5257d",
+    "adoption_trajectories.csv": "ba457afdab6a001d5fb5273cf03b20bbf0ac93189a260eaed761a541fd4fb1fb"
+  },
+  "reference": "1/600",
+  "synthetic_penalty": "1/20",
+  "observed": [
+    0.0016666666666666496,
+    0.0016666666666666496,
+    0.0016666666666666496
+  ],
+  "rows": {
+    "parameter_draws": 18,
+    "adoption_trajectories": 24
+  }
+}

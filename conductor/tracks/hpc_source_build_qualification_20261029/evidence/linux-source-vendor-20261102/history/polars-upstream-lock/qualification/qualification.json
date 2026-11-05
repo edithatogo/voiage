@@ -1,0 +1,5 @@
+{
+  "entry": "polars-runtime-32",
+  "passed": false,
+  "error": "Command ['/home/runner/.rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo', 'vendor', '--locked', '--versioned-dirs', '--manifest-path', '/home/runner/work/_temp/source-work/unpacked/polars_runtime_32-2.1.0/Cargo.toml', '/home/runner/work/_temp/source-work/vendor'] returned non-zero exit status 101."
+}

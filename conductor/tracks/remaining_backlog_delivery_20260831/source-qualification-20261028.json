@@ -49,7 +49,7 @@
   "limitations": [
     "Archive remains local and unpublished; no registry or upstream acceptance inferred",
     "Actual Linux solver, compiler matrix, native builds and installed-module tests remain required",
-    "Retained EasyBuild physical free-space floor is 250 GiB; observed SSD free 164 GiB and internal free 18 GiB cannot satisfy it",
+    "Obsolete physical-space blocker withdrawn; GitHub run 40691333092 completed with approximately 10 GB disk growth",
     "No dependency upgrade from isolated frontier probe was adopted"
   ],
   "total_source_files_verified": 904,

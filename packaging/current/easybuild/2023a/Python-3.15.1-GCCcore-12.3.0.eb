@@ -1,0 +1,38 @@
+# Site backport; see NOTICE and source-manifest.json before reuse.
+name = "Python"
+version = "3.15.1"
+
+homepage = "https://python.org/"
+description = """Python is a programming language that lets you work more quickly and integrate your systems
+ more effectively."""
+
+toolchain = {"name": "GCCcore", "version": "12.3.0"}
+toolchainopts = {"pic": True}
+
+source_urls = ["https://www.python.org/ftp/%(namelower)s/%(version)s/"]
+sources = ['Python-3.15.1.tar.xz']
+
+# Like patches, but these will only be applied if EasyBuild is configured to filter $LD_LIBRARY_PATH
+# In that scenario, ctypes needs to be patched since it heavily relies on $LD_LIBRARY_PATH to find libraries
+
+checksums = ['673ae7232d84c894729882c8257d300ef2d26523911bfd3917ec8ce7f526f99b']
+
+builddependencies = [
+    ("UnZip", "6.0"),
+    ("pkgconf", "1.9.5"),
+]
+
+dependencies = [
+    ("binutils", "2.40"),
+    ("bzip2", "1.0.8"),  # required for bz2 package in Python stdlib
+    ("zlib", "1.2.13"),
+    ("libreadline", "8.2"),
+    ("ncurses", "6.4"),
+    ("SQLite", "3.42.0"),
+    ("XZ", "5.4.2"),
+    ("libffi", "3.4.4"),
+    ("OpenSSL", "3", "", SYSTEM),
+]
+
+
+moduleclass = "lang"

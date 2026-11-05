@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.0",
+  "python_profile": "3.15.1",
+  "scope": "Source/declaration profiles for Arrow and its Python build prerequisites; full native build and installed matrix remain unqualified",
+  "providers": {
+    "py-libcst": {
+      "version": "1.9.0",
+      "source": {
+        "filename": "libcst-1.9.0.tar.gz",
+        "url": "https://files.pythonhosted.org/packages/02/c0/098e5c91ff1537f00c85a6438b6cb1863d17144680cc91f47c87f104a200/libcst-1.9.0.tar.gz",
+        "sha256": "087b58a9afe076bb08e2d726478e1f16cb928d67ffa9092817e033c335de522a"
+      },
+      "license": "MIT AND PSF-2.0",
+      "licenses": {
+        "LICENSE": "e09b2c94517c6a191153fe0407c0a546c4d24a7295ae3bb26d59b544c74162dc",
+        "native/libcst/LICENSE": "e09b2c94517c6a191153fe0407c0a546c4d24a7295ae3bb26d59b544c74162dc",
+        "native/libcst/src/tokenizer/core/LICENSE": "f9648603058a42f3dec7e306be3ec387270a53956fa1d7ff62642be621cdc1d5",
+        "native/libcst_derive/LICENSE": "e09b2c94517c6a191153fe0407c0a546c4d24a7295ae3bb26d59b544c74162dc"
+      },
+      "cargo_license": "MIT AND (MIT AND PSF-2.0)",
+      "requires_python": ">=3.9",
+      "build_requires": [
+        "setuptools",
+        "setuptools-scm",
+        "setuptools-rust",
+        "wheel"
+      ],
+      "selected_run_requires": [
+        "pyyaml>=6.0.3"
+      ],
+      "rust_version": "1.83",
+      "pyo3_version": "0.29",
+      "default_features": [
+        "py"
+      ],
+      "spack_dependencies": {
+        "python@3.15.1": [
+          "build",
+          "run"
+        ],
+        "py-setuptools": [
+          "build"
+        ],
+        "py-setuptools-scm": [
+          "build"
+        ],
+        "py-setuptools-rust": [
+          "build"
+        ],
+        "py-wheel": [
+          "build"
+        ],
+        "rust@1.85:1": [
+          "build"
+        ],
+        "py-pyyaml@6.0.3:": [
+          "run"
+        ]
+      }
+    },
+    "arrow": {
+      "version": "26.0.0",
+      "source": {
+        "filename": "apache-arrow-26.0.0-commit.tar.gz",
+        "url": "https://github.com/apache/arrow/archive/446167169a0dc547e00e1bc29f417a40c0ca267a.tar.gz",
+        "sha256": "764adbb5601a4d0d9d67a10cf04892d33cfac9fd43012f08a2d7c9956a7a90d2"
+      },
+      "upstream_commit": "446167169a0dc547e00e1bc29f417a40c0ca267a",
+      "source_catalogue": "fa170d11f60ea44045d9a02370002ed153e35f1a",
+      "builtin_recipe_sha256": "21f76d45d06f2927dcf537a553a4fc5558ed2b1aee79f52bb72aa903116c3d91",
+      "licenses": {
+        "LICENSE.txt": "cd03925a27219d326d622609fbcae6567279af8b8885c33d5969a9e4ef5d7525",
+        "NOTICE.txt": "afd895d61a00101f6d5a41cf518c83865d815e8109e956f512a0ce4ea9738c06"
+      },
+      "minimum_cmake": "3.25",
+      "mimalloc": {
+        "version": "v3.4.1",
+        "sha256": "37107a52c16baa80c5f74861dddda7b27bb9949e41a6637691867a94c88ca446",
+        "url": "https://github.com/microsoft/mimalloc/archive/v3.4.1.tar.gz"
+      }
+    },
+    "py-pyarrow": {
+      "version": "26.0.0",
+      "source": {
+        "filename": "pyarrow-26.0.0.tar.gz",
+        "url": "https://files.pythonhosted.org/packages/ec/34/17c34cb38e5d940e38f0f0d9fdfa0e8a506676409ea9b85aff7e3079f831/pyarrow-26.0.0.tar.gz",
+        "sha256": "0cccd36e00ea3afeb52ded61f2721ce71f604853d70c45365c58324eb773d6ae"
+      },
+      "license": "Apache-2.0",
+      "licenses": {
+        "LICENSE.txt": "cd03925a27219d326d622609fbcae6567279af8b8885c33d5969a9e4ef5d7525",
+        "NOTICE.txt": "afd895d61a00101f6d5a41cf518c83865d815e8109e956f512a0ce4ea9738c06"
+      },
+      "build_requires": [
+        "scikit-build-core >= 1.0",
+        "cython >= 3.1",
+        "libcst>=1.9.0; python_version >= '3.15'",
+        "libcst>=1.8.6; python_version < '3.15'",
+        "numpy>=2.0",
+        "setuptools_scm[toml]>=8"
+      ],
+      "build_backend": "scikit_build_core.build",
+      "requires_python": ">=3.11",
+      "minimum_cmake": "3.25",
+      "native_profile": "arrow@=26.0.0+brotli+bz2+compute+csv+dataset+filesystem+ipc+lz4+mimalloc+parquet+python+shared+snappy+zlib+zstd",
+      "cmake_build_type": "Release",
+      "bundle_defaults": {
+        "PYARROW_BUNDLE_ARROW_CPP": {
+          "env": "PYARROW_BUNDLE_ARROW_CPP",
+          "default": "OFF"
+        },
+        "PYARROW_BUNDLE_CYTHON_CPP": {
+          "env": "PYARROW_BUNDLE_CYTHON_CPP",
+          "default": "OFF"
+        }
+      },
+      "license_member_counts": {
+        "LICENSE.txt": 2,
+        "NOTICE.txt": 2
+      }
+    }
+  }
+}

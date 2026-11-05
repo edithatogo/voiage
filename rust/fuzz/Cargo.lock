@@ -274,7 +274,7 @@ checksum = "a2c754d6c33795a1c324727428e5a7dedb5b06195f9890bdbcba760d3e246563"
 
 [[package]]
 name = "voiage-diagnostics"
-version = "2.2.0"
+version = "3.1.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -285,14 +285,14 @@ dependencies = [
 
 [[package]]
 name = "voiage-domain"
-version = "2.2.0"
+version = "3.1.0"
 dependencies = [
  "serde",
 ]
 
 [[package]]
 name = "voiage-ffi"
-version = "2.2.0"
+version = "3.1.0"
 dependencies = [
  "voiage-diagnostics",
  "voiage-domain",
@@ -312,7 +312,7 @@ dependencies = [
 
 [[package]]
 name = "voiage-numerics"
-version = "2.2.0"
+version = "3.1.0"
 dependencies = [
  "sha2",
  "voiage-diagnostics",
@@ -321,7 +321,7 @@ dependencies = [
 
 [[package]]
 name = "voiage-serialization"
-version = "2.2.0"
+version = "3.1.0"
 dependencies = [
  "serde",
  "serde_json",

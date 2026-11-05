@@ -1,0 +1,12 @@
+{
+  "python": "3.15.1",
+  "voiage": "2.2.0",
+  "voiage_in_environment": true,
+  "mars_revision": "d68b54a1c9a5eee40e1b7a724e002d5083ff6d8f",
+  "estimator": "pymars.EarthRegressor",
+  "mars_version": "1.0.4",
+  "samples": 33,
+  "reference": "17/33",
+  "estimate": 0.5151515151515149,
+  "estimator_module_in_environment": true
+}

@@ -160,6 +160,16 @@
   across retained runs, with 4,625 tests passed, 15 skipped and 95.11 percent
   coverage. The existing import timing guard passed unchanged on retry.
   R14 remains pending. (`7545ae5b`)
+- [~] **R13g / AC-04 — Current template refresh:** Update the unposted packet
+  to the 3 November template and retain the earlier confirmations as dated
+  evidence. The maintainer must assess the new disclosure fields; the survey
+  and human-written submission text remain pending.
+  Review: pinned upstream bytes and packet digests verified; 54 focused tests
+  and Ruff pass. Four red mutation cases exposed unguarded new confirmations;
+  the validator now rejects them. The full tox attempt stopped before execution
+  with `insufficient_free_space` (1,570,930,688 bytes available, 8 GiB reserve).
+  Receipt: `.conductor/local/venue-refresh-review/resource-report.json`.
+  Full local and hosted delivery gates remain open; this task stays in progress.
 - [ ] **R14 / AC-04:** Obtain completed pre-review survey confirmation and the
   maintainer's human-written submission text. Personal declarations are confirmed;
   prior pyOpenSci requests #271 and #272 are withdrawn. Editorial screening

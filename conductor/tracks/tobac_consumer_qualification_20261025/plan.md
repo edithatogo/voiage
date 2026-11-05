@@ -1,13 +1,13 @@
 # Implementation plan — tobac consumer qualification
 
 The original planning-only hold was superseded by the user's 29 October
-direction to implement, review and archive this track. All tasks remain open.
+direction to implement, review and archive this track. Current candidate results are in the [November qualification packet](evidence/installed-20261101/README.md).
 [Specification](spec.md). [Repository workflow](../../workflow.md).
 
 ## Phase 1 — Consumer reconciliation
 
 - [ ] Task P1.1: Refresh producer/master revisions, ownership and current contracts.
-- [ ] Task P1.2: Map consumer requirements to existing behavior and evidenced gaps.
+- [x] Task P1.2: Map consumer requirements to existing behavior and evidenced gaps.
 - [ ] Task P1.3: Write failing consumer and independent-oracle tests before changes.
   - [ ] Map master R11.1–R11.5 to existing parameter/model/execution contracts; write round-trip, invalid-input, scenario-isolation, input-mutation and I/O-independent calculation cases.
 - [ ] Task P1.4: Phase verification and checkpoint under the repository workflow.
@@ -22,7 +22,7 @@ direction to implement, review and archive this track. All tasks remain open.
 
 ## Phase 3 — Installed consumer and evidence
 
-- [ ] Task P3.1: Build and install independent artifacts; verify actual import/artifact identities.
+- [x] Task P3.1: Build and install independent artifacts; verify actual import/artifact identities.
 - [ ] Task P3.2: Execute consumer contracts, negative cases, precision and scientific invariants.
   - [ ] Prove a bounded extension preserves reference scenarios and record resolved parameters, provenance, model/schema identity and execution settings separately (R11.1–R11.5).
 - [ ] Task P3.3: Review existing engineering/context/security controls; add only justified gaps.
@@ -34,3 +34,7 @@ direction to implement, review and archive this track. All tasks remain open.
 - [ ] Task P4.2: Reconcile main and master track, publish only within authority, verify receiving refs/files.
 - [ ] Task P4.3: Deliver exact artifact/API/schema receipts and rollback notes to tobac.
 - [ ] Task P4.4: Phase verification and checkpoint including repository review requirements.
+
+Current release evidence and available-compute boundary are recorded in
+[the 2 November reconciliation](../scientific_ecosystem_alignment_20261029/reconciliation-20261102.md).
+Existing unchecked native acceptance tasks remain open.

@@ -1,7 +1,70 @@
 # Changelog
 
+- Resolve a current Node 22 patch for documentation checks and align the declared
+  engine with the pinned Astro release.
+
+- Repair hwloc and OpenMPI source download URLs for both current EasyBuild generations,
+  preserving authenticated checksums and build settings. Reclaim unused hosted
+  SDK capacity for Rust source checks with the existing disk reserve. Retain separate Colab
+  and WSL failures without claiming installed HPC acceptance.
+
+- Preserve declared HPC source, compiler and receipt settings by name across
+  sudo boundaries, supporting sudo-rs without forwarding credentials. Initialize
+  Lmod safely under strict Bash and isolate candidate checkouts per source attempt.
+
+- Enable isolated loopback for native dependency tests while retaining external
+  network denial, non-root execution and guarded descendant cleanup. Support an
+  explicitly selected private user namespace and report unavailable I/O counters
+  without disabling RSS, free-space or timeout protection.
+
+- Declare checksum-bound Rust bootstrap SDK inputs for both EasyBuild
+  generations and bound LLVM linking to one job in current HPC compiler recipes.
+
+- Add opt-in full-graph HPC source fetching, resolved source receipts and
+  network-denied replay before installed Spack and EasyBuild qualification.
+
+- Refresh the unposted pyOpenSci packet with the current AI disclosure fields
+  and reject unchecked review prompts being promoted to new confirmations.
+
+- Reject a symlinked cache directory when qualifying authenticated HPC source archives.
+
+- Use tox’s virtualenv runner and an explicit repo-local interpreter setting to
+  keep every environment on qualified Python 3.15.1.
+
+- Add opt-in authenticated Rust/LLVM source-build qualification on GitHub Actions,
+  with complete upstream vendor/notice closure, offline native stages and
+  descendant cleanup controls. Stable Rust 1.99.1 and the dated nightly now pass
+  cold source-build, installation and installed EVPI/linkage probes with durable
+  resource receipts. Full installed HPC matrix acceptance remains open.
+
+- Add authenticated Linux Cargo/compiler-source qualification, locked offline vendor replay, reproducible Polars Git-source archives and durable source/resource receipts.
+
+- Add bounded Linux Spack and EasyBuild 2023a/2024a dependency-graph qualification, with authenticated candidate sources and retained graph/resource receipts.
+
+## 3.1.0
+
+- Add labelled net benefit tensors, tie-aware acceptability, mixture frontiers,
+  switch points and MCDA records in `voiage.methods.perspective_tensor`.
+- Add bootstrap Monte Carlo intervals and draw-count convergence profiles for directional regret.
+
+## Previous changes
+
+- Add opt-in, application-owned OTLP/HTTP trace export to a loopback collector
+  in the Rust diagnostics crate. The default build remains exporter-free.
+
+- Select stable Rust 1.99.1 for the current HPC packaging candidate and pin its upstream Rust 1.98.0 bootstrap.
+
+- Pin the Rust 1.96.0 Spack source build to its upstream Rust 1.95.0 bootstrap
+  and disable prebuilt compiler downloads for that source configuration.
+
+- Hold `sha2` at 0.11.0 in dependency automation so the Rust workspace keeps
+  its 1.85 MSRV; the 0.11.1 release requires rustc 1.88.
+
 - Renew the time-bounded OSV-Scanner exemptions for two Pydantic false
   positives so dependency scanning and the quality gates stay green.
+
+- Preserve nested Arrow field schemas and multi-chunk column boundaries in
+  normalized Parquet round trips.
 
 - Bound optional telemetry queue capacity, attribute count and retained string
   allocations to prevent oversized records from accumulating in memory.

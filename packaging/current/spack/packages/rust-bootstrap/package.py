@@ -26,6 +26,8 @@ class RustBootstrap(Package):
 
     maintainers("alecbcs", "mcmehrtens")
 
+    tags = ["build-tools"]
+
     skip_version_audit = ["platform=windows"]
 
     # List binary rust releases for multiple operating systems and architectures.
@@ -33,6 +35,17 @@ class RustBootstrap(Package):
     # should update these binary releases as bootstrapping requirements are
     # modified by new releases of Rust.
     rust_releases = {
+        "1.98.0": {
+            "darwin": {
+                "x86_64": "a3717fb569beab7060699dc237c90fce3d9d1efb72bec333ec8a116525100361",
+                "aarch64": "5395f380bd220890b89b7e8ce137f3965cf0625b6f561af11e97c8d5c8743c3b",
+            },
+            "linux": {
+                "x86_64": "ed8ee2df70909c88cbaf87a6cfa3920dac00b537de12a6abe6906641e0f5952f",
+                "aarch64": "ac9283184301aeed06ecc9f5aa4c1be7041e18a1b197b6cb6c5d162d98f566da",
+                "powerpc64le": "f126e0ecf916494d05faa694076f8d821a04b65018749a886bb71155e30dfd66",
+            },
+        },
         "1.96.0": {
             "darwin": {
                 "x86_64": "63a6d717a5e5392ac43f0a1593e7aabe6128c8685d318cb890603b1688cb3339",
@@ -42,6 +55,17 @@ class RustBootstrap(Package):
                 "x86_64": "c295047583a56238ea06b43f849f4b877fa12bfd4c7103f8d9a74c94c9c4e108",
                 "aarch64": "371eadcca97062219cbd8593628eb5d2802bc370515d085fedce1b56b2baed57",
                 "powerpc64le": "fea8e9155c69740415f1c96fa8879e61b16238e26cfee62d15f4f93aa83cb8d5",
+            },
+        },
+        "1.95.0": {
+            "darwin": {
+                "x86_64": "998af750fe2c28f0dbf193edc496c9a7407850486968f40ac11a8c8adfb7cfa6",
+                "aarch64": "0382ac0e7acab0daa24710701442e9fd284148b75265bdb2f59e38b60b03ac3c",
+            },
+            "linux": {
+                "x86_64": "2e0338f18ecbaa4a0f631b9e80e8b8e26bb6fe77dd5454fba8a70cf96c1e84a1",
+                "aarch64": "094c9c36531911c5cc7dd6ab2d3069ab8dcd744d6239b0bda1387b243dfc391e",
+                "powerpc64le": "d301b5064ae68180ec1218b533ef0b26aaf83bba20720a0cbfdd1ad09f295133",
             },
         },
         "1.92.0": {

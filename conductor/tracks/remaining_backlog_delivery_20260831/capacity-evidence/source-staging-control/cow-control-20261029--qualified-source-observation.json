@@ -1,0 +1,21 @@
+{
+  "source_url": "https://files.pythonhosted.org/packages/e0/a6/46e09af693326735b1fba3a8bf5a725b57136fb1342e707e75d3113c826b/polars_runtime_32-2.1.0.tar.gz",
+  "filename": "polars_runtime_32-2.1.0.tar.gz",
+  "size": 3878004,
+  "sha256": "c575f5f3cdb8a5f9be65477b9b4202b062593687fe62a0082add87fbd4571067",
+  "host_clonefile_returns": [
+    0,
+    0
+  ],
+  "scope": "Real public source archive; host clonefile staging only; no EasyBuild/native compile",
+  "offline_containers_read_verified_source": true,
+  "container_writes_to_source_rejected": true,
+  "separate_build_install_roots": true,
+  "host_source_remains_writable": true,
+  "physical_space_saved_measured": false,
+  "easybuild_qualified": false,
+  "logs_sha256": {
+    "real-gen1": "9271dc9f15820597ab0cdf0f945cc890d89be34a7535f0fdd71cc7f96087c2cc",
+    "real-gen2": "9271dc9f15820597ab0cdf0f945cc890d89be34a7535f0fdd71cc7f96087c2cc"
+  }
+}

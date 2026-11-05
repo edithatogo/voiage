@@ -1,0 +1,199 @@
+name: Linux dependency graphs
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/linux-graph-qualification.yml"
+      - "scripts/qualify_linux_graph.sh"
+      - "scripts/qualify_linux_sources.sh"
+      - "scripts/easybuild_source_hooks.py"
+      - "scripts/source_cache_manifest.py"
+      - "scripts/spack_source_witness.py"
+      - "scripts/qualify_linux_installed.sh"
+      - "scripts/probe_current_hpc_install.py"
+      - "scripts/observe_native_driver.py"
+      - "scripts/observe_native_stage.py"
+      - "scripts/enter_native_namespace.py"
+      - "tests/test_native_network_namespace.py"
+      - "scripts/guard_verification.py"
+      - "scripts/qualify_hpc_source.py"
+      - "specs/dependency-runtime-policy.json"
+      - "packaging/current/**"
+      - "pyproject.toml"
+      - "uv.lock"
+      - ".python-version"
+  pull_request:
+    paths:
+      - ".github/workflows/linux-graph-qualification.yml"
+      - "scripts/qualify_linux_graph.sh"
+      - "scripts/qualify_linux_sources.sh"
+      - "scripts/easybuild_source_hooks.py"
+      - "scripts/source_cache_manifest.py"
+      - "scripts/spack_source_witness.py"
+      - "scripts/qualify_linux_installed.sh"
+      - "scripts/probe_current_hpc_install.py"
+      - "scripts/observe_native_driver.py"
+      - "scripts/observe_native_stage.py"
+      - "scripts/enter_native_namespace.py"
+      - "tests/test_native_network_namespace.py"
+      - "scripts/guard_verification.py"
+      - "scripts/qualify_hpc_source.py"
+      - "specs/dependency-runtime-policy.json"
+      - "packaging/current/**"
+      - "pyproject.toml"
+      - "uv.lock"
+      - ".python-version"
+  workflow_dispatch:
+    inputs:
+      qualification:
+        description: Qualification scope (installed acceptance remains separate)
+        type: choice
+        options: [graph, sources, installed-controls, installed, full-tox]
+        default: graph
+      cells:
+        description: Source/graph cells to execute; reuse unchanged receipts
+        type: choice
+        options: [all, spack, easybuild, easybuild-2023a, easybuild-2024a]
+        default: all
+permissions:
+  contents: read
+jobs:
+  graph:
+    if: inputs.qualification != 'full-tox'
+    runs-on: ubuntu-24.04
+    timeout-minutes: ${{ inputs.qualification == 'installed' && 360 || 110 }}
+    strategy:
+      fail-fast: false
+      matrix:
+        cell: ${{ fromJSON(inputs.cells == 'spack' && '["spack"]' || inputs.cells == 'easybuild-2023a' && '["easybuild-2023a"]' || inputs.cells == 'easybuild-2024a' && '["easybuild-2024a"]' || inputs.cells == 'easybuild' && '["easybuild-2023a","easybuild-2024a"]' || '["spack","easybuild-2023a","easybuild-2024a"]') }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+        with:
+          version: "0.13.6"
+      - name: Prepare isolated graph tooling
+        timeout-minutes: 15
+        env:
+          CELL: ${{ matrix.cell }}
+          QUALIFICATION: ${{ inputs.qualification || 'graph' }}
+        run: |
+          uv venv --python 3.15.1 .venv
+          uv pip install --python .venv/bin/python psutil==7.2.2 packaging==26.3 maturin==1.15.0
+          if [[ "$QUALIFICATION" == installed || "$QUALIFICATION" == installed-controls ]]; then
+            sudo apt-get update -qq
+            sudo apt-get install -y time
+            if [[ "$QUALIFICATION" == installed && "$CELL" != spack ]]; then
+              sudo apt-get install -y libibverbs-dev
+            fi
+            uv pip install --python .venv/bin/python pytest==9.1.1
+          fi
+          mkdir .graph-tools
+          if [[ "$CELL" == spack ]]; then
+            git init .graph-tools/spack
+            git -C .graph-tools/spack remote add origin https://github.com/spack/spack.git
+            git -C .graph-tools/spack fetch --depth 1 origin 3e19345b6e12f5ff1b874f4059622fc6a1fd804a
+            git -C .graph-tools/spack checkout --detach FETCH_HEAD
+          else
+            sudo apt-get update -qq
+            sudo apt-get install -y lmod
+            uv pip install --python .venv/bin/python easybuild-framework==5.4.2 easybuild-easyblocks==5.4.2 graphviz==0.21
+            git init .graph-tools/easyconfigs
+            git -C .graph-tools/easyconfigs remote add origin https://github.com/easybuilders/easybuild-easyconfigs.git
+            git -C .graph-tools/easyconfigs fetch --depth 1 origin 262892aea5e99b65cdb54072f3ff633e74483eb1
+            git -C .graph-tools/easyconfigs checkout --detach FETCH_HEAD
+          fi
+      - name: Qualify graph with resource limits
+        env:
+          CELL: ${{ matrix.cell }}
+          QUALIFICATION: ${{ inputs.qualification || 'graph' }}
+        run: |
+          export PATH="$PWD/.venv/bin:$PWD/.graph-tools/spack/bin:$PATH"
+          export SPACK_PYTHON="$PWD/.venv/bin/python"
+          mkdir -p receipts/graph
+          if [[ "$QUALIFICATION" == installed || "$QUALIFICATION" == installed-controls ]]; then
+            sudo --preserve-env env "PATH=$PATH" "VOIAGE_CONTROL_UID=$(id -u)" "VOIAGE_CONTROL_GID=$(id -g)" .venv/bin/python -m pytest --noconftest -o addopts= -q --basetemp="$PWD/receipts/controls" tests/test_native_installed_supervision.py tests/test_native_network_namespace.py
+          fi
+          if [[ "$QUALIFICATION" == installed-controls ]]; then
+            echo "Privileged aggregate cleanup controls passed"
+          elif [[ "$QUALIFICATION" == installed ]]; then
+            aggregate_work="$RUNNER_TEMP/voiage-installed-$CELL"
+            mkdir "$aggregate_work"
+            sudo --preserve-env env "PATH=$PATH" "RUNNER_TEMP=$aggregate_work" .venv/bin/python -m scripts.observe_native_driver --evidence "$PWD/receipts/resources" --workspace "$aggregate_work" --cwd "$PWD" --timeout 19800 --uid "$(id -u)" --gid "$(id -g)" -- bash scripts/qualify_linux_installed.sh "$CELL" "$PWD/receipts/graph"
+          elif [[ "$QUALIFICATION" == sources ]]; then
+            .venv/bin/python scripts/guard_verification.py --work-dir receipts/resources --workload-id "$CELL-sources" --max-rss-mib 12288 --timeout-seconds 5400 --min-free-mib 8192 --artifact-dir receipts/graph -- bash scripts/qualify_linux_sources.sh "$CELL" "$PWD/receipts/graph"
+          else
+            .venv/bin/python scripts/guard_verification.py --work-dir receipts/resources --workload-id "$CELL" --max-rss-mib 6000 --timeout-seconds 900 --min-free-mib 1024 --artifact-dir receipts/graph -- bash scripts/qualify_linux_graph.sh "$CELL" "$PWD/receipts/graph"
+          fi
+      - name: Retain terminal graphs and resource receipts
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: linux-graph-${{ matrix.cell }}
+          path: receipts/
+          if-no-files-found: error
+          retention-days: 30
+  full-tox:
+    if: github.event_name == 'workflow_dispatch' && inputs.qualification == 'full-tox'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 110
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+          submodules: recursive
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+        with:
+          version: "0.13.6"
+          enable-cache: false
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
+        with:
+          node-version: "22"
+          check-latest: true
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320
+        with:
+          version: "10.34.9"
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
+        with:
+          cache: false
+          go-version: "1.27.2"
+      - name: Prepare qualified verification tools
+        run: |
+          uv venv --python 3.15.1 .venv
+          .venv/bin/python -c 'import sys; assert sys.version_info[:3] == (3, 15, 1), sys.version'
+          uv pip install --python .venv/bin/python tox==4.67.2 tox-uv==1.37.2 psutil==7.2.2
+          go install github.com/errata-ai/vale/v3/cmd/vale@v3.15.1
+          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+      - name: Release unused hosted SDK capacity for the full gate
+        if: runner.environment == 'github-hosted'
+        run: |
+          mkdir -p receipts/full-tox
+          df -B1 "$GITHUB_WORKSPACE" > receipts/full-tox/capacity-before.txt
+          # This job uses Python, Rust, Node and Go; it has no Android workload.
+          if [[ -d /usr/local/lib/android && ! -L /usr/local/lib/android ]]; then
+            sudo rm -rf -- /usr/local/lib/android
+            echo unused_android_sdk_removed > receipts/full-tox/capacity-action.txt
+          else
+            echo sdk_absent_or_symlink_preserved > receipts/full-tox/capacity-action.txt
+          fi
+          df -B1 "$GITHUB_WORKSPACE" > receipts/full-tox/capacity-after.txt
+      - name: Run all local gate environments on Linux
+        run: |
+          export VOIAGE_TOX_PYTHON="$PWD/.venv/bin/python"
+          export PIP_CACHE_DIR="$RUNNER_TEMP/voiage-tox-pip-cache"
+          export UV_CACHE_DIR="$RUNNER_TEMP/voiage-tox-uv-cache"
+          export VOIAGE_TEST_UV_CACHE_DIR="$RUNNER_TEMP/voiage-tox-consumer-cache"
+          mkdir -p "$VOIAGE_TEST_UV_CACHE_DIR" receipts/full-tox
+          .venv/bin/python scripts/guard_verification.py --work-dir receipts/full-tox/resources --workload-id full-tox --max-rss-mib 12288 --timeout-seconds 5400 --min-free-mib 8192 -- .venv/bin/tox run-parallel -p 2 --result-json receipts/full-tox/tox-result.json
+      - name: Retain full gate and terminal capacity evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: linux-full-tox
+          path: |
+            receipts/full-tox/
+            coverage.xml
+          if-no-files-found: error
+          retention-days: 30

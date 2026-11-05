@@ -15,6 +15,7 @@
 - [Observed Codecov delivery](./codecov-observation-20260831.json)
 - [Full R check with manuals](./r-manual-check-20260901.json)
 - [Current R check receipt](./r-strict-check-20260831.json)
+- [Recovery archive verification](./recovery-archive-verification-20261101.json)
 - [GitHub issue #1053](https://github.com/edithatogo/voiage/issues/1053)
 - [Related roadmap #296](https://github.com/edithatogo/voiage/issues/296)
 
@@ -65,3 +66,5 @@ historical and do not identify a currently live build.
 
 - [Dated compiler source and bootstrap qualification](./rust-providers-20261028.json)
 - [Dated compiler provider review](./rust-provider-review-20261028.md)
+
+- [Arrow prerequisites, source-build evidence and capacity incident](./arrow-provider-readiness-20261028.json)

@@ -223,3 +223,20 @@ def test_evpi_guards_reject_wrong_method_shape_and_labels() -> None:
         run_evpi(np.array([]), spec=_spec())
     with pytest.raises(ValueError, match="align"):
         run_evpi(np.ones((2, 3)), spec=_spec())
+
+
+def test_declared_normalized_digest_does_not_mask_calculation_input_identity() -> None:
+    spec = _spec().model_copy(update={"normalized_input_digest": "0" * 64})
+    first = run_evpi(np.array([[1.0, 3.0]], dtype=np.float64), spec=spec)
+    second = run_evpi(np.array([[1.0, 4.0]], dtype=np.float64), spec=spec)
+    assert first.run_context.input_digest == second.run_context.input_digest == "0" * 64
+    assert (
+        first.provenance.details["calculation_input_digest"]
+        != second.provenance.details["calculation_input_digest"]
+    )
+    warning = next(
+        item
+        for item in first.diagnostics.warnings
+        if item.code == "normalized_input_provenance"
+    )
+    assert "declared" in warning.message.lower()
