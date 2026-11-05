@@ -24,6 +24,7 @@ if [[ "$cell" == spack ]]; then
   spack spec -Il py-voiage@develop > "$out/graph.txt"
 else
   generation=${cell#easybuild-}
+  export FPATH="${FPATH:-}" # Lmod initialization must also work in standalone graph mode.
   source /etc/profile.d/lmod.sh
   eb --version > "$out/manager-version.txt"
   # Authenticate the candidate source before evaluating the guarded root recipe.
