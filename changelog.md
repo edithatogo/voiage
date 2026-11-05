@@ -1,5 +1,7 @@
 # Changelog
 
+- Cover unfitted random forest prediction and scoring errors.
+
 - Remove redundant intermediate calculations from the JAX EVPI path.
 
 - Reconcile delivery status, defer HPC qualification except MLX/Metal, and retain the installed tobac consumer receipt.
