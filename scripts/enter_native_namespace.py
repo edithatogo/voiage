@@ -4,12 +4,18 @@ from __future__ import annotations
 
 import argparse
 import os
+from pathlib import Path
 import socket
 import struct
 
 
 def enter_namespace(
-    parent_namespace: str, uid: int, gid: int, command: list[str]
+    parent_namespace: str,
+    uid: int,
+    gid: int,
+    command: list[str],
+    *,
+    require_identity_maps: bool = False,
 ) -> None:
     """Reject the host network before configuring the isolated local interface."""
     if os.geteuid() != 0 or uid <= 0 or gid <= 0 or not command:
@@ -18,6 +24,21 @@ def enter_namespace(
         raise ValueError("Refusing to configure the parent network namespace")
     if sorted(name for _index, name in socket.if_nameindex()) != ["lo"]:
         raise ValueError("Build namespace must contain only loopback")
+
+    if require_identity_maps:
+        for name, identity in (("uid_map", uid), ("gid_map", gid)):
+            observed = {
+                tuple(map(int, line.split()))
+                for line in Path(f"/proc/self/{name}").read_text().splitlines()
+            }
+            if observed != {(0, 0, 1), (identity, identity, 1)}:
+                raise ValueError(
+                    "Namespace identity mappings differ from exact runner IDs"
+                )
+        if Path("/proc/self/setgroups").read_text().strip() != "allow":
+            raise ValueError(
+                "Namespace must permit explicit supplementary-group clearing"
+            )
 
     import fcntl
 
@@ -40,10 +61,17 @@ def main() -> None:
     parser.add_argument("--parent-namespace", required=True)
     parser.add_argument("--uid", type=int, required=True)
     parser.add_argument("--gid", type=int, required=True)
+    parser.add_argument("--require-identity-maps", action="store_true")
     parser.add_argument("command", nargs=argparse.REMAINDER)
     args = parser.parse_args()
     command = args.command[1:] if args.command[:1] == ["--"] else args.command
-    enter_namespace(args.parent_namespace, args.uid, args.gid, command)
+    enter_namespace(
+        args.parent_namespace,
+        args.uid,
+        args.gid,
+        command,
+        require_identity_maps=args.require_identity_maps,
+    )
 
 
 if __name__ == "__main__":

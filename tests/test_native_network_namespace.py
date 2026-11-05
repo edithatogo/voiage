@@ -36,6 +36,9 @@ def test_native_namespace_allows_loopback_but_denies_external_network(
         "assert code==errno.ENETUNREACH;"
         f"assert os.getuid()=={uid} and os.getgid()=={gid};"
         "assert os.getgroups()==[];"
+        "assert os.geteuid()==os.getuid() and os.getegid()==os.getgid();"
+        "status=Path('/proc/self/status').read_text();"
+        "assert int(next(line.split()[1] for line in status.splitlines() if line.startswith('CapEff:')),16)==0;"
         f"Path({str(output)!r}).write_text(json.dumps(dict(loopback=True,external_errno=code,uid=os.getuid())))"
     )
     command = [
@@ -66,6 +69,8 @@ def test_native_namespace_allows_loopback_but_denies_external_network(
     assert result.returncode == 0, (result.stderr, report)
     assert report["cleanup_complete"] is True
     assert json.loads(output.read_text())["loopback"] is True
+    assert output.stat().st_uid == uid
+    assert output.stat().st_gid == gid
 
 
 def test_namespace_setup_refuses_the_parent_network(monkeypatch) -> None:

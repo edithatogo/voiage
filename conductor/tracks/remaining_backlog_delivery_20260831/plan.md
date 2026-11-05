@@ -137,5 +137,7 @@ The last coverage lane passed 5,855 tests with 20 skips and 94.84% coverage.
 Actual installed Spack and both EasyBuild attempts reached their four-hour
 stage limits with complete cleanup; native B6.2 acceptance remains open.
 The linked HPC track owns the isolated-loopback regression, platform admission
-and bounded continuation. Colab full qualification is blocked by runner identity
-mapping policy; source/control success does not substitute for installed proof.
+and bounded continuation. Colab initially rejected runner identity mappings; a user-authorized disposable
+runtime prerequisite now permits exact mappings. Colab and WSL admission are
+being qualified separately. Source/control success does not substitute for
+installed proof.

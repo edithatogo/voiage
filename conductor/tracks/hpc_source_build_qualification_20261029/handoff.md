@@ -274,3 +274,25 @@ dispatched there and no mapping policy was changed. The CPU diagnosis session
 is being released after receipt retrieval. GitHub root controls must qualify
 the new helper before another installed dispatch. Tests are retained rather than
 skipped to conceal a platform gap. Private network-host inventory stays local.
+
+## Two-backend admission — 5 November 2026
+
+The user explicitly authorized trying Colab and Pleiades WSL, including a private
+build workspace and prerequisite setup. The optional
+`VOIAGE_NATIVE_USER_NAMESPACE=1` backend uses util-linux 2.39.3's supported
+single-user root mapping plus one exact runner UID/GID range, with setgroups
+allowed and exact kernel-map readback. Repeated range options replaced the root
+mapping on that version and were rejected by the helper; they are not used.
+The disposable Colab VM received only missing root-owned runner-ID entries in
+its subordinate-ID files, preserving other entries and permissions. This is
+runtime-local provisioning, not a grant on the shared WSL host. Two affected
+Colab cases now pass: local TCP, external ENETUNREACH, effective non-root IDs,
+zero effective capabilities, host-visible ownership and aggregate cleanup.
+The ten unchanged controls retain their prior passing proof.
+
+WSL admission exposed absent process I/O-counter support, which previously
+interrupted sampling. The explicit capability-gap path retains CPU/RSS/disk/time
+limits and marks I/O measurement incomplete. Its new regression failed before
+the repair and passes afterward. New native admission and current-candidate
+hosted/full-tox checks remain required before installed dispatch. Private host
+addresses, hardware inventory, access files and connection receipts stay local.
