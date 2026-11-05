@@ -1,5 +1,8 @@
 # Changelog
 
+- Resolve a current Node 22 patch for documentation checks and align the declared
+  engine with the pinned Astro release.
+
 - Repair hwloc and OpenMPI source download URLs for both current EasyBuild generations,
   preserving authenticated checksums and build settings. Reclaim unused hosted
   SDK capacity for Rust source checks with the existing disk reserve. Retain separate Colab
