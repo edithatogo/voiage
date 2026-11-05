@@ -1,8 +1,8 @@
 //! Independent references for expected-utility information pricing.
 
 use voiage_numerics::{
-    ExpectedUtilityInformationInput, InformationStructure, SolverSettings, UtilityDescriptor,
-    expected_utility_information,
+    expected_utility_information, ExpectedUtilityInformationInput, InformationStructure,
+    SolverSettings, UtilityDescriptor,
 };
 
 use serde_json::Value;
@@ -99,20 +99,18 @@ fn logarithmic_reference_preserves_buy_sell_asymmetry() {
     // adverse signal, but safe remains feasible. Support-conditional action
     // infeasibility must not invalidate the valid contingent policy.
     assert_eq!(result.bpi_root.status, "converged");
-    assert!(
-        result
-            .bpi_root
-            .evaluated_policies
-            .iter()
-            .flat_map(|evaluation| &evaluation.policies)
-            .flat_map(|policy| &policy.domain_exclusions)
-            .any(|exclusion| {
-                exclusion.signal_id.as_deref() == Some("state-1")
-                    && exclusion.action_id == "action-1"
-                    && exclusion.state_ids == ["state-1"]
-                    && exclusion.reason == "utility_domain"
-            })
-    );
+    assert!(result
+        .bpi_root
+        .evaluated_policies
+        .iter()
+        .flat_map(|evaluation| &evaluation.policies)
+        .flat_map(|policy| &policy.domain_exclusions)
+        .any(|exclusion| {
+            exclusion.signal_id.as_deref() == Some("state-1")
+                && exclusion.action_id == "action-1"
+                && exclusion.state_ids == ["state-1"]
+                && exclusion.reason == "utility_domain"
+        }));
     assert!(!result.bpi_root.policy_switched);
     assert_eq!(
         result.bpi_root.transitions,
@@ -320,6 +318,13 @@ fn packaged_fixtures_match_repository_references_when_available() {
             include_str!("fixtures/log-buy-sell-asymmetry.json"),
         ),
     ] {
-        assert_eq!(std::fs::read_to_string(root.join(name)).unwrap(), packaged);
+        let path = root.join(name);
+        let reference = std::fs::read_to_string(&path).unwrap_or_else(|error| {
+            panic!(
+                "failed to read repository fixture {}: {error}",
+                path.display()
+            )
+        });
+        assert_eq!(reference, packaged);
     }
 }
