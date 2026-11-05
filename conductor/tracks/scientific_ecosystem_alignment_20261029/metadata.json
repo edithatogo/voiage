@@ -11,5 +11,7 @@
   },
   "updated_at": "2026-11-02T00:00:00Z",
   "description": "Scientific ecosystem alignment (voiage)",
-  "acceptance_record": "reconciliation-20261102.md"
+  "acceptance_record": "reconciliation-20261102.md",
+  "execution_disposition": "HPC deferred by maintainer 2026-11-05; MLX/Metal exempt; non-HPC scientific scope remains eligible",
+  "reconciliation_record": "../../reconciliation-20261105.md"
 }

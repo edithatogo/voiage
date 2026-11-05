@@ -1,8 +1,11 @@
 # Logging and versioning delivery orchestration
 
-All six tracks are new and unimplemented. The owner requested planning, not
-automatic execution of this queue. Root AGENTS.md governs actual implementation
-and verification. Existing active backlog/venue tracks retain their ownership.
+The first five implementation tracks record completed delivery. Optional native
+telemetry remains separately gated by demonstrated need. The parent programme's
+G03.4 provider acceptance, G04.4 measurement/replay evidence, G05.4 live-target
+witness and final review remain open. See the
+[5 November reconciliation](../../reconciliation-20261105.md). Root AGENTS.md
+continues to govern implementation and verification.
 
 ## Canonical sequence
 

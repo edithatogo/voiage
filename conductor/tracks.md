@@ -1,5 +1,7 @@
 # Project Tracks
 
+Current execution priorities and reconciled evidence: [5 November reconciliation](./reconciliation-20261105.md). HPC is deferred except MLX/Metal; deferred acceptance remains open.
+
 The pre-submission comprehensive hardening programme completed on 2026-08-30.
 Historical and superseded tracks retain their evidenced lifecycle and
 external-gate boundaries. The maintainer authorized the v2.2.0 release and
@@ -1065,7 +1067,7 @@ track at the top of this registry; completed repository slices stay closed.
 *Status: archived historical record; registration was normalized without changing its substantive outcome.*
 
 ---
-- [ ] **Track: Agent-safe engineering improvements**
+- [~] **Track: Agent-safe engineering improvements**
   *Link: [./tracks/agent_safe_engineering_20260907/index.md](./tracks/agent_safe_engineering_20260907/index.md)*
 
 ---
@@ -1120,13 +1122,13 @@ track at the top of this registry; completed repository slices stay closed.
 
 - [~] **Track: tobac weighted VOI consumer qualification**
   *Link: [./tracks/tobac_consumer_qualification_20261025/index.md](./tracks/tobac_consumer_qualification_20261025/index.md)*
-  Implementation authorised on 29 October 2026; reuses existing capability owners. Downstream proof remains pending.
+  One installed workflow passed against published voiage 3.1.0; the broader consumer track and default version requirement remain open. See its installed 5 November receipt.
   GitHub: https://github.com/edithatogo/voiage/issues/1193
 
 ---
 - [~] **Track: Rust/LLVM source builds and full HPC qualification**
   *Link: [./tracks/hpc_source_build_qualification_20261029/index.md](./tracks/hpc_source_build_qualification_20261029/index.md)*
-  Compiler requirements, all three Linux dependency graphs, complete compiler vendor closure and both baseline Rust/LLVM source-build/install probes have retained evidence. Full package-manager/generation installs and downstream compiler consumption remain pending.
+  Execution deferred except MLX/Metal. Compiler requirements, Linux graphs, vendor closure and baseline Rust/LLVM probes have retained evidence; full package-manager installs and downstream compiler consumption remain unaccepted.
 
 ---
 - [~] **Track: Scientific ecosystem alignment (voiage)**

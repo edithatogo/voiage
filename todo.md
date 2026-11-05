@@ -4,16 +4,23 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
+Current priority: [5 November reconciliation](conductor/reconciliation-20261105.md).
+HPC is deferred except MLX/Metal; retain unsatisfied native acceptance gates.
+The ordered engineering list below is historical navigation: its first five
+implementation tracks are complete; parent review and optional telemetry are separate.
+
+
 - [x] Qualify the bounded Linux Cargo/compiler-source and vendor checkpoint with authenticated inputs, offline replay and retained source/resource receipts. Full native HPC acceptance remains open.
 
-- [ ] Finish native HPC acceptance in `conductor/tracks/hpc_source_build_qualification_20261029/` and `conductor/tracks/scientific_ecosystem_alignment_20261029/`; preserve all existing native gates.
+- [ ] **Deferred by maintainer, 5 November:** Finish native HPC acceptance in `conductor/tracks/hpc_source_build_qualification_20261029/` and `conductor/tracks/scientific_ecosystem_alignment_20261029/`; preserve all existing native gates.
   - Isolation/profile and named sudo/Lmod/source-attempt repairs merged in
     #1268 and #1269. Both backends passed fifteen admission controls. Both repaired
     EasyBuild source graphs now pass authenticated offline replay and full tox
     at `63030a42e`. Earlier failures remain retained; fresh Spack solves also pass.
     Spack also passes offline replay, then stops at Boost b2 SIGSEGV on WSL;
-    Colab reproduction and both WSL EasyBuild attempts continue. Final docs/runtime
-    selection checks and installed acceptance remain open.
+    Colab was stopped on deferral and Pleiades became unreachable; no completed
+    WSL cleanup is claimed. Final docs/runtime selection checks and installed
+    acceptance remain open.
 
 - [x] Add local verification resource limits and termination receipts before
   continuing Python 3.15.1 acceptance testing.
@@ -26,7 +33,9 @@ Completed prerequisite records remain linked for navigation:
 `conductor/tracks/translation_reference_20261026/`.
 
 - [ ] Existing active delivery tracks: `conductor/tracks/remaining_backlog_delivery_20260831/` and `conductor/tracks/v2_2_release_and_venue_submissions_20260830/`.
-- [ ] Qualify the named tobac consumer: `conductor/tracks/tobac_consumer_qualification_20261025/`.
+- [ ] Complete the wider tobac consumer track: one installed 3.1.0 workflow
+  passed; the default version requirement and remaining track gates stay open.
+  See `conductor/tracks/tobac_consumer_qualification_20261025/`.
 - [x] Add the Rust feature/MSRV qualification matrix and locked verification lane.
 
 *   [x] Advance the fourteen open issue deliverables with source-bound agent

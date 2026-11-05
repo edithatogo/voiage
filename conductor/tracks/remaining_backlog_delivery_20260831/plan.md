@@ -1,5 +1,11 @@
 # Implementation Plan: Remaining Backlog Delivery
 
+Current disposition: [5 November reconciliation](../../reconciliation-20261105.md).
+B6 native HPC and its capacity follow-ups are deferred except MLX/Metal.
+B8 full-tox evidence now includes successful run 42006398652; final affected
+checks, delivery cleanup and whole-track review remain required. Earlier failures
+below are historical evidence, not the current full-tox outcome.
+
 ## Phase 1 — Audit and recovery
 
 - [x] B1: Reconcile every open PR and issue with current hosted evidence (AC1).
