@@ -154,6 +154,7 @@ def test_sudo_preservation_names_cover_later_receipts_without_credentials(
     assert {
         "HOME",
         "PATH",
+        "FPATH",
         "RUNNER_TEMP",
         "VOIAGE_COMPILER_RECEIPTS",
         "VOIAGE_SOURCE_RECEIPTS",

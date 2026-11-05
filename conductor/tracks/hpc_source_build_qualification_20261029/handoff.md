@@ -332,3 +332,13 @@ failure; no unrelated service repair/restart was attempted. Colab's direct SDK
 response failed checksum, and the bounded verified-archive relay stopped partway.
 Those inputs were not accepted or used; only whole verified SDK bytes may be
 used for the source-packaging frontend. Native compilers still build from source.
+
+Both backends pass fifteen native admission controls at `9dcd1e741`. The complete
+193 MiB packaging SDK relay matches the pinned digest; the earlier partial
+response and interrupted relay remain unaccepted historical attempts. WSL's
+terminal aggregate reports and changed boot identity establish host interruption
+after detached launches; no compiler bootstrap failure is inferred from those
+stops. Subsequent jobs retain attached real WSL command sessions without changing
+global WSL idle settings. A real newer-Lmod initialization also exposed an unset
+FPATH assumption under Bash nounset; the scoped module-path default preserves
+the rest of strict shell behavior. Native matrix acceptance remains pending.

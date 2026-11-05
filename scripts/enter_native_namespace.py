@@ -90,6 +90,7 @@ BUILD_ENVIRONMENT = frozenset(
         "UV_OFFLINE",
         "UV_NO_PROGRESS",
         "MAKEFLAGS",
+        "FPATH",
         "MODULEPATH",
         "MODULESHOME",
         "LOADEDMODULES",

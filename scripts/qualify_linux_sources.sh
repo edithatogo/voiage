@@ -59,6 +59,7 @@ if [[ "$cell" == spack ]]; then
   PYTHONPATH="$PWD" spack -e "$work/environment" python scripts/spack_source_witness.py "$work" "$out"
   spack -e "$work/environment" config get > "$out/effective-config.yaml"
 else
+  export FPATH="${FPATH:-}" # Newer Lmod initialization expects this under nounset.
   source /etc/profile.d/lmod.sh
   generation=${cell#easybuild-}
   robot="$PWD/packaging/current/easybuild/$generation:$PWD/packaging/current/easybuild:$PWD/.graph-tools/easyconfigs/easybuild/easyconfigs"

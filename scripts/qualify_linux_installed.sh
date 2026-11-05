@@ -28,6 +28,7 @@ if [[ "$cell" == spack ]]; then
   export VOIAGE_SPACK_ENV="$work/environment"
   prefix="$work/install"
 else
+  export FPATH="${FPATH:-}" # Newer Lmod initialization expects this under nounset.
   source /etc/profile.d/lmod.sh
   generation=${cell#easybuild-}
   export VOIAGE_QUALIFIED_SOURCE_ARCHIVE="$out/source/graph/source-dist/voiage-2.2.0.tar.gz"
