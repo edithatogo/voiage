@@ -224,7 +224,9 @@ def test_source_driver_retains_structured_failure(tmp_path: Path) -> None:
     repository = Path(__file__).resolve().parents[1]
     scripts = tmp_path / "scripts"
     scripts.mkdir()
-    (scripts / "qualify_linux_graph.sh").write_text("exit 23\n")
+    (scripts / "qualify_linux_graph.sh").write_text(
+        'mkdir -p "$2"\nprintf %s "$VOIAGE_SOURCE_WORK" > "$2/source-work.txt"\nexit 23\n'
+    )
     runner = tmp_path / "runner"
     runner.mkdir()
     output = tmp_path / "receipts"
@@ -245,6 +247,9 @@ def test_source_driver_retains_structured_failure(tmp_path: Path) -> None:
     assert receipt["source_replay_passed"] is False
     assert receipt["installed_acceptance"] is False
     assert receipt["exit_code"] == 23
+    assert (output / "graph/source-work.txt").read_text() == str(
+        runner / "voiage-sources-spack"
+    )
 
 
 def test_spack_witness_argument_error_has_usage(monkeypatch, capsys) -> None:

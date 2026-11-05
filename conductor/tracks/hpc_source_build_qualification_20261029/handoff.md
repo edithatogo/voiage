@@ -342,3 +342,10 @@ stops. Subsequent jobs retain attached real WSL command sessions without changin
 global WSL idle settings. A real newer-Lmod initialization also exposed an unset
 FPATH assumption under Bash nounset; the scoped module-path default preserves
 the rest of strict shell behavior. Native matrix acceptance remains pending.
+
+The next source retry also exposed the fixed `.graph-tools/source` candidate
+checkout left by the earlier attempt. It is preserved. Native/source mode now
+places the candidate checkout inside the already unique VOIAGE_SOURCE_WORK,
+avoiding collisions without deleting or moving prior worktrees. The source-driver
+failure regression verifies that this attempt-specific workspace reaches the
+graph subprocess. Existing historical paths remain historical receipts.
