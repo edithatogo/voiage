@@ -1,6 +1,6 @@
 # Colab and WSL qualification checkpoint
 
-The canonical uncompressed `manifest.json.gz` SHA-256 is `d6054e64f7475a29b244eea20292cc1638adb6ccbad67e81904ba103a481c530`.
+The canonical uncompressed `manifest.json.gz` SHA-256 is `deed5253c2abda3a91ce3b3b3b8f2962088245a0b3df2449337cc900ccbc99b6`.
 Report contents redact private workspace roots and process IDs. Log `content`
 contains bounded excerpts (Colab leading, WSL error lines/trailing); byte counts and hashes
 cover full original logs. The SDK frontend entry is derived metadata without an
@@ -58,3 +58,25 @@ Fresh replay of the complete repaired source graph is still required.
 Exact-path Git attributes preserve these upstream patch bytes, including required
 unified-diff context spaces and original line endings. Their full SHA-256 values
 are checked against the pinned recipe dictionaries; they are not reformatted.
+
+Subsequent source run41993727314 and full tox41993722034 both pass at
+`63030a42e`. Both EasyBuild generations fetched their complete graphs and
+replayed them with external networking denied. The manifest retains resource
+limits, network denial, empty replay diffs and every identical online/offline
+resolved-source witness. Installed acceptance remains false.
+
+An additional nightly Rust vendor job41993722518 reached its 8GiB free-space
+reserve (not a source-checksum or memory failure). Its original resource report
+is retained. Only Rust-source jobs on fresh GitHub-hosted VMs now remove the
+unused Android SDK and retain before/after capacity receipts; the reserve and
+all dependency/source checks remain unchanged. Fresh hosted validation is needed.
+
+WSL briefly rejected creation of a diagnostic directory as read-only. Subsequent
+exact-target write/read/fsync and cleanup passed; current mounts are writable.
+Kernel warnings record a previous I/O failure and recommend filesystem checking.
+Host backing location and free space were checked privately; no manual repair,
+remount or shutdown was performed. This derived operator readback is distinct
+from original file receipts. Guarded private builds may continue with these
+limitations retained. Fresh Spack concretization passed in both debug and default
+allocator diagnostic contexts on Python 3.15.1, without clearing the original
+fatal attempt or establishing installed acceptance.

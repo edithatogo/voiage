@@ -388,3 +388,18 @@ required hosted checks remain gates. A bounded Spack diagnostic executed the
 reported `is_virtual` function 100,000 times on the same Python 3.15.1 without
 reproducing the fatal error. This narrows diagnosis but does not clear the full
 concretization failure or authorize an interpreter downgrade.
+
+The complete repaired EasyBuild source replay41993727314 and full tox41993722034
+pass at `63030a42e`. Native checkouts stay frozen on that executable candidate
+while this branch addresses only hosted source-job capacity and retains receipts.
+The nightly vendor job41993722518 stopped at the unchanged disk reserve; its
+report is retained and the scoped hosted-only SDK cleanup requires fresh checks.
+
+WSL's transient read-only creation error is retained alongside kernel warnings
+about a prior I/O failure and filesystem-check recommendation. A subsequent
+exact-workspace write/read/fsync/cleanup probe passed. Guest mounts and the actual
+host backing location/free space were checked; no manual filesystem repair or
+global shutdown was performed. Fresh default-mode and debug-mode Spack solves
+both passed, but neither relabels the prior fatal attempt. The same chat owns
+new guarded attempts on `63030a42e`; their private session/PID/path records remain
+in the local live handoff. Installed/native acceptance remains open.
