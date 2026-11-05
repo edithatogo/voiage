@@ -1,5 +1,8 @@
 # Changelog
 
+- Update the pinned PyPI publishing action to the patched release for
+  GHSA-5xjx-3w67-w9x9.
+
 - Resolve a current Node 22 patch for documentation checks and align the declared
   engine with the pinned Astro release.
 
