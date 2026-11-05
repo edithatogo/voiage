@@ -1,6 +1,6 @@
 # Changelog
 
-- Cover unfitted random forest prediction and scoring errors.
+- Cover unfitted random forest errors and NumPy input identity.
 
 - Remove redundant intermediate calculations from the JAX EVPI path.
 

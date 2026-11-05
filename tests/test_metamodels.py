@@ -539,6 +539,14 @@ def test_as_numpy_converts_labelled_values_predictions() -> None:
     np.testing.assert_array_equal(_as_numpy(labelled), np.array([[1.0], [2.0], [3.0]]))
 
 
+def test_as_numpy_preserves_numpy_identity() -> None:
+    """A dense NumPy input remains the original array."""
+    from voiage.metamodels import _as_numpy
+
+    values = np.array([1.0, 2.0, 3.0])
+    assert _as_numpy(values) is values
+
+
 def test_as_numpy_converts_values_attribute() -> None:
     """Convert array-like objects exposing a values attribute."""
     from voiage.metamodels import _as_numpy
