@@ -1,5 +1,7 @@
 # Changelog
 
+- Remove redundant intermediate calculations from the JAX EVPI path.
+
 - Reconcile delivery status, defer HPC qualification except MLX/Metal, and retain the installed tobac consumer receipt.
 
 - Update the pinned PyPI publishing action to the patched release for
