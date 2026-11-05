@@ -11,10 +11,6 @@ authors:
     orcid: https://orcid.org/0000-0002-9775-0603
 repository-code: https://github.com/edithatogo/voiage
 url: https://edithatogo.github.io/voiage
-identifiers:
-  - type: swh
-    value: swh:1:snp:31f89375852737bb9eb62ebc03fadfbc7ff70c2d
-    description: Prior Software Heritage snapshot containing the signed v2.0.0 release
 license: Apache-2.0
 abstract: >-
   voiage provides Value of Information analysis through a hybrid Rust and
