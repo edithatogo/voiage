@@ -1,6 +1,6 @@
 # Colab and WSL qualification checkpoint
 
-The canonical uncompressed `manifest.json.gz` SHA-256 is `deed5253c2abda3a91ce3b3b3b8f2962088245a0b3df2449337cc900ccbc99b6`.
+The canonical uncompressed `manifest.json.gz` SHA-256 is `53668ace614e5e1be19a526bffb704b5d6ba8c1f83fb34e9f08bbc7fd128e7bd`.
 Report contents redact private workspace roots and process IDs. Log `content`
 contains bounded excerpts (Colab leading, WSL error lines/trailing); byte counts and hashes
 cover full original logs. The SDK frontend entry is derived metadata without an
@@ -80,3 +80,12 @@ from original file receipts. Guarded private builds may continue with these
 limitations retained. Fresh Spack concretization passed in both debug and default
 allocator diagnostic contexts on Python 3.15.1, without clearing the original
 fatal attempt or establishing installed acceptance.
+
+The hosted SDK cleanup is proven by run41997177559 at `0cafe9ab8`: both Rust
+source graphs and all other source/vendor cells pass. Before/after capacity and
+terminal resource receipts are retained. A repeated full tox run41997170981
+landed on a smaller hosted VM and likewise hit the unchanged8GiB reserve, before
+any test assertion failure. The same unused-SDK cleanup now applies to that
+Python/Rust/Node/Go job, with capacity receipts under the existing upload root.
+Its tox command, interpreter and limits remain unchanged; a fresh final run is
+required. The earlier full tox41993722034 remains passing evidence for63030a42e.

@@ -165,6 +165,19 @@ jobs:
           uv pip install --python .venv/bin/python tox==4.67.2 tox-uv==1.37.2 psutil==7.2.2
           go install github.com/errata-ai/vale/v3/cmd/vale@v3.15.1
           echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+      - name: Release unused hosted SDK capacity for the full gate
+        if: runner.environment == 'github-hosted'
+        run: |
+          mkdir -p receipts/full-tox
+          df -B1 "$GITHUB_WORKSPACE" > receipts/full-tox/capacity-before.txt
+          # This job uses Python, Rust, Node and Go; it has no Android workload.
+          if [[ -d /usr/local/lib/android && ! -L /usr/local/lib/android ]]; then
+            sudo rm -rf -- /usr/local/lib/android
+            echo unused_android_sdk_removed > receipts/full-tox/capacity-action.txt
+          else
+            echo sdk_absent_or_symlink_preserved > receipts/full-tox/capacity-action.txt
+          fi
+          df -B1 "$GITHUB_WORKSPACE" > receipts/full-tox/capacity-after.txt
       - name: Run all local gate environments on Linux
         run: |
           export VOIAGE_TOX_PYTHON="$PWD/.venv/bin/python"

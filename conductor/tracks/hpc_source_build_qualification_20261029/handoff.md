@@ -403,3 +403,9 @@ global shutdown was performed. Fresh default-mode and debug-mode Spack solves
 both passed, but neither relabels the prior fatal attempt. The same chat owns
 new guarded attempts on `63030a42e`; their private session/PID/path records remain
 in the local live handoff. Installed/native acceptance remains open.
+
+Source/vendor capacity repair is proven by all cells in41997177559, including
+stable and nightly Rust, with before/after receipts. Full tox41997170981 exposed
+the same reserve limit on a smaller VM; the equivalent hosted-only cleanup is
+applied to the full-gate job. Full gate and final-current-head hosted checks
+remain required before merging this packet. Native63030a42e remains frozen.
