@@ -409,3 +409,19 @@ stable and nightly Rust, with before/after receipts. Full tox41997170981 exposed
 the same reserve limit on a smaller VM; the equivalent hosted-only cleanup is
 applied to the full-gate job. Full gate and final-current-head hosted checks
 remain required before merging this packet. Native63030a42e remains frozen.
+
+Full tox at273ebcb74 confirms the disk fix: fourteen environments pass and docs
+alone reject cached Node22.23.3. Runtime-selection fix23a0e4957 resolves current
+Node22 patches and aligns the site engine floor with pinned Astro. Final full
+tox42006398652 tests that executable candidate; the subsequent receipt-only
+commit leaves those runtime, dependency and test inputs unchanged. Current-head
+required checks and receipt integrity remain gates. The SBOM HTTP504 recovered
+once with pinned asset/schema checks intact. Python upgrade resolution stayed
+isolated; production Python locks and native sources remain unchanged.
+
+WSL Spack63030a42e passed complete offline source replay, then failed in Boost b2
+with SIGSEGV(-11) and completed cleanup. The same chat owns a new Colab Spack
+attempt on63030a42e after fifteen passing controls and API/SSH identity matching.
+Two WSL EasyBuild attempts remain active on that frozen candidate. Private live
+paths, pins and process/session IDs remain in the local handoff. No active native
+checkout or environment is promoted beneath running operations.

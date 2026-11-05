@@ -1,6 +1,6 @@
 # Colab and WSL qualification checkpoint
 
-The canonical uncompressed `manifest.json.gz` SHA-256 is `53668ace614e5e1be19a526bffb704b5d6ba8c1f83fb34e9f08bbc7fd128e7bd`.
+The canonical uncompressed `manifest.json.gz` SHA-256 is `1a7a57c9b5a0b72e9a64ebb6a5ed426c922be392ebc84462b25476dd6ffea410`.
 Report contents redact private workspace roots and process IDs. Log `content`
 contains bounded excerpts (Colab leading, WSL error lines/trailing); byte counts and hashes
 cover full original logs. The SDK frontend entry is derived metadata without an
@@ -89,3 +89,21 @@ any test assertion failure. The same unused-SDK cleanup now applies to that
 Python/Rust/Node/Go job, with capacity receipts under the existing upload root.
 Its tox command, interpreter and limits remain unchanged; a fresh final run is
 required. The earlier full tox41993722034 remains passing evidence for63030a42e.
+
+Full tox41999667554 at `273ebcb74` confirms restored disk capacity: fourteen
+environments pass, while docs reject cached Node22.23.3 because locked Astro7.4.4
+requires>=22.23.4. The normal process termination (`reason=completed`, exit1) is
+a failure, not a passing full gate. Its stderr, environment dispositions and
+original report hashes are retained. All three active Node22 selectors now
+resolve a current patch; the site engine matches. Python upgrade resolution was
+isolated, actual strict frontier checks pass, and Python locks stay unchanged.
+Frozen pnpm validation and29 focused docs/harness/frontier tests pass. A separate
+SBOM asset HTTP504 recovered once with checksum/schema checks unchanged.
+
+WSL Spack at `63030a42e` passes complete offline source replay, then stops with
+SIGSEGV(-11) in Boost1.90.0's b2 clean step. Stage and aggregate cleanup complete;
+these outcomes are retained separately from the older Python fatal failure.
+A new Colab Spack attempt passed all fifteen native controls on the same frozen
+source and started under the existing guards. SSH identity matched an independent
+authenticated API readback. Private pins and process/session ownership stay local.
+Both WSL EasyBuild attempts continue; installed acceptance remains open.

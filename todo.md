@@ -11,8 +11,9 @@ This document lists the actionable tasks for `voiage` development. Agents should
     #1268 and #1269. Both backends passed fifteen admission controls. Both repaired
     EasyBuild source graphs now pass authenticated offline replay and full tox
     at `63030a42e`. Earlier failures remain retained; fresh Spack solves also pass.
-    Native installed attempts and final hosted source-capacity validation remain
-    open.
+    Spack also passes offline replay, then stops at Boost b2 SIGSEGV on WSL;
+    Colab reproduction and both WSL EasyBuild attempts continue. Final docs/runtime
+    selection checks and installed acceptance remain open.
 
 - [x] Add local verification resource limits and termination receipts before
   continuing Python 3.15.1 acceptance testing.
