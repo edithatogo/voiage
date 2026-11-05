@@ -303,9 +303,15 @@ fn committed_normative_fixtures_drive_rust_conformance() {
 
 #[test]
 fn packaged_fixtures_match_repository_references_when_available() {
-    let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../specs/frontier/expected-utility-information-pricing/v1/fixtures/normative");
+    let repository = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../..");
+    let root = repository
+        .join("specs/frontier/expected-utility-information-pricing/v1/fixtures/normative");
     if !root.is_dir() {
+        assert!(
+            !repository.join("rust/Cargo.toml").is_file(),
+            "repository normative fixture directory is missing: {}",
+            root.display()
+        );
         return; // Published crate archives do not contain repository specifications.
     }
     for (name, packaged) in [
