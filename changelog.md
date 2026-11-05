@@ -1,6 +1,6 @@
 # Changelog
 
-- Repair hwloc source download URLs for both current EasyBuild generations,
+- Repair hwloc and OpenMPI source download URLs for both current EasyBuild generations,
   preserving authenticated checksums and build settings. Retain separate Colab
   and WSL failures without claiming installed HPC acceptance.
 

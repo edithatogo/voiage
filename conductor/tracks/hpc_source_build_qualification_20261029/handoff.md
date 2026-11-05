@@ -357,7 +357,7 @@ commits, resolved review threads and full tox/native controls on `6ebc61dc7`.
 The same integrator chat `01a1a104-80d7-7501-86bd-85be63cb2cab` continues in
 `/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-scoped-delivery-20261103`,
 branch `codex/hpc-two-backend-evidence-20261105`, owning this evidence, handoff
-and the two hwloc source URL backports. Earlier assignments remain historical.
+and the hwloc/OpenMPI source URL backports. Earlier assignments remain historical.
 Retained native attempts bind `6ebc61dc7`; checkouts are not updated beneath
 running operations.
 
@@ -379,3 +379,12 @@ frozen FlexiBLAS probe was copied to internal storage, verified file-for-file,
 and removed from the SSD. Source work, other lanes, active verification tools
 and native environments were preserved. Heavy qualification continues remotely;
 no broad local gate is claimed from this cleanup.
+
+The first repaired source run41991750912 accepted both hwloc archives, then
+exposed the identical obsolete-host issue in the pinned OpenMPI recipes. Their
+URL-only backports include the original, hash-verified local patch closure.
+Full tox41991743917 passed `7622c6f2d`; final-current-candidate source replay and
+required hosted checks remain gates. A bounded Spack diagnostic executed the
+reported `is_virtual` function 100,000 times on the same Python 3.15.1 without
+reproducing the fatal error. This narrows diagnosis but does not clear the full
+concretization failure or authorize an interpreter downgrade.

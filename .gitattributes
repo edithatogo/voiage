@@ -13,3 +13,15 @@ paper/research-use/v2.2.0/hpv_vaccination_net_benefit.csv -text !eol whitespace=
 # Retain raw Spack command logs, including their terminal blank line.
 packaging/spack-overlay/solver-logs/voiage-concretize.log -text !eol -whitespace
 packaging/spack-overlay/history/pre-xsimd-license-fix-12c57216/solver-logs/voiage.log -text !eol -whitespace
+
+# Preserve the exact hash-checked upstream OpenMPI patches, including diff context.
+packaging/current/easybuild/2023a/OpenMPI-4.1.1_build-with-internal-cuda-header.patch -text !eol -whitespace
+packaging/current/easybuild/2023a/OpenMPI-4.1.1_opal-datatype-cuda-performance.patch -text !eol -whitespace
+packaging/current/easybuild/2023a/OpenMPI-4.1.5_fix-pmix3x.patch -text !eol -whitespace
+packaging/current/easybuild/2023a/OpenMPI-4.1.x_add_atomic_wmb.patch -text !eol -whitespace
+packaging/current/easybuild/2023a/OpenMPI-4.1.5_fix_opal_unsupported_key.patch -text !eol -whitespace
+packaging/current/easybuild/2023a/OpenMPI-4.x_fix-gpfs.patch -text !eol -whitespace
+packaging/current/easybuild/2024a/OpenMPI-5.0.2_build-with-internal-cuda-header.patch -text !eol -whitespace
+packaging/current/easybuild/2024a/OpenMPI-5.0.3_fix_c90_compliance.patch -text !eol -whitespace
+packaging/current/easybuild/2024a/OpenMPI-5.0.7_fix_gpfs_compatibility.patch -text !eol -whitespace
+packaging/current/easybuild/2024a/OpenMPI-5.0.3_disable_opal_path_nfs_test.patch -text !eol -whitespace

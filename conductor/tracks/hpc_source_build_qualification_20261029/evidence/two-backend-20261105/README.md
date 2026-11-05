@@ -1,6 +1,6 @@
 # Colab and WSL qualification checkpoint
 
-The canonical uncompressed `manifest.json.gz` SHA-256 is `d3fdd89080a400a2311adda635291e7e27f5ad67d65e66e25a46328af3455730`.
+The canonical uncompressed `manifest.json.gz` SHA-256 is `d6054e64f7475a29b244eea20292cc1638adb6ccbad67e81904ba103a481c530`.
 Report contents redact private workspace roots and process IDs. Log `content`
 contains bounded excerpts (Colab leading, WSL error lines/trailing); byte counts and hashes
 cover full original logs. The SDK frontend entry is derived metadata without an
@@ -43,3 +43,18 @@ attempt are still required before acceptance.
 A separate hosted source run41987444843 failed fetching `hwloc-2.10.0.tar.gz`
 from upstream and EasyBuild mirrors. Checksums, dependency tests and network
 isolation remain enforced. All three installed matrix cells remain open.
+
+Hosted source run41991750912 on `7622c6f2d` accepted both hwloc archives, with
+resolved authenticated receipts, then stopped at the same obsolete-host issue
+for OpenMPI 4.1.5/5.0.3. Its two terminal reports and failure excerpts are retained
+in the manifest. Full tox41991743917 passed that candidate.
+
+The two OpenMPI backports likewise change only the source URL. Their ten patches
+are copied verbatim from the pinned catalogue for local patch discovery and
+checked against the unchanged recipe hashes. Full release downloads match both
+original archive hashes. Existing build options and tests remain untouched.
+Fresh replay of the complete repaired source graph is still required.
+
+Exact-path Git attributes preserve these upstream patch bytes, including required
+unified-diff context spaces and original line endings. Their full SHA-256 values
+are checked against the pinned recipe dictionaries; they are not reformatted.
