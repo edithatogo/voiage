@@ -11,7 +11,7 @@
 
 `voiage` provides Value of Information (VOI) methods for comparing decisions
 under uncertainty and assessing whether additional evidence may be worth
-collecting. The v2.2 release combines:
+collecting. The v3.1 release combines:
 
 - a Python API and command-line interface (CLI) built on wide **Polars** frames
   (`pl.DataFrame`) and **Apache Arrow** / Parquet interchange;
@@ -60,12 +60,11 @@ Install the released Python package:
 python -m pip install voiage
 ```
 
-Python 3.15.1 are supported. Wheels use the CPython 3.15 stable
+Python 3.15.1 is supported. Wheels use the CPython 3.15 stable
 ABI and are published for the platforms listed in the
-[v2.1.0 release](https://github.com/edithatogo/voiage/releases/tag/v2.1.0).
+[v3.1.0 release](https://github.com/edithatogo/voiage/releases/tag/v3.1.0).
 
-The current source tree prepares v2.2.0; its publication and review submissions
-remain pending the release gates.
+Version 3.1.0 is published; venue review submissions remain pending.
 
 Optional features are installed explicitly:
 
@@ -160,7 +159,7 @@ and business examples.
 
 ## Architecture
 
-The repository is moving towards a binding-independent Rust core, with v2.2
+The repository is moving towards a binding-independent Rust core, with v3.1
 using a hybrid Rust + Polars/Arrow architecture:
 
 ```text
@@ -192,7 +191,7 @@ records the supported boundary and migration policy.
 
 | Surface | Source | Current use | Distribution status |
 | --- | --- | --- | --- |
-| Python | [`voiage/`](voiage/) | Primary API, CLI, orchestration, plots, reports | [PyPI v2.1.0](https://pypi.org/project/voiage/2.1.0/) and TestPyPI; v2.2.0 source candidate |
+| Python | [`voiage/`](voiage/) | Primary API, CLI, orchestration, plots, reports | [PyPI v3.1.0](https://pypi.org/project/voiage/3.1.0/) |
 | Rust | [`rust/`](rust/) | Domain contracts, diagnostics, selected kernels, serialization | Crates are package-ready; consult the [release checklist](docs/release/binding-submission-checklist.md) for verified registry state |
 | R | [`r-package/voiageR/`](r-package/voiageR/) | Direct C-ABI EVPI; documented bridge for wider Python methods | [r-universe](https://edithatogo.r-universe.dev/voiageR); CRAN review remains external |
 | Julia | [`bindings/julia/`](bindings/julia/) | Direct C-ABI EVPI | Prepared for Julia General; registry entry is not yet verified |
@@ -251,7 +250,7 @@ and [SECURITY.md](SECURITY.md).
 ## Releases, citation, and archival
 
 - Latest software release:
-  [v2.1.0](https://github.com/edithatogo/voiage/releases/tag/v2.1.0)
+  [v3.1.0](https://github.com/edithatogo/voiage/releases/tag/v3.1.0)
 - Python package: [PyPI](https://pypi.org/project/voiage/)
 - Citation metadata: [`CITATION.cff`](CITATION.cff)
 - Software metadata: [`codemeta.json`](codemeta.json)

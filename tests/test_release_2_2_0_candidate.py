@@ -28,12 +28,12 @@ def test_citation_metadata_matches_the_verified_public_release() -> None:
     citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
     codemeta = _json("codemeta.json")
 
-    assert "version: 2.2.0" in citation
-    assert "date-released: 2026-08-30" in citation
-    assert "v2.2.0 software release" in citation
-    assert codemeta["version"] == "2.2.0"
-    assert codemeta["downloadUrl"] == "https://pypi.org/project/voiage/2.2.0/"
-    assert codemeta["releaseNotes"].endswith("/releases/tag/v2.2.0")
+    assert "version: 3.1.0" in citation
+    assert "date-released: 2026-11-02" in citation
+    assert "v3.1.0 software release" in citation
+    assert codemeta["version"] == "3.1.0"
+    assert codemeta["downloadUrl"] == "https://pypi.org/project/voiage/3.1.0/"
+    assert codemeta["releaseNotes"].endswith("/releases/tag/v3.1.0")
     assert codemeta["identifier"] == codemeta["releaseNotes"]
 
 
