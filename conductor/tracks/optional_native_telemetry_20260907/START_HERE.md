@@ -1,5 +1,10 @@
 # Implementation handoff: Optional native telemetry qualification
 
+**Current direction, 5 November 2026:** Optional telemetry is deferred until
+a demonstrated need; retain existing opt-in implementation and all unsatisfied
+qualification gates. Earlier implementation instructions below are historical
+context and do not authorize continuing the deferred work.
+
 The [AC1 need assessment](./need-assessment-20261029.md) records the decision
 merged in PR #1238 to defer network export. The accepted VOP pilot measured
 functional and replay behavior. It supplies neither a trace-export use case
@@ -18,6 +23,6 @@ predates that repair.
 
 ## Review handoff — 1 November 2026
 
-The VOP evidence digest matched the assessment. The guarded
-(10 tests, Python 3.15.1), and the execution packet passed its readiness check.
-The next integrator operation is to reconcile these records. The loopback implementation supersedes that documentation-only handoff.
+The VOP evidence digest matched the assessment and the execution packet passed
+its readiness check. The loopback implementation supersedes that
+documentation-only handoff.

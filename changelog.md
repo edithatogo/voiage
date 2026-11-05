@@ -3,6 +3,8 @@
 - Include canonical conformance fixtures in the Rust numerics crate archive so
   its tests run after extraction.
 
+- Reconcile delivery status, defer HPC qualification except MLX/Metal, and retain the installed tobac consumer receipt.
+
 - Update the pinned PyPI publishing action to the patched release for
   GHSA-5xjx-3w67-w9x9.
 

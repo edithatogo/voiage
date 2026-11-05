@@ -1,7 +1,7 @@
 {
   "track_id": "agent_safe_engineering_20260907",
   "type": "chore",
-  "status": "new",
+  "status": "in_progress",
   "created_at": "2026-09-06T14:18:03Z",
   "updated_at": "2026-09-10T00:00:00Z",
   "description": "Bounded Rust-first engineering improvements and agent execution contracts",
@@ -21,5 +21,6 @@
       "evidence": "Execution packet guard is complete and accepted in merged PR #1150; G02–G08 repository-owned slices are reconciled to merged PR evidence. External publication, venue, credential, and maintainer actions remain outside packet authority."
     }
   ],
-  "scope_refinement": "2026-09-07 owner instruction: focused repository allocation; Rust successors need not match third-party API/ABI; inspect own GitHub libraries."
+  "scope_refinement": "2026-09-07 owner instruction: focused repository allocation; Rust successors need not match third-party API/ABI; inspect own GitHub libraries.",
+  "reconciliation_record": "../../reconciliation-20261105.md"
 }

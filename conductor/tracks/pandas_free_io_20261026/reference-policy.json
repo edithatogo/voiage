@@ -2913,6 +2913,35 @@
       "category": "frozen_historical_evidence",
       "reason": "Exact installed consumer receipt records its independently installed historical producer dependencies; no runtime dependency is introduced.",
       "sha256": "ba433ea870be8026d9e180eaeff58aab06aa8cca09897d1c8052abea3b1e75e5"
+    },
+    "conductor/reconciliation-20261105.md": {
+      "category": "producer_compatibility",
+      "reason": "Reviewed delivery status names external test producers and metadata compatibility; no runtime import.",
+      "lines": [
+        {
+          "sha256": "6394d2da275e05047ea7b10d530c2daf8d7b067ffc02b237acb2b3a607b99851",
+          "count": 1
+        },
+        {
+          "sha256": "d1816f0ea15c10e5b50d53dc82d6d4ef77630b60b29b91ab64dbdec70033de7d",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks/tobac_consumer_qualification_20261025/evidence/installed-20261105/README.md": {
+      "category": "producer_compatibility",
+      "reason": "Reviewed installed-consumer evidence records absence of legacy libraries.",
+      "lines": [
+        {
+          "sha256": "c6db7c5f9e3d5242b931394a79868898dfc35450f8330cada8fd9d765fb61d6c",
+          "count": 1
+        }
+      ]
+    },
+    "conductor/tracks/tobac_consumer_qualification_20261025/evidence/installed-20261105/receipt.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Immutable installed-consumer receipt records observed absence of legacy libraries.",
+      "sha256": "3a6ae7dd93090f7589125a701778d19c328f70edcc326b50732eeb051c10f0ed"
     }
   }
 }
