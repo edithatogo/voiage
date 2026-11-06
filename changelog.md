@@ -1,5 +1,7 @@
 # Changelog
 
+- Align the README and citation metadata with the published v3.1.0 release.
+
 - Cover unfitted random forest errors and NumPy input identity.
 
 - Remove redundant intermediate calculations from the JAX EVPI path.
