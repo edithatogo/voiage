@@ -280,12 +280,8 @@ fn fixture_problem(payload: &Value) -> (ExpectedUtilityInformationInput, Utility
 #[test]
 fn committed_normative_fixtures_drive_rust_conformance() {
     let fixtures = [
-        include_str!(
-            "../../../../specs/frontier/expected-utility-information-pricing/v1/fixtures/normative/affine-clairvoyant.json"
-        ),
-        include_str!(
-            "../../../../specs/frontier/expected-utility-information-pricing/v1/fixtures/normative/log-buy-sell-asymmetry.json"
-        ),
+        include_str!("fixtures/affine-clairvoyant.json"),
+        include_str!("fixtures/log-buy-sell-asymmetry.json"),
     ];
     for fixture in fixtures {
         let payload: Value = serde_json::from_str(fixture).expect("valid normative fixture");
@@ -302,5 +298,39 @@ fn committed_normative_fixtures_drive_rust_conformance() {
             let reference = expected[field].as_f64().expect("numeric reference");
             assert!((actual - reference).abs() < tolerance, "{field}");
         }
+    }
+}
+
+#[test]
+fn packaged_fixtures_match_repository_references_when_available() {
+    let repository = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../..");
+    let root = repository
+        .join("specs/frontier/expected-utility-information-pricing/v1/fixtures/normative");
+    if !root.is_dir() {
+        assert!(
+            !repository.join("rust/Cargo.toml").is_file(),
+            "repository normative fixture directory is missing: {}",
+            root.display()
+        );
+        return; // Published crate archives do not contain repository specifications.
+    }
+    for (name, packaged) in [
+        (
+            "affine-clairvoyant.json",
+            include_str!("fixtures/affine-clairvoyant.json"),
+        ),
+        (
+            "log-buy-sell-asymmetry.json",
+            include_str!("fixtures/log-buy-sell-asymmetry.json"),
+        ),
+    ] {
+        let path = root.join(name);
+        let reference = std::fs::read_to_string(&path).unwrap_or_else(|error| {
+            panic!(
+                "failed to read repository fixture {}: {error}",
+                path.display()
+            )
+        });
+        assert_eq!(reference, packaged);
     }
 }

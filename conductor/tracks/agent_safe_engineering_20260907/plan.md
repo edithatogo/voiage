@@ -46,8 +46,10 @@ Prerequisites: G01.
 - [~] G03.4 — Correct the provider witness: earlier evidence used a constant
   arithmetic expression rather than evaluating provider inputs. The weighted
   finite-world evaluator now checks each accepted representation against a
-  declared oracle; CI retains its result. Semver removal, full feature/target,
-  clean-package and final acceptance evidence remain open.
+  declared oracle; CI retains its result. A bounded macOS default-feature
+  semver removal/addition witness, linked C smoke, private R tests and local
+  Julia installation now have retained evidence. The full feature/target,
+  registry-installation and final acceptance evidence remain open.
 
 ## G04: CI cost and failure reproducibility
 
@@ -60,9 +62,10 @@ Prerequisites: G01.
 - [~] G04.4 — Reconcile the acceptance claim against executable evidence.
   PR #1164 added declarations and checks their shape, but did not demonstrate
   rejection of mismatched artifacts or failed aggregation. The measurement
-  observation has pending digests and no timings or counts; the nextest lane
-  has no resource groups or replay evidence. Complete and verify these gates
-  before treating G04 as accepted. See `g04-acceptance-audit-20261029.md`.
+  observation has pending digests and no timings or counts. A local nextest
+  resource-group and replay probe has since passed, as has the historical hosted
+  positive shard aggregate; actual hosted cancellation, comparable measurements
+  and current-head acceptance remain open. See `g04-acceptance-audit-20261029.md`.
 
 ## G05: Numerical adversarial assurance
 
@@ -75,8 +78,10 @@ Prerequisites: G01.
 - [~] G05.4 — Correct the prior live-target claim: the original register test
   checked target syntax only. The numerical test binary now enumerates its
   compiled, non-ignored cases and accepts exactly one active or archived
-  register; retain package-level, clean-package, full-local and current-head
-  hosted evidence before marking this review fix complete.
+  register. Focused workspace tests, offline archive verification and tests
+  of extracted archives with local dependency patches now pass. The standalone
+  archive omits the repository register; full-local and current-head hosted
+  evidence remain necessary before marking this review fix complete.
 
 ## G06: Bounded jobs and recoverable computation
 

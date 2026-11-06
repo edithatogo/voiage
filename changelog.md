@@ -1,5 +1,8 @@
 # Changelog
 
+- Include canonical conformance fixtures in the Rust numerics crate archive so
+  its tests run after extraction.
+
 - Align the README and citation metadata with the published v3.1.0 release.
 
 - Cover unfitted random forest errors and NumPy input identity.
