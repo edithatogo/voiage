@@ -41,3 +41,10 @@ they are not evidence that those branches still exist on the server.
 No branch was deleted or force-updated by this inventory. Patch-ID comparisons
 alone did not establish integration, and no claim is made that all remaining
 source differences are safe to merge.
+
+## Subsequent delivery — 6 November 2026
+
+PR #1276 merged the bounded random-forest and NumPy identity witnesses as
+`256c7a209d39ea69a65cf276fddb3b8129ebb96e`. The other branch observations above
+remain the dated 5 November inventory; they do not establish current ref state or
+authorize deletion of branches with additional changes.
