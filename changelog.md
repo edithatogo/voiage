@@ -1,5 +1,7 @@
 # Changelog
 
+- Record bounded delivery, security and Polars audits and an exploratory Metal EVPI assessment.
+
 - Include canonical conformance fixtures in the Rust numerics crate archive so
   its tests run after extraction.
 
