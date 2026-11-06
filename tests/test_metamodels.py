@@ -136,6 +136,21 @@ def test_random_forest_metamodel(sample_data) -> None:
     assert rmse >= 0
 
 
+def test_random_forest_metamodel_unfitted(sample_data) -> None:
+    """Unfitted random forests reject prediction and scoring requests."""
+    if not SKLEARN_AVAILABLE:
+        pytest.skip("scikit-learn is not available")
+
+    x, y = sample_data
+    model = RandomForestMetamodel()
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet"):
+        model.predict(x)
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet"):
+        model.score(x, y)
+    with pytest.raises(RuntimeError, match="The model has not been fitted yet"):
+        model.rmse(x, y)
+
+
 def test_gam_metamodel_unfitted(sample_data) -> None:
     """Test that GAMMetamodel raises RuntimeError when not fitted."""
     x, y = sample_data
@@ -522,6 +537,14 @@ def test_as_numpy_converts_labelled_values_predictions() -> None:
 
     labelled = ValueArray.from_numpy(np.array([[1.0], [2.0], [3.0]]), ["A"])
     np.testing.assert_array_equal(_as_numpy(labelled), np.array([[1.0], [2.0], [3.0]]))
+
+
+def test_as_numpy_preserves_numpy_identity() -> None:
+    """A dense NumPy input remains the original array."""
+    from voiage.metamodels import _as_numpy
+
+    values = np.array([1.0, 2.0, 3.0])
+    assert _as_numpy(values) is values
 
 
 def test_as_numpy_converts_values_attribute() -> None:

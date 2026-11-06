@@ -137,7 +137,7 @@
 
 ### B. Persistent Identifiers & Archival
 1. **SciCrunch RRID:** Form submitted; awaiting curator assignment of `RRID:SCR_######` to enable automated literature tracking in PubMed Central / Europe PMC.
-2. **Software Heritage (SWHID):** Fully active (`swh:1:snp:31f89375852737bb9eb62ebc03fadfbc7ff70c2d` in `CITATION.cff`).
+2. **Software Heritage (SWHID):** The historical snapshot `swh:1:snp:31f89375852737bb9eb62ebc03fadfbc7ff70c2d` contains v2.0.0. It is retained as prior-release evidence in `codemeta.json`, not as an identifier for v3.1.0; a current-release archive remains unconfirmed.
 3. **Zenodo (DOI):** No assigned DOI is evidenced. Reassess a distinct archival
    need before authorizing deposition or claiming synchronization.
 
