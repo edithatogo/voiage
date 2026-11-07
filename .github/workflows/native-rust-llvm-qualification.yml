@@ -87,7 +87,7 @@ jobs:
           enable-cache: false
       - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
-          toolchain: nightly-2026-09-01
+          toolchain: nightly-2026-10-24
       - name: Prepare native build tools
         run: |
           uv venv --python 3.15.1 .venv
