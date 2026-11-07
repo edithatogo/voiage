@@ -1,5 +1,7 @@
 # Changelog
 
+- Link the pending simulation-outcome plan from the current roadmap.
+
 - Add a pending cross-domain simulation-outcome adapter plan with paired draw
   identity, explicit value conventions, and no required producer-engine dependency.
 

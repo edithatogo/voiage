@@ -765,6 +765,9 @@ as recorded in the active task above; earlier route decisions below are historic
 
 ## Done
 
+- [x] Link the pending simulation-outcome plan from the roadmap; its eight
+  implementation leaves remain in the current queue.
+
 - [x] Qualify the baseline stable Rust 1.99.1 and dated-nightly Rust/LLVM source
   builds and installed compiler/Cargo EVPI/linkage probes on GitHub Actions.
   Retain failed attempts, complete vendor closure and per-stage resource receipts
