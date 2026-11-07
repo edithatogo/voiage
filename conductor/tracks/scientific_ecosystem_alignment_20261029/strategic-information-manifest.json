@@ -81,6 +81,9 @@
           "T17.14",
           "T17.15",
           "T17.16"
+        ],
+        "imperfect_information_representation": [
+          "T17.17"
         ]
       },
       "separate_scientific_contract_required": [
@@ -140,6 +143,48 @@
     "repository": "edithatogo/paignia",
     "legacy_seed_repository": "edithatogo/new-drug-reimbursement-game",
     "historical_obligation_namespace": "T17",
+    "obligation_mapping_status": "provider_ownership_mapped_artifact_qualification_pending",
+    "observed_status": "bounded_native_seed_merged_qualification_pending",
+    "inspected_commit": "12b22ce7571b9c590405bf53c2c1c5862b49cd64",
+    "handoff_pr": "https://github.com/edithatogo/paignia/pull/1",
+    "released_crate_names_verified": false,
+    "source_extraction_claimed_complete": false,
+    "record_is_not_dependency_pin": true,
+    "bounded_native_seed_transfer_observed": true,
+    "source_package_names": [
+      "paignia-core",
+      "paignia-solve"
+    ],
+    "source_package_version": "0.1.0",
+    "source_msrv": "1.75.0",
+    "package_publish_enabled": false,
+    "source_extraction_claim_scope": "Bounded finite native seed transferred; remaining source/method/consumer qualification is open.",
+    "provider_owned_leaves": [
+      "T17.01",
+      "T17.02",
+      "T17.03",
+      "T17.04",
+      "T17.05",
+      "T17.06",
+      "T17.07",
+      "T17.08",
+      "T17.12",
+      "T17.13",
+      "T17.14",
+      "T17.15",
+      "T17.16",
+      "T17.17"
+    ],
+    "external_owned_leaves": {
+      "T17.09": "edithatogo/new-drug-reimbursement-game",
+      "T17.10": "selected second application; Innovate G01-G04 candidate",
+      "T17.11": "edithatogo/new-drug-reimbursement-game"
+    }
+  },
+  "historical_provider_observation": {
+    "repository": "edithatogo/paignia",
+    "legacy_seed_repository": "edithatogo/new-drug-reimbursement-game",
+    "historical_obligation_namespace": "T17",
     "obligation_mapping_status": "pending_before_provider_admission",
     "observed_status": "bootstrap_source_transfer_and_qualification_pending",
     "inspected_commit": "0e28f1bf33ed8c7be5fa1d63b8cc40517b61d22c",
@@ -147,5 +192,44 @@
     "released_crate_names_verified": false,
     "source_extraction_claimed_complete": false,
     "record_is_not_dependency_pin": true
+  },
+  "parallel_plan_reconciliation": {
+    "date": "2026-11-08",
+    "record": "https://github.com/edithatogo/paignia/blob/87b4bda345b85310e85239d4845b0f85bf1c6439/docs/integrations/parallel-plan-reconciliation-20261108.md",
+    "record_is_not_dependency_pin": true,
+    "source_revisions_are_initial_historical_observations": true,
+    "paired_outcome_owner": "simulation_outcome_boundary_20261107 O01-O08; Voiage PR1287",
+    "vop_and_feedback_owner": "Voiage issue1286 and existing E03/E04; VOP C17-C19",
+    "no_new_completion_ledger": true,
+    "live_chat_acknowledgements_claimed": false,
+    "independent_paths": {
+      "innovate_static": "G02; A08/static G04 do not require G03",
+      "innovate_native": "I10 does not require optional I07",
+      "uogto_static": "SGC.01-SGC.05 plus version-matched SGC.08; dynamic SGC.06 conditional",
+      "careops": "R76.5 optional; R76.6/R77 and ED MVP unchanged",
+      "voiage": "Q01-Q09 and initial software paper unchanged"
+    },
+    "shared_negative_control": {
+      "owner": "Voiage arithmetic; applications supply truthful input identities",
+      "extends_existing_cases": [
+        "SI-V01",
+        "SI-V04",
+        "SI-V06"
+      ],
+      "parameter_states": 1,
+      "replicates": {
+        "A": [
+          -1,
+          1
+        ],
+        "B": [
+          1,
+          -1
+        ]
+      },
+      "expected_parameter_evpi": 0,
+      "invalid_replicate_as_parameter_evpi": 1,
+      "requires_distinct_estimand_for_observed_process_outcomes": true
+    }
   }
 }
