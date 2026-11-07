@@ -5857,6 +5857,22 @@
         }
       ],
       "pull_request_evidence": "Track registration and native acceptance remain pending."
+    },
+    {
+      "track_id": "simulation_outcome_boundary_20261107",
+      "metadata_track_id": "simulation_outcome_boundary_20261107",
+      "path": "conductor/tracks/simulation_outcome_boundary_20261107",
+      "lifecycle": "active",
+      "issue": {
+        "number": 1283,
+        "url": "https://github.com/edithatogo/voiage/issues/1283",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1221",
+      "relationship_evidence": "Issue-body parent reference; native GitHub sub-issue linkage not verified",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "Planning prepared locally; no pull request evidence recorded"
     }
   ]
 }

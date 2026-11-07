@@ -33,6 +33,7 @@ Completed prerequisite records remain linked for navigation:
 `conductor/tracks/translation_reference_20261026/`.
 
 - [ ] Existing active delivery tracks: `conductor/tracks/remaining_backlog_delivery_20260831/` and `conductor/tracks/v2_2_release_and_venue_submissions_20260830/`.
+- [ ] Implement the [optional simulation-outcome boundary](conductor/tracks/simulation_outcome_boundary_20261107/index.md): paired draws, explicit value conventions, and optional installed use. All eight leaves remain pending; scientific alignment and HPC deferral retain their owners.
 - [ ] Complete the wider tobac consumer track: one installed 3.1.0 workflow
   passed; the default version requirement and remaining track gates stay open.
   See `conductor/tracks/tobac_consumer_qualification_20261025/`.
