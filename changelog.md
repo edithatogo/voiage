@@ -1,9 +1,9 @@
 # Changelog
 
-- Add simulation_outcome_boundary_20261107 planning programme under the existing
-  scientific_ecosystem_alignment_20261029 track: simulation outcome boundary
-  evaluation, cross-references, tracks registry and roadmap/todo additions.
-  Planning only; no runtime, dependency, CI or external-publication changes.
+- Link the pending simulation-outcome plan from the current roadmap.
+
+- Add a pending cross-domain simulation-outcome adapter plan with paired draw
+  identity, explicit value conventions, and no required producer-engine dependency.
 
 - Encode Q09 evidence dependencies explicitly in the frontier planning manifest:
   `preparation_depends_on` (Q01, Q03) covers early protocol and initial software-paper
