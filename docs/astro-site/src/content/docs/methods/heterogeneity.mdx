@@ -38,3 +38,25 @@ See also:
 - [Basic VOI Guide](/voiage/user-guide/features/basic-voi)
 - [SOTA VOI Frontier](/voiage/sota-voi-frontier)
 - [API Reference: voiage.methods](/voiage/api-reference)
+
+## Relationship to perspective and research decisions
+
+Voiage owns the reusable Value of Heterogeneity and Value of Perspective methods.
+`vop_poc_nz` remains a proof-of-concept application and source of candidate methods
+and empirical examples; it is not a required production engine.
+
+Perspective changes the evaluation rule; heterogeneity changes the admissible
+subgroup-specific decision rule. Neither is simply an equity weight, and their
+values must not be added as independent gains. Evaluate their interaction under
+explicit perspectives, policy classes, population weights and information regimes.
+Population weights are not automatically the frequencies of simulation or posterior
+rows. Report classification and implementation costs separately from gross value.
+
+The existing finite decomposition's `dynamic - static` contrast can be negative:
+it equals the difference between two EVPI values, not a new nonnegative EVPI.
+An illustrative case has `C0=2.75`, `Cf=5`, `P0=Pf=5.5`, hence static value 2.25,
+dynamic value 0 and an EVPI difference of -2.25. Do not clip that contrast.
+
+The Conductor perspective/heterogeneity qualification supplement defines the
+ownership, independent reference cases and Rust/installed-consumer acceptance.
+This documentation does not promote experimental methods or claim native parity.
