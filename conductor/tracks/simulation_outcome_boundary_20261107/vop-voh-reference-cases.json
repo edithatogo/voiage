@@ -1,0 +1,304 @@
+{
+  "format": "illustrative-vop-voh-reference-inputs-v1",
+  "status": "planning_examples_not_runtime_or_accepted_registry",
+  "baseline_commit": "ce9ea7da53ed302cc57664068a53a1ede72b9e5e",
+  "ownership": {
+    "production": "edithatogo/voiage",
+    "proof_of_concept": "edithatogo/vop_poc_nz",
+    "existing_issue": 1286,
+    "existing_promotion_handoff": "VP03"
+  },
+  "value_unit": "arbitrary_commensurable_net_benefit_per_person",
+  "objective": "maximise",
+  "strategy_ids": [
+    "A",
+    "B"
+  ],
+  "cases": [
+    {
+      "id": "directional",
+      "kind": "perspective_means",
+      "means": {
+        "p": [
+          6,
+          4
+        ],
+        "q": [
+          1,
+          9
+        ]
+      },
+      "expected": {
+        "p_to_q": 8,
+        "q_to_p": 2,
+        "q_mixture_switch": 0.2
+      }
+    },
+    {
+      "id": "current-versus-draw",
+      "kind": "perspective_draws",
+      "state_probabilities": [
+        0.5,
+        0.5
+      ],
+      "values": {
+        "p": [
+          [
+            10,
+            0
+          ],
+          [
+            0,
+            9
+          ]
+        ],
+        "q": [
+          [
+            1,
+            0
+          ],
+          [
+            0,
+            8
+          ]
+        ]
+      },
+      "expected": {
+        "current_p_to_q": 3.5,
+        "per_draw_p_to_q": 0
+      }
+    },
+    {
+      "id": "population-weighted",
+      "kind": "heterogeneity",
+      "axes": [
+        "state",
+        "subgroup",
+        "strategy"
+      ],
+      "state_probabilities": [
+        1
+      ],
+      "population_weights": [
+        0.75,
+        0.25
+      ],
+      "values": [
+        [
+          [
+            8,
+            2
+          ],
+          [
+            1,
+            9
+          ]
+        ]
+      ],
+      "expected": {
+        "C0": 6.25,
+        "Cf": 8.25,
+        "P0": 6.25,
+        "Pf": 8.25,
+        "static": 2,
+        "dynamic": 2,
+        "EVPI0": 0,
+        "EVPIf": 0
+      }
+    },
+    {
+      "id": "information-interaction",
+      "kind": "heterogeneity",
+      "axes": [
+        "state",
+        "subgroup",
+        "strategy"
+      ],
+      "state_probabilities": [
+        0.5,
+        0.5
+      ],
+      "population_weights": [
+        0.5,
+        0.5
+      ],
+      "values": [
+        [
+          [
+            10,
+            0
+          ],
+          [
+            0,
+            10
+          ]
+        ],
+        [
+          [
+            0,
+            10
+          ],
+          [
+            10,
+            0
+          ]
+        ]
+      ],
+      "signal_likelihood_axes": [
+        "state",
+        "signal"
+      ],
+      "signal_likelihood": [
+        [
+          0.75,
+          0.25
+        ],
+        [
+          0.25,
+          0.75
+        ]
+      ],
+      "study_cost_per_person": 1,
+      "expected": {
+        "C0": 5,
+        "Cf": 5,
+        "P0": 5,
+        "Pf": 10,
+        "static": 0,
+        "dynamic": 5,
+        "EVPI0": 0,
+        "EVPIf": 5,
+        "S0": 5,
+        "Sf": 7.5,
+        "EVSI0": 0,
+        "EVSIf": 2.5,
+        "net_EVSI0": -1,
+        "net_EVSIf": 1.5
+      }
+    },
+    {
+      "id": "signed-difference",
+      "kind": "heterogeneity",
+      "axes": [
+        "state",
+        "subgroup",
+        "strategy"
+      ],
+      "state_probabilities": [
+        0.5,
+        0.5
+      ],
+      "population_weights": [
+        0.5,
+        0.5
+      ],
+      "values": [
+        [
+          [
+            10,
+            0
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            10
+          ]
+        ]
+      ],
+      "expected": {
+        "C0": 2.75,
+        "Cf": 5,
+        "P0": 5.5,
+        "Pf": 5.5,
+        "static": 2.25,
+        "dynamic": 0,
+        "EVPI0": 2.75,
+        "EVPIf": 0.5,
+        "dynamic_minus_static": -2.25
+      }
+    },
+    {
+      "id": "joint-perspective-group",
+      "kind": "perspective_groups",
+      "population_weights": [
+        0.75,
+        0.25
+      ],
+      "values": {
+        "p": [
+          [
+            8,
+            2
+          ],
+          [
+            1,
+            9
+          ]
+        ],
+        "q": [
+          [
+            1,
+            9
+          ],
+          [
+            8,
+            2
+          ]
+        ]
+      },
+      "expected": {
+        "common_p_to_q": 4.5,
+        "tailored_p_to_q": 7.5,
+        "p_static_VOH": 2,
+        "q_static_VOH": 1.5
+      }
+    },
+    {
+      "id": "no-heterogeneity",
+      "kind": "heterogeneity",
+      "axes": [
+        "state",
+        "subgroup",
+        "strategy"
+      ],
+      "state_probabilities": [
+        1
+      ],
+      "population_weights": [
+        0.75,
+        0.25
+      ],
+      "values": [
+        [
+          [
+            4,
+            1
+          ],
+          [
+            4,
+            1
+          ]
+        ]
+      ],
+      "expected": {
+        "C0": 4,
+        "Cf": 4,
+        "P0": 4,
+        "Pf": 4,
+        "static": 0,
+        "dynamic": 0,
+        "EVPI0": 0,
+        "EVPIf": 0
+      }
+    }
+  ]
+}
