@@ -24,13 +24,16 @@ unlabelled payoff matrices would lose the information and selection assumptions.
 The chosen approach is an optional typed adapter or versioned artifact exchange.
 A callback request cycle must not become a Cargo dependency cycle.
 
-T17 in new-drug-reimbursement-game is the current package incubator. At the
-inspected f6c1c87b baseline, a bounded static release can be qualified by two real
-application cases, including reimbursement plus Innovate; CareOps is another
-candidate. Both can be static. Do not restore the older mandatory CareOps/Innovate
-pair, require every advanced method, or let a Voiage wrapper stand in for a second
-real application. Extraction remains a separate decision; no repository, crate
-rename, package release or provider-pin update occurs here.
+[Paignia T17](https://github.com/edithatogo/paignia/tree/main/conductor/tracks/t17_game_runtime_ecosystem_20261107)
+is the canonical provider track. The historical seed came from the reimbursement
+incubator at f6c1c87b; its initial transfer is merged at
+[12b22ce](https://github.com/edithatogo/paignia/commit/12b22ce7571b9c590405bf53c2c1c5862b49cd64).
+Package, method and installed-consumer qualification remain pending. A bounded
+static release can be qualified by two real application cases, including
+reimbursement plus Innovate; CareOps is another candidate. Both can be static.
+Do not restore the older mandatory CareOps/Innovate pair, require every advanced
+method, or let a Voiage wrapper stand in for a second real application. This
+planning supplement changes no package release or provider pin.
 
 Preserve three distinct claims: fixed-policy valued outcomes; equilibrium-aware
 information comparisons; and separately gated information/mechanism-design research.

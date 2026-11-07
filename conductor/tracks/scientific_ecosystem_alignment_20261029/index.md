@@ -34,10 +34,12 @@ Voiage retains information-value calculations, UOGTO semantics, and Kairos optio
 execution. The [provider-side handoff](https://github.com/edithatogo/paignia/pull/1)
 records the corresponding integration requirements.
 
-The [planning manifest](strategic-information-manifest.json) now names Paignia.
-Its bootstrap revision is an observation, not a dependency pin or qualification.
-T17 identifiers remain historical obligations: map them to actual Paignia source
-and acceptance evidence before provider admission. Do not infer crate releases,
-completed extraction or solver support from the repository name. The two-application
-rule qualifies static packages/consumers, not creation of this existing repository.
+The [planning manifest](strategic-information-manifest.json) records the merged
+seed transfer at [12b22ce](https://github.com/edithatogo/paignia/commit/12b22ce7571b9c590405bf53c2c1c5862b49cd64)
+and retains the historical bootstrap observation. These are source observations,
+not dependency pins or qualification. T17 identifiers continue in Paignia's canonical
+track with incubator provenance; qualify actual artifacts and method/consumer
+evidence before admission. Source transfer does not establish crate publication or
+solver acceptance. The two-application rule qualifies static packages/consumers,
+not creation of this existing repository.
 SI01–SI04, their eight cases, pending states and core-release independence are unchanged.
