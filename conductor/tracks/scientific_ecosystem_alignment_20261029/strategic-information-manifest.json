@@ -1,0 +1,138 @@
+{
+  "schema_version": "1.0",
+  "kind": "planning_supplement_not_runtime_registry",
+  "status": "implementation_pending",
+  "base_commit": "18636d1e3059aa150e5b40487dc1e2a32f27f35c",
+  "supplements": "frontier_20261108/packets.json",
+  "core_q09_dependencies_changed": false,
+  "blocks_initial_software_release": false,
+  "blocks_native_runtime_acceptance": false,
+  "creates_repository": false,
+  "changes_provider_pins": false,
+  "default_game_dependency_allowed": false,
+  "default_kairos_dependency_allowed": false,
+  "external_publication_performed": false,
+  "source_revisions": {
+    "edithatogo/voiage": "18636d1e3059aa150e5b40487dc1e2a32f27f35c",
+    "edithatogo/new-drug-reimbursement-game": "f6c1c87b6b00875b33c1e19401c1de09481913ce",
+    "edithatogo/innovate": "301abcb2a9c5b3e3e48200965ddcd77f71bbbd17",
+    "edithatogo/kairos": "e76b97be2ea3712645933d903822ff6381c8883e",
+    "edithatogo/UOGTO": "a5f90557c40f054255a1d6c2541fd76f07aa5090",
+    "edithatogo/careops-sim": "a44a8c9f1461839c5306dbf44a1fa9a3b1981c50"
+  },
+  "packets": [
+    {
+      "id": "SI01",
+      "depends_on": [],
+      "requires_existing": [
+        "Q01"
+      ],
+      "acceptance_cases": [
+        "SI-V03",
+        "SI-V04",
+        "SI-V06"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "SI02",
+      "depends_on": [
+        "SI01"
+      ],
+      "requires_existing": [
+        "Q02",
+        "Q03"
+      ],
+      "acceptance_cases": [
+        "SI-V01",
+        "SI-V05"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "SI03",
+      "depends_on": [
+        "SI01",
+        "SI02"
+      ],
+      "requires_existing": [
+        "simulation_outcome_boundary_20261107"
+      ],
+      "requires_provider": [
+        "T17.01",
+        "T17.02",
+        "T17.03"
+      ],
+      "conditional_provider_dependencies": {
+        "mixed_normal_form": [
+          "T17.05"
+        ],
+        "general_correlated_equilibrium": [
+          "T17.06"
+        ],
+        "cfr_information_sets": [
+          "T17.07",
+          "T17.17"
+        ],
+        "dynamic_execution": [
+          "T17.08",
+          "T17.13",
+          "T17.14",
+          "T17.15",
+          "T17.16"
+        ]
+      },
+      "separate_scientific_contract_required": [
+        "bayesian_equilibrium",
+        "bayes_correlated_equilibrium",
+        "information_design"
+      ],
+      "acceptance_cases": [
+        "SI-V02",
+        "SI-V03",
+        "SI-V04",
+        "SI-V06",
+        "SI-V07"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "SI04",
+      "depends_on": [
+        "SI03"
+      ],
+      "requires_existing": [],
+      "conditional_existing_dependencies": {
+        "evsi_enbs_design_claim": [
+          "Q05",
+          "Q06"
+        ]
+      },
+      "requires_application": "accepted valuation, information, response and source assumptions",
+      "acceptance_cases": [
+        "SI-V08"
+      ],
+      "status": "planned"
+    }
+  ],
+  "verification_cases": [
+    "SI-V01",
+    "SI-V02",
+    "SI-V03",
+    "SI-V04",
+    "SI-V05",
+    "SI-V06",
+    "SI-V07",
+    "SI-V08"
+  ],
+  "existing_verification_families_extended": [
+    "D01",
+    "D10",
+    "D11",
+    "D13",
+    "D16",
+    "D18"
+  ],
+  "static_extraction_rule": "T17.01\u201303, T17.09\u201310 and T17.12 for two real application cases using the same qualified artifacts; reimbursement plus Innovate is eligible; CareOps is another candidate; dynamic execution and unclaimed advanced methods are not blanket blockers",
+  "automatic_gate_engine_implemented": false
+}

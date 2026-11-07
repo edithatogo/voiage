@@ -18,3 +18,8 @@
 
 These are pending follow-on plans, not implementation, numerical acceptance or a
 new release. Existing receipts, integrator ownership and HPC deferral are retained.
+
+## Strategic information integration — 8 November 2026
+
+- [Owner-scoped roadmap and acceptance cases](strategic-information-integration.md).
+  Planning only; existing implementation statuses, pins and release gates remain unchanged.
