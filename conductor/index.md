@@ -30,3 +30,7 @@
 ## Installed consumer qualification
 
 - [tobac weighted VOI consumer qualification](./tracks/tobac_consumer_qualification_20261025/index.md): candidate qualification is in progress under the 29 October implementation direction.
+
+## Rust authority and comparative VOI research
+
+- [Frontier delivery addendum](./tracks/scientific_ecosystem_alignment_20261029/frontier_20261108/README.md): Rust consolidation, 18 verification families, cross-library pilots and publication gates under the existing scientific-ecosystem track. Planning only; historical acceptance and the HPC deferral remain unchanged.
