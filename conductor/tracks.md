@@ -1134,3 +1134,10 @@ track at the top of this registry; completed repository slices stay closed.
 - [~] **Track: Scientific ecosystem alignment (voiage)**
   *Link: [./tracks/scientific_ecosystem_alignment_20261029/index.md](./tracks/scientific_ecosystem_alignment_20261029/index.md)*
   Stable Rust 1.99.1 candidate and cross-project adapters under qualification; full HPC acceptance remains open.
+
+---
+- [ ] **Track: Optional simulation-outcome boundary for cross-domain VOI**
+  *Link: [./tracks/simulation_outcome_boundary_20261107/index.md](./tracks/simulation_outcome_boundary_20261107/index.md)*
+  Planning complete; eight implementation leaves pending. Existing scientific
+  alignment retains provider/pin ownership; HPC deferral except MLX/Metal stays.
+  GitHub: https://github.com/edithatogo/voiage/issues/1283

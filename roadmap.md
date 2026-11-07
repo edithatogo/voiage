@@ -68,6 +68,10 @@ Prepared track records:
 
 - `conductor/tracks/hpc_source_build_qualification_20261029/` (execution deferred except MLX/Metal; baseline Rust/LLVM source builds and installed probes accepted; full HPC matrix unaccepted)
 - `conductor/tracks/scientific_ecosystem_alignment_20261029/` (HPC portion deferred except MLX/Metal; independent scientific delivery remains eligible)
+- [Optional simulation-outcome boundary](conductor/tracks/simulation_outcome_boundary_20261107/index.md)
+  (eight implementation leaves pending: paired strategy/draw identity, explicit
+  value conventions, and optional VOI inputs without required producer engines;
+  existing scientific alignment and HPC deferral retain their scope)
 
 - `conductor/tracks/execution_packet_guard_20260907/`
 - `conductor/tracks/version_identity_contracts_20260907/`
