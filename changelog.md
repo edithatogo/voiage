@@ -1,5 +1,10 @@
 # Changelog
 
+- Link the pending simulation-outcome plan from the current roadmap.
+
+- Add a pending cross-domain simulation-outcome adapter plan with paired draw
+  identity, explicit value conventions, and no required producer-engine dependency.
+
 - Record bounded delivery, security and Polars audits and an exploratory Metal EVPI assessment.
 
 - Include canonical conformance fixtures in the Rust numerics crate archive so

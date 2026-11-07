@@ -1,0 +1,42 @@
+{
+  "track_id": "simulation_outcome_boundary_20261107",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-11-07T00:00:00Z",
+  "updated_at": "2026-11-07T00:00:00Z",
+  "description": "Optional simulation-outcome input boundary for cross-domain VOI",
+  "execution_status": "pending",
+  "base_revision": "a5d87a736fa9f0f876e44872d946b2170d2a0898",
+  "dependencies": [
+    "scientific_ecosystem_alignment_20261029: existing provider/pin and consumer qualification ownership",
+    "Existing Rust domain and normalized input/interchange contracts"
+  ],
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/1283",
+    "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1221",
+    "project": "https://github.com/users/edithatogo/projects/28",
+    "relationship_evidence": "Issue-body parent reference; native GitHub sub-issue linkage not verified"
+  },
+  "leaf_count": 8,
+  "max_files_per_leaf": 5,
+  "execution_disposition": "Planning only; HPC remains deferred except MLX/Metal; no new dependency, pin, schema, IRI, runtime or completed-method claim",
+  "review_policy": "Routine diff and focused tests; coherent specialist agent review at public contract and numerical boundaries; no repeated human approvals",
+  "verification": {
+    "status": "passed",
+    "scope": "Documentation/registry checks only; implementation, runtime, numerical and installed-consumer acceptance remain pending",
+    "environment": "Python 3.12.14 compatibility tooling; not product Python 3.15.1 qualification",
+    "commands": [
+      "python scripts/normalize_conductor_registry.py",
+      "python scripts/validate_conductor_github_cross_references.py",
+      "git diff --check"
+    ],
+    "existing_test_functions": {
+      "source": "tests/test_conductor_registry_normalization.py",
+      "runner": "stdlib runpy invocation of the three existing test functions; pytest runtime not exercised",
+      "passed": 3
+    },
+    "document_checks": "JSON parsing, eight pending leaves, exact file budgets <=5, dependencies/review/check fields, 207 local links, issue synchronization, and protected scientific/HPC/pin files unchanged",
+    "independent_review": "Read-only contract/scope review found no blocking issues",
+    "not_run": "Full tox, Astro build, Rust commands, numerical methods, and installed-consumer acceptance; Rust toolchain unavailable"
+  }
+}
