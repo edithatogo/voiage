@@ -21,12 +21,14 @@ remain unchanged. The existing repository integrator retains ownership.
 - [Verification and dataset matrix](verification-matrix.md)
 - [Research, ecosystem and publication delivery](research-publication.md)
 - [Primary sources and inspection boundaries](sources.md)
+- [Machine-readable packet dependencies](packets.json)
 
 Q09 has two dependency tiers encoded in `packets.json`: `preparation_depends_on`
 (Q01, Q03) covers early protocol preparation and initial software-paper work through
-the existing venue track; `depends_on` (Q01–Q03, Q04–Q08) governs full programme
-completion and requires accepted evidence from every claimed experimental method.
-- [Machine-readable packet dependencies](packets.json)
+the existing venue track. Its `depends_on` list (Q01, Q03 and Q04–Q08) governs
+completion of the full comparative programme. Preparation does not close Q09;
+each publication may claim only the qualification evidence accepted for its scope.
+These fields describe planning requirements, not an implemented admission engine.
 
 ## Two separate targets
 
