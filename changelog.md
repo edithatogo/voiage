@@ -1,8 +1,13 @@
 # Changelog
 
+- Add simulation_outcome_boundary_20261107 planning programme under the existing
+  scientific_ecosystem_alignment_20261029 track: simulation outcome boundary
+  evaluation, cross-references, tracks registry and roadmap/todo additions.
+  Planning only; no runtime, dependency, CI or external-publication changes.
+
 - Encode Q09 evidence dependencies explicitly in the frontier planning manifest:
   `preparation_depends_on` (Q01, Q03) covers early protocol and initial software-paper
-  work; `depends_on` (Q01–Q03, Q04–Q08) governs full comparative-programme completion.
+  work; `depends_on` (Q01, Q03 and Q04–Q08) governs full comparative-programme completion.
   Document the preparation/full-completion distinction in plan.md and README.md.
   No runtime code, dependencies, CI, maturity labels or external-publication authority changed.
 
