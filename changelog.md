@@ -5,6 +5,12 @@
 - Add a pending cross-domain simulation-outcome adapter plan with paired draw
   identity, explicit value conventions, and no required producer-engine dependency.
 
+- Encode Q09 evidence dependencies explicitly in the frontier planning manifest:
+  `preparation_depends_on` (Q01, Q03) covers early protocol and initial software-paper
+  work; `depends_on` (Q01, Q03 and Q04–Q08) governs full comparative-programme completion.
+  Document the preparation/full-completion distinction in plan.md and README.md.
+  No runtime code, dependencies, CI, maturity labels or external-publication authority changed.
+
 - Record bounded delivery, security and Polars audits and an exploratory Metal EVPI assessment.
 
 - Include canonical conformance fixtures in the Rust numerics crate archive so
