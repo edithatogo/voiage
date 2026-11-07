@@ -165,7 +165,11 @@ installed-consumer tracks. Producer changes are separate PRs in the capability o
 ### Q09 — Comparative evaluation and publication packet
 
 Maps to V02/V12/F08; coordinates with the existing release/venue track. Depends on
-Q01/Q03 and completed evidence for the exact Q04–Q08 subset claimed by each paper.
+Q01/Q03 for early protocol preparation and initial software-paper work through the
+existing venue track. Full programme completion additionally requires accepted
+evidence from Q04–Q08 for the exact subset claimed by each paper. Early protocol
+preparation and the initial software paper through the existing venue track need
+not wait for every experimental method, but they do not close the full Q09 programme.
 
 **Inspect/extend:** `validation/`, existing release/venue packets and reproducibility
 artifacts; manuscript edits must first load the repository's manuscript instructions.

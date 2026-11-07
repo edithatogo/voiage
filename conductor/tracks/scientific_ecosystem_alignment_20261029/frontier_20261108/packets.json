@@ -162,9 +162,18 @@
       "id": "Q09",
       "title": "Comparative evaluation and publication",
       "status": "planned",
-      "depends_on": [
+      "preparation_depends_on": [
         "Q01",
         "Q03"
+      ],
+      "depends_on": [
+        "Q01",
+        "Q03",
+        "Q04",
+        "Q05",
+        "Q06",
+        "Q07",
+        "Q08"
       ],
       "maps_to": [
         "V02",
