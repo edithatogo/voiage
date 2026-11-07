@@ -18,7 +18,8 @@
     "edithatogo/innovate": "301abcb2a9c5b3e3e48200965ddcd77f71bbbd17",
     "edithatogo/kairos": "e76b97be2ea3712645933d903822ff6381c8883e",
     "edithatogo/UOGTO": "a5f90557c40f054255a1d6c2541fd76f07aa5090",
-    "edithatogo/careops-sim": "a44a8c9f1461839c5306dbf44a1fa9a3b1981c50"
+    "edithatogo/careops-sim": "a44a8c9f1461839c5306dbf44a1fa9a3b1981c50",
+    "edithatogo/paignia": "0e28f1bf33ed8c7be5fa1d63b8cc40517b61d22c"
   },
   "packets": [
     {
@@ -133,6 +134,18 @@
     "D16",
     "D18"
   ],
-  "static_extraction_rule": "T17.01\u201303, T17.09\u201310 and T17.12 for two real application cases using the same qualified artifacts; reimbursement plus Innovate is eligible; CareOps is another candidate; dynamic execution and unclaimed advanced methods are not blanket blockers",
-  "automatic_gate_engine_implemented": false
+  "static_extraction_rule": "Historical T17 qualification obligations must be mapped to Paignia artifacts before admission; two real application cases using the same qualified artifacts remain required for the scoped static package/consumer claim, not creation of the already existing Paignia repository. Reimbursement plus Innovate is eligible; CareOps is a candidate. Dynamic execution and unclaimed advanced methods are not blanket blockers.",
+  "automatic_gate_engine_implemented": false,
+  "provider_identity": {
+    "repository": "edithatogo/paignia",
+    "legacy_seed_repository": "edithatogo/new-drug-reimbursement-game",
+    "historical_obligation_namespace": "T17",
+    "obligation_mapping_status": "pending_before_provider_admission",
+    "observed_status": "bootstrap_source_transfer_and_qualification_pending",
+    "inspected_commit": "0e28f1bf33ed8c7be5fa1d63b8cc40517b61d22c",
+    "handoff_pr": "https://github.com/edithatogo/paignia/pull/1",
+    "released_crate_names_verified": false,
+    "source_extraction_claimed_complete": false,
+    "record_is_not_dependency_pin": true
+  }
 }
