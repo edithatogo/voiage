@@ -1,5 +1,8 @@
 # Changelog
 
+- Reconcile Paignia's created repository and map its decision-input handoff to the
+  existing eight outcome tasks, preserving independent provider qualification.
+
 - Link the pending simulation-outcome plan from the current roadmap.
 
 - Add a pending cross-domain simulation-outcome adapter plan with paired draw
