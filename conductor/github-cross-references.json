@@ -5873,6 +5873,22 @@
       "subissues": [],
       "pull_requests": [],
       "pull_request_evidence": "Planning prepared locally; no pull request evidence recorded"
+    },
+    {
+      "track_id": "tobac_credal_endogenous_voi_20261110",
+      "metadata_track_id": "tobac_credal_endogenous_voi_20261110",
+      "path": "conductor/tracks/tobac_credal_endogenous_voi_20261110",
+      "lifecycle": "new",
+      "issue": {
+        "number": 1290,
+        "url": "https://github.com/edithatogo/voiage/issues/1290",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1193",
+      "relationship_evidence": "Issue-body parent reference to #1193 and #1221",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "Planning prepared locally; no pull request evidence recorded"
     }
   ]
 }

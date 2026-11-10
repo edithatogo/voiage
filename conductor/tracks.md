@@ -1141,3 +1141,9 @@ track at the top of this registry; completed repository slices stay closed.
   Planning complete; eight implementation leaves pending. Existing scientific
   alignment retains provider/pin ownership; HPC deferral except MLX/Metal stays.
   GitHub: https://github.com/edithatogo/voiage/issues/1283
+
+---
+- [ ] **Track: Credal LP dominance and endogenous censored EVSI for tobac**
+  *Link: [./tracks/tobac_credal_endogenous_voi_20261110/index.md](./tracks/tobac_credal_endogenous_voi_20261110/index.md)*
+  Planning complete; five implementation leaves pending for polyhedral credal dominance with Farkas duality witnesses and Tobit-censored / action-dependent sequential EVSI (`tobac` BF1/BF2/F05).
+  GitHub: https://github.com/edithatogo/voiage/issues/1290
