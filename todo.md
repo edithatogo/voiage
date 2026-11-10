@@ -36,7 +36,8 @@ Completed prerequisite records remain linked for navigation:
 - [ ] Implement the [optional simulation-outcome boundary](conductor/tracks/simulation_outcome_boundary_20261107/index.md): paired draws, explicit value conventions, and optional installed use. All eight leaves remain pending; scientific alignment and HPC deferral retain their owners.
 - [ ] Complete the wider tobac consumer track: one installed 3.1.0 workflow
   passed; the default version requirement and remaining track gates stay open.
-  See `conductor/tracks/tobac_consumer_qualification_20261025/`.
+  See `conductor/tracks/tobac_consumer_qualification_20261025/` and
+  `conductor/tracks/tobac_credal_endogenous_voi_20261110/`.
 - [x] Add the Rust feature/MSRV qualification matrix and locked verification lane.
 
 *   [x] Advance the fourteen open issue deliverables with source-bound agent
