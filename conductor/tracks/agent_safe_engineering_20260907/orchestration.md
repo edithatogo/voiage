@@ -92,3 +92,15 @@ Chat `01a17ab7-148e-7042-be1e-03a9478643da` owns
 service scope is assigned. Next: qualify the tests and clean package, then
 provide the integrator a scoped change and evidence. Earlier assignments remain
 historical.
+
+## Programme acceptance continuation — 13 November 2026
+
+Chat `01a1d44c-538d-7ac3-b556-7f1304675a7b` owns the continuation in the
+standard Git worktree
+`/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-engineering-acceptance`,
+branch `codex/voiage-engineering-acceptance-ssd`, based on
+`2161126cb0d4bb8c1a000eb623abab0c5dab2daf`. The initial write scope is this
+handoff and the G02.4–G05.4 acceptance records. No native publication or
+release object is assigned. Next operation is to reproduce the open
+witnesses and reconcile exact source, toolchain and hosted evidence before
+claiming closure or widening the implementation scope.
