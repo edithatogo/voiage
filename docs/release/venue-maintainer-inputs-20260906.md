@@ -3,6 +3,11 @@
 Related issues: #1037, #471, #312 and #296. This is internal agent-authored
 preparation, not author-written review communication or a submission receipt.
 
+The [13 November receipt](../../conductor/tracks/v2_2_release_and_venue_submissions_20260830/pyopensci-survey-receipt-20261113.md)
+confirms that the survey has since been submitted. The survey section below
+records the earlier inspection; the remaining author action is the issue
+body and assessment of the disclosures.
+
 ## Decisions already recorded
 
 Retain voiage 2.2.0, pyOpenSci first, the eligible JOSS partner route next,
@@ -67,9 +72,9 @@ establish non-author human adoption or guarantee JOSS eligibility.
 
 ## Deferred actions
 
-Once the private survey and author-written body exist, retain an actual
-pyOpenSci submission receipt. Pursue the selected JOSS route only with its
-eligibility evidence. Do not reopen the historical arXiv upload now or select
+Once the author-written body and current disclosure assessment are ready,
+retain an actual pyOpenSci submission receipt. Pursue the selected JOSS route
+only with its eligibility evidence. Do not reopen the historical arXiv upload now or select
 a category or licence on the author's behalf. Bring those choices with the
 final journal-first package. rOpenSci remains sequenced to avoid concurrent
 review. No venue acceptance, DOI or arXiv announcement is established here.

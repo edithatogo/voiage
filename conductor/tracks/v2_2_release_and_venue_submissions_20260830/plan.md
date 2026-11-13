@@ -162,8 +162,8 @@
   R14 remains pending. (`7545ae5b`)
 - [x] **R13g / AC-04 — Current template refresh:** Update the unposted packet
   to the 3 November template and retain the earlier confirmations as dated
-  evidence. The maintainer must assess the new disclosure fields; the survey
-  and human-written submission text remain pending.
+  evidence. The maintainer must assess the new disclosure fields for the
+  material they submit.
   Review: pinned upstream bytes and packet digests verified; 54 focused tests
   and Ruff pass. Four red mutation cases exposed unguarded new confirmations;
   the validator now rejects them. The original full tox attempt stopped before
@@ -175,8 +175,11 @@
   upstream template still matches the pin. See
   [the delivery receipt](./r13g-delivery-verification-20261113.md).
   (`c39facd`)
-- [ ] **R14 / AC-04:** Obtain completed pre-review survey confirmation and the
+- [~] **R14 / AC-04:** Obtain completed pre-review survey confirmation and the
   maintainer's human-written submission text and current disclosure assessment.
+  The [survey completion receipt](./pyopensci-survey-receipt-20261113.md)
+  records the 13 November submission. The body and disclosure assessment
+  remain pending.
   The earlier declarations cover the August material; prior pyOpenSci requests
   #271 and #272 are withdrawn. This packet is bound to v2.2.0. If the maintainer
   changes the candidate, qualify the replacement packet and declarations

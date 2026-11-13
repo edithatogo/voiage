@@ -101,9 +101,9 @@ Completed prerequisite records remain linked for navigation:
         and review hosted PDF/HTML artifacts (PR #1051 merged as `0330fa55`;
         13 post-merge workflows passed and Julia Registry Sync was skipped).
     *   [ ] Proceed pyOpenSci first, then the eligible JOSS partner route and
-        rOpenSci. Personal declarations are confirmed and previous requests
-        withdrawn; survey completion and human-written submission text remain
-        pending. Journal submission now precedes deferred arXiv action.
+        rOpenSci. Earlier requests are withdrawn and the survey is complete.
+        The maintainer's own submission text and assessment of the current
+        disclosures remain pending. Journal submission precedes deferred arXiv action.
         *   [x] Refresh the local, unposted rOpenSci packet and bind the current
             R distribution inputs to the successful three-platform hosted
             matrix and full unsuppressed manual check without claiming zero NOTEs.

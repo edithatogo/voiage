@@ -3,7 +3,7 @@
   "type": "chore",
   "status": "in_progress",
   "created_at": "2026-08-30T02:37:17Z",
-  "updated_at": "2026-11-13T11:05:04Z",
+  "updated_at": "2026-11-13T11:52:57Z",
   "description": "Publish the repository-hardened v2.2.0 release, then pursue pyOpenSci first, JOSS partner fast-track, and rOpenSci with fail-closed external evidence.",
   "evidence_schema": "1.0",
   "authorization": {
@@ -32,7 +32,7 @@
       "id": "pyopensci-submission",
       "kind": "external",
       "status": "pending",
-      "evidence": "Earlier declarations are retained. Survey completion, human-written text and disclosure assessment for the exact submitted material remain pending; see r13g-delivery-verification-20261113.md."
+      "evidence": "Survey submitted and confirmed in pyopensci-survey-receipt-20261113.md. Earlier declarations are retained; human-written text and disclosure assessment for the exact submitted material remain pending."
     },
     {
       "id": "pyopensci-contact-capacity",
@@ -58,7 +58,7 @@
   "repository_readiness": {
     "status": "venue_packet_repairs_merged",
     "evidence": "venue-packet-merge-receipt-20260831.json",
-    "remaining_human_actions": "venue-next-actions-20260831.md"
+    "remaining_human_actions": "pyopensci-survey-receipt-20261113.md"
   },
   "continuation_handoff": "../../../docs/release/venue-maintainer-inputs-20260906.md",
   "template_refresh": {
@@ -67,7 +67,11 @@
     "review": "review-refresh-20261103.md",
     "delivery_verification": "r13g-delivery-verification-20261113.md",
     "verified_at": "2026-11-13T11:05:04Z",
-    "pre_review_survey": "pending",
     "human_written_submission_text": "pending"
+  },
+  "pre_review_survey": {
+    "status": "submitted_confirmed",
+    "observed_at": "2026-11-13T11:52:57Z",
+    "receipt": "pyopensci-survey-receipt-20261113.md"
   }
 }
