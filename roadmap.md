@@ -178,8 +178,9 @@ programme is archived. Public v2.2.0 contains the hardened source and has
 verified signed-tag, artifact, provenance and clean-install receipts. The
 active release-and-venue track has completed manuscript, research-use and
 submission-packet repairs through PR #1051. The maintainer confirmed personal declarations and withdrew prior pyOpenSci
-requests on 31 August 2026. R14 now requires survey completion and human-written
-submission text. Journal submission precedes the deferred arXiv lane.
+requests on 31 August 2026. The private survey was submitted on 13 November.
+R14 still requires the maintainer's own submission text and assessment of the
+current disclosures. Journal submission precedes the deferred arXiv lane.
 
 The remaining delivery queue is governed by issue #1053 and
 `conductor/tracks/remaining_backlog_delivery_20260831/`. It covers dependency

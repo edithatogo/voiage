@@ -1,5 +1,8 @@
 # Changelog
 
+- Verify the current pyOpenSci packet and record the completed pre-review survey.
+  The maintainer's issue text and current disclosures are still needed.
+
 - Keep local verification responsive on macOS by sampling only the guarded
   process group for memory use.
 
