@@ -13,9 +13,11 @@ The evidence readback completed at `2026-11-13T11:05:04Z` on macOS arm64.
 
 ## Scope continuity
 
-R13g merged as [PR #1265](https://github.com/edithatogo/voiage/pull/1265),
-commit `91d11ef7c0a82233cff151df1e038b2a954b6b6d`. Both bounded comparisons
-below produced no paths:
+R13g merged as [PR #1265](https://github.com/edithatogo/voiage/pull/1265).
+Its tested head `b6a83dff94ce10ad96c9df36630540c60d1662e8` and squash merge
+`91d11ef7c0a82233cff151df1e038b2a954b6b6d` have the same tree
+(`5ac044f2f7e69b8abd39a4ee068ba84405f3b80a`). Both bounded comparisons below
+produced no paths:
 
 ```text
 git diff --name-only 91d11ef7c0a82233cff151df1e038b2a954b6b6d \
@@ -66,9 +68,10 @@ evidence; it is not represented as a new run.
 
 ## Hosted and current checks
 
-PR #1265's exact merge commit has 41 successful and three governed-skipped
-checks, with no unsuccessful or non-terminal check. The upstream template was
-also re-read through the GitHub API on 13 November: `main` still resolves the
+PR #1265's tested head has 41 successful and three skipped checks. The
+post-merge revision has 40 successful and five skipped checks. Both rollups
+were terminal with no failures. The upstream template was re-read through the
+GitHub API on 13 November: `main` still resolves the
 template path to commit `bdc87671b60fdef417f0fea1619a338c715bb42b`, blob
 `76f5c4d9bcfa3b57e006ec46b03f4977e6b4f318`, 9,072 bytes and SHA-256
 `83b484e506ddf72e02a8dacacba350e032a72c47d112a4e54bedb6982556ce4d`.
@@ -98,10 +101,13 @@ public `pyOpenSci/software-submission` repository; it performed no mutation.
 
 ## Result and remaining gates
 
-R13g's repository-owned template and delivery checks are complete. This
-record does not affirm the new template disclosures, complete the private
-survey, supply human-written submission text, create a pyOpenSci issue, or
-claim an editorial result. R14 remains the next task: the maintainer must
-complete the survey and provide their own submission text, then separately
-assess the exact submission disclosures before an authenticated action can be
-considered.
+R13g's repository template and delivery checks are complete. The packet
+remains bound to the maintainer-selected [v2.2.0 release](https://pypi.org/project/voiage/2.2.0/).
+The GitHub release API and [PyPI](https://pypi.org/project/voiage/) identify
+v3.1.0 as the latest release on 13 November. The August candidate and
+attestations cannot be reused as evidence for v3.1.0; any change of candidate
+requires the maintainer's direction and a packet bound to that release.
+
+R14 remains pending: the maintainer must complete the private survey, write
+the submission text, and assess the current disclosures against the exact
+material to be submitted. No venue issue has been created.

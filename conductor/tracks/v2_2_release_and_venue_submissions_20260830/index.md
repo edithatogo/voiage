@@ -37,8 +37,9 @@
 Status: in progress, Phase 3. The public v2.2.0 release, PR #1051 venue-packet
 merge and R13g template-delivery verification are evidenced. Earlier review
 artifacts retain their pre-merge observations; the post-merge receipt records
-the later result. R14 awaits survey completion and human-written submission
-text. Personal declarations are confirmed and prior requests withdrawn;
+the later result. R14 awaits survey completion, human-written submission
+text and a disclosure assessment for the submitted material. The packet
+targets v2.2.0; the latest release is v3.1.0. Prior requests are withdrawn;
 journal-first sequencing supersedes the earlier arXiv prerequisite. No venue
 submission or acceptance is inferred from completed repository work.
 
