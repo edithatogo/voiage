@@ -2,8 +2,9 @@
 
 Status: active. The current Rust feature and numerical register witnesses,
 hosted shard outcomes and replay, and installed Python and R registry probes
-are recorded in the 13 November reconciliation. Julia General/JLL
-qualification and final programme acceptance remain open.
+are recorded in the 13 November reconciliation. G02.4, G04.4 and G05.4
+are complete. G03.4 retains Julia General/JLL qualification before
+final programme acceptance.
 
 GitHub issue: https://github.com/edithatogo/voiage/issues/1110
 

@@ -1,5 +1,8 @@
 # Changelog
 
+- Keep local verification responsive on macOS by sampling only the guarded
+  process group for memory use.
+
 - Reconcile Paignia's created repository and map its decision-input handoff to the
   existing eight outcome tasks, preserving independent provider qualification.
 
