@@ -104,3 +104,9 @@ handoff and the G02.4–G05.4 acceptance records. No native publication or
 release object is assigned. Next operation is to reproduce the open
 witnesses and reconcile exact source, toolchain and hosted evidence before
 claiming closure or widening the implementation scope.
+
+The full local gate exposed a macOS process-monitor stall in seven watchdog
+tests. The same chat owns the bounded fix in `scripts/guard_verification.py`
+and `tests/test_guard_verification.py`. The existing failing tests preserve
+the expected watchdog outcomes. Next operation is to verify group-scoped RSS
+sampling, including cleanup after the process-group leader exits.
