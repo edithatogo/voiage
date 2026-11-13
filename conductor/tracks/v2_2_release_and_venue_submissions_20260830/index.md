@@ -26,6 +26,7 @@
 - [Previous-request withdrawal receipt](./pyopensci-withdrawal-receipt-20260831.json)
 - [Current venue next actions](./venue-next-actions-20260831.md)
 - [Maintainer decision validation](./maintainer-decision-review-20260831.json)
+- [R13g delivery verification](./r13g-delivery-verification-20261113.md)
 - [GitHub issue #1037](https://github.com/edithatogo/voiage/issues/1037)
 - [Release candidate PR #1038](https://github.com/edithatogo/voiage/pull/1038)
 - [Publication evidence PR #1046](https://github.com/edithatogo/voiage/pull/1046)
@@ -33,11 +34,12 @@
 - [Venue packet repairs PR #1051](https://github.com/edithatogo/voiage/pull/1051)
 - [Status reconciliation PR #1052](https://github.com/edithatogo/voiage/pull/1052)
 
-Status: in progress, Phase 3. The public v2.2.0 release and PR #1051 venue-packet
-merge are evidenced. Earlier review artifacts retain their pre-merge observations;
-the post-merge receipt records the later result. R14 awaits survey completion and human-written submission text. Personal
-declarations are confirmed and prior requests withdrawn; journal-first
-sequencing supersedes the earlier arXiv prerequisite. No venue submission or
-acceptance is inferred from completed repository work.
+Status: in progress, Phase 3. The public v2.2.0 release, PR #1051 venue-packet
+merge and R13g template-delivery verification are evidenced. Earlier review
+artifacts retain their pre-merge observations; the post-merge receipt records
+the later result. R14 awaits survey completion and human-written submission
+text. Personal declarations are confirmed and prior requests withdrawn;
+journal-first sequencing supersedes the earlier arXiv prerequisite. No venue
+submission or acceptance is inferred from completed repository work.
 
 - [Venue execution handoff](../../../docs/release/venue-maintainer-inputs-20260906.md)

@@ -1,5 +1,8 @@
 # Changelog
 
+- Verify the current pyOpenSci packet against its full delivery evidence while
+  preserving the remaining human survey, disclosure and submission gates.
+
 - Keep local verification responsive on macOS by sampling only the guarded
   process group for memory use.
 

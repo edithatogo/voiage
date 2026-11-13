@@ -3,7 +3,7 @@
   "type": "chore",
   "status": "in_progress",
   "created_at": "2026-08-30T02:37:17Z",
-  "updated_at": "2026-09-07T02:55:24Z",
+  "updated_at": "2026-11-13T11:05:04Z",
   "description": "Publish the repository-hardened v2.2.0 release, then pursue pyOpenSci first, JOSS partner fast-track, and rOpenSci with fail-closed external evidence.",
   "evidence_schema": "1.0",
   "authorization": {
@@ -63,8 +63,10 @@
   "continuation_handoff": "../../../docs/release/venue-maintainer-inputs-20260906.md",
   "template_refresh": {
     "commit": "246c22b2e",
-    "status": "committed_pending_full_local_and_hosted_delivery",
+    "status": "delivery_verified",
     "review": "review-refresh-20261103.md",
+    "delivery_verification": "r13g-delivery-verification-20261113.md",
+    "verified_at": "2026-11-13T11:05:04Z",
     "pre_review_survey": "pending",
     "human_written_submission_text": "pending"
   }
