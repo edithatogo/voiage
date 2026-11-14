@@ -2428,19 +2428,7 @@
       "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
       "lines": [
         {
-          "sha256": "0f880a82a2dc7aead87284b81dcc3e082789b96dd37c9688edf9ff04e21e5485",
-          "count": 1
-        },
-        {
-          "sha256": "116b54a80439d6008811dc6cc60ed9bb05fb576eebef613b4e3e155cf6b9e208",
-          "count": 1
-        },
-        {
-          "sha256": "1277864632e406322a60eb13d19d7d0653662693aff67805cb4f6ce1b7116b0d",
-          "count": 1
-        },
-        {
-          "sha256": "16d463165be1be6c6c2243c663fe1763528ee9189bd61ccb786adacd38ecf67a",
+          "sha256": "0f2393e36f7b25ab89f9ccadf3f2b527adf9b8e06ed62626e0d6d8282a1e31d3",
           "count": 1
         },
         {
@@ -2448,31 +2436,55 @@
           "count": 1
         },
         {
+          "sha256": "204301b226ca483e5816644f1e4d28f21135ac48a10e642f789a84efce8f555a",
+          "count": 1
+        },
+        {
+          "sha256": "26d94f59947d139cb5a54067608492f5fd651fd567550fbe22a4a64e469dbcd3",
+          "count": 1
+        },
+        {
           "sha256": "28f1d7465b54ae71dee70770ec9cb9f11f20c5c3fcbac8bc9c49484313250a5c",
           "count": 2
         },
         {
-          "sha256": "413a77f0745cf3f19454ee66fc09ba3d76561b6024ce44f63a64eedf5f9a1a11",
+          "sha256": "43826597673899a2f79517f68e52572dd9f43e54fc228a9c10d2e0a43a190393",
           "count": 1
         },
         {
-          "sha256": "4dc3fbd550e6580a62e4d6ba72a7d103035e8dc08f4c997cb84044b325fbc072",
+          "sha256": "44a34f48bbe5807d37ab3f21eee20c7da044a56e3ef1050d8cb8d0ff88d29a09",
           "count": 1
         },
         {
-          "sha256": "52ceea1fb8e0c14b90556bec595d3052feb145afc08a4b952ccdb3c424f2e51d",
+          "sha256": "58c06e6a41841677287f7dfa5a7215ce2a647b68ce9377f94ea53840d930635d",
           "count": 1
         },
         {
-          "sha256": "59759d72d5be5ef2de22ac9964ce80ada1e081d1fa7d3bfa4ac0f68958eca0cc",
+          "sha256": "5aa732cf93914dcaf7f59f8dc4825239f73ef01dbaecb15c61da147ba8c983d5",
           "count": 1
         },
         {
-          "sha256": "63976b3cf586e585d695a1b4e66192efa0eb7ae64cccc1bde152f79b56568e19",
+          "sha256": "6374577a1eeae5b9eab65ca09b774495fafb47e5cd2c2ac9b8da80a78135444e",
           "count": 1
         },
         {
-          "sha256": "6701a920bd7c7b2054c52f73d9beddfef1d690c2576fa9d76abfffa9a45c854f",
+          "sha256": "63fa5257964f5f711c5c53eecfd9712aee7671865f2d954a76771d23fcce603c",
+          "count": 1
+        },
+        {
+          "sha256": "8bd16e9c43de039aed825dd4186f58152c57132f9af21c51782296c8c959bdd2",
+          "count": 1
+        },
+        {
+          "sha256": "8cf09a8b4b4eeb93ac7c31490805dbdf537c174f7f3a8eae79d347cb6dce710a",
+          "count": 1
+        },
+        {
+          "sha256": "8eb8016ae298331239cabe0e338c3f67cf1f97bd45e2dfa4052554ca8b3ac70b",
+          "count": 1
+        },
+        {
+          "sha256": "984e6d9b99877aff40ccbb7f25eb7b8612e93d8776915013c85deba61dad69d2",
           "count": 1
         },
         {
@@ -2480,31 +2492,19 @@
           "count": 1
         },
         {
-          "sha256": "a8e98abab153ebddd22ab338dba2fdb08937894c82bba970d6417830f90e7ee2",
+          "sha256": "9c0996730e5642c6786e2572c87e9afd22abcd681e897b244a1ef42471ffa926",
           "count": 1
         },
         {
-          "sha256": "b485aa2c0d77f6c5a799cb2a6129f6842197cbc6aa7a623a678e58825e791d52",
+          "sha256": "9ef31a2bfa0ee720880a12871ef57fbdb6707f93d900dbd11c638059c1e729fd",
           "count": 1
         },
         {
-          "sha256": "b866cfa7039e2696737c3322292a813a8359d400268fce7c07eaa86fb0c8dbba",
+          "sha256": "c684e11303a82bbee9c90974703dd9341b58a7bb90e952bc6f206c60c9a56c3a",
           "count": 1
         },
         {
-          "sha256": "c834c08390b81ef0b0b67d554aa475bd896c5df8c90b3f62fc6e7779e2061e6e",
-          "count": 1
-        },
-        {
-          "sha256": "cd8f988ce1543d3b3cebcd2565a31cbfed07cfb62f8ca3abfa1402be782b93d3",
-          "count": 1
-        },
-        {
-          "sha256": "dd326b04447ceacb75c66fee088832e987c2fac0d9c6e929e61920a0907f895f",
-          "count": 1
-        },
-        {
-          "sha256": "f171b2525994d739d1861725141102edfb8eeb69de07fd05018341962cc1b3ec",
+          "sha256": "ce07eac51b7d14a0347873fa587f8b09920eee0ae9f843d51d24d0cda2e4b334",
           "count": 1
         }
       ]
