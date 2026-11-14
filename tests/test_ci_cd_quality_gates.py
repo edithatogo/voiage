@@ -641,6 +641,27 @@ def test_docx_validator_uses_the_locked_pytest_on_every_platform() -> None:
     )
 
 
+def test_coverage_identity_is_tested_with_locked_dependencies_across_platforms() -> (
+    None
+):
+    """The CI-only Git implementation must preserve receipt checks on every OS."""
+    workflow = yaml.safe_load(
+        (GITHUB_WORKFLOWS_DIR / "c15-cross-platform.yml").read_text()
+    )
+    job = workflow["jobs"]["coverage-identity"]
+    assert {"ubuntu-24.04", "macos-15", "windows-2025"}.issubset(
+        job["strategy"]["matrix"]["os"]
+    )
+    command = next(
+        step["run"]
+        for step in job["steps"]
+        if step.get("name") == "Test locked coverage identity dependencies"
+    )
+    assert "uv export --frozen --extra ci" in command
+    assert "--constraint .locked-constraints.txt pytest GitPython" in command
+    assert "tests/test_coverage_artifact_identity.py" in command
+
+
 def test_testing_tool_guidance_matches_declared_constraints() -> None:
     """Current setup guidance follows the package's qualified tool policy."""
     project = tomllib.loads(PYPROJECT_TOML.read_text())["project"]

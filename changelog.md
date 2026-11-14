@@ -2,6 +2,9 @@
 
 - Add a patched, exact-source manuscript replay while retaining historical locks.
 
+- Keep release and validation scripts compatible with the current lint preview,
+  and check coverage receipt identity across supported platforms.
+
 - Align the DOCX validator's cross-platform test runner and testing-tool guidance
   with the qualified pytest and mutation-tool versions.
 
