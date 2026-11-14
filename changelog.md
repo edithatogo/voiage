@@ -17,6 +17,8 @@
 
 - Update the documentation site to Astro 7.4.11 and align its platform guidance.
 
+- Refresh the shared nightly used by Rust fuzz, Miri and ABI sanitizer checks.
+
 - Keep frozen research environments outside Renovate's Python dependency
   discovery and update the isolated readability tools to patched NLTK 3.10.4.
 
