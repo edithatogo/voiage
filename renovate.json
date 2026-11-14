@@ -60,9 +60,7 @@
   ],
   "minimumReleaseAge": "14 days",
   "osvVulnerabilityAlerts": true,
-  "dependencyDashboard": {
-    "osvVulnerabilitySummary": "unresolved"
-  },
+  "dependencyDashboardOSVVulnerabilitySummary": "unresolved",
   "pep621": {
     "ignorePaths": [
       "**/node_modules/**",

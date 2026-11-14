@@ -83,6 +83,13 @@ def test_linting_group_does_not_capture_runtime_or_stub_packages(package: str) -
     assert package not in lint["matchPackageNames"]
 
 
+def test_renovate_uses_hosted_dashboard_schema() -> None:
+    config = json.loads((ROOT / "renovate.json").read_text())
+    # The hosted app still expects a boolean dashboard switch (issue #1305).
+    assert isinstance(config.get("dependencyDashboard", True), bool)
+    assert config["dependencyDashboardOSVVulnerabilitySummary"] == "unresolved"
+
+
 def test_renovate_keeps_archival_environments_outside_live_dependency_updates() -> None:
     config = json.loads((ROOT / "renovate.json").read_text())
     # Renovate discovers package files before applying dependency package rules.
