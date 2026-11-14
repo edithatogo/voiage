@@ -42,8 +42,8 @@ historical tracks. Issue #1053 coordinates delivery.
 
 ## External gates and exclusions
 
-Personal pyOpenSci declarations are already confirmed. Survey completion and
-human-written submission text remain actual human-action requirements. Follow
+The pyOpenSci survey has a verified completion receipt dated 13 November.
+The maintainer's submission text and current disclosures remain required. Follow
 the authorized pyOpenSci-first, eligible JOSS, then deferred arXiv sequence.
 Scientific/domain review, genuine non-author use, registry curation, fiscal
 hosting, badges, editorial acceptance and indexing require their own evidence.
