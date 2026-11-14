@@ -5,6 +5,7 @@ from __future__ import annotations
 import configparser
 import json
 from pathlib import Path
+import re
 
 ROOT = Path(__file__).parents[1]
 DESIGN_PATH = (
@@ -164,6 +165,22 @@ def test_tox_package_environments_build_checkout_only_once() -> None:
     assert "pyyaml" in joss_dependencies
     assert "--noconftest" in config["testenv:joss"]["commands"]
     assert config["testenv:coverage_report"]["extras"].split() == ["ci"]
+
+
+def test_local_and_hosted_ty_frontiers_use_the_same_rules() -> None:
+    """A ty rule rename must not silently change one gate's policy."""
+    config = configparser.ConfigParser(interpolation=None)
+    config.read(ROOT / "tox.ini", encoding="utf-8")
+    local_command = config["testenv:typecheck"]["commands"]
+    workflow = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+    hosted_command = workflow.split("    - name: Run ty frontier", 1)[1].split(
+        "    - name:", 1
+    )[0]
+    local_rules = set(re.findall(r"--ignore\s+([\w-]+)", local_command))
+    hosted_rules = set(re.findall(r"--ignore\s+([\w-]+)", hosted_command))
+    assert local_rules == hosted_rules
+    assert {"missing-attribute", "missing-union-attribute"} <= local_rules
+    assert "unresolved-attribute" not in local_rules
 
 
 def test_tox_compatibility_lanes_do_not_repeat_the_full_coverage_suite() -> None:
