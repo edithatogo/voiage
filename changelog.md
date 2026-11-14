@@ -1,5 +1,7 @@
 # Changelog
 
+- Align Pixi environments with Python 3.15.1 and refresh compatible dependency locks.
+
 - Document manuscript evidence contracts and scientific acceptance, and provide
   portable final DOCX validation for research-paper deliveries.
 - Keep automatic backend detection compatible with current Ruff lint rules.
