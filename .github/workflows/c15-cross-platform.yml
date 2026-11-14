@@ -48,7 +48,7 @@ jobs:
         run: |
           uv venv .venv --python 3.15.1
           uv export --frozen --extra ci --no-emit-project --no-hashes --no-annotate --output-file .locked-constraints.txt --quiet
-          uv pip install --python .venv --constraint .locked-constraints.txt pytest pygit2
+          uv pip install --python .venv --constraint .locked-constraints.txt pytest GitPython
           uv run --no-project --python .venv python -m pytest --noconftest -o addopts= -q tests/test_coverage_artifact_identity.py
 
   manuscript-docx-validator:

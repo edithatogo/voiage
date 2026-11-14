@@ -658,7 +658,7 @@ def test_coverage_identity_is_tested_with_locked_dependencies_across_platforms()
         if step.get("name") == "Test locked coverage identity dependencies"
     )
     assert "uv export --frozen --extra ci" in command
-    assert "--constraint .locked-constraints.txt pytest pygit2" in command
+    assert "--constraint .locked-constraints.txt pytest GitPython" in command
     assert "tests/test_coverage_artifact_identity.py" in command
 
 

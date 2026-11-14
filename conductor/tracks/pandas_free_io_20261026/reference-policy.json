@@ -2,6 +2,11 @@
   "schema_version": "1.0",
   "scope": "Every Git-tracked text file, including literal templates; pinned external Gitlinks are outside parent-source scope. No wildcard permissions or automatic refresh.",
   "files": {
+    "conductor/archive/hpc_smoke_lint_20261115/hpc_package_smoke.py.txt": {
+      "category": "frozen_historical_evidence",
+      "reason": "Byte-exact historical smoke script retained before removing an obsolete lint annotation.",
+      "sha256": "7fd376f043be95e487918bd61bcc8d4514587e7913b48fb022cacdfc8a3eb042"
+    },
     ".github/workflows/ci.yml": {
       "category": "producer_compatibility",
       "reason": "Explicit external producer/oracle, wire-metadata, absence-control or unpublished tooling boundary; no runtime imports permitted.",
@@ -1698,8 +1703,8 @@
     },
     "scripts/hpc_package_smoke.py": {
       "category": "frozen_historical_evidence",
-      "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
-      "sha256": "7fd376f043be95e487918bd61bcc8d4514587e7913b48fb022cacdfc8a3eb042"
+      "reason": "Frozen script copy differs from the separately retained original only by removal of an obsolete lint annotation.",
+      "sha256": "b557559e05ad683029493bccea9b65f456266e569d2de8b3c962653f07f1e6e5"
     },
     "scripts/validate_easybuild_root_graph.py": {
       "category": "frozen_historical_evidence",

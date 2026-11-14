@@ -3,6 +3,7 @@
   "current_root": "packaging/current",
   "historical_role": "Retained exact-source recipes and evidence for older published/runtime snapshots only. No current runtime activation or release acceptance is implied.",
   "historical_files": {
+    "conductor/archive/hpc_smoke_lint_20261115/hpc_package_smoke.py.txt": "7fd376f043be95e487918bd61bcc8d4514587e7913b48fb022cacdfc8a3eb042",
     "packaging/easybuild-2023a-arrow-overlay/2023a/Arrow-25.0.1-gfbf-2023a.eb": "f1ecf46882aeab95e7b10604d9a90eee730566050eaab1c2c3b0f3bff6cfc7ec",
     "packaging/easybuild-2023a-arrow-overlay/2023a/Cython-3.1.8-GCCcore-12.3.0.eb": "9beed145433cfb600d1c54b939e855469f085a57d9eb69d9638892c9f1e142cd",
     "packaging/easybuild-2023a-arrow-overlay/2023a/Thrift-0.22.0-GCC-12.3.0.eb": "eddf7734d0ab355030f6220624d08d6a5daf8df6ae170a5f5741144010a99b8c",
@@ -451,9 +452,18 @@
     "packaging/yggdrasil/candidates/v2.2.0/build_tarballs.jl": "048493d4673ae415862c8b974a300cea033845ba8cba3900e14c238ed4547b7d"
   },
   "historical_tools": {
-    "scripts/hpc_package_smoke.py": "7fd376f043be95e487918bd61bcc8d4514587e7913b48fb022cacdfc8a3eb042",
+    "scripts/hpc_package_smoke.py": "b557559e05ad683029493bccea9b65f456266e569d2de8b3c962653f07f1e6e5",
     "scripts/native_easybuild_qualification.py": "a24d5c6b49420cd8ded6969cfb1ed5d302e427a9aec995233abd4a8dff53ea98",
     "scripts/validate_easybuild_root_graph.py": "fb067110cec8e0b172a7ab666b1043e62273d9857f475977f83f9821c507d1b7",
     "scripts/validate_hpc_recipes.sh": "e7f94f8d18c79df86976f378be75a8613dc87d43b4eccb0c052b9140d58642f1"
+  },
+  "historical_tool_lineage": {
+    "scripts/hpc_package_smoke.py": {
+      "source_commit": "b0f07ab0a88eb5500a8eda3b8d0ec85b6905a108",
+      "original_path": "scripts/hpc_package_smoke.py",
+      "archive_path": "conductor/archive/hpc_smoke_lint_20261115/hpc_package_smoke.py.txt",
+      "original_sha256": "7fd376f043be95e487918bd61bcc8d4514587e7913b48fb022cacdfc8a3eb042",
+      "change": "Removed the obsolete S310 lint annotation; executable content is unchanged."
+    }
   }
 }

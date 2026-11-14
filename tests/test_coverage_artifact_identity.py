@@ -6,10 +6,15 @@ from pathlib import Path
 import subprocess
 import sys
 
+import pytest
+
 SCRIPT = Path(__file__).resolve().parents[1] / "scripts/coverage_artifact_identity.py"
 
 
-def test_artifact_identity_fails_closed_without_repository(tmp_path: Path) -> None:
+@pytest.mark.parametrize("without_git", [False, True])
+def test_artifact_identity_fails_closed_without_checkout_or_git(
+    tmp_path: Path, without_git: bool
+) -> None:
     result = subprocess.run(
         [
             sys.executable,
@@ -24,13 +29,18 @@ def test_artifact_identity_fails_closed_without_repository(tmp_path: Path) -> No
             "--features",
             "ci",
         ],
-        env={**os.environ, "PATH": ""},
+        env={**os.environ, "PATH": ""} if without_git else None,
         capture_output=True,
         text=True,
         check=False,
     )
     assert result.returncode != 0
-    assert "coverage artifact identity failed" in result.stderr
+    expected = (
+        "git executable not found"
+        if without_git
+        else "Git checkout identity could not be read"
+    )
+    assert expected in result.stderr
     assert not (tmp_path / "identity.json").exists()
 
 
@@ -45,7 +55,7 @@ def _git(repo: Path, *args: str) -> str:
 
 
 def test_artifact_identity_rejects_mismatches_and_dirty_inputs(tmp_path: Path) -> None:
-    repo = tmp_path / "repo"
+    repo = tmp_path / "repo with spaces"
     repo.mkdir()
     _git(repo, "init", "-q")
     _git(repo, "config", "user.name", "Fixture")
@@ -82,7 +92,13 @@ def test_artifact_identity_rejects_mismatches_and_dirty_inputs(tmp_path: Path) -
             env=env,
         )
 
-    assert run("seal", env={**os.environ, "PATH": ""}).returncode == 0
+    assert run("seal", env={**os.environ, "PATH": ""}).returncode != 0
+    assert (
+        run(
+            "seal", env={**os.environ, "GIT_PYTHON_GIT_EXECUTABLE": "invalid"}
+        ).returncode
+        == 0
+    )
     assert run("seal").returncode == 0
     original = json.loads(receipt.read_text(encoding="utf-8"))
     assert original["source_head"] == _git(repo, "rev-parse", "HEAD")
@@ -124,7 +140,7 @@ def test_artifact_identity_rejects_mismatches_and_dirty_inputs(tmp_path: Path) -
 
 
 def test_artifact_identity_rejects_dirty_submodules(tmp_path: Path) -> None:
-    source = tmp_path / "submodule-source"
+    source = tmp_path / "submodule source"
     source.mkdir()
     _git(source, "init", "-q")
     _git(source, "config", "user.name", "Fixture")
@@ -133,7 +149,7 @@ def test_artifact_identity_rejects_dirty_submodules(tmp_path: Path) -> None:
     _git(source, "add", "tracked.txt")
     _git(source, "commit", "-q", "-m", "fixture")
 
-    repo = tmp_path / "repo"
+    repo = tmp_path / "repo with spaces"
     repo.mkdir()
     _git(repo, "init", "-q")
     _git(repo, "config", "user.name", "Fixture")

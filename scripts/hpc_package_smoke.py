@@ -130,7 +130,6 @@ def run_smoke(output: Path, source_archive: Path | None = None) -> None:
             work = Path(directory)
             archive = work / "voiage-2.2.0.tar.gz"
             if source_archive is None:
-                # SOURCE_URL is the fixed HTTPS release archive.
                 with urlopen(SOURCE_URL, timeout=120) as response:
                     archive.write_bytes(response.read())
             else:
