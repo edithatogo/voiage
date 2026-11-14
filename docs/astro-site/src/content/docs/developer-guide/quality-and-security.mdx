@@ -50,6 +50,10 @@ security workflows exist, and repository governance files are present. The
 full tox environment additionally runs linting, type checking, docs, contract
 validation, the supported Python matrix, and the coverage threshold.
 
+The pre-commit, local and hosted `ty` checks use the same rule policy. The earlier
+`unresolved-attribute` exclusion covered both missing attributes and missing
+union-member attributes; the current tool names those rules separately.
+
 The installed-provider consumer test uses a private download cache by default
 and ignores an inherited `UV_CACHE_DIR`. To reuse an existing writable cache
 deliberately, locate it with `uv cache dir`, then set
