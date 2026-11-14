@@ -61,3 +61,41 @@ def test_tox_selects_the_qualified_patch_before_creating_environments() -> None:
     }
     assert selected == {"{env:VOIAGE_TOX_PYTHON:" + qualified + "}"}
     assert config["testenv"]["runner"] == "virtualenv"
+
+
+def test_nox_and_license_audit_select_the_qualified_patch() -> None:
+    import ast
+
+    selected = (ROOT / ".python-version").read_text().strip()
+    tree = ast.parse((ROOT / "noxfile.py").read_text())
+    versions = next(
+        node.value
+        for node in tree.body
+        if isinstance(node, ast.Assign)
+        and any(
+            isinstance(target, ast.Name) and target.id == "PYTHON_VERSIONS"
+            for target in node.targets
+        )
+    )
+    assert ast.literal_eval(versions) == [selected]
+    sessions = [
+        decorator
+        for node in tree.body
+        if isinstance(node, ast.FunctionDef)
+        for decorator in node.decorator_list
+        if isinstance(decorator, ast.Call)
+        and isinstance(decorator.func, ast.Attribute)
+        and isinstance(decorator.func.value, ast.Name)
+        and decorator.func.value.id == "nox"
+        and decorator.func.attr == "session"
+    ]
+    assert sessions
+    for session in sessions:
+        value = next(
+            (item.value for item in session.keywords if item.arg == "python"), None
+        )
+        assert (isinstance(value, ast.Name) and value.id == "PYTHON_VERSIONS") or (
+            isinstance(value, ast.Constant) and value.value == selected
+        )
+    audit = (ROOT / "scripts/run_python_license_audit.sh").read_text()
+    assert f"uv venv --quiet --python {selected} " in audit

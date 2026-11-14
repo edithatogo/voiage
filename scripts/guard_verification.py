@@ -1,6 +1,6 @@
 """Bound a local verification process group without touching unrelated jobs.
 
-Run with the repository's Python 3.15.1 interpreter. RSS is sampled, so this
+Run with the repository's Python 3.15.2 interpreter. RSS is sampled, so this
 guard limits runaway growth but is not a kernel-enforced allocation limit.
 """
 
