@@ -1571,6 +1571,16 @@
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "2ae0033c68442724d0f116590896853811693d09742b56b5e614db81a316972a"
     },
+    "paper/reproduction-environment/python315-patched/pyproject.toml": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact-source project snapshot for the versioned patched paper replay.",
+      "sha256": "0451ce5b8295eecf07d959f1d4a8ed15781a8e0ce7b9ebef730bdc3be394209b"
+    },
+    "paper/reproduction-environment/python315-patched/uv.lock": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact-source dependency snapshot for the versioned patched paper replay.",
+      "sha256": "003e35f7293e20392c703382b6177c6f4e8e3b597b7c97230d4be7e3862bacbd"
+    },
     "paper/reproduction-environment/python315/pyproject.toml": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",

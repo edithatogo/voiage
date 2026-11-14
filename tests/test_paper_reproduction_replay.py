@@ -157,6 +157,19 @@ def test_patched_lock_meets_current_advisory_floors() -> None:
         assert versions[package] >= Version(minimum)
 
 
+def test_patched_replay_archives_are_bound_by_reference_policy() -> None:
+    policy = json.loads(
+        (
+            ROOT / "conductor/tracks/pandas_free_io_20261026/reference-policy.json"
+        ).read_text()
+    )["files"]
+    for field in ("lockfile", "project_file"):
+        descriptor = manifest()[field]
+        entry = policy[descriptor["path"]]
+        assert entry["category"] == "frozen_historical_evidence"
+        assert entry["sha256"] == descriptor["sha256"]
+
+
 def test_declared_archive_is_independent_of_current_root_lock(tmp_path: Path) -> None:
     archive = tmp_path / "archive"
     archive.mkdir()
