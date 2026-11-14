@@ -1,5 +1,7 @@
 # Changelog
 
+- Add a patched, exact-source manuscript replay while retaining historical locks.
+
 - Align the DOCX validator's cross-platform test runner and testing-tool guidance
   with the qualified pytest and mutation-tool versions.
 
