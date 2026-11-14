@@ -11,13 +11,18 @@ from that release: the actual tag's lock has a different digest. Its recorded
 root-relative command describes the old receipt; it is not the current replay
 instruction. No historical source identity or human use is certified here.
 
-The current `paper/reproduction-manifest.json` resolves these archived paths
-and their digests. Its source commit identifies a new, reproducible replay
-selection, not an attribution of the historical execution. Run its declared
-command from the repository root:
+The historical `paper/reproduction-manifest.json` resolves these archived
+paths and their digests. The earlier Python 3.15 replay is retained in
+`paper/reproduction-manifest-python315.json`. Both frozen locks contain
+dependencies with open security advisories; retain them as historical evidence.
+
+The current patched replay uses
+`paper/reproduction-manifest-python315-patched.json`. Its source commit
+identifies a new replay selection, not an attribution of the historical
+execution. Run from the repository root:
 
 ```sh
-python scripts/verify_paper_reproduction.py --manifest paper/reproduction-manifest.json
+python scripts/verify_paper_reproduction.py --manifest paper/reproduction-manifest-python315-patched.json
 ```
 
 The verifier requires the exact source commit in local Git history, Git, uv,
