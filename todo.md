@@ -34,8 +34,10 @@ Completed prerequisite records remain linked for navigation:
 
 - [ ] Existing active delivery tracks: `conductor/tracks/remaining_backlog_delivery_20260831/` and `conductor/tracks/v2_2_release_and_venue_submissions_20260830/`.
 - [ ] Implement the [optional simulation-outcome boundary](conductor/tracks/simulation_outcome_boundary_20261107/index.md): paired draws, explicit value conventions, and optional installed use. All eight leaves remain pending; scientific alignment and HPC deferral retain their owners.
-- [ ] Complete the wider tobac consumer track: one installed 3.1.0 workflow
-  passed; the default version requirement and remaining track gates stay open.
+- [x] Qualify the non-HPC installed Innovate, MARS, tobac and published VOP
+  reference cases against Voiage 3.1.0. The current tobac adapter default passes.
+  See the [14 November receipt](conductor/tracks/scientific_ecosystem_alignment_20261029/installed-adapters-20261114.md).
+- [ ] Complete the wider tobac consumer track and its remaining acceptance gates.
   See `conductor/tracks/tobac_consumer_qualification_20261025/` and
   `conductor/tracks/tobac_credal_endogenous_voi_20261110/`.
 - [x] Add the Rust feature/MSRV qualification matrix and locked verification lane.

@@ -262,6 +262,10 @@
 
 ## Unreleased
 
+- Qualify installed Innovate, MARS, tobac and published VOP reference cases
+  against Voiage 3.1.0, including the current tobac adapter default and a
+  byte-for-byte replay of the frozen VOP scenario.
+
 - Publish the normative v3 tabular container contract (`specs/v3/stable-api.json`
   and `specs/v3/compatibility-policy.json`), revise the core API decision record
   and foundation to make Polars DataFrames the Python in-memory reference model
