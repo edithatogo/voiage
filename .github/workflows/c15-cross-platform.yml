@@ -1,3 +1,4 @@
+# Diagnostic branch only: Python 3.15.2 is not yet the qualified default.
 name: C15 Cross-platform Assurance
 
 on:
@@ -18,6 +19,7 @@ permissions:
 
 env:
   UV_FROZEN: "1"
+  UV_PYTHON: "3.15.2"
   BLIS_NUM_THREADS: "1"
   MKL_NUM_THREADS: "1"
   NUMEXPR_NUM_THREADS: "1"
@@ -40,7 +42,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.15.1"
+          python-version: "3.15.2"
       - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73
         with:
           dotnet-version: "10.0.x"
@@ -49,8 +51,10 @@ jobs:
           version: "0.13.6"
       - name: Prepare the selected Python environment
         run: |
-          uv venv .venv --python 3.15.1
-          uv pip install --python .venv pytest==9.1.1
+          uv venv .venv --python 3.15.2
+          uv pip install --python .venv pytest==9.2.0
+      - name: Assert DOCX Python patch
+        run: uv run --no-project --python .venv python -c "import sys; print(sys.version); assert sys.version_info[:3] == (3, 15, 2), sys.version"
       - name: Verify required SDK and run DOCX qualification
         env:
           DOTNET_GENERATE_ASPNET_CERTIFICATE: "false"
@@ -74,7 +78,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.15.1"
+          python-version: "3.15.2"
       - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
           version: "0.13.6"
@@ -82,6 +86,8 @@ jobs:
           cache-dependency-glob: uv.lock
           cache-suffix: c15-dist-${{ runner.os }}
       - run: uv sync --frozen --extra ci --extra dev --group producer-tests
+      - name: Assert synchronized Python patch
+        run: uv run --frozen python -c "import sys; print(sys.version); assert sys.version_info[:3] == (3, 15, 2), sys.version"
       - name: Build reproducible distributions
         run: >-
           uv run --frozen python scripts/reproducible_build.py .
@@ -108,11 +114,13 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.15.1"
+          python-version: "3.15.2"
       - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
           version: "0.13.6"
       - run: uv sync --frozen --extra ci --group producer-tests
+      - name: Assert synchronized Python patch
+        run: uv run --frozen python -c "import sys; print(sys.version); assert sys.version_info[:3] == (3, 15, 2), sys.version"
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           pattern: c15-digest-*
@@ -161,7 +169,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.15.1"
+          python-version: "3.15.2"
       - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
           version: "0.13.6"
@@ -169,6 +177,8 @@ jobs:
           cache-dependency-glob: uv.lock
           cache-suffix: c15-performance-${{ runner.os }}
       - run: uv sync --frozen --extra ci --group producer-tests
+      - name: Assert synchronized Python patch
+        run: uv run --frozen python -c "import sys; print(sys.version); assert sys.version_info[:3] == (3, 15, 2), sys.version"
       - name: Run ratchet and retain failure decision
         id: ratchet
         continue-on-error: true
@@ -196,7 +206,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.15.1"
+          python-version: "3.15.2"
       - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
           version: "0.13.6"
@@ -204,6 +214,8 @@ jobs:
           cache-dependency-glob: uv.lock
           cache-suffix: c15-telemetry-oracles
       - run: uv sync --frozen --extra ci --extra experimental --group producer-tests
+      - name: Assert synchronized Python patch
+        run: uv run --frozen python -c "import sys; print(sys.version); assert sys.version_info[:3] == (3, 15, 2), sys.version"
       - run: uv run --frozen python scripts/c15_otel_probe.py --output c15-evidence/otel-probe.json
       - name: Verify privacy and scientific surfaces
         env:
