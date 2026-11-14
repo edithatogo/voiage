@@ -18,7 +18,12 @@ ROOT = Path(__file__).resolve().parents[1]
 GIT = shutil.which("git") or "/usr/bin/git"
 UV = shutil.which("uv") or "/usr/local/bin/uv"
 SOURCE_REPOSITORY = "https://github.com/edithatogo/voiage.git"
-DEFAULT_MANIFEST = Path("paper/reproduction-manifest-python315-patched.json")
+DEFAULT_MANIFEST = Path("paper/reproduction-manifest-python3152-patched.json")
+QUALIFIED_RUNTIMES = {
+    "voiage.paper.reproduction.v3": "3.15.1",
+    "voiage.paper.reproduction.v4": "3.15.1",
+    "voiage.paper.reproduction.v5": "3.15.2",
+}
 
 
 def bound_file(root: Path, descriptor: dict[str, str]) -> Path:
@@ -42,14 +47,15 @@ def verify_manifest(
         "voiage.paper.reproduction.v2",
         "voiage.paper.reproduction.v3",
         "voiage.paper.reproduction.v4",
+        "voiage.paper.reproduction.v5",
     }:
         raise ValueError("An explicit versioned replay descriptor is required")
-    qualified = manifest["schema_version"] in {
-        "voiage.paper.reproduction.v3",
-        "voiage.paper.reproduction.v4",
-    }
-    if qualified and manifest["supported_python_versions"] != ["3.15.1"]:
-        raise ValueError("Replay requires the qualified Python 3.15.1 runtime")
+    expected_python = QUALIFIED_RUNTIMES.get(manifest["schema_version"])
+    qualified = expected_python is not None
+    if qualified and manifest["supported_python_versions"] != [expected_python]:
+        raise ValueError(
+            f"Replay requires the qualified Python {expected_python} runtime"
+        )
     if manifest["generator"] != "scripts/generate_paper_health_example.py":
         raise ValueError("Unexpected replay generator")
     if manifest["replay_extras"] != ["plotting"]:
@@ -71,7 +77,10 @@ def verify_manifest(
         ("lockfile", "uv.lock"),
         ("project_file", "pyproject.toml"),
     ]
-    if manifest["schema_version"] == "voiage.paper.reproduction.v4":
+    if manifest["schema_version"] in {
+        "voiage.paper.reproduction.v4",
+        "voiage.paper.reproduction.v5",
+    }:
         previous = manifest.get("previous_python315_replay")
         if not isinstance(previous, dict):
             raise ValueError(
@@ -80,13 +89,27 @@ def verify_manifest(
         source_files.append(
             ("previous_python315_replay", "paper/reproduction-manifest-python315.json")
         )
+    if manifest["schema_version"] == "voiage.paper.reproduction.v5":
+        if not isinstance(manifest.get("previous_patched_replay"), dict):
+            raise ValueError(
+                "Python 3.15.2 replay requires its previous patched descriptor"
+            )
+        source_files.append(
+            (
+                "previous_patched_replay",
+                "paper/reproduction-manifest-python315-patched.json",
+            )
+        )
     for name, source_path in source_files:
         original = subprocess.check_output(  # noqa: S603 - fixed Git arguments and validated commit ID
             [GIT, "show", f"{source}:{source_path}"], cwd=source_root
         )
         if original != bound_file(root, manifest[name]).read_bytes():
             raise ValueError(f"Declared {name} does not match the exact source commit")
-    if manifest["schema_version"] == "voiage.paper.reproduction.v4":
+    if manifest["schema_version"] in {
+        "voiage.paper.reproduction.v4",
+        "voiage.paper.reproduction.v5",
+    }:
         previous_manifest = json.loads(
             bound_file(root, manifest["previous_python315_replay"]).read_bytes()
         )
@@ -96,6 +119,20 @@ def verify_manifest(
             != manifest["historical_receipt"]
         ):
             raise ValueError("Previous replay does not bind the preserved receipt")
+    if manifest["schema_version"] == "voiage.paper.reproduction.v5":
+        previous_patched = json.loads(
+            bound_file(root, manifest["previous_patched_replay"]).read_bytes()
+        )
+        if (
+            previous_patched.get("schema_version") != "voiage.paper.reproduction.v4"
+            or previous_patched.get("historical_receipt")
+            != manifest["historical_receipt"]
+            or previous_patched.get("previous_python315_replay")
+            != manifest["previous_python315_replay"]
+        ):
+            raise ValueError(
+                "Previous patched replay does not bind the preserved history"
+            )
     receipt = bound_file(root, manifest["historical_receipt"]).read_bytes()
     source_receipt = subprocess.check_output(  # noqa: S603 - immutable validated Git source
         [GIT, "show", f"{source}:paper/reproduction-manifest.json"], cwd=source_root
@@ -143,9 +180,10 @@ def replay(root: Path, manifest_path: Path) -> dict[str, Any]:
     if manifest["schema_version"] not in {
         "voiage.paper.reproduction.v3",
         "voiage.paper.reproduction.v4",
+        "voiage.paper.reproduction.v5",
     }:
         raise ValueError(
-            "Historical replay is retained for provenance; use the Python 3.15.1 profile"
+            "Historical replay is retained for provenance; use a qualified profile"
         )
     source = manifest["source_reference"]
     if not re.fullmatch(r"[0-9a-f]{40}", source):
@@ -215,6 +253,8 @@ def replay(root: Path, manifest_path: Path) -> dict[str, Any]:
             "--frozen",
             "--extra",
             manifest["replay_extras"][0],
+            "--python",
+            sys.executable,
             "--project",
             str(checkout),
             "python",
@@ -238,10 +278,8 @@ def replay(root: Path, manifest_path: Path) -> dict[str, Any]:
             capture_output=True,
         )
         runtime = json.loads(runtime_result.stdout)
-        if runtime["python_version"] != "3.15.1":
-            raise ValueError(
-                "Replay did not execute the qualified Python 3.15.1 runtime"
-            )
+        if runtime["python_version"] != QUALIFIED_RUNTIMES[manifest["schema_version"]]:
+            raise ValueError("Replay did not execute the qualified Python runtime")
         # Bind successful replay to both the selected source and the current declared outputs.
         for output in manifest["outputs"]:
             bound_file(checkout, output)

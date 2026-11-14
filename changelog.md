@@ -1,5 +1,7 @@
 # Changelog
 
+- Prepare Python 3.15.2 runtime and exact-source paper replay qualification.
+
 - Add a patched, exact-source manuscript replay while retaining historical locks.
 
 - Keep release and validation scripts compatible with the current lint preview,

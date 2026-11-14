@@ -1586,6 +1586,16 @@
       "reason": "Exact-source dependency snapshot for the versioned patched paper replay.",
       "sha256": "003e35f7293e20392c703382b6177c6f4e8e3b597b7c97230d4be7e3862bacbd"
     },
+    "paper/reproduction-environment/python3152-patched/pyproject.toml": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact-source project snapshot for the Python 3.15.2 paper replay.",
+      "sha256": "2ad514a98a7d391ddc63a6053acc586370d0c612d1c71cda52d12844ef7e2574"
+    },
+    "paper/reproduction-environment/python3152-patched/uv.lock": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact-source dependency snapshot for the Python 3.15.2 paper replay.",
+      "sha256": "db34fbf3f6ec1f7bfa681ced3fa5a48dc1ea80df21f2bc8e139a80a32acf4aee"
+    },
     "paper/reproduction-environment/python315/pyproject.toml": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
