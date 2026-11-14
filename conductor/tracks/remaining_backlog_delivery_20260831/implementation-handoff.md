@@ -7,7 +7,10 @@ Chat `01a1d8ac-5d8e-77a3-82cf-39f876888d5d` owns the primary checkout
 `/Users/doughnut/.codex/worktrees/voiage-manuscript-guidance/voiage` on
 `codex/manuscript-guidance-20261114`. Its initial source scope is `AGENTS.md`,
 `.agents/skills/arxiv-paper/SKILL.md`, the existing venue handoff, changelog,
-task list and this coordination record. The earlier manuscript worktree and
+task list and this coordination record. The continuation also owns the portable
+`scripts/docx_validator/` tool, its qualification tests, and the bounded Ruff
+compatibility fix in `voiage/analysis.py`, including cross-platform CI.
+The earlier manuscript worktree and
 its edits remain preserved. The standard Git verification checkout is
 `/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-manuscript-verify-20261114`;
 its isolated test environment and receipts belong to this chat. It provides

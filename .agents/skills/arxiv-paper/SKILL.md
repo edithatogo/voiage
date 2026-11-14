@@ -47,15 +47,17 @@ approval, and authority to submit are separate decisions.
 
 ## Manuscript and supplement DOCX delivery
 
-When delivering DOCX, follow the maintained
-[manuscript DOCX delivery skill](/Users/doughnut/.codex/skills/manuscript-docx-delivery/SKILL.md).
 Inventory every final manuscript and supplement, including clean, tracked,
 review, and journal variants. After the final save, scrub, Compare, conversion,
-or package edit, run the shared read-only validator with a new receipt path and
-the explicit list of final files:
+or package edit, validate the explicit list of final files. The portable
+repository validator requires the .NET 10 SDK and restores the locked Open XML
+SDK and SharpZipLib packages. Both dependencies use the MIT licence. From the
+repository root, use a new receipt path:
 
 ```bash
-/Users/doughnut/.codex/skills/manuscript-docx-delivery/scripts/validate.sh \
+dotnet restore scripts/docx_validator/DocxGate.csproj --locked-mode
+dotnet run --project scripts/docx_validator/DocxGate.csproj \
+  --configuration Release --no-restore -- \
   --report "$docx_receipt" "${final_docx_paths[@]}"
 ```
 
@@ -65,6 +67,11 @@ and runtime versions. Verify each final hash against its receipt before delivery
 Changed bytes invalidate the receipt. Missing tools, incomplete checks,
 exceptions, and validation errors block delivery. Preserve failed evidence and
 repair versioned copies within scope.
+
+On hosts with the maintained shared `manuscript-docx-delivery` skill, its
+qualified read-only runner may also be used. Qualify any other equivalent with
+valid manuscript and supplement fixtures and negative package, relationship,
+XML, schema, and invocation cases before relying on it.
 
 Verify content and property fidelity, fields, comments, tracked revisions, and
 repeating table headers independently. Review every rendered page and retain

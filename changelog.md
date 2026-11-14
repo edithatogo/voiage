@@ -1,7 +1,8 @@
 # Changelog
 
-- Document manuscript evidence contracts, scientific acceptance and final DOCX
-  validation for research-paper deliveries.
+- Document manuscript evidence contracts and scientific acceptance, and provide
+  portable final DOCX validation for research-paper deliveries.
+- Keep automatic backend detection compatible with current Ruff lint rules.
 
 - Keep frozen research environments outside Renovate's Python dependency
   discovery and update the isolated readability tools to patched NLTK 3.10.4.
