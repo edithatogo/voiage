@@ -38,7 +38,7 @@ jobs:
         id: pinned_nightly
         uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
-          toolchain: nightly-2026-10-18
+          toolchain: nightly-2026-10-31
           components: miri,rust-src
       - name: Run unsafe-boundary suites under Miri
         env:
