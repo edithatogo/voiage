@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 GIT = shutil.which("git") or "/usr/bin/git"
 UV = shutil.which("uv") or "/usr/local/bin/uv"
 SOURCE_REPOSITORY = "https://github.com/edithatogo/voiage.git"
+DEFAULT_MANIFEST = Path("paper/reproduction-manifest-python315-patched.json")
 
 
 def bound_file(root: Path, descriptor: dict[str, str]) -> Path:
@@ -40,9 +41,13 @@ def verify_manifest(
     if manifest["schema_version"] not in {
         "voiage.paper.reproduction.v2",
         "voiage.paper.reproduction.v3",
+        "voiage.paper.reproduction.v4",
     }:
         raise ValueError("An explicit versioned replay descriptor is required")
-    qualified = manifest["schema_version"] == "voiage.paper.reproduction.v3"
+    qualified = manifest["schema_version"] in {
+        "voiage.paper.reproduction.v3",
+        "voiage.paper.reproduction.v4",
+    }
     if qualified and manifest["supported_python_versions"] != ["3.15.1"]:
         raise ValueError("Replay requires the qualified Python 3.15.1 runtime")
     if manifest["generator"] != "scripts/generate_paper_health_example.py":
@@ -62,15 +67,35 @@ def verify_manifest(
     ).strip()
     if resolved != source:
         raise ValueError("Replay source does not resolve to the declared commit")
-    for name, source_path in (
+    source_files = [
         ("lockfile", "uv.lock"),
         ("project_file", "pyproject.toml"),
-    ):
+    ]
+    if manifest["schema_version"] == "voiage.paper.reproduction.v4":
+        previous = manifest.get("previous_python315_replay")
+        if not isinstance(previous, dict):
+            raise ValueError(
+                "Patched replay requires its previous Python 3.15 descriptor"
+            )
+        source_files.append(
+            ("previous_python315_replay", "paper/reproduction-manifest-python315.json")
+        )
+    for name, source_path in source_files:
         original = subprocess.check_output(  # noqa: S603 - fixed Git arguments and validated commit ID
             [GIT, "show", f"{source}:{source_path}"], cwd=source_root
         )
         if original != bound_file(root, manifest[name]).read_bytes():
             raise ValueError(f"Declared {name} does not match the exact source commit")
+    if manifest["schema_version"] == "voiage.paper.reproduction.v4":
+        previous_manifest = json.loads(
+            bound_file(root, manifest["previous_python315_replay"]).read_bytes()
+        )
+        if (
+            previous_manifest.get("schema_version") != "voiage.paper.reproduction.v3"
+            or previous_manifest.get("historical_receipt")
+            != manifest["historical_receipt"]
+        ):
+            raise ValueError("Previous replay does not bind the preserved receipt")
     receipt = bound_file(root, manifest["historical_receipt"]).read_bytes()
     source_receipt = subprocess.check_output(  # noqa: S603 - immutable validated Git source
         [GIT, "show", f"{source}:paper/reproduction-manifest.json"], cwd=source_root
@@ -115,7 +140,10 @@ def replay(root: Path, manifest_path: Path) -> dict[str, Any]:
     """Run frozen verification without using or modifying the current environment."""
     raw = manifest_path.read_bytes()
     manifest = json.loads(raw)
-    if manifest["schema_version"] != "voiage.paper.reproduction.v3":
+    if manifest["schema_version"] not in {
+        "voiage.paper.reproduction.v3",
+        "voiage.paper.reproduction.v4",
+    }:
         raise ValueError(
             "Historical replay is retained for provenance; use the Python 3.15.1 profile"
         )
@@ -248,7 +276,7 @@ def main() -> None:
     parser.add_argument(
         "--manifest",
         type=Path,
-        default=Path("paper/reproduction-manifest-python315.json"),
+        default=DEFAULT_MANIFEST,
     )
     args = parser.parse_args()
     try:

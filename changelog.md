@@ -1,5 +1,7 @@
 # Changelog
 
+- Add a patched, exact-source manuscript replay while retaining historical locks.
+
 - Keep release and validation scripts compatible with the current lint preview,
   and check coverage receipt identity across supported platforms.
 

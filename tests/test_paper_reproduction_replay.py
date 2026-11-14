@@ -8,7 +8,9 @@ import json
 from pathlib import Path
 import shutil
 import subprocess
+import tomllib
 
+from packaging.version import Version
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -22,7 +24,7 @@ SPEC.loader.exec_module(VERIFIER)
 
 
 def manifest() -> dict:
-    return json.loads((ROOT / "paper/reproduction-manifest-python315.json").read_text())
+    return json.loads((ROOT / VERIFIER.DEFAULT_MANIFEST).read_text())
 
 
 @pytest.fixture(autouse=True)
@@ -32,20 +34,28 @@ def source_objects(monkeypatch: pytest.MonkeyPatch) -> None:
     The standalone frozen replay validates these against actual Git history.
     """
     current = manifest()
-    source = current["source_reference"]
+    previous = json.loads(
+        (ROOT / current["previous_python315_replay"]["path"]).read_text()
+    )
 
     def read_object(command: list[str], **kwargs: object) -> bytes | str:
         reference = command[-1]
-        if reference == source + "^{commit}":
-            return source + "\n"
-        if reference == source + ":paper/reproduction-manifest.json":
-            return (ROOT / current["historical_replay"]["path"]).read_bytes()
-        for name, local in (
-            ("lockfile", "uv.lock"),
-            ("project_file", "pyproject.toml"),
-        ):
-            if reference == source + ":" + local:
-                return (ROOT / current[name]["path"]).read_bytes()
+        for profile in (current, previous):
+            source = profile["source_reference"]
+            if reference == source + "^{commit}":
+                return source + "\n"
+            if reference == source + ":paper/reproduction-manifest.json":
+                return (ROOT / profile["historical_replay"]["path"]).read_bytes()
+            if reference == source + ":paper/reproduction-manifest-python315.json":
+                return (
+                    ROOT / current["previous_python315_replay"]["path"]
+                ).read_bytes()
+            for name, local in (
+                ("lockfile", "uv.lock"),
+                ("project_file", "pyproject.toml"),
+            ):
+                if reference == source + ":" + local:
+                    return (ROOT / profile[name]["path"]).read_bytes()
         raise subprocess.CalledProcessError(128, command)
 
     monkeypatch.setattr(VERIFIER.subprocess, "check_output", read_object)
@@ -68,8 +78,22 @@ def test_current_manifest_resolves_exact_source_and_preserves_original_receipt()
     assert current["source_reference"] != "v2.0.0"
 
 
+def test_previous_python315_profile_remains_verifiable() -> None:
+    previous = json.loads(
+        (ROOT / manifest()["previous_python315_replay"]["path"]).read_text()
+    )
+    VERIFIER.verify_manifest(ROOT, previous)
+
+
 @pytest.mark.parametrize(
-    "field", ["lockfile", "project_file", "historical_receipt", "historical_replay"]
+    "field",
+    [
+        "lockfile",
+        "project_file",
+        "historical_receipt",
+        "historical_replay",
+        "previous_python315_replay",
+    ],
 )
 def test_replay_rejects_missing_or_tampered_declared_artifacts(field: str) -> None:
     current = manifest()
@@ -96,7 +120,9 @@ def test_replay_rejects_unresolvable_or_mutable_source(source: str) -> None:
         VERIFIER.verify_manifest(ROOT, current)
 
 
-@pytest.mark.parametrize("field", ["lockfile", "project_file"])
+@pytest.mark.parametrize(
+    "field", ["lockfile", "project_file", "previous_python315_replay"]
+)
 def test_replay_rejects_digest_valid_file_from_wrong_source(field: str) -> None:
     current = manifest()
     alternate = ROOT / "README.md"
@@ -106,6 +132,42 @@ def test_replay_rejects_digest_valid_file_from_wrong_source(field: str) -> None:
     }
     with pytest.raises(ValueError, match="exact source commit"):
         VERIFIER.verify_manifest(ROOT, current)
+
+
+def test_patched_replay_requires_the_previous_descriptor() -> None:
+    current = manifest()
+    del current["previous_python315_replay"]
+    with pytest.raises(ValueError, match="requires its previous"):
+        VERIFIER.verify_manifest(ROOT, current)
+
+
+def test_patched_lock_meets_current_advisory_floors() -> None:
+    lock = tomllib.loads((ROOT / manifest()["lockfile"]["path"]).read_text())
+    versions = {
+        package["name"]: Version(package["version"])
+        for package in lock["package"]
+        if "version" in package
+    }
+    for package, minimum in {
+        "opentelemetry-api": "1.45.2",
+        "pillow": "13.0.0",
+        "soupsieve": "4.0.0",
+        "tornado": "6.6.1",
+    }.items():
+        assert versions[package] >= Version(minimum)
+
+
+def test_patched_replay_archives_are_bound_by_reference_policy() -> None:
+    policy = json.loads(
+        (
+            ROOT / "conductor/tracks/pandas_free_io_20261026/reference-policy.json"
+        ).read_text()
+    )["files"]
+    for field in ("lockfile", "project_file"):
+        descriptor = manifest()[field]
+        entry = policy[descriptor["path"]]
+        assert entry["category"] == "frozen_historical_evidence"
+        assert entry["sha256"] == descriptor["sha256"]
 
 
 def test_declared_archive_is_independent_of_current_root_lock(tmp_path: Path) -> None:
@@ -163,7 +225,7 @@ def test_failed_generator_cannot_emit_verified_receipt(
     monkeypatch.setattr(VERIFIER.subprocess, "run", run)
     monkeypatch.setenv("VIRTUAL_ENV", "/unrelated-environment")
     with pytest.raises(subprocess.CalledProcessError):
-        VERIFIER.replay(ROOT, ROOT / "paper/reproduction-manifest-python315.json")
+        VERIFIER.replay(ROOT, ROOT / VERIFIER.DEFAULT_MANIFEST)
     assert any(current["source_reference"] in command for command in commands)
     assert any("--frozen" in command for command in commands)
 
@@ -248,10 +310,10 @@ def test_replay_receipt_records_observed_runtime_and_selected_extra(
     monkeypatch.setattr(VERIFIER.subprocess, "check_output", read_object)
     if python_version != "3.15.1":
         with pytest.raises(ValueError, match="did not execute the qualified"):
-            VERIFIER.replay(ROOT, ROOT / "paper/reproduction-manifest-python315.json")
+            VERIFIER.replay(ROOT, ROOT / VERIFIER.DEFAULT_MANIFEST)
         assert len(fetch_directories) == int(missing_source)
         return
-    receipt = VERIFIER.replay(ROOT, ROOT / "paper/reproduction-manifest-python315.json")
+    receipt = VERIFIER.replay(ROOT, ROOT / VERIFIER.DEFAULT_MANIFEST)
     assert receipt["runtime"] == observed
     assert receipt["replay_extras"] == ["plotting"]
     assert len(query_directories) == 2
