@@ -44,7 +44,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Install frozen dependencies
       run: uv sync --frozen --extra ci --extra dev --group producer-tests

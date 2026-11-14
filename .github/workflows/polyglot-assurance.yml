@@ -46,7 +46,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.15.1"
+          python-version: "3.15.2"
       - name: Install Rust MSRV
         uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
@@ -79,7 +79,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.15.1"
+          python-version: "3.15.2"
       - name: Generate resolved Python dependency inventory
         run: |
           uv sync --frozen --no-dev
