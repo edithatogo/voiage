@@ -757,12 +757,21 @@ jobs:
       continue-on-error: true
       env:
         REVIEWED_BASELINE_SHA256: ${{ vars.VOIAGE_MUTATION_BASELINE_SHA256 }}
+        STAGED_REVIEW_JSON: ${{ vars.VOIAGE_MUTATION_STAGED_REVIEW }}
+        REVIEW_PR_NUMBER: ${{ github.event.pull_request.number }}
+        REVIEW_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        REVIEW_BASE_SHA: ${{ github.event.pull_request.base.sha }}
       run: >-
         uv run python scripts/check_mutation_cohort.py
         --stats mutants/mutmut-cicd-stats.json
         --baseline .github/mutation-baselines/voiage-cohort.json
         --universe mutants/mutmut-universe.txt
         --reviewed-baseline-sha256 "${REVIEWED_BASELINE_SHA256}"
+        --staged-review-json "${STAGED_REVIEW_JSON}"
+        --event-name "${GITHUB_EVENT_NAME}"
+        --pull-request "${REVIEW_PR_NUMBER}"
+        --head-sha "${REVIEW_HEAD_SHA}"
+        --base-sha "${REVIEW_BASE_SHA}"
         --threshold 75
         --output .benchmarks/mutation-cohort.json
 

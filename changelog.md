@@ -1,5 +1,13 @@
 # Changelog
 
+- Keep release and validation scripts compatible with the current lint preview.
+
+- Align the DOCX validator's cross-platform test runner and testing-tool guidance
+  with the qualified pytest and mutation-tool versions.
+
+- Allow an externally reviewed mutation baseline to be checked on its exact PR
+  before promoting the main baseline anchor.
+
 - Align Pixi environments with Python 3.15.1 and refresh compatible dependency locks.
 
 - Document manuscript evidence contracts and scientific acceptance, and provide
@@ -19,8 +27,6 @@
 
 - Refresh the shared nightly used by Rust fuzz, Miri and ABI sanitizer checks.
 
-- Keep release and validation scripts compatible with the current lint preview.
-
 - Keep frozen research environments outside Renovate's Python dependency
   discovery and update the isolated readability tools to patched NLTK 3.10.4.
 
@@ -28,6 +34,8 @@
 
 - Verify the current pyOpenSci packet and record the completed pre-review survey.
   The maintainer's issue text and current disclosures are still needed.
+
+- Update pytest and mutation tooling while preserving existing mutation outcomes.
 
 - Keep local verification responsive on macOS by sampling only the guarded
   process group for memory use.
