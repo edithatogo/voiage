@@ -7,6 +7,8 @@ import json
 from pathlib import Path
 import re
 
+import yaml
+
 ROOT = Path(__file__).parents[1]
 DESIGN_PATH = (
     ROOT / "specs" / "submission-readiness" / "ci-optimization-design-20260829.json"
@@ -167,7 +169,7 @@ def test_tox_package_environments_build_checkout_only_once() -> None:
     assert config["testenv:coverage_report"]["extras"].split() == ["ci"]
 
 
-def test_local_and_hosted_ty_frontiers_use_the_same_rules() -> None:
+def test_local_hosted_and_precommit_ty_frontiers_use_the_same_rules() -> None:
     """A ty rule rename must not silently change one gate's policy."""
     config = configparser.ConfigParser(interpolation=None)
     config.read(ROOT / "tox.ini", encoding="utf-8")
@@ -178,7 +180,20 @@ def test_local_and_hosted_ty_frontiers_use_the_same_rules() -> None:
     )[0]
     local_rules = set(re.findall(r"--ignore\s+([\w-]+)", local_command))
     hosted_rules = set(re.findall(r"--ignore\s+([\w-]+)", hosted_command))
-    assert local_rules == hosted_rules
+    precommit = yaml.safe_load((ROOT / ".pre-commit-config.yaml").read_text())
+    ty_hook = next(
+        hook
+        for repo in precommit["repos"]
+        if repo["repo"] == "local"
+        for hook in repo["hooks"]
+        if hook["id"] == "ty"
+    )
+    hook_rules = {
+        arg.removeprefix("--ignore=")
+        for arg in ty_hook["args"]
+        if arg.startswith("--ignore=")
+    }
+    assert local_rules == hosted_rules == hook_rules
     assert {"missing-attribute", "missing-union-attribute"} <= local_rules
     assert "unresolved-attribute" not in local_rules
 
