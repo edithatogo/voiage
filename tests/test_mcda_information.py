@@ -214,9 +214,10 @@ def test_complete_ties_are_retained_in_choices_and_fractional_rank_acceptability
             for partition in action["partitions"]
         )
     assert result["regret"]["baseline_expected"] == pytest.approx(0.0)
-    assert result["rank_acceptability"]["by_alternative"] == pytest.approx(
-        {"service-a": [0.5, 0.5], "service-b": [0.5, 0.5]}
-    )
+    rank_acceptability = result["rank_acceptability"]["by_alternative"]
+    assert set(rank_acceptability) == {"service-a", "service-b"}
+    for ranks in rank_acceptability.values():
+        assert ranks == pytest.approx([0.5, 0.5])
     for groups in result["rank_acceptability"]["state_tie_groups"].values():
         assert groups[0]["alternative_ids"] == ["service-a", "service-b"]
 
