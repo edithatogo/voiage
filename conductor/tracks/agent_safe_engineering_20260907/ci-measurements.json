@@ -67,6 +67,28 @@
       "resource_receipt": "../remaining_backlog_delivery_20260831/capacity-evidence/ordinary-full-tox-resource.json",
       "resource_receipt_sha256": "b2acba0d803b12dd58e8ef2db635381aa5e4c0f7f3e6464a11894675ceebd354",
       "note": "Initial docs bootstrap failure and one metadata serialization assertion. These are retained first failures; later focused repairs do not turn this into a successful sizing run. No full ordinary capacity budget is qualified."
+    },
+    {
+      "lane": "coverage-shard-controls",
+      "source_head": "2161126cb0d4bb8c1a000eb623abab0c5dab2daf",
+      "lock_digest": "sha256:54fa67673aebabe8a8acf8635ba8cd3748793f295c6582ed53aa8c5a8292c912",
+      "interpreter": "CPython 3.15.1 (main, Oct 21 2026, 17:39:16) [Clang 23.1.3]",
+      "coverage_config_digest": "sha256:285123be46b49099e778ae659619386a262d8bf798b3713eed2f4f72027dddc4",
+      "feature_configuration": {
+        "pytest_workers": 1,
+        "rust_features": [],
+        "coverage_collection": "native coverage fixture subprocesses",
+        "cache": "fresh and reused pytest cache directory"
+      },
+      "cold_seconds": 21.09,
+      "warm_seconds": 14.05,
+      "tests_passed": 30,
+      "status": "observed",
+      "cold_guarded_wall_seconds": 84.946,
+      "warm_guarded_wall_seconds": 16.979,
+      "cold_resource_receipt_sha256": "d9909bd5c1fc82c0bdbd11521bc0b27d8c55d109fd166fe9e1cb19ff77989607",
+      "warm_resource_receipt_sha256": "b346ba56da1780271310134c649f12dc44e674f983fa298d362b934a18360acf",
+      "note": "Observed local controls only. Other workloads were active and operating-system cache state was uncontrolled, so this pair does not estimate a CI saving."
     }
   ]
 }

@@ -1,9 +1,10 @@
 # Track: Agent-safe engineering improvements
 
-Status: active; previously merged G01–G08 slices remain historical delivery
-evidence. Review found an unverified numerical live-target witness and active
-references that must be reconciled before archival. G05.4, programme review
-and final acceptance remain open; external gates retain their separate scope.
+Status: active. The current Rust feature and numerical register witnesses,
+hosted shard outcomes and replay, and installed Python and R registry probes
+are recorded in the 13 November reconciliation. G02.4, G04.4 and G05.4
+are complete. G03.4 retains Julia General/JLL qualification before
+final programme acceptance.
 
 GitHub issue: https://github.com/edithatogo/voiage/issues/1110
 
@@ -13,6 +14,7 @@ GitHub issue: https://github.com/edithatogo/voiage/issues/1110
 - [Worker instructions](./worker-guide.md)
 - [Metadata](./metadata.json)
 - [Evidence](./evidence.jsonl)
+- [13 November acceptance reconciliation](./acceptance-20261113.md)
 - [Evidence and recommendations](./assessment.md)
 - [Packet schema](./packet-schema.json)
 - [Planning validation](./planning-validation.json)

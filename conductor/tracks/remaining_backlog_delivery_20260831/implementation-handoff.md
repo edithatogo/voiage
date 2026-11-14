@@ -1,4 +1,17 @@
-# Current continuation handoff — 28 October 2026
+# Remaining backlog delivery handoff
+
+## B8 and B13 checkpoint — 14 November 2026
+
+Chat `01a1d44c-538d-7ac3-b556-7f1304675a7b` owns the bounded
+`codex/remaining-backlog-b8-b13-20261114` branch in the standard Git worktree
+`/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-backlog-b8-b13-20261114.aep6th/voiage`.
+The scope is B8 verification and dependency repair, B13 inventory, and
+recovery-backed retirement of two integrated branch tips from this chat.
+See the [checkpoint](b8-b13-checkpoint-20261114.md) for current results.
+The protected PR carries this change. Existing native, manuscript and
+producer owners retain their assignments.
+
+## 28 October continuation
 
 The active maintainer goal authorises implementation, review, fixes and archival
 of all four named tracks: #1053 (including B6/B8/B12–B14), agent-safe

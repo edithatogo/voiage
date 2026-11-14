@@ -2,9 +2,9 @@
 
 Current disposition: [5 November reconciliation](../../reconciliation-20261105.md).
 B6 native HPC and its capacity follow-ups are deferred except MLX/Metal.
-B8 full-tox evidence now includes successful run 42006398652; final affected
-checks, delivery cleanup and whole-track review remain required. Earlier failures
-below are historical evidence, not the current full-tox outcome.
+See the [14 November checkpoint](b8-b13-checkpoint-20261114.md) for the
+current B8 repository verification, the B13 inventory and scoped B12 cleanup.
+The installed HPC matrix, remaining cleanup and whole-track review are open.
 
 ## Phase 1 — Audit and recovery
 
@@ -51,6 +51,8 @@ below are historical evidence, not the current full-tox outcome.
   retain external acceptance requirements (AC2, AC4).
 - [~] B8: Review all changes, run full tox and relevant language-native checks,
   and record failures and subsequent verification without weakening gates (AC2).
+  The November checkpoint binds repository and language evidence to the
+  tested inputs and records the dependency automation and tooling repairs.
   The [3 November full-gate attempts](./evidence/local-gate-20261103/manifest.json)
   retain the interpreter-selection failure and subsequent free-space stop.
   Neither is a passing full gate; installed HPC acceptance remains open.
@@ -68,10 +70,13 @@ below are historical evidence, not the current full-tox outcome.
 
 - [~] B12: Preserve and remove integrated local branches and clean worktrees;
   retain unique work, active branches and maintained release lines (AC5).
+  The independently restored 14 November bundle covered two tree-identical
+  retired branch tips. Remaining scope includes owner-held worktrees and refs.
 - [~] B13: Re-query final inventories and document all unfinished requirements
   before assessing the complete user goal (AC6).
-  The pre-closeout inventory is bound; an authoritative post-merge inventory
-  remains required after this branch and worktree are pruned.
+  The 14 November refresh binds the open PRs, issues and ref inventories
+  after the adapter merge and scoped branch retirement.
+  Final closeout requires a snapshot after remaining delivery and cleanup.
 - [ ] B14: Review final receipts and run Conductor/cross-reference validation;
   archive only when this track's acceptance criteria are satisfied (AC6).
 

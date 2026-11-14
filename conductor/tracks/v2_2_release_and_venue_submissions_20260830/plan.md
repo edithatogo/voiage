@@ -160,20 +160,30 @@
   across retained runs, with 4,625 tests passed, 15 skipped and 95.11 percent
   coverage. The existing import timing guard passed unchanged on retry.
   R14 remains pending. (`7545ae5b`)
-- [~] **R13g / AC-04 — Current template refresh:** Update the unposted packet
+- [x] **R13g / AC-04 — Current template refresh:** Update the unposted packet
   to the 3 November template and retain the earlier confirmations as dated
-  evidence. The maintainer must assess the new disclosure fields; the survey
-  and human-written submission text remain pending.
+  evidence. The maintainer must assess the new disclosure fields for the
+  material they submit.
   Review: pinned upstream bytes and packet digests verified; 54 focused tests
   and Ruff pass. Four red mutation cases exposed unguarded new confirmations;
-  the validator now rejects them. The full tox attempt stopped before execution
-  with `insufficient_free_space` (1,570,930,688 bytes available, 8 GiB reserve).
-  Receipt: `.conductor/local/venue-refresh-review/resource-report.json`.
-  Full local and hosted delivery gates remain open; this task stays in progress.
-- [ ] **R14 / AC-04:** Obtain completed pre-review survey confirmation and the
-  maintainer's human-written submission text. Personal declarations are confirmed;
-  prior pyOpenSci requests #271 and #272 are withdrawn. Editorial screening
-  remains external.
+  the validator now rejects them. The original full tox attempt stopped before
+  execution with `insufficient_free_space` (1,570,930,688 bytes available,
+  8 GiB reserve). The identical packet passed the later clean full gate:
+  all 15 environments passed with 5,860 tests passed, 29 skipped and 94.83
+  percent coverage. PR #1265's tested revision had 41 successful and three
+  skipped checks, and its squash merge has the same tree. The current
+  upstream template still matches the pin. See
+  [the delivery receipt](./r13g-delivery-verification-20261113.md).
+  (`c39facd`)
+- [~] **R14 / AC-04:** Obtain completed pre-review survey confirmation and the
+  maintainer's human-written submission text and current disclosure assessment.
+  The [survey completion receipt](./pyopensci-survey-receipt-20261113.md)
+  records the 13 November submission. The body and disclosure assessment
+  remain pending.
+  The earlier declarations cover the August material; prior pyOpenSci requests
+  #271 and #272 are withdrawn. This packet is bound to v2.2.0. If the maintainer
+  changes the candidate, qualify the replacement packet and declarations
+  before submission. Editorial screening remains external.
 - [ ] **R15 / AC-04:** Create the authenticated pyOpenSci submission and retain its
   issue URL, timestamp, exact body hash, and observed initial venue state.
 - [ ] **R16 / AC-04:** Run automated phase review and validation checkpoint.

@@ -34,8 +34,10 @@ Completed prerequisite records remain linked for navigation:
 
 - [ ] Existing active delivery tracks: `conductor/tracks/remaining_backlog_delivery_20260831/` and `conductor/tracks/v2_2_release_and_venue_submissions_20260830/`.
 - [ ] Implement the [optional simulation-outcome boundary](conductor/tracks/simulation_outcome_boundary_20261107/index.md): paired draws, explicit value conventions, and optional installed use. All eight leaves remain pending; scientific alignment and HPC deferral retain their owners.
-- [ ] Complete the wider tobac consumer track: one installed 3.1.0 workflow
-  passed; the default version requirement and remaining track gates stay open.
+- [x] Qualify the non-HPC installed Innovate, MARS, tobac and published VOP
+  reference cases against Voiage 3.1.0. The current tobac adapter default passes.
+  See the [14 November receipt](conductor/tracks/scientific_ecosystem_alignment_20261029/installed-adapters-20261114.md).
+- [ ] Complete the wider tobac consumer track and its remaining acceptance gates.
   See `conductor/tracks/tobac_consumer_qualification_20261025/` and
   `conductor/tracks/tobac_credal_endogenous_voi_20261110/`.
 - [x] Add the Rust feature/MSRV qualification matrix and locked verification lane.
@@ -59,6 +61,9 @@ Completed prerequisite records remain linked for navigation:
     delivery and Codecov controls (#656), measured opt-in testing (#1028), HPC
     recipes (#1025), remaining issue evidence, protected PR merges and verified
     cleanup. Keep unsatisfied human and external outcomes open.
+    *   [x] Re-run the B8 affected checks, repair dependency tooling, and refresh
+        B13's live inventory after bounded recovery-backed cleanup.
+        See the [14 November checkpoint](conductor/tracks/remaining_backlog_delivery_20260831/b8-b13-checkpoint-20261114.md).
     *   [~] Repair and validate the September Actions dependency update (#1092),
         preserving MSRV qualification and the historical R evidence boundary.
     *   [x] Add the stable Rust, Pydantic 2.13.4 and JSON Schema 4.26.0 provider layer for EasyBuild 2024a; native module qualification remains pending.
@@ -101,9 +106,9 @@ Completed prerequisite records remain linked for navigation:
         and review hosted PDF/HTML artifacts (PR #1051 merged as `0330fa55`;
         13 post-merge workflows passed and Julia Registry Sync was skipped).
     *   [ ] Proceed pyOpenSci first, then the eligible JOSS partner route and
-        rOpenSci. Personal declarations are confirmed and previous requests
-        withdrawn; survey completion and human-written submission text remain
-        pending. Journal submission now precedes deferred arXiv action.
+        rOpenSci. Earlier requests are withdrawn and the survey is complete.
+        The maintainer's own submission text and assessment of the current
+        disclosures remain pending. Journal submission precedes deferred arXiv action.
         *   [x] Refresh the local, unposted rOpenSci packet and bind the current
             R distribution inputs to the successful three-platform hosted
             matrix and full unsuppressed manual check without claiming zero NOTEs.
