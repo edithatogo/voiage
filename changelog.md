@@ -1,6 +1,7 @@
 # Changelog
 
-- Keep release and validation scripts compatible with the current lint preview.
+- Keep release and validation scripts compatible with the current lint preview,
+  and check coverage receipt identity across supported platforms.
 
 - Align the DOCX validator's cross-platform test runner and testing-tool guidance
   with the qualified pytest and mutation-tool versions.

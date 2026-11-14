@@ -10,10 +10,10 @@ import hashlib
 import json
 from pathlib import Path
 import platform
-import shutil
-import subprocess
 import sys
 import sysconfig
+
+import pygit2
 
 
 def _digest(path: Path) -> str:
@@ -27,21 +27,12 @@ def _digest(path: Path) -> str:
 def _identity(repo: Path, artifact: Path, features: str) -> dict[str, str]:
     if not features.strip():
         raise ValueError("feature configuration must be declared")
-    git_executable = shutil.which("git")
-    if git_executable is None:
-        raise FileNotFoundError("git executable not found")
-    status = subprocess.check_output(
-        [git_executable, "status", "--porcelain", "--untracked-files=all"],
-        cwd=repo,
-        text=True,
-    )
-    if status:
+    repository = pygit2.Repository(str(repo))
+    if repository.is_bare:
+        raise ValueError("source checkout must be a Git worktree")
+    if repository.status(untracked_files="all"):
         raise ValueError("source checkout must be clean")
-    head = subprocess.check_output(
-        [git_executable, "rev-parse", "HEAD"],
-        cwd=repo,
-        text=True,
-    ).strip()
+    head = str(repository.head.target)
     return {
         "schema_version": "1.0.0",
         "source_head": head,
@@ -82,7 +73,7 @@ def main() -> int:
             )
         else:
             _verify(args.receipt, identity)
-    except (OSError, ValueError, subprocess.CalledProcessError) as error:
+    except (OSError, ValueError, pygit2.GitError) as error:
         print(f"coverage artifact identity failed: {error}", file=sys.stderr)
         return 1
     return 0
