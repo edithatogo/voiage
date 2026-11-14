@@ -37,11 +37,12 @@ jobs:
         with:
           persist-credentials: false
       - name: Install pinned nightly sanitizer toolchain
+        id: pinned_nightly
         uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
           toolchain: nightly-2026-10-18
           components: rust-src
       - name: Run real C consumer with sanitizers
         env:
-          VOIAGE_SANITIZER_TOOLCHAIN: nightly-2026-10-18
+          VOIAGE_SANITIZER_TOOLCHAIN: ${{ steps.pinned_nightly.outputs.name }}
         run: bash scripts/run_ffi_sanitizers.sh
