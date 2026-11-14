@@ -15,6 +15,8 @@ on:
       - "tests/test_runtime_adapter.py"
       - "tests/test_rust_workspace_contract.py"
       - "tests/packaging/**"
+      - "scripts/validate_wheel_tags.py"
+      - "tests/test_wheel_tag_validation.py"
   push:
     branches: [main]
     paths:
@@ -29,6 +31,8 @@ on:
       - "tests/test_runtime_adapter.py"
       - "tests/test_rust_workspace_contract.py"
       - "tests/packaging/**"
+      - "scripts/validate_wheel_tags.py"
+      - "tests/test_wheel_tag_validation.py"
   workflow_dispatch:
 
 permissions: {}
@@ -93,8 +97,10 @@ jobs:
           maturin-version: v1.16.0
           rust-toolchain: "1.85"
       - name: Inspect wheel tags and contents
+        env:
+          EXPECTED_PLATFORM_SUFFIX: manylinux_2_17_x86_64.manylinux2014_x86_64
         run: |
-          python -c "import os; from pathlib import Path; wheels=list(Path('dist').glob('*.whl')); assert len(wheels)==1; assert os.environ['VOIAGE_PYTHON_ABI'] in wheels[0].name, wheels[0]"
+          python scripts/validate_wheel_tags.py dist --abi "$VOIAGE_PYTHON_ABI" --platform "$EXPECTED_PLATFORM_SUFFIX"
           python -m zipfile -l dist/*.whl
           python -c "from pathlib import Path; from zipfile import ZipFile; wheel=next(Path('dist').glob('*.whl')); names=ZipFile(wheel).namelist(); assert any(name.startswith('voiage/_core.') for name in names); assert 'voiage/__init__.py' in names"
       - name: Create clean locked test environment
@@ -220,7 +226,7 @@ jobs:
         env:
           EXPECTED_PLATFORM_SUFFIX: ${{ matrix.platform-suffix }}
         run: |
-          python -c "import os; from pathlib import Path; wheels=list(Path('dist').glob('*.whl')); assert len(wheels)==1; wheel=wheels[0]; assert os.environ['VOIAGE_PYTHON_ABI'] in wheel.name, wheel; expected=os.environ['EXPECTED_PLATFORM_SUFFIX']; platform=wheel.stem.rsplit('-', 1)[-1]; assert platform.endswith(expected), f'{platform=} {expected=}'"
+          python scripts/validate_wheel_tags.py dist --abi "$VOIAGE_PYTHON_ABI" --platform "$EXPECTED_PLATFORM_SUFFIX"
           python -m zipfile -l dist/*.whl
           python -c "from pathlib import Path; from zipfile import ZipFile; wheel=next(Path('dist').glob('*.whl')); names=ZipFile(wheel).namelist(); assert any(name.startswith('voiage/_core.') for name in names); assert 'voiage/__init__.py' in names"
       - name: Install actual wheel into clean environment
