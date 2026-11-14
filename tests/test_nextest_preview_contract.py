@@ -1,11 +1,28 @@
 """Keep the optional nextest replay limited to its producing job."""
 
 from pathlib import Path
+import re
 import tomllib
 
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_sccache_preview_uses_a_pinned_github_actions_backend() -> None:
+    workflow = yaml.safe_load(
+        (ROOT / ".github/workflows/dependency-preview.yml").read_text()
+    )
+    job = workflow["jobs"]["rust-acceleration-observation"]
+    assert job["continue-on-error"] is True
+    assert job["env"]["RUSTC_WRAPPER"] == "sccache"
+    assert job["env"]["SCCACHE_GHA_ENABLED"] == "true"
+    setup = next(
+        step
+        for step in job["steps"]
+        if step.get("name") == "Configure the pinned GitHub Actions sccache backend"
+    )
+    assert re.fullmatch(r"v\d+\.\d+\.\d+", setup["with"]["version"])
 
 
 def test_checkpoint_preview_uses_group_and_same_run_archive() -> None:

@@ -13,6 +13,8 @@
 
 - Keep hosted prose and full verification on the same current Go patch release.
 
+- Refresh the isolated compiler-cache preview while keeping it non-blocking.
+
 - Keep frozen research environments outside Renovate's Python dependency
   discovery and update the isolated readability tools to patched NLTK 3.10.4.
 
