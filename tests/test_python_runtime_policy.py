@@ -98,4 +98,6 @@ def test_nox_and_license_audit_select_the_qualified_patch() -> None:
             isinstance(value, ast.Constant) and value.value == selected
         )
     audit = (ROOT / "scripts/run_python_license_audit.sh").read_text()
-    assert f"uv venv --quiet --python {selected} " in audit
+    assert 'repo_python="$repo_root/.venv/bin/python"' in audit
+    assert 'uv venv --quiet --python "$repo_python"' in audit
+    assert audit.count("sys.version_info[:3]") == 2
