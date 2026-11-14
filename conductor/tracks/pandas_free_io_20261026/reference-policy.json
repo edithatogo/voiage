@@ -2879,6 +2879,11 @@
       "reason": "Exact capture contract, immutable committed-source excerpt inventory or retained upstream notice.",
       "sha256": "1e5a4ab8ad9d6562415e1314898d2cb605947149f92f901705e7d90e8f0e403a"
     },
+    "conductor/tracks/translation_reference_20261026/voiage-idioms-python3152.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact committed-source excerpt inventory for Python 3.15.2, preserving the earlier capture.",
+      "sha256": "1a6d4a1a11c77a47ad54d886a0645034360c9953001d1ee856bbc21f564c7c76"
+    },
     "conductor/tracks/translation_reference_20261026/consumer-notices/tobac-LICENSE": {
       "category": "frozen_historical_evidence",
       "reason": "Exact capture contract, immutable committed-source excerpt inventory or retained upstream notice.",
