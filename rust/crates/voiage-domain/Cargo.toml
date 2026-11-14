@@ -17,5 +17,6 @@ workspace = true
 serde = { version = "1.0", features = ["derive"] }
 
 [dev-dependencies]
-proptest = "1.7"
+# proptest 1.12 requires Rust 1.88; retain the workspace's Rust 1.85 MSRV.
+proptest = ">=1.7, <1.12"
 serde_json = "1.0"
