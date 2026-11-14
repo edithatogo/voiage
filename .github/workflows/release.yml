@@ -274,10 +274,9 @@ jobs:
           rust-toolchain: "1.99.1"
       - name: Verify wheel tag and native module
         env:
-          WHEEL_PLATFORM: ${{ matrix.platform }}
           EXPECTED_PLATFORM_SUFFIX: ${{ matrix.platform-suffix }}
         run: |
-          python -c "import os; from pathlib import Path; wheel=next(Path('dist').glob('*.whl')); assert os.environ['VOIAGE_PYTHON_ABI'] in wheel.name, wheel; expected=os.environ['EXPECTED_PLATFORM_SUFFIX']; platform=wheel.stem.rsplit('-', 1)[-1]; assert platform.endswith(expected), f'{os.environ[\"WHEEL_PLATFORM\"]}: {platform=} {expected=}'"
+          python scripts/validate_wheel_tags.py dist --abi "$VOIAGE_PYTHON_ABI" --platform "$EXPECTED_PLATFORM_SUFFIX"
           python -c "from pathlib import Path; from zipfile import ZipFile; wheel=next(Path('dist').glob('*.whl')); assert any(name.startswith('voiage/_core.') for name in ZipFile(wheel).namelist())"
       - name: Install wheel into clean environment
         run: |
@@ -366,7 +365,7 @@ jobs:
           rust-toolchain: "1.99.1"
           working-directory: .sdist-source
       - name: Verify sdist-derived wheel tag
-        run: python -c "import os; from pathlib import Path; wheel=next(Path('.sdist-wheel').glob('*.whl')); assert os.environ['VOIAGE_PYTHON_ABI'] in wheel.name, wheel; assert wheel.stem.rsplit('-', 1)[-1].endswith('manylinux_2_17_x86_64.manylinux2014_x86_64'), wheel"
+        run: python scripts/validate_wheel_tags.py .sdist-wheel --abi "$VOIAGE_PYTHON_ABI" --platform manylinux_2_17_x86_64.manylinux2014_x86_64
       - name: Install and smoke sdist-derived wheel
         env:
           WHEEL_VENV: ${{ github.workspace }}/.sdist-wheel-venv

@@ -8,7 +8,8 @@
 
 - Redact detected secrets from Gitleaks audit output.
 
-- Keep Linux wheel builders aligned with the locked Maturin version.
+- Keep Linux wheel builders aligned with the locked Maturin version and validate
+  their exact platform tags independent of tag order.
 
 - Keep hosted prose and full verification on the same current Go patch release.
 
