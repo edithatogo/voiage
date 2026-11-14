@@ -110,6 +110,26 @@ def test_renovate_keeps_archival_environments_outside_live_dependency_updates() 
     ):
         assert not any(fnmatchcase(live, pattern) for pattern in patterns)
 
+    cargo_patterns = config["cargo"]["ignorePaths"]
+    frozen_native = (
+        "conductor/tracks/scientific_ecosystem_alignment_20261029/"
+        "installed-adapters/native/Cargo.toml"
+    )
+    assert any(fnmatchcase(frozen_native, pattern) for pattern in cargo_patterns)
+    live_manifests = [
+        ROOT / "rust" / "Cargo.toml",
+        ROOT / "rust" / "fuzz" / "Cargo.toml",
+        ROOT / "r-package" / "voiageR" / "src" / "rust" / "Cargo.toml",
+        *(ROOT / "rust" / "crates").glob("*/Cargo.toml"),
+    ]
+    assert len(live_manifests) > 3
+    for manifest in live_manifests:
+        assert manifest.is_file()
+        relative_path = manifest.relative_to(ROOT).as_posix()
+        assert not any(
+            fnmatchcase(relative_path, pattern) for pattern in cargo_patterns
+        )
+
 
 def test_governed_python_upgrades_require_separate_qualification() -> None:
     config = json.loads((ROOT / "renovate.json").read_text())

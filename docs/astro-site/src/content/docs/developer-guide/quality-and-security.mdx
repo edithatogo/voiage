@@ -242,3 +242,27 @@ peaks may miss spikes. Directory allocations can include shared blocks and must
 not be summed across overlapping roots. A VM needs separate host-backing evidence;
 this guard alone never claims physical-capacity qualification. Monitoring failures
 remain failures even when the child command succeeded.
+
+## Retained native qualification environments
+
+Renovate excludes the exact Cargo manifest at
+`conductor/tracks/scientific_ecosystem_alignment_20261029/installed-adapters/native/Cargo.toml`
+from its Cargo manager. This manifest belongs to the retained 1 November 2026
+qualification packet. Its locked replay requires the exact external Innovate
+source checkout documented in that packet; an ordinary maintenance checkout
+does not contain those inputs.
+
+The exclusion preserves the recorded environment and prevents an unrelated
+lockfile refresh from failing on an absent replay input. The Cargo setting
+retains Renovate's standard ignored directories because `ignorePaths` replaces,
+rather than extends, the inherited list. Current workspace manifests and the
+rest of the scientific-alignment track remain eligible for maintenance.
+
+Qualify newer adapter inputs in a separately identified packet. Keep the
+historical manifest, lockfile, source pins and receipts unchanged. This
+maintenance scope does not waive dependency review, security scans, the
+minimum release age, or any required local and hosted checks.
+
+Renovate also holds `proptest` below 1.12.0 because that release requires Rust
+1.88 while the workspace supports Rust 1.85. Lift this bound only with a
+reviewed change to the compatibility policy and its qualification lanes.
