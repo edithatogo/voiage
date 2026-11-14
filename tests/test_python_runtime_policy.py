@@ -101,3 +101,7 @@ def test_nox_and_license_audit_select_the_qualified_patch() -> None:
     assert 'repo_python="$repo_root/.venv/bin/python"' in audit
     assert 'uv venv --quiet --python "$repo_python"' in audit
     assert audit.count("sys.version_info[:3]") == 2
+    project = tomllib.loads((ROOT / "pyproject.toml").read_text())
+    assert project["tool"]["taskipy"]["tasks"]["conda-build"].endswith(
+        f"--python {selected}"
+    )
