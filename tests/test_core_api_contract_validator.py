@@ -111,6 +111,17 @@ def test_validate_fixture_manifest_accepts_minimal_v1_manifest(
     validator._validate_fixture_manifest(manifest_path)
 
 
+@pytest.mark.parametrize("value", [True, False])
+def test_validate_scalar_accepts_boolean_values(value: bool) -> None:
+    validator._validate_scalar(value, {"type": "boolean"}, "$.field")
+
+
+@pytest.mark.parametrize("value", [0, 1, "true", None])
+def test_validate_scalar_rejects_non_boolean_values(value: object) -> None:
+    with pytest.raises(validator.ValidationError, match="expected boolean"):
+        validator._validate_scalar(value, {"type": "boolean"}, "$.field")
+
+
 def test_validate_scalar_enforces_enum_and_maximum() -> None:
     schema = {"type": "string", "enum": ["alpha", "beta"]}
     validator._validate_scalar("alpha", schema, "$.field")

@@ -1,11 +1,37 @@
 """Exercise coverage artifact identity checks through their command line."""
 
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
 
 SCRIPT = Path(__file__).resolve().parents[1] / "scripts/coverage_artifact_identity.py"
+
+
+def test_artifact_identity_fails_closed_without_git(tmp_path: Path) -> None:
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(SCRIPT),
+            "seal",
+            "--repo",
+            str(tmp_path),
+            "--artifact",
+            str(tmp_path / "coverage.json"),
+            "--receipt",
+            str(tmp_path / "identity.json"),
+            "--features",
+            "ci",
+        ],
+        env={**os.environ, "PATH": ""},
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode != 0
+    assert "git executable not found" in result.stderr
+    assert not (tmp_path / "identity.json").exists()
 
 
 def _git(repo: Path, *args: str) -> None:
