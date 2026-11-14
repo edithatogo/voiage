@@ -1712,8 +1712,8 @@ fn compute_expected_utility_information<'py>(
 }
 
 /// Register the private `voiage._core` extension module.
-#[pymodule]
-fn _core(module: &Bound<'_, PyModule>) -> PyResult<()> {
+#[pymodule(name = "_core")]
+fn core_module(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add("InputError", module.py().get_type::<InputError>())?;
     module.add(
         "DimensionMismatchError",
