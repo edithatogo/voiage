@@ -555,6 +555,25 @@ class TestCICDDocumentation:
         assert "schedule:" in ci_content, "Schedule trigger not configured"
 
 
+def test_vale_and_full_verification_use_the_same_pinned_go_version() -> None:
+    """Keep both hosted Vale entry points on a specific shared Go release."""
+    versions = []
+    for filename, job_name in (
+        ("ci.yml", "prose-lint"),
+        ("linux-graph-qualification.yml", "full-tox"),
+    ):
+        workflow = yaml.safe_load((GITHUB_WORKFLOWS_DIR / filename).read_text())
+        setup_steps = [
+            step
+            for step in workflow["jobs"][job_name]["steps"]
+            if str(step.get("uses", "")).startswith("actions/setup-go@")
+        ]
+        assert len(setup_steps) == 1
+        versions.append(setup_steps[0]["with"]["go-version"])
+    assert versions[0] == versions[1]
+    assert re.fullmatch(r"1\.\d+\.\d+", versions[0])
+
+
 def test_installed_nightly_matches_every_explicit_command_and_environment() -> None:
     """Every consumer must use the exact toolchain installed by its setup step."""
 
