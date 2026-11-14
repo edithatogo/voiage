@@ -18,6 +18,8 @@ from pathlib import Path
 import re
 import tomllib
 
+from packaging.requirements import Requirement
+from packaging.specifiers import SpecifierSet
 import yaml
 
 # Test data paths
@@ -613,3 +615,50 @@ def test_installed_nightly_matches_every_explicit_command_and_environment() -> N
             assert len(consumers) == expected_consumers
             assert set(consumers) == {"${{ steps.pinned_nightly.outputs.name }}"}
     assert len(installed_toolchains) == 1
+
+
+def test_docx_validator_uses_the_locked_pytest_on_every_platform() -> None:
+    """The standalone validator job exercises the same qualified pytest."""
+    lock = tomllib.loads((PROJECT_ROOT / "uv.lock").read_text())
+    versions = [p["version"] for p in lock["package"] if p["name"] == "pytest"]
+    assert len(versions) == 1
+    workflow = yaml.safe_load(
+        (GITHUB_WORKFLOWS_DIR / "c15-cross-platform.yml").read_text()
+    )
+    job = workflow["jobs"]["manuscript-docx-validator"]
+    assert {
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025",
+    }.issubset(job["strategy"]["matrix"]["os"])
+    prepare = next(
+        step
+        for step in job["steps"]
+        if step.get("name") == "Prepare the selected Python environment"
+    )
+    assert re.search(
+        rf"(?<![\w-])pytest=={re.escape(versions[0])}(?=\s|$)", prepare["run"]
+    )
+
+
+def test_testing_tool_guidance_matches_declared_constraints() -> None:
+    """Current setup guidance follows the package's qualified tool policy."""
+    project = tomllib.loads(PYPROJECT_TOML.read_text())["project"]
+    requirements = {
+        requirement.name.lower(): requirement
+        for group in ("ci", "dev")
+        for text in project["optional-dependencies"][group]
+        for requirement in [Requirement(text)]
+    }
+    guidance = (PROJECT_ROOT / "conductor/tech-stack.md").read_text()
+    for label, package in (
+        ("pytest", "pytest"),
+        ("pytest-benchmark", "pytest-benchmark"),
+        ("Ruff", "ruff"),
+        ("ty", "ty"),
+        ("tox", "tox"),
+        ("Mutmut", "mutmut"),
+    ):
+        match = re.search(rf"(?m)^- \*\*{re.escape(label)}\*\*:\s+(\S+)", guidance)
+        assert match, label
+        assert SpecifierSet(match.group(1)) == requirements[package].specifier
