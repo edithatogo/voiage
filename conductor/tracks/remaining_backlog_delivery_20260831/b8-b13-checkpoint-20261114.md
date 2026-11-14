@@ -26,6 +26,14 @@ audits gave byte-identical reports on the same 557-word, 40-sentence fixture.
 The [repair receipt](nltk-security-update-20261114.json) records the advisory
 and package evidence. Earlier evidence retains its original inputs.
 
+PR #1303 merged as `faa356283` with all 17 required checks passing.
+The full local gate on its exact tree passed all 15 tox environments on
+Python 3.15.1. GitHub recorded all eight NLTK alerts as fixed. The hosted
+Renovate app rejected the new dashboard option syntax after the merge.
+The compatibility correction restores the dashboard option supported by
+the hosted version and retains the paper manifest filter. See
+[Renovate's configuration report](https://github.com/edithatogo/voiage/issues/1305).
+
 ## B13 live inventory and B12 recovery
 
 The 00:51 UTC snapshot is bound to
@@ -45,6 +53,15 @@ from PRs #1299 and #1300 had exact tree matches to their squash merges. Their
 remote heads were already absent. The local tips were retired in one transaction
 that checked both expected commit IDs and verified their absence.
 
+After the snapshot, seven issue records with satisfied acceptance criteria were
+closed with links to their merged work. These cover execution packets, version
+identities, Rust logging, logging privacy, the scoped VOP pilot, the Polars
+containers and the completed tabular migration. The installed-adapter worktree
+from #1301 and its local branch were also retired. The restored checkout matched
+70,931 filesystem entries and all three restored submodule Git stores passed
+strict verification. The recovery archive is on the external SSD with SHA-256
+`51be2279d334e672722a31608518438e70df0a759bf1d9c5f7223a2e9afda189`.
+
 ## Remaining acceptance
 
 - B8's installed Spack and both EasyBuild generations depend on the deferred
@@ -54,7 +71,5 @@ that checked both expected commit IDs and verified their absence.
 - The dependency queue includes updates above the Rust 1.85 MSRV, workflow
   proposals with interpreter and release-control failures, and five security
   PRs with bot artifact failures. Each proposal has its own required checks.
-- Several completed engineering and tabular tracks still have stale hosted
-  issue or cross-reference records. Julia registry acceptance, maintainer
-  venue text and disclosures, scientific review and identifier outcomes
-  remain in their owning issues.
+- Julia registry acceptance, maintainer venue text and disclosures,
+  scientific review and identifier outcomes remain in their owning issues.
