@@ -52,7 +52,7 @@ jobs:
       - name: Set up stable Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.15.1"
+          python-version: "3.15.2"
       - name: Install frozen stable reference environment
         run: uv sync --frozen --extra ci --extra experimental --group producer-tests
       - name: Overlay one isolated preview candidate
@@ -79,7 +79,7 @@ jobs:
           retention-days: 14
 
   python-prerelease-observation:
-    name: Python 3.15.1 qualification
+    name: Python 3.15.2 qualification
     continue-on-error: true
     runs-on: ubuntu-latest
     steps:
@@ -93,7 +93,7 @@ jobs:
           enable-cache: false
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.15.1"
+          python-version: "3.15.2"
       - name: Observe prerelease compatibility without publishing artifacts
         run: |
           uv sync --extra ci --group producer-tests
@@ -120,7 +120,7 @@ jobs:
           cache-dependency-glob: "uv.lock"
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.15.1"
+          python-version: "3.15.2"
       - name: Install frozen test environment
         run: uv sync --frozen --extra ci --group producer-tests
       - name: Run one stable deterministic partition
@@ -147,7 +147,7 @@ jobs:
       - name: Select qualified Python runtime
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.15.1"
+          python-version: "3.15.2"
       - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
           toolchain: stable

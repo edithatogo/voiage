@@ -50,7 +50,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Resolve merged dependency graph
       run: uv lock
@@ -86,7 +86,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Install dependencies
       run: uv sync --frozen --extra dev
@@ -125,7 +125,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci --extra dev --group producer-tests
@@ -184,7 +184,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci --extra dev --group producer-tests
@@ -215,7 +215,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci --group producer-tests
@@ -243,7 +243,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci --extra dev --group producer-tests
@@ -287,7 +287,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: ["3.15.1"]
+        python: ["3.15.2"]
       fail-fast: false
     steps:
     - name: Checkout code
@@ -353,7 +353,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Run tox conformance matrix
       run: uv run --with tox tox -e ingestion-conformance
@@ -385,7 +385,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Install only locked verification tools
       run: uv sync --frozen --only-group verification
@@ -418,7 +418,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Install explicit Excel extra
       run: uv sync --frozen --extra ci --extra excel --no-build-package python-calamine --no-build-package xlsxwriter --group producer-tests
@@ -456,7 +456,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Install bounded example dependencies
       run: uv sync --frozen --extra ci --extra dev --group producer-tests
@@ -500,7 +500,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci --group producer-tests
@@ -519,7 +519,7 @@ jobs:
         fail_ci_if_error: true
 
   free-threaded-observation:
-    name: Python 3.15.1t Observation
+    name: Python 3.15.2t Observation
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -539,7 +539,7 @@ jobs:
     - name: Set up free-threaded Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1t"
+        python-version: "3.15.2t"
 
     - name: Observe minimal free-threaded Arrow compatibility
       id: free_threaded_probe
@@ -552,8 +552,8 @@ jobs:
     - name: Record ecosystem readiness
       if: steps.free_threaded_probe.outcome != 'success'
       run: |
-        echo "::notice::Python 3.15.1t Arrow wheels are not yet available for this probe."
-        echo "Python 3.15.1t Arrow compatibility is currently observational." >> "$GITHUB_STEP_SUMMARY"
+        echo "::notice::Python 3.15.2t Arrow wheels are not yet available for this probe."
+        echo "Python 3.15.2t Arrow compatibility is currently observational." >> "$GITHUB_STEP_SUMMARY"
 
   benchmark-regression:
     name: Benchmark Regression Checks
@@ -575,7 +575,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci --group producer-tests
@@ -641,7 +641,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci --group producer-tests
@@ -675,7 +675,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Install voiage
       run: uv sync --frozen --extra ci --extra dev --group producer-tests
@@ -721,7 +721,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci --extra dev --group producer-tests
@@ -825,7 +825,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Install dependencies
       run: uv sync --frozen --extra dev
@@ -882,7 +882,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Install polyglot documentation extractor
       run: uv sync --locked --extra docs --no-install-project

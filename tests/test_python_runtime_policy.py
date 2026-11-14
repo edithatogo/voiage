@@ -27,10 +27,11 @@ def test_active_package_requires_the_qualified_python_series() -> None:
     project = tomllib.loads((ROOT / "pyproject.toml").read_text())["project"]
     supported = SpecifierSet(project["requires-python"])
     assert supported.contains("3.15.1")
+    assert supported.contains("3.15.2")
     assert not supported.contains("3.15.0")
     assert not supported.contains("3.14.9")
     assert not supported.contains("3.16.0")
-    assert (ROOT / ".python-version").read_text().strip() == "3.15.1"
+    assert (ROOT / ".python-version").read_text().strip() == "3.15.2"
 
 
 def test_hosted_interpreters_and_python_matrices_use_qualified_patch() -> None:
@@ -39,12 +40,12 @@ def test_hosted_interpreters_and_python_matrices_use_qualified_patch() -> None:
         for job in workflow.get("jobs", {}).values():
             matrix = job.get("strategy", {}).get("matrix", {})
             if "python" in matrix:
-                assert matrix["python"] == ["3.15.1"], path
+                assert matrix["python"] == ["3.15.2"], path
             for step in job.get("steps", []):
                 if not step.get("uses", "").startswith("actions/setup-python@"):
                     continue
                 value = str(step.get("with", {}).get("python-version", ""))
-                assert value in {"3.15.1", "3.15.1t", "${{ matrix.python }}"}, path
+                assert value in {"3.15.2", "3.15.2t", "${{ matrix.python }}"}, path
 
 
 def test_tox_selects_the_qualified_patch_before_creating_environments() -> None:

@@ -118,7 +118,7 @@ def test_preview_workflow_is_isolated_non_blocking_and_observational() -> None:
         "mozilla-actions/sccache-action@d651010b8da762cde178750d8eda7b5febfe147a"
         in workflow
     )
-    assert "Python 3.15.1 qualification" in workflow
+    assert "Python 3.15.2 qualification" in workflow
     assert "cargo-nextest and sccache observation" in workflow
     assert "without publishing artifacts" in workflow
 

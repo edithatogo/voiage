@@ -208,7 +208,7 @@ class TestCICDQualityGatesConfiguration:
         test_unit_job = ci_config["jobs"]["test-unit"]
         python_versions = test_unit_job["strategy"]["matrix"]["python"]
 
-        assert python_versions == ["3.15.1"]
+        assert python_versions == ["3.15.2"]
 
     def test_weekly_expensive_gates_configured(self):
         """Test that expensive gates are configured for weekly scheduled runs."""
@@ -638,6 +638,16 @@ def test_docx_validator_uses_the_locked_pytest_on_every_platform() -> None:
     )
     assert re.search(
         rf"(?<![\w-])pytest=={re.escape(versions[0])}(?=\s|$)", prepare["run"]
+    )
+
+
+def test_native_capacity_observation_reuses_the_checked_in_workflow() -> None:
+    """The deferred observation points at the repository's callable workflow."""
+    workflow = yaml.safe_load(
+        (GITHUB_WORKFLOWS_DIR / "native-build-capacity-observation.yml").read_text()
+    )
+    assert workflow["jobs"]["rust-source-capacity"]["uses"] == (
+        "./.github/workflows/native-rust-llvm-qualification.yml"
     )
 
 

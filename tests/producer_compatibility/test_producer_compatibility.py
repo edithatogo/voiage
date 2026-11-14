@@ -227,7 +227,7 @@ print(json.dumps({'python':sys.version.split()[0], 'package':voiage.__file__, 'l
         check=False,
     )
     assert result.returncode == 0, result.stderr
-    assert json.loads(result.stdout)["python"] == "3.15.1"
+    assert json.loads(result.stdout)["python"] == "3.15.2"
 
 
 @pytest.fixture(autouse=True)

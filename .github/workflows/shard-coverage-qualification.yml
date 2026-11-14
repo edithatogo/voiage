@@ -47,7 +47,7 @@ jobs:
           cache-dependency-glob: uv.lock
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.15.1"
+          python-version: "3.15.2"
       - run: uv sync --frozen --extra ci --extra dev --group producer-tests
       - name: Run partition and save native branch coverage
         run: |
@@ -87,7 +87,7 @@ jobs:
           cache-dependency-glob: uv.lock
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.15.1"
+          python-version: "3.15.2"
       - run: uv sync --frozen --extra ci --extra dev --group producer-tests
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:

@@ -66,7 +66,7 @@ def test_bridge_workflow_covers_supported_python_and_abi3_platforms() -> None:
     jobs = workflow["jobs"]
 
     python_matrix = jobs["python-compatibility"]["strategy"]["matrix"]
-    assert python_matrix == {"python": ["3.15.1"]}
+    assert python_matrix == {"python": ["3.15.2"]}
     assert jobs["python-compatibility"]["runs-on"] == "ubuntu-24.04"
 
     platform_matrix = jobs["abi3-platforms"]["strategy"]["matrix"]
@@ -138,7 +138,7 @@ def test_bridge_workflow_installs_the_built_wheel_on_every_supported_runtime() -
     assert "locked-requirements.txt" not in compatibility
     assert "--no-deps" not in compatibility_install
     assert "uv pip check" in compatibility
-    assert "3.15.1" in compatibility
+    assert "3.15.2" in compatibility
     assert "maturin-action" in platforms
     assert "uv pip install" in platforms
     assert "locked-requirements.txt" not in platforms
