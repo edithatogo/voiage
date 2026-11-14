@@ -1,5 +1,8 @@
 # Changelog
 
+- Allow an externally reviewed mutation baseline to be checked on its exact PR
+  before promoting the main baseline anchor.
+
 - Align Pixi environments with Python 3.15.1 and refresh compatible dependency locks.
 
 - Document manuscript evidence contracts and scientific acceptance, and provide
