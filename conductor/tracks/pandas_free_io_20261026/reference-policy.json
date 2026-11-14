@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "scope": "Every Git-tracked text file, including literal templates; pinned external Gitlinks are outside parent-source scope. No wildcard permissions or automatic refresh.",
   "files": {
-    "conductor/archive/hpc_smoke_lint_20261115/hpc_package_smoke.py.txt": {
+    "conductor/tracks/pandas_free_io_20261026/historical/hpc_package_smoke-20261115.py.txt": {
       "category": "frozen_historical_evidence",
       "reason": "Byte-exact historical smoke script retained before removing an obsolete lint annotation.",
       "sha256": "7fd376f043be95e487918bd61bcc8d4514587e7913b48fb022cacdfc8a3eb042"

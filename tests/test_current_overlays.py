@@ -73,7 +73,7 @@ def test_historical_smoke_bytes_and_lint_only_derivation_are_preserved() -> None
         (ROOT / "packaging/current/overlay-lifecycle.json").read_text()
     )
     source = "scripts/hpc_package_smoke.py"
-    archive = "conductor/archive/hpc_smoke_lint_20261115/hpc_package_smoke.py.txt"
+    archive = "conductor/tracks/pandas_free_io_20261026/historical/hpc_package_smoke-20261115.py.txt"
     original_digest = "7fd376f043be95e487918bd61bcc8d4514587e7913b48fb022cacdfc8a3eb042"
     lineage = lifecycle["historical_tool_lineage"][source]
     assert lineage["original_path"] == source
