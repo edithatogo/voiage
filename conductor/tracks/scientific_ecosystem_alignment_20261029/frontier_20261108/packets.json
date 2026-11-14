@@ -1,0 +1,266 @@
+{
+  "schema_version": "1.0",
+  "kind": "planning_dependency_manifest",
+  "baseline_commit": "a5d87a736fa9f0f876e44872d946b2170d2a0898",
+  "date": "2026-11-08",
+  "parent_track": "scientific_ecosystem_alignment_20261029",
+  "parent_issue": 1221,
+  "status": "planned_not_implemented",
+  "runtime_capability_registry": false,
+  "max_implementation_workers": 2,
+  "max_integration_pilots": 1,
+  "hpc_policy": "deferred_except_bounded_mlx_metal",
+  "research_requires_separate_scientific_admission": true,
+  "external_publication_authorized": false,
+  "packets": [
+    {
+      "id": "Q01",
+      "title": "Capability and scientific-authority reconciliation",
+      "status": "planned",
+      "depends_on": [],
+      "maps_to": [
+        "V01",
+        "V02",
+        "F01",
+        "F08"
+      ],
+      "delivery_repository": "edithatogo/voiage",
+      "write_scope": "core_contracts",
+      "acceptance_spec": "plan.md",
+      "admission_note": "Freeze exact current source, interfaces, tests and error budget at admission."
+    },
+    {
+      "id": "Q02",
+      "title": "One shared Rust numerical authority",
+      "status": "planned",
+      "depends_on": [
+        "Q01"
+      ],
+      "maps_to": [
+        "V12",
+        "F01",
+        "F04"
+      ],
+      "delivery_repository": "edithatogo/voiage",
+      "write_scope": "native_core",
+      "acceptance_spec": "plan.md",
+      "admission_note": "Freeze exact current source, interfaces, tests and error budget at admission."
+    },
+    {
+      "id": "Q03",
+      "title": "Independent reference corpus",
+      "status": "planned",
+      "depends_on": [
+        "Q01"
+      ],
+      "maps_to": [
+        "V02",
+        "V05",
+        "V08",
+        "F08"
+      ],
+      "delivery_repository": "edithatogo/voiage",
+      "write_scope": "reference_corpus",
+      "acceptance_spec": "plan.md",
+      "admission_note": "Q03 source/rights preflight may start before Q01; contract implementation waits."
+    },
+    {
+      "id": "Q04",
+      "title": "Nonlinear EVPPI qualification",
+      "status": "planned",
+      "depends_on": [
+        "Q01",
+        "Q02",
+        "Q03"
+      ],
+      "maps_to": [
+        "V02",
+        "V03",
+        "F04"
+      ],
+      "delivery_repository": "edithatogo/voiage",
+      "write_scope": "evppi",
+      "acceptance_spec": "plan.md",
+      "admission_note": "Freeze exact current source, interfaces, tests and error budget at admission."
+    },
+    {
+      "id": "Q05",
+      "title": "Coherent EVSI qualification",
+      "status": "planned",
+      "depends_on": [
+        "Q01",
+        "Q02",
+        "Q03"
+      ],
+      "maps_to": [
+        "V03",
+        "V04",
+        "V05",
+        "V07",
+        "F02"
+      ],
+      "delivery_repository": "edithatogo/voiage",
+      "write_scope": "evsi",
+      "acceptance_spec": "plan.md",
+      "admission_note": "Q05 nonlinear variants also require Q04."
+    },
+    {
+      "id": "Q06",
+      "title": "Research design and portfolio decisions",
+      "status": "planned",
+      "depends_on": [
+        "Q03",
+        "Q05"
+      ],
+      "maps_to": [
+        "V06",
+        "V10",
+        "F06"
+      ],
+      "delivery_repository": "edithatogo/voiage",
+      "write_scope": "study_decisions",
+      "acceptance_spec": "plan.md",
+      "admission_note": "Freeze exact current source, interfaces, tests and error budget at admission."
+    },
+    {
+      "id": "Q07",
+      "title": "Thin bindings and measured computation",
+      "status": "planned",
+      "depends_on": [
+        "Q02",
+        "Q03"
+      ],
+      "maps_to": [
+        "V12",
+        "F04",
+        "F05"
+      ],
+      "delivery_repository": "edithatogo/voiage",
+      "write_scope": "bindings_performance",
+      "acceptance_spec": "plan.md",
+      "admission_note": "Follow individual accepted methods; this does not claim parity for unqualified methods."
+    },
+    {
+      "id": "Q08",
+      "title": "Producer and application qualification",
+      "status": "planned",
+      "depends_on": [
+        "Q01",
+        "Q03"
+      ],
+      "maps_to": [
+        "F08",
+        "F06",
+        "F07"
+      ],
+      "delivery_repository": "edithatogo/voiage",
+      "write_scope": "producer_adapters",
+      "acceptance_spec": "plan.md",
+      "admission_note": "Additional dependencies are the accepted method packets used by each installed pilot."
+    },
+    {
+      "id": "Q09",
+      "title": "Comparative evaluation and publication",
+      "status": "planned",
+      "preparation_depends_on": [
+        "Q01",
+        "Q03"
+      ],
+      "depends_on": [
+        "Q01",
+        "Q03",
+        "Q04",
+        "Q05",
+        "Q06",
+        "Q07",
+        "Q08"
+      ],
+      "maps_to": [
+        "V02",
+        "V12",
+        "F08"
+      ],
+      "delivery_repository": "edithatogo/voiage",
+      "write_scope": "evaluation_publication",
+      "acceptance_spec": "plan.md",
+      "admission_note": "Confirmatory claims require accepted Q04-Q08 evidence for the exact subset evaluated; software venue remains separately gated."
+    },
+    {
+      "id": "R01",
+      "title": "Decision-aware computation and stopping",
+      "status": "planned",
+      "depends_on": [
+        "Q05",
+        "Q06",
+        "Q07"
+      ],
+      "maps_to": [
+        "V07",
+        "V09",
+        "F03"
+      ],
+      "delivery_repository": "edithatogo/voiage",
+      "write_scope": "research_decision_computation",
+      "acceptance_spec": "plan.md",
+      "admission_note": "Separate novelty/feasibility review required."
+    },
+    {
+      "id": "R02",
+      "title": "Joint research implementation and capacity",
+      "status": "planned",
+      "depends_on": [
+        "Q05",
+        "Q06",
+        "Q08"
+      ],
+      "maps_to": [
+        "V06",
+        "V10",
+        "F06"
+      ],
+      "delivery_repository": "edithatogo/voiage",
+      "write_scope": "research_joint_investment",
+      "acceptance_spec": "plan.md",
+      "admission_note": "Separate novelty/feasibility review required."
+    },
+    {
+      "id": "R03",
+      "title": "Transport bias and perspective information",
+      "status": "planned",
+      "depends_on": [
+        "Q05",
+        "Q08"
+      ],
+      "maps_to": [
+        "V08",
+        "V10",
+        "V11",
+        "F06"
+      ],
+      "delivery_repository": "edithatogo/voiage",
+      "write_scope": "research_transfer_bias",
+      "acceptance_spec": "plan.md",
+      "admission_note": "Separate novelty/feasibility review required."
+    }
+  ],
+  "verification_families": [
+    "D01",
+    "D02",
+    "D03",
+    "D04",
+    "D05",
+    "D06",
+    "D07",
+    "D08",
+    "D09",
+    "D10",
+    "D11",
+    "D12",
+    "D13",
+    "D14",
+    "D15",
+    "D16",
+    "D17",
+    "D18"
+  ]
+}
