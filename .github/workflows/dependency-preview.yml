@@ -52,7 +52,7 @@ jobs:
       - name: Set up stable Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.15.1"
+          python-version: "3.15.2"
       - name: Install frozen stable reference environment
         run: uv sync --frozen --extra ci --extra experimental --group producer-tests
       - name: Overlay one isolated preview candidate
@@ -93,7 +93,7 @@ jobs:
           enable-cache: false
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.15.1"
+          python-version: "3.15.2"
       - name: Observe prerelease compatibility without publishing artifacts
         run: |
           uv sync --extra ci --group producer-tests
@@ -120,7 +120,7 @@ jobs:
           cache-dependency-glob: "uv.lock"
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.15.1"
+          python-version: "3.15.2"
       - name: Install frozen test environment
         run: uv sync --frozen --extra ci --group producer-tests
       - name: Run one stable deterministic partition
@@ -147,14 +147,14 @@ jobs:
       - name: Select qualified Python runtime
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.15.1"
+          python-version: "3.15.2"
       - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
           toolchain: stable
       - name: Configure the pinned GitHub Actions sccache backend
         uses: mozilla-actions/sccache-action@d651010b8da762cde178750d8eda7b5febfe147a
         with:
-          version: "v0.18.0"
+          version: "v0.19.0"
       - name: Install pinned preview accelerators
         run: env -u RUSTC_WRAPPER cargo install --locked cargo-nextest --version 0.9.114
       - name: Run the non-authoritative nextest inventory
