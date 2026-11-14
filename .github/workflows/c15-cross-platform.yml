@@ -28,6 +28,32 @@ env:
   VECLIB_MAXIMUM_THREADS: "1"
 
 jobs:
+  coverage-identity:
+    name: Coverage receipt identity (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.15.2"
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+        with:
+          version: "0.13.6"
+      - name: Test locked coverage identity dependencies
+        run: |
+          uv venv .venv --python 3.15.2
+          uv export --frozen --extra ci --no-emit-project --no-hashes --no-annotate --output-file .locked-constraints.txt --quiet
+          uv pip install --python .venv --constraint .locked-constraints.txt pytest GitPython
+          uv run --no-project --python .venv python -c "import sys; assert sys.version_info[:3] == (3, 15, 2), sys.version"
+          uv run --no-project --python .venv python -m pytest --noconftest -o addopts= -q tests/test_coverage_artifact_identity.py
+
   manuscript-docx-validator:
     name: Manuscript DOCX validator (${{ matrix.os }})
     strategy:

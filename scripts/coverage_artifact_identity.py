@@ -8,9 +8,10 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import platform
-import subprocess
+import shutil
 import sys
 import sysconfig
 
@@ -26,18 +27,21 @@ def _digest(path: Path) -> str:
 def _identity(repo: Path, artifact: Path, features: str) -> dict[str, str]:
     if not features.strip():
         raise ValueError("feature configuration must be declared")
-    status = subprocess.check_output(
-        ["git", "status", "--porcelain", "--untracked-files=all"],  # noqa: S607
-        cwd=repo,
-        text=True,
-    )
-    if status:
-        raise ValueError("source checkout must be clean")
-    head = subprocess.check_output(
-        ["git", "rev-parse", "HEAD"],
-        cwd=repo,
-        text=True,  # noqa: S607
-    ).strip()
+    executable = shutil.which("git")
+    if executable is None:
+        raise FileNotFoundError("git executable not found")
+    executable = str(Path(executable).resolve(strict=True))
+    os.environ["GIT_PYTHON_GIT_EXECUTABLE"] = executable
+    from git import Git, GitCommandError, refresh
+
+    refresh(executable)
+    repository = Git(str(repo))
+    try:
+        if repository.status("--porcelain", "--untracked-files=all", shell=False):
+            raise ValueError("source checkout must be clean")
+        head = repository.rev_parse("HEAD", shell=False).strip()
+    except GitCommandError as error:
+        raise ValueError("Git checkout identity could not be read") from error
     return {
         "schema_version": "1.0.0",
         "source_head": head,
@@ -78,7 +82,7 @@ def main() -> int:
             )
         else:
             _verify(args.receipt, identity)
-    except (OSError, ValueError, subprocess.CalledProcessError) as error:
+    except (OSError, ValueError) as error:
         print(f"coverage artifact identity failed: {error}", file=sys.stderr)
         return 1
     return 0

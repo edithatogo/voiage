@@ -68,6 +68,28 @@ def test_current_declarations_and_frozen_graphs_validate() -> None:
     assert validate(ROOT) == []
 
 
+def test_historical_smoke_bytes_and_lint_only_derivation_are_preserved() -> None:
+    lifecycle = json.loads(
+        (ROOT / "packaging/current/overlay-lifecycle.json").read_text()
+    )
+    source = "scripts/hpc_package_smoke.py"
+    archive = "conductor/tracks/pandas_free_io_20261026/historical/hpc_package_smoke-20261115.py.txt"
+    original_digest = "7fd376f043be95e487918bd61bcc8d4514587e7913b48fb022cacdfc8a3eb042"
+    lineage = lifecycle["historical_tool_lineage"][source]
+    assert lineage["original_path"] == source
+    assert lineage["archive_path"] == archive
+    assert lineage["original_sha256"] == original_digest
+    assert lineage["source_commit"] == "b0f07ab0a88eb5500a8eda3b8d0ec85b6905a108"
+    original = (ROOT / archive).read_bytes().replace(b"\r\n", b"\n")
+    active = (ROOT / source).read_bytes().replace(b"\r\n", b"\n")
+    assert hashlib.sha256(original).hexdigest() == original_digest
+    assert lifecycle["historical_files"][archive] == original_digest
+    assert lifecycle["historical_tools"][source] == hashlib.sha256(active).hexdigest()
+    marker = b"  # noqa: S310 -- fixed HTTPS source"
+    assert original.count(marker) == 1
+    assert active == original.replace(marker, b"", 1)
+
+
 def test_bound_translation_keeps_minor_and_major_ceilings() -> None:
     assert spack_requirement("jsonschema>=4.26.0,<5.0") == "py-jsonschema@4.26.0:4"
     assert spack_requirement("numpy>=2.5.4,<3") == "py-numpy@2.5.4:2"
