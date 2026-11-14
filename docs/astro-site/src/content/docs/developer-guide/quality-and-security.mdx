@@ -58,8 +58,13 @@ reuses dependency downloads only: each test still builds the real wheels,
 creates a fresh consumer environment, copies installed files, and probes the
 public SDK outside the checkout. It does not disable dependency resolution or
 make the test offline. Each build, install, and probe has a ten-minute timeout.
+
 Reuse follows [uv's cache-safety contract](https://docs.astral.sh/uv/concepts/cache/#cache-safety);
 do not manually change files inside that cache.
+
+The DOCX validator tests use an isolated NuGet cache by default. To reuse a
+writable cache owned by the current verification run, set
+`VOIAGE_DOCX_TEST_NUGET_CACHE` to its absolute path before running pytest or tox.
 
 For dependency-only changes, also run `uvx --from pip-audit pip-audit --local
 --progress-spinner off` and `pnpm audit --prod` from `docs/astro-site`.

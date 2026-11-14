@@ -232,7 +232,7 @@ internal static class Program
         }
     }
 
-    private static string PartName(Uri uri) => Uri.UnescapeDataString(uri.OriginalString.TrimStart('/'));
+    private static string PartName(Uri uri) => uri.OriginalString.TrimStart('/');
 
     private static string HashFile(string path)
     {

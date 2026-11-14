@@ -44,7 +44,8 @@ def docx_gate(tmp_path_factory: pytest.TempPathFactory) -> tuple[str, Path]:
             "DOTNET_CLI_HOME": str(build_dir / "home"),
             "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
             "DOTNET_GENERATE_ASPNET_CERTIFICATE": "false",
-            "NUGET_PACKAGES": str(build_dir / "nuget"),
+            "NUGET_PACKAGES": os.environ.get("VOIAGE_DOCX_TEST_NUGET_CACHE")
+            or str(build_dir / "nuget"),
         }
     )
     subprocess.run(
@@ -78,6 +79,7 @@ def write_docx(
         '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'
         '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'
         '<Default Extension="xml" ContentType="application/xml"/>'
+        '<Default Extension="png" ContentType="image/png"/>'
         '<Override PartName="/word/document.xml" '
         'ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>'
         "</Types>"
@@ -237,6 +239,26 @@ def test_valid_data_descriptors_and_zip64_are_accepted(
     descriptor_path.write_bytes(stream.getvalue())
     report = tmp_path / "valid-zip-variants.json"
     result = run_gate(docx_gate, report, descriptor_path, zip64_path)
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert json.loads(report.read_text())["passed"] is True
+
+
+def test_percent_encoded_part_name_is_accepted(
+    docx_gate: tuple[str, Path], tmp_path: Path
+) -> None:
+    path, report = tmp_path / "encoded.docx", tmp_path / "receipt.json"
+    write_docx(path)
+    relationships = (
+        f'<Relationships xmlns="{REL_NS}">'
+        '<Relationship Id="rId1" '
+        'Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" '
+        'Target="media/image%201.png"/></Relationships>'
+    )
+    with zipfile.ZipFile(path, "a", compression=zipfile.ZIP_DEFLATED) as archive:
+        archive.writestr("word/_rels/document.xml.rels", relationships)
+        archive.writestr("word/media/image%201.png", b"image data")
+
+    result = run_gate(docx_gate, report, path)
     assert result.returncode == 0, result.stdout + result.stderr
     assert json.loads(report.read_text())["passed"] is True
 
