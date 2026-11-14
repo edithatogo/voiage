@@ -27,6 +27,9 @@ def test_probe_rejects_ambient_packages_outside_installed_prefix(
             str(output),
         ],
     )
+    # This is a synthetic boundary test of the retained 3.15.1 HPC profile,
+    # not an installed qualification on the current interpreter.
+    monkeypatch.setattr(probe.sys, "version_info", (3, 15, 1))
     with pytest.raises(ValueError, match="selected prefix"):
         probe.main()
     assert not output.exists()

@@ -235,7 +235,7 @@ def qualified_interpreter_and_install_location() -> None:
     """The dedicated lane must consume its own wheel in this process too."""
     import voiage
 
-    assert sys.version_info[:3] == (3, 15, 1)
+    assert sys.version_info[:3] == (3, 15, 2)
     prefix = os.environ.get("VOIAGE_PRODUCER_PREFIX")
     if prefix is not None:
         assert Path(voiage.__file__).resolve().is_relative_to(Path(prefix).resolve())

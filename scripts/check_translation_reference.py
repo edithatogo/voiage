@@ -140,7 +140,7 @@ def render(rows: list[dict[str, Any]]) -> str:
         "description: Source-derived, executable semantic differences for the v3 migration",
         "---",
         "",
-        "This reference targets Python 3.15.1 and the qualified Polars 2.1 floor.",
+        "This reference targets Python 3.15.2 and the qualified Polars 2.1 floor.",
         "The v3 containers use wide frames. Public array constructors, numerical",
         "methods, wire contracts and bindings retain their existing behavior.",
         "",
@@ -299,8 +299,8 @@ def main() -> int:
     parser.add_argument("--mode", choices=["target", "legacy"])
     parser.add_argument("--require-all", action="store_true")
     args = parser.parse_args()
-    if sys.version_info[:3] != (3, 15, 1):
-        parser.error("Reference qualification requires Python 3.15.1")
+    if sys.version_info[:3] != (3, 15, 2):
+        parser.error("Reference qualification requires Python 3.15.2")
     root = Path(__file__).resolve().parents[1]
     if args.capture_consumer:
         if not args.revision:
