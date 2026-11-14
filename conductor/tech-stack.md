@@ -56,18 +56,18 @@ subject to the evaluated extra and committed lock, not a promotion claim.
 - **Scalene**: >=2.3,<3 - CPU and memory profiling evidence
 
 ## Documentation (Current)
-- **Astro**: 7.1.3 — Sole documentation build platform
-- **@astrojs/starlight**: 0.41.4 — Docs framework with built-in search,
+- **Astro**: 7.4.11 — Sole documentation build platform
+- **@astrojs/starlight**: 0.42.10 — Docs framework with built-in search,
   navigation and MDX support; replaces Sphinx
 - **astro-polyglot**: source-pinned 0.1.0 at commit `054d11e` — generates
   Starlight-native API documentation from language-native source extraction;
   npm publication remains an external gate
-- **starlight-links-validator**: 0.25.2 — build-time internal-link validation
-- **starlight-llms-txt**: 0.11.0 — LLM-friendly text export
+- **starlight-links-validator**: 0.27.0 — build-time internal-link validation
+- **starlight-llms-txt**: 0.12.0 — LLM-friendly text export
 - **Griffe**: >=1.14,<2 — Python API extraction for the initial polyglot lane
 - **Vale**: prose linting for Markdown
 - **Node.js**: >=22.23.4 for the pinned Astro release; CI resolves the current 22.x patch
-- **pnpm**: 10.34.5 site package manager (full-gate bootstrap 10.34.9)
+- **pnpm**: 10.34.9 site package manager and full-gate bootstrap
 
 - **cbindgen**: optional header generation for a narrow Rust C ABI edge
 
