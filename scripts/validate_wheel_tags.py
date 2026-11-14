@@ -49,7 +49,8 @@ def main() -> int:
         wheel = validate_wheel_tags(args.directory, args.abi, args.platform)
     except ValueError as exc:
         parser.error(str(exc))
-    print(f"Validated wheel tags: {wheel.name}")
+    else:
+        print(f"Validated wheel tags: {wheel.name}")
     return 0
 
 

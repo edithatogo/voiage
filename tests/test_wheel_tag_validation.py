@@ -76,4 +76,6 @@ def test_wheel_tag_check_requires_exactly_one_wheel(
         text=True,
         check=False,
     )
-    assert result.returncode != 0
+    assert result.returncode == 2
+    assert "expected exactly one wheel" in result.stderr
+    assert "Validated wheel tags:" not in result.stdout
