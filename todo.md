@@ -61,6 +61,9 @@ Completed prerequisite records remain linked for navigation:
     delivery and Codecov controls (#656), measured opt-in testing (#1028), HPC
     recipes (#1025), remaining issue evidence, protected PR merges and verified
     cleanup. Keep unsatisfied human and external outcomes open.
+    *   [x] Re-run the B8 affected checks, repair dependency tooling, and refresh
+        B13's live inventory after bounded recovery-backed cleanup.
+        See the [14 November checkpoint](conductor/tracks/remaining_backlog_delivery_20260831/b8-b13-checkpoint-20261114.md).
     *   [~] Repair and validate the September Actions dependency update (#1092),
         preserving MSRV qualification and the historical R evidence boundary.
     *   [x] Add the stable Rust, Pydantic 2.13.4 and JSON Schema 4.26.0 provider layer for EasyBuild 2024a; native module qualification remains pending.

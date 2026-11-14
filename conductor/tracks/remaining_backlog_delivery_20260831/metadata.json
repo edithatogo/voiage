@@ -3,7 +3,7 @@
   "type": "chore",
   "status": "in_progress",
   "created_at": "2026-08-31T12:11:38Z",
-  "updated_at": "2026-11-03T12:21:14Z",
+  "updated_at": "2026-11-14T00:51:11Z",
   "description": "Complete the authorized remaining backlog, protected PR delivery, issue reconciliation and verified cleanup.",
   "evidence_schema": "1.0",
   "authorization": {
@@ -14,8 +14,8 @@
   "github_cross_reference": {
     "issue": "https://github.com/edithatogo/voiage/issues/1053"
   },
-  "current_phase": "Phase 2 — B6.2 package-manager binding and full installed HPC qualification",
-  "next_pending_task": "Qualify actual package-manager source resolution/offline execution and bind baseline compiler settings to Spack/EasyBuild toolchains; execute full installed matrix",
+  "current_phase": "B8 and B13 — repository verification and inventory refresh",
+  "next_pending_task": "Verify repair delivery and re-query after remaining cleanup; retain deferred HPC acceptance",
   "gates": [
     {
       "id": "external-evidence",
@@ -33,6 +33,8 @@
     "scope_decision": "accepted_by_user_2026-10-29"
   },
   "current_review": "review-reconciliation-20261103.json",
+  "current_checkpoint": "b8-b13-checkpoint-20261114.md",
+  "current_inventory": "b13-inventory-20261114.json",
   "local_verification": {
     "status": "passed_with_scoped_failed_lane_reruns",
     "candidate": "56f603e0ddba35adec6ec9d1b8adbf69b909fd85",

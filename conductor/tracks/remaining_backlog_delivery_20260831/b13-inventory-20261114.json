@@ -1,0 +1,781 @@
+{
+  "observed_at_utc": "2026-11-14T00:51:11Z",
+  "stage": "post_adapter_merge_and_scoped_branch_retirement",
+  "final_closeout": false,
+  "hosted_main": "9f53fcb33bc4e40c5a84f3b3fc31f3287f1f1a3b",
+  "hosted_main_tree": "4442bfb8894fde8ee867307cb8f049b23c35e7f6",
+  "pull_requests": [
+    {
+      "number": 1278,
+      "head": "d48b1d5a704f43dda19c52ff29d3b8d5ffcea00a",
+      "draft": false,
+      "failed_checks": [
+        "renovate/artifacts"
+      ],
+      "remaining_requirement": "Renovate artifact repair needed for the security update"
+    },
+    {
+      "number": 1280,
+      "head": "8c1cf9601d78e856b273e309ae856715eddd09af",
+      "draft": false,
+      "failed_checks": [
+        "C consumer ASan UBSan LSan with ASan-instrumented Rust",
+        "Coverage Report",
+        "Coverage shard 0",
+        "Coverage shard 1",
+        "Frontier Contract Validation",
+        "Rust Miri unsafe-boundary tests",
+        "Rust workspace",
+        "Wheel contract (ubuntu-24.04)",
+        "aggregate",
+        "compatibility-and-coverage"
+      ],
+      "remaining_requirement": "Workflow action updates change pinned interpreter, sanitizer and release controls"
+    },
+    {
+      "number": 1281,
+      "head": "393c2285361f09d91e860faf35e379954eead324",
+      "draft": false,
+      "failed_checks": [
+        "Build Documentation",
+        "Rust workspace",
+        "Rust workspace (MSRV 1.85)"
+      ],
+      "remaining_requirement": "The locked proptest update requires rustc 1.88, above the repository's 1.85 MSRV"
+    },
+    {
+      "number": 1282,
+      "head": "c2a86fe993e87c9e6a39e57ed5573fc0c2a119f2",
+      "draft": false,
+      "failed_checks": [
+        "ARM64 observation",
+        "Coverage Report",
+        "Lint & Type Check",
+        "Rust workspace",
+        "Rust workspace (MSRV 1.85)",
+        "Wheel contract (CPython 3.15.1)",
+        "Wheel contract (macos-15)",
+        "Wheel contract (ubuntu-24.04)",
+        "Wheel contract (windows-2025)",
+        "compatibility-and-coverage",
+        "renovate/artifacts"
+      ],
+      "remaining_requirement": "Lock refresh crosses Rust MSRV constraints and archived dependency reference rules"
+    },
+    {
+      "number": 1285,
+      "head": "cefc07177e453dfb0685bb2597ee7c14f6b95b5a",
+      "draft": false,
+      "failed_checks": [],
+      "remaining_requirement": "Reconcile frontier and strategic planning with their already integrated portions before delivery"
+    },
+    {
+      "number": 1289,
+      "head": "258f953f77cfbb73264e1cf6f5d68f918c1aeef9",
+      "draft": true,
+      "failed_checks": [
+        "Coverage Report",
+        "compatibility-and-coverage"
+      ],
+      "remaining_requirement": "Draft VOP/VOH planning; refresh base and rerun failed coverage and compatibility checks"
+    },
+    {
+      "number": 1292,
+      "head": "1188bdabd22b3472f6fe7f04c5a5cefbec77f84a",
+      "draft": false,
+      "failed_checks": [
+        "renovate/artifacts"
+      ],
+      "remaining_requirement": "Renovate artifact repair needed for the security update"
+    },
+    {
+      "number": 1293,
+      "head": "bb771d5a5a59639ad064230e15a5e786a770e186",
+      "draft": false,
+      "failed_checks": [
+        "renovate/artifacts"
+      ],
+      "remaining_requirement": "Renovate artifact repair needed for the security update"
+    },
+    {
+      "number": 1294,
+      "head": "be7509d4bcc39f930274e65fcd0b40e31801ec9a",
+      "draft": false,
+      "failed_checks": [
+        "renovate/artifacts"
+      ],
+      "remaining_requirement": "Renovate artifact repair needed for the security update"
+    },
+    {
+      "number": 1295,
+      "head": "d721224d3d9592e91bfcc2cce355a494aba451bc",
+      "draft": false,
+      "failed_checks": [],
+      "remaining_requirement": "Rebase privacy workflow proposal and qualify the current protected checks"
+    },
+    {
+      "number": 1296,
+      "head": "39085f88cd7c1782213264574e07c86c7f02aee6",
+      "draft": true,
+      "failed_checks": [],
+      "remaining_requirement": "Draft offline security workflow; refresh base and qualify its security checks"
+    },
+    {
+      "number": 1298,
+      "head": "869808a2492805d3767379757d754037ad4418ef",
+      "draft": false,
+      "failed_checks": [
+        "renovate/artifacts"
+      ],
+      "remaining_requirement": "Renovate artifact repair needed for the security update"
+    }
+  ],
+  "issues": [
+    {
+      "number": 296,
+      "updated_at": "2026-09-06T13:54:36Z",
+      "remaining_requirement": "Parent registry track waits on its venue, sustainability and registry outcomes"
+    },
+    {
+      "number": 298,
+      "updated_at": "2026-09-06T13:54:34Z",
+      "remaining_requirement": "SciCrunch curator must assign a resolving RRID before updating metadata"
+    },
+    {
+      "number": 312,
+      "updated_at": "2026-09-06T13:54:08Z",
+      "remaining_requirement": "Journal-first prerequisite and subsequent author-controlled arXiv steps"
+    },
+    {
+      "number": 471,
+      "updated_at": "2026-09-06T13:54:06Z",
+      "remaining_requirement": "Author research replay is available; attributable non-author use remains required"
+    },
+    {
+      "number": 555,
+      "updated_at": "2026-09-06T13:54:23Z",
+      "remaining_requirement": "Upstream BinaryBuilder/JLL and General registry outcome"
+    },
+    {
+      "number": 620,
+      "updated_at": "2026-09-06T13:54:28Z",
+      "remaining_requirement": "OpenSSF badge, recent signed release coverage and independent participation criteria"
+    },
+    {
+      "number": 850,
+      "updated_at": "2026-09-06T13:54:18Z",
+      "remaining_requirement": "Governed sampling-harm disposition and accountable product decision"
+    },
+    {
+      "number": 853,
+      "updated_at": "2026-09-06T13:54:14Z",
+      "remaining_requirement": "Candidate-bound scientific and domain/ethics review, finding disposition and confirmation"
+    },
+    {
+      "number": 876,
+      "updated_at": "2026-09-06T13:54:12Z",
+      "remaining_requirement": "Eligible independent roles and frozen evidence for sampling-harm review"
+    },
+    {
+      "number": 1023,
+      "updated_at": "2026-09-06T13:54:26Z",
+      "remaining_requirement": "Upstream JLL, clean-depot validation, General and JuliaHealth delivery"
+    },
+    {
+      "number": 1025,
+      "updated_at": "2026-10-28T17:11:04Z",
+      "remaining_requirement": "Deferred installed HPC matrix and later upstream packaging acceptance"
+    },
+    {
+      "number": 1026,
+      "updated_at": "2026-09-06T13:54:31Z",
+      "remaining_requirement": "Fiscal host and badge eligibility, authoritative identifiers and affiliation outcome"
+    },
+    {
+      "number": 1037,
+      "updated_at": "2026-09-06T13:54:04Z",
+      "remaining_requirement": "Survey evidence is recorded; maintainer issue text, disclosures and later venue actions remain"
+    },
+    {
+      "number": 1045,
+      "updated_at": "2026-11-13T19:28:45Z",
+      "remaining_requirement": "Ongoing dependency queue, trusted scans and exact-head repair delivery"
+    },
+    {
+      "number": 1053,
+      "updated_at": "2026-10-28T12:20:39Z",
+      "remaining_requirement": "Complete post-delivery inventory and preservation-backed cleanup after pending acceptance"
+    },
+    {
+      "number": 1110,
+      "updated_at": "2026-09-07T15:56:02Z",
+      "remaining_requirement": "Julia registry/JLL acceptance at G03.4"
+    },
+    {
+      "number": 1111,
+      "updated_at": "2026-09-07T15:56:03Z",
+      "remaining_requirement": "Conductor accepted execution packet controls; hosted issue is still open"
+    },
+    {
+      "number": 1112,
+      "updated_at": "2026-09-07T15:56:05Z",
+      "remaining_requirement": "Conductor accepted version identity milestone; hosted issue is still open"
+    },
+    {
+      "number": 1113,
+      "updated_at": "2026-09-07T15:56:06Z",
+      "remaining_requirement": "Conductor accepted native logging; hosted issue is still open"
+    },
+    {
+      "number": 1114,
+      "updated_at": "2026-09-07T15:56:08Z",
+      "remaining_requirement": "Conductor accepted the logging privacy lifecycle; hosted issue is still open"
+    },
+    {
+      "number": 1115,
+      "updated_at": "2026-09-07T15:56:09Z",
+      "remaining_requirement": "Conductor accepted the scoped VOP pilot; hosted issue is still open"
+    },
+    {
+      "number": 1116,
+      "updated_at": "2026-09-07T15:56:10Z",
+      "remaining_requirement": "Optional telemetry qualification deferred until a demonstrated workload need"
+    },
+    {
+      "number": 1193,
+      "updated_at": "2026-10-25T12:30:58Z",
+      "remaining_requirement": "Later implementation direction supersedes planning-only text; wider consumer contracts remain"
+    },
+    {
+      "number": 1195,
+      "updated_at": "2026-10-26T09:45:57Z",
+      "remaining_requirement": "Conductor accepted the four migration tracks; parent issue still has planning-only text"
+    },
+    {
+      "number": 1197,
+      "updated_at": "2026-10-26T09:49:15Z",
+      "remaining_requirement": "Conductor accepted Polars containers in PR #1202; hosted planning issue is still open"
+    },
+    {
+      "number": 1221,
+      "updated_at": "2026-10-28T22:30:23Z",
+      "remaining_requirement": "Non-HPC adapter witnesses merged in PR #1301; current VOP source and deferred native acceptance remain"
+    },
+    {
+      "number": 1222,
+      "updated_at": "2026-10-28T23:22:20Z",
+      "remaining_requirement": "Deferred installed cross-generation HPC and full compiler matrix"
+    },
+    {
+      "number": 1283,
+      "updated_at": "2026-11-07T13:52:36Z",
+      "remaining_requirement": "Optional paired-draw boundary implementation and installed qualification"
+    },
+    {
+      "number": 1286,
+      "updated_at": "2026-11-07T23:01:59Z",
+      "remaining_requirement": "Verified VOP promotion and supported Innovate/Paignia integration"
+    },
+    {
+      "number": 1290,
+      "updated_at": "2026-11-10T01:08:51Z",
+      "remaining_requirement": "Credal LP and endogenous censored EVSI implementation and evidence"
+    }
+  ],
+  "local_branches": [
+    {
+      "name": "codex/archive-backlog-gate-20261103",
+      "oid": "db9bc470a4f48127fc05635719b9d6be9a047495",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/archive-primary-20261107",
+      "oid": "a9ec5b1cfd67c5a313deb6877f33fb7443facfef",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/audits-mlx-scope-20261105",
+      "oid": "228964ed553ee82c376a07bc9f1cad3df55281e6",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/delivery-reconciliation-20261105",
+      "oid": "58c5d80aaccc773515d8f313c3f31aa56662ca0b",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/hpc-arrow-qualification-20261103",
+      "oid": "0436e1bee899af78914bb1541870092174a65684",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/hpc-bootstrap-compat-20261105",
+      "oid": "062081bb1d80af4cbee1e52c18bf87dbaa316b20",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/hpc-compiler-requirements",
+      "oid": "ef535f31f8f1a573d10a13f930dbfda9d095c35d",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/hpc-evidence-cache-20261103",
+      "oid": "2d2eff553d4c02031f07b46e7a5852671a454266",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/hpc-installed-qualification-20261103",
+      "oid": "edd03099fada845fe6455232ccc68a37b3f9c46a",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/hpc-native-install-results-20261104",
+      "oid": "816da75777dbb3e35d48d7e693b6e7a87399acfc",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/hpc-native-sources-20261103",
+      "oid": "1a8c3838b2083bd46bb0814719031168b9d875ee",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/hpc-scientific-integration",
+      "oid": "b9e540267a060aff0e35b7858ed738e7820488ca",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/hpc-sudo-compatibility-20261105",
+      "oid": "6ebc61dc70d9996de836bbcd44ceea998d9f0cc5",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/hpc-two-backend-evidence-20261105",
+      "oid": "64c6f794ac242549c7aaa5efd28051d04b75f940",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/jax-evpi-redundancy-20261105",
+      "oid": "aee5f5fa70c2b73309de349030f281316967d4a4",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/merge-hpc-scientific",
+      "oid": "0b4ca6f44905d5f8129f33fe56067098c4467b4e",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/native-otlp-loopback",
+      "oid": "0dec9cff1fc5ae4fbebdc5c1b823058cac218016",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/numerics-package-fixtures-20261105",
+      "oid": "17b1374de8552f5c5013762e9a5f0ac977885840",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/primary-before-sync-20261107",
+      "oid": "a9ec5b1cfd67c5a313deb6877f33fb7443facfef",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/pypi-action-advisory-20261105",
+      "oid": "cda05360384d609446c1c6fa9f921bec1c13adb3",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/random-forest-unfitted-20261105",
+      "oid": "4b98927cb79ace4f969c38d919be2c0aa38893ef",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/release-metadata-20261105",
+      "oid": "cd254601f0ed614b0d77cabe92b94f3fca9b93c2",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/remaining-backlog-b8-b13-20261114",
+      "oid": "4514f65a29ade3780bacb2c68deb4ea40b9c7a8a",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": true,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/repair-lock-1243",
+      "oid": "6d7d7038ad54010c1f06578e7fc8761b40821093",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/repair-minor-1248",
+      "oid": "d706ae6a99af0d1772ee91e444bd35dbe9e3a172",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/scientific-alignment-installed-20261114",
+      "oid": "e977da84cf7e456b7f276f6ec18922a3b07ef216",
+      "main_ancestor": false,
+      "tree_equals_main": true,
+      "checked_out": true,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/scientific-ecosystem-rust199",
+      "oid": "c509dd598ea75870818c0a9fef4f64acbef7d488",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/telemetry-deferral-integration",
+      "oid": "9a8b4ed30d9007a9136938118ca13945722c2dc4",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": true
+    },
+    {
+      "name": "codex/telemetry-need-review",
+      "oid": "68b06b1253938c1a510298991bc522bba76c79f7",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/tobac-installed-qualification",
+      "oid": "b5d62f285d73b888a794cc5696f65b57049a0f32",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/tox-repo-python3151-20261103",
+      "oid": "f530b786721c5e5a5d64dabe7ce0f7889b23ef1c",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/venue-template-refresh-20261103",
+      "oid": "b6a83dff94ce10ad96c9df36630540c60d1662e8",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/voiage-engineering-acceptance",
+      "oid": "2161126cb0d4bb8c1a000eb623abab0c5dab2daf",
+      "main_ancestor": true,
+      "tree_equals_main": false,
+      "checked_out": true,
+      "present_on_remote": false
+    },
+    {
+      "name": "codex/voiage-paper-contract-guidance",
+      "oid": "ce9ea7da53ed302cc57664068a53a1ede72b9e5e",
+      "main_ancestor": true,
+      "tree_equals_main": false,
+      "checked_out": true,
+      "present_on_remote": false
+    },
+    {
+      "name": "main",
+      "oid": "7973f961fb94924182806a5b3a9160977c4f0cf5",
+      "main_ancestor": true,
+      "tree_equals_main": false,
+      "checked_out": true,
+      "present_on_remote": true
+    },
+    {
+      "name": "renovate/lock-file-maintenance",
+      "oid": "f8b00059a18dfb38c6c8b630063f199d7eb3c5dd",
+      "main_ancestor": false,
+      "tree_equals_main": false,
+      "checked_out": false,
+      "present_on_remote": true
+    }
+  ],
+  "remote_branches": [
+    {
+      "name": "2.0.x",
+      "oid": "73c92eebdf581c763f1afb5b5196f687a6d33575",
+      "protected": true
+    },
+    {
+      "name": "codex/backlog-evidence-20261103",
+      "oid": "0436e1bee899af78914bb1541870092174a65684",
+      "protected": false
+    },
+    {
+      "name": "codex/telemetry-deferral-integration",
+      "oid": "9a8b4ed30d9007a9136938118ca13945722c2dc4",
+      "protected": false
+    },
+    {
+      "name": "fix-missing-rf-rmse-test-4086974318902082962",
+      "oid": "a1eaee432b094ac0fc82e11d6ad41c575aaa7886",
+      "protected": false
+    },
+    {
+      "name": "jules-555481459443272329-56b0afe3",
+      "oid": "3948d79c6555f548bd6fc7b6a6e1fc7197731997",
+      "protected": false
+    },
+    {
+      "name": "jules-rf-rmse-test-fix-7210898025045590352",
+      "oid": "9115c40b16c1b9ddb2e72181430ed8428e17b472",
+      "protected": false
+    },
+    {
+      "name": "main",
+      "oid": "9f53fcb33bc4e40c5a84f3b3fc31f3287f1f1a3b",
+      "protected": true
+    },
+    {
+      "name": "plan/rust-voi-frontier-validation-20261108",
+      "oid": "cefc07177e453dfb0685bb2597ee7c14f6b95b5a",
+      "protected": false
+    },
+    {
+      "name": "plan/vop-voh-production-ownership-20261108",
+      "oid": "258f953f77cfbb73264e1cf6f5d68f918c1aeef9",
+      "protected": false
+    },
+    {
+      "name": "renovate/all-minor-patch",
+      "oid": "393c2285361f09d91e860faf35e379954eead324",
+      "protected": false
+    },
+    {
+      "name": "renovate/github-actions",
+      "oid": "8c1cf9601d78e856b273e309ae856715eddd09af",
+      "protected": false
+    },
+    {
+      "name": "renovate/lock-file-maintenance",
+      "oid": "c2a86fe993e87c9e6a39e57ed5573fc0c2a119f2",
+      "protected": false
+    },
+    {
+      "name": "renovate/pypi-filelock-vulnerability",
+      "oid": "be7509d4bcc39f930274e65fcd0b40e31801ec9a",
+      "protected": false
+    },
+    {
+      "name": "renovate/pypi-jupyterlab-vulnerability",
+      "oid": "d48b1d5a704f43dda19c52ff29d3b8d5ffcea00a",
+      "protected": false
+    },
+    {
+      "name": "renovate/pypi-soupsieve-vulnerability",
+      "oid": "869808a2492805d3767379757d754037ad4418ef",
+      "protected": false
+    },
+    {
+      "name": "renovate/pypi-tornado-vulnerability",
+      "oid": "1188bdabd22b3472f6fe7f04c5a5cefbec77f84a",
+      "protected": false
+    },
+    {
+      "name": "renovate/pypi-virtualenv-vulnerability",
+      "oid": "bb771d5a5a59639ad064230e15a5e786a770e186",
+      "protected": false
+    },
+    {
+      "name": "security/offline-ai-security-rollout-20261111",
+      "oid": "39085f88cd7c1782213264574e07c86c7f02aee6",
+      "protected": false
+    },
+    {
+      "name": "security/privacy-presidio-gitleaks-20261110",
+      "oid": "d721224d3d9592e91bfcc2cce355a494aba451bc",
+      "protected": false
+    },
+    {
+      "name": "test-condition-16538021912075585812",
+      "oid": "541124cc768814ab035f2761dd66e0b10ce397d4",
+      "protected": false
+    },
+    {
+      "name": "test-create-financial-config-8805096995058823085",
+      "oid": "754d98e63078b8e4331975f3e3ebc453a6a1ab07",
+      "protected": false
+    },
+    {
+      "name": "test-to-dict-improvement-15134409924331881500",
+      "oid": "2bf371b681fedc6e31890d28b06b8a6feeaee42b",
+      "protected": false
+    }
+  ],
+  "worktrees": [
+    {
+      "branch": "main",
+      "head": "7973f961fb94924182806a5b3a9160977c4f0cf5",
+      "status": "clean"
+    },
+    {
+      "branch": "codex/voiage-engineering-acceptance",
+      "head": "2161126cb0d4bb8c1a000eb623abab0c5dab2daf",
+      "status": "dirty"
+    },
+    {
+      "branch": "codex/remaining-backlog-b8-b13-20261114",
+      "head": "4514f65a29ade3780bacb2c68deb4ea40b9c7a8a",
+      "status": "clean"
+    },
+    {
+      "branch": "codex/scientific-alignment-installed-20261114",
+      "head": "e977da84cf7e456b7f276f6ec18922a3b07ef216",
+      "status": "clean"
+    },
+    {
+      "branch": "codex/voiage-paper-contract-guidance",
+      "head": "ce9ea7da53ed302cc57664068a53a1ede72b9e5e",
+      "status": "dirty"
+    }
+  ],
+  "notes_refs": [
+    {
+      "ref": "refs/notes/commits",
+      "oid": "d92edfb909b8fb3dba8b38680ead458cf0b970ab"
+    },
+    {
+      "ref": "refs/notes/conductor",
+      "oid": "e1f1015c78c8e4638fd108eebf10d259faa90fa8"
+    },
+    {
+      "ref": "refs/notes/conductor-backlog-20261028",
+      "oid": "b0a0e3a926054cee826de24d2c43d79dd08f39c5"
+    },
+    {
+      "ref": "refs/notes/origin",
+      "oid": "3e605b08481579862c8e551d63b338f3e17790cf"
+    },
+    {
+      "ref": "refs/notes/origin-commits",
+      "oid": "d3f4b22b6ff83fa4d56a9761ce032c05c01f2d32"
+    },
+    {
+      "ref": "refs/notes/remote-commits",
+      "oid": "80e57ff3858ab1d902d0f36541cc11217d1821e8"
+    },
+    {
+      "ref": "refs/notes/remote-merge",
+      "oid": "faf7a8e5afedb17262c05e2bcae03b9d24267dcf"
+    },
+    {
+      "ref": "refs/notes/remote-merge-pr715",
+      "oid": "8cd9b7dfa9207e8c5fbc9e388ac170101e49a6c0"
+    },
+    {
+      "ref": "refs/notes/remote-merge-pr717",
+      "oid": "244b2fce26b47ebee85d1775ada36db27afa30a3"
+    },
+    {
+      "ref": "refs/notes/remote-merge-pr721",
+      "oid": "49c2d7e8a988ae8486e20b03d7e0bcdf54b2e4a9"
+    },
+    {
+      "ref": "refs/notes/remote-merge-pr722",
+      "oid": "8df1a7e421428bfc7ce0253910ae13982693f002"
+    }
+  ],
+  "stash_entries": 11,
+  "ordered_stash_reflog_sha256": "ce7a8f9982b218c6990141e7a556de10b414f476d96c0b0e2424e36327ac3d52",
+  "all_local_refs_private_capture_sha256": "160098e5d5997732fae9ad5fdc265c42c522e22210ee108d6696ceab7babdd10",
+  "recovery": {
+    "bundle_sha256": "47c6f93423f8b972916769fc5bb7073b4a60b81de84ca24044ff62bb37ec3368",
+    "bundle_bytes": 26953081,
+    "stash_reflog_sha256": "ce7a8f9982b218c6990141e7a556de10b414f476d96c0b0e2424e36327ac3d52",
+    "git_version": "git version 2.56.1",
+    "repo_refs_restored": 237,
+    "stash_reflog_entries_restored": 11,
+    "notes_refs_restored": 11,
+    "strict_full_fsck": "passed",
+    "retirement_candidate_heads": {
+      "codex/voiage-engineering-acceptance-ssd": "505f8d15a4d7029449f20a1faf7f46d3d02329fd",
+      "codex/venue-submissions-r13g-20261113": "77894dc25a311301d1fea1677f03726933472738"
+    }
+  },
+  "retired_local_branches": [
+    "codex/voiage-engineering-acceptance-ssd",
+    "codex/venue-submissions-r13g-20261113"
+  ]
+}
