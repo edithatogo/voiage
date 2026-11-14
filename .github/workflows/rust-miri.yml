@@ -35,6 +35,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Install pinned Miri toolchain
+        id: pinned_nightly
         uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
           toolchain: nightly-2026-10-18
@@ -42,7 +43,8 @@ jobs:
       - name: Run unsafe-boundary suites under Miri
         env:
           MIRIFLAGS: -Zmiri-strict-provenance
+          VOIAGE_NIGHTLY_TOOLCHAIN: ${{ steps.pinned_nightly.outputs.name }}
         run: >-
-          cargo +nightly-2026-10-18 miri test
+          cargo +"${VOIAGE_NIGHTLY_TOOLCHAIN}" miri test
           --manifest-path rust/Cargo.toml --locked --package voiage-ffi
           --test lifecycle --test error_transport

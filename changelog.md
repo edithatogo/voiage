@@ -6,8 +6,12 @@
   portable final DOCX validation for research-paper deliveries.
 - Keep automatic backend detection compatible with current Ruff lint rules.
 
+- Redact detected secrets from Gitleaks audit output.
+
 - Keep frozen research environments outside Renovate's Python dependency
   discovery and update the isolated readability tools to patched NLTK 3.10.4.
+
+- Keep Rust sanitizer, Miri and fuzz checks on their installed nightly toolchain.
 
 - Verify the current pyOpenSci packet and record the completed pre-review survey.
   The maintainer's issue text and current disclosures are still needed.
