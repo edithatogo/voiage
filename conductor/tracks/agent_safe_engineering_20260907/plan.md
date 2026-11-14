@@ -1,8 +1,8 @@
 # Plan: Agent-safe engineering improvements
 
-G01–G08 record historically delivered bounded slices, not a fresh acceptance
-of the whole programme. The review identified an unverified G05 live-target
-witness and track archival dependencies; G05.4 and the final review remain open.
+G01–G08 record the delivered implementation slices. The
+[13 November reconciliation](./acceptance-20261113.md) records current
+witnesses and the remaining provider, registry and programme gates.
 Repository allocation precedes implementation;
 [repository-boundaries.md](./repository-boundaries.md) orders the separate
 integration pilots and defines the external capabilities excluded from this repo. Follow [worker-guide.md](./worker-guide.md). A package is not an atomic implementation task: finish its bounded design packet before implementation.
@@ -26,11 +26,13 @@ Prerequisites: G01. The bounded qualification matrix is frozen in [dependency-fe
 - [x] G02.2 — Write and run the negative/analytic witness first; implement the frozen slice only after prerequisites and integrator review are recorded. Run `python -m pytest tests/test_dependency_promotion_policy.py tests/test_dependency_frontier_script.py -q` plus affected checks (G02-AC).
 - [x] G02.3 — Review the diff against the packet; bind hosted compatibility-and-coverage and all required PR checks to the exact source tree, record the local cold-cache timeout as an environmental limitation, and reconcile plan metadata (G02-AC).
 
-- [~] G02.4 — Correct the earlier MSRV witness: the policy test compared
+- [x] G02.4 — Correct the earlier MSRV witness: the policy test compared
   version numbers without running Cargo. An isolated locked fixture now checks
   optional-feature-off, incompatible and compatible feature-on builds using
-  explicitly verified Cargo and rustc 1.85.0. Full feature-matrix, hosted and
-  final acceptance evidence remain open. [Witness handoff](./g02-msrv-witness-20261029.md).
+  explicitly verified Cargo and rustc 1.85.0. All 23 current locked feature
+  lanes passed on macOS arm64. Hosted Linux all-target and negative-control
+  evidence remains valid for the unchanged inputs. See the
+  [acceptance reconciliation](./acceptance-20261113.md#g024--rust-feature-and-msrv-qualification).
 
 ## G03: Voiage compatibility and replaceable providers
 
@@ -48,8 +50,11 @@ Prerequisites: G01.
   finite-world evaluator now checks each accepted representation against a
   declared oracle; CI retains its result. A bounded macOS default-feature
   semver removal/addition witness, linked C smoke, private R tests and local
-  Julia installation now have retained evidence. The full feature/target,
-  registry-installation and final acceptance evidence remain open.
+  Julia installation have retained evidence. PyPI and R-universe 3.1.0
+  installed smoke tests also pass. All 21 Rust API comparisons across macOS,
+  Linux and Windows passed. Julia General/JLL remains an external
+  gate under issue #1023. See the
+  [acceptance reconciliation](./acceptance-20261113.md#g034--provider-and-binding-compatibility).
 
 ## G04: CI cost and failure reproducibility
 
@@ -59,13 +64,14 @@ Prerequisites: G01.
 - [x] G04.2 — Added the CI measurement contract and fail-closed policy assertions; `uv run pytest tests/test_exact_head_workflows.py tests/test_repo_harness.py -q` passes (15 tests) (G04-AC).
 - [x] G04.3 — Review the diff against the packet; run required final gates, bind evidence to source and environment, and update plan/metadata only for proven completion (G04-AC). PR #1164 merged as `184a3299b1d1a54a33c79bc5eb5545b7cfee3520`; exact-head hosted checks passed.
 
-- [~] G04.4 — Reconcile the acceptance claim against executable evidence.
-  PR #1164 added declarations and checks their shape, but did not demonstrate
-  rejection of mismatched artifacts or failed aggregation. The measurement
-  observation has pending digests and no timings or counts. A local nextest
-  resource-group and replay probe has since passed, as has the historical hosted
-  positive shard aggregate; actual hosted cancellation, comparable measurements
-  and current-head acceptance remain open. See `g04-acceptance-audit-20261029.md`.
+- [x] G04.4 — Reconcile the acceptance claim against executable evidence.
+  Both hosted coverage shards and the aggregate passed on current main.
+  A separate hosted cancellation reached the aggregate with a cancelled
+  matrix result and failed as required. Hosted archive replay and the local
+  cache-cold and cache-warm controls passed. The
+  [acceptance reconciliation](./acceptance-20261113.md#g044--coverage-aggregation-cancellation-and-replay)
+  binds these results to their source and scope. The full local gate and
+  hosted checks passed for the verification fix (`d688abd2a`).
 
 ## G05: Numerical adversarial assurance
 
@@ -75,13 +81,15 @@ Prerequisites: G01.
 - [x] G05.2 — Added the large-magnitude analytic EVPI witness and case register; `cargo test --manifest-path rust/Cargo.toml --locked -p voiage-numerics -p voiage-test-support` passes, including live case-register validation (G05-AC).
 - [x] G05.3 — Review the diff against the packet; run required final gates, bind evidence to source and environment, and update plan/metadata only for proven completion (G05-AC). PR #1165 merged; exact-head hosted checks passed and the numerical register witness is recorded.
 
-- [~] G05.4 — Correct the prior live-target claim: the original register test
+- [x] G05.4 — Correct the prior live-target claim: the original register test
   checked target syntax only. The numerical test binary now enumerates its
   compiled, non-ignored cases and accepts exactly one active or archived
   register. Focused workspace tests, offline archive verification and tests
   of extracted archives with local dependency patches now pass. The standalone
-  archive omits the repository register; full-local and current-head hosted
-  evidence remain necessary before marking this review fix complete.
+  archive carries its own analytic fixtures. All 127 current locked tests
+  passed, including the compiled inventory and invalid-target controls.
+  The merged package PR passed hosted Rust checks. See the
+  [acceptance reconciliation](./acceptance-20261113.md#g054--live-numerical-register).
 
 ## G06: Bounded jobs and recoverable computation
 

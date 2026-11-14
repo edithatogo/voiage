@@ -148,9 +148,25 @@ def workload_identity(args: argparse.Namespace, command: list[str]) -> dict[str,
 
 def group_rss_kib(group: int) -> int:
     """Sum resident memory across the isolated job and all its group members."""
-    result = subprocess.run(
-        ["/bin/ps", "-axo", "pgid=,rss="], check=True, capture_output=True, text=True
-    )
+    if sys.platform == "darwin":
+        # A host-wide RSS query can stall on processes outside the guarded job.
+        # BSD ps selects by process group even after its leader has exited.
+        result = subprocess.run(  # noqa: S603 -- fixed executable and integer process group
+            ["/bin/ps", "-g", str(group), "-o", "pgid=,rss="],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        if result.returncode == 1 and not (result.stdout or result.stderr):
+            return 0
+        result.check_returncode()
+    else:
+        result = subprocess.run(
+            ["/bin/ps", "-axo", "pgid=,rss="],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
     return sum(
         int(fields[1])
         for line in result.stdout.splitlines()

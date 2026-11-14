@@ -31,6 +31,7 @@
 
 - [tobac weighted VOI consumer qualification](./tracks/tobac_consumer_qualification_20261025/index.md): candidate qualification is in progress under the 29 October implementation direction.
 - [Optional simulation-outcome boundary](./tracks/simulation_outcome_boundary_20261107/index.md): pending paired-input contracts and qualification for cross-domain VOI; existing scientific alignment keeps provider/pin ownership.
+- [Credal LP dominance and endogenous censored EVSI for tobac](./tracks/tobac_credal_endogenous_voi_20261110/index.md): pending polyhedral credal dominance and action-dependent / Tobit-censored EVSI contracts for `tobac` (`BF1`, `BF2`, `F05`).
 
 ## Rust authority and comparative VOI research
 

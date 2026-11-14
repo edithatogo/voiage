@@ -20,9 +20,10 @@ and unsatisfied scientific, venue and registry gates retain their evidence.*
 ## [~] Track: v2.2 Release and Venue Submissions
 *Link: [./tracks/v2_2_release_and_venue_submissions_20260830/index.md](./tracks/v2_2_release_and_venue_submissions_20260830/index.md)*
 *GitHub: [issue #1037](https://github.com/edithatogo/voiage/issues/1037).*
-*Status: in progress — v2.2.0 is published and venue-packet PR #1051 is merged
-with terminal hosted checks. Phase 3 records confirmed declarations and prior-request withdrawals;
-survey completion and human-written submission text remain pending; venue submissions remain unperformed.*
+*Status: in progress — v2.2.0 is published, the packet refresh is verified,
+and the pre-review survey has been submitted. Phase 3 awaits the maintainer's
+own issue text and current disclosure assessment; no venue review issue has
+been filed.*
 
 ---
 
@@ -1141,3 +1142,9 @@ track at the top of this registry; completed repository slices stay closed.
   Planning complete; eight implementation leaves pending. Existing scientific
   alignment retains provider/pin ownership; HPC deferral except MLX/Metal stays.
   GitHub: https://github.com/edithatogo/voiage/issues/1283
+
+---
+- [ ] **Track: Credal LP dominance and endogenous censored EVSI for tobac**
+  *Link: [./tracks/tobac_credal_endogenous_voi_20261110/index.md](./tracks/tobac_credal_endogenous_voi_20261110/index.md)*
+  Planning complete; five implementation leaves pending for polyhedral credal dominance with Farkas duality witnesses and Tobit-censored / action-dependent sequential EVSI (`tobac` BF1/BF2/F05).
+  GitHub: https://github.com/edithatogo/voiage/issues/1290

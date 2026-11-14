@@ -47,10 +47,10 @@ def test_arxiv_template_tools_are_pinned_and_registered() -> None:
         (
             root
             / "conductor/tracks/remaining_backlog_delivery_20260831"
-            / "nltk-residual-advisory-20260902.json"
+            / "nltk-security-update-20261114.json"
         ).read_text()
     )
-    selected_version = Version(disposition["selected_version"])
+    selected_version = Version(disposition["patched_release"])
 
     assert "arxiv-collector==" in requirements
     assert "arxiv-latex-cleaner==" in requirements
@@ -60,12 +60,17 @@ def test_arxiv_template_tools_are_pinned_and_registered() -> None:
         lines = (root / filename).read_text().splitlines()
         nltk_lines = [line for line in lines if line.lower().startswith("nltk")]
         assert len(nltk_lines) == 1
-        pin = re.fullmatch(r"nltk==(3\.10\.\d+)", nltk_lines[0])
+        pin = re.fullmatch(r"nltk==(\d+\.\d+\.\d+)", nltk_lines[0])
         assert pin is not None
         version = Version(pin[1])
         assert version == selected_version
         nltk_versions.append(version)
     assert nltk_versions[0] == nltk_versions[1]
+    for filename in ("requirements-arxiv.txt", "requirements-joss.txt"):
+        exact_pins = set((root / filename).read_text().splitlines())
+        assert {"defusedxml==0.7.1", "cloudpickle==3.1.2", "setuptools==84.2.1"} <= (
+            exact_pins
+        )
     assert "pyphen==0.18.1" in requirements
     assert "pyphen==0.18.1" in (root / "requirements-joss.txt").read_text()
     assert "edithatogo/sourceright.git" in modules

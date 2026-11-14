@@ -1,5 +1,21 @@
 # Changelog
 
+- Document manuscript evidence contracts and scientific acceptance, and provide
+  portable final DOCX validation for research-paper deliveries.
+- Keep automatic backend detection compatible with current Ruff lint rules.
+
+- Keep frozen research environments outside Renovate's Python dependency
+  discovery and update the isolated readability tools to patched NLTK 3.10.4.
+
+- Verify the current pyOpenSci packet and record the completed pre-review survey.
+  The maintainer's issue text and current disclosures are still needed.
+
+- Keep local verification responsive on macOS by sampling only the guarded
+  process group for memory use.
+
+- Reconcile Paignia's created repository and map its decision-input handoff to the
+  existing eight outcome tasks, preserving independent provider qualification.
+
 - Link the pending simulation-outcome plan from the current roadmap.
 
 - Add a pending cross-domain simulation-outcome adapter plan with paired draw
@@ -258,6 +274,10 @@
   is published; pyOpenSci, rOpenSci, and JOSS submissions remain unperformed.
 
 ## Unreleased
+
+- Qualify installed Innovate, MARS, tobac and published VOP reference cases
+  against Voiage 3.1.0, including the current tobac adapter default and a
+  byte-for-byte replay of the frozen VOP scenario.
 
 - Publish the normative v3 tabular container contract (`specs/v3/stable-api.json`
   and `specs/v3/compatibility-policy.json`), revise the core API decision record

@@ -11,6 +11,12 @@ agent review of the coherent public contract or numerical boundary. Reuse that
 review for dependent implementation; do not add repeated human approvals.
 Existing scientific alignment owns provider revisions and any pin migration.
 
+The [Paignia/Innovate handoff](innovation-paignia-vop-handoff.md) refines these
+same leaves: VP01 maps to O01–O04/O06, VP02 to O05/O07/O08, and VP04's dependency
+check to O08. VP03/VOP promotion and study-design feedback retain their existing
+scientific-alignment/issue #1286 owners. They do not add prerequisites for every
+outcome producer or new task-completion counters.
+
 ### O01 — reject unsupported outcome-profile versions
 
 - [ ] Task: validate the declared version of the generic outcome profile and
