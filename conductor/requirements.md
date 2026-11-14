@@ -22,7 +22,7 @@ programme. The canonical cross-repository requirements are maintained in
   fixtures, and PyArrow/Polars round trips validate in hosted CI.
 - Every archived Conductor track remains discoverable in `conductor/tracks.md`
   and is represented in the cross-repository GitHub historical ledger.
-- Python 3.12–3.14, current compatible dependencies, security checks, coverage,
+- Python 3.15.1, current compatible dependencies, security checks, coverage,
   repository harnesses, and benchmark regression gates remain green.
 - External maturity, data, hardware, registry, and publication gates remain
   explicit even when repository implementation is complete.
