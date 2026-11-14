@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import tomllib
 
 import yaml
 
@@ -12,6 +13,34 @@ WORKFLOW_PATH = ROOT / ".github/workflows/python-rust-bridge.yml"
 
 def _workflow() -> dict[str, object]:
     return yaml.safe_load(WORKFLOW_PATH.read_text(encoding="utf-8"))
+
+
+def _locked_maturin_version() -> str:
+    lock = tomllib.loads((ROOT / "uv.lock").read_text(encoding="utf-8"))
+    versions = [
+        package["version"]
+        for package in lock["package"]
+        if package["name"] == "maturin"
+    ]
+    assert len(versions) == 1
+    return f"v{versions[0]}"
+
+
+def test_maturin_actions_use_the_locked_build_tool_version() -> None:
+    for filename in ("python-rust-bridge.yml", "release.yml"):
+        workflow = yaml.safe_load(
+            (ROOT / ".github/workflows" / filename).read_text(encoding="utf-8")
+        )
+        actions = [
+            step
+            for job in workflow["jobs"].values()
+            for step in job.get("steps", [])
+            if str(step.get("uses", "")).startswith("PyO3/maturin-action@")
+        ]
+        assert len(actions) == 2
+        assert {step["with"]["maturin-version"] for step in actions} == {
+            _locked_maturin_version()
+        }
 
 
 def test_bridge_workflow_has_minimal_permissions_and_pinned_actions() -> None:
@@ -28,6 +57,8 @@ def test_bridge_workflow_has_minimal_permissions_and_pinned_actions() -> None:
     assert "dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c" in text
     assert "persist-credentials: false" in text
     assert text.count('      - "tests/packaging/**"') == 2
+    assert text.count('      - "scripts/validate_wheel_tags.py"') == 2
+    assert text.count('      - "tests/test_wheel_tag_validation.py"') == 2
 
 
 def test_bridge_workflow_covers_supported_python_and_abi3_platforms() -> None:
@@ -148,11 +179,31 @@ def test_bridge_platform_matrix_validates_actual_wheel_suffix() -> None:
     )
     assert linux_build["if"] == "runner.os == 'Linux'"
     assert linux_build["with"]["manylinux"] == "2014"
-    assert linux_build["with"]["maturin-version"] == "v1.15.0"
+    assert linux_build["with"]["maturin-version"] == _locked_maturin_version()
     inspect = next(
         step
         for step in platform_job["steps"]
         if step["name"] == "Inspect wheel tags and contents"
     )
     assert inspect["env"]["EXPECTED_PLATFORM_SUFFIX"] == "${{ matrix.platform-suffix }}"
-    assert "endswith(expected)" in inspect["run"]
+    assert "python scripts/validate_wheel_tags.py dist" in inspect["run"]
+    assert (
+        '--abi "$VOIAGE_PYTHON_ABI" --platform "$EXPECTED_PLATFORM_SUFFIX"'
+        in inspect["run"]
+    )
+
+    compatibility = workflow["jobs"]["python-compatibility"]
+    inspect_compatibility = next(
+        step
+        for step in compatibility["steps"]
+        if step["name"] == "Inspect wheel tags and contents"
+    )
+    assert (
+        inspect_compatibility["env"]["EXPECTED_PLATFORM_SUFFIX"]
+        == "manylinux_2_17_x86_64.manylinux2014_x86_64"
+    )
+    assert "python scripts/validate_wheel_tags.py dist" in inspect_compatibility["run"]
+    assert (
+        '--abi "$VOIAGE_PYTHON_ABI" --platform "$EXPECTED_PLATFORM_SUFFIX"'
+        in inspect_compatibility["run"]
+    )

@@ -8,6 +8,9 @@
 
 - Redact detected secrets from Gitleaks audit output.
 
+- Keep Linux wheel builders aligned with the locked Maturin version and validate
+  their exact platform tags independent of tag order.
+
 - Keep frozen research environments outside Renovate's Python dependency
   discovery and update the isolated readability tools to patched NLTK 3.10.4.
 
