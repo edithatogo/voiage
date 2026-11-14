@@ -577,6 +577,7 @@ def test_vale_and_full_verification_use_the_same_pinned_go_version() -> None:
 def test_installed_nightly_matches_every_explicit_command_and_environment() -> None:
     """Every consumer must use the exact toolchain installed by its setup step."""
 
+    installed_toolchains = set()
     for filename, expected_consumers in (
         ("rust-miri.yml", 1),
         ("rust-fuzz.yml", 3),
@@ -595,6 +596,7 @@ def test_installed_nightly_matches_every_explicit_command_and_environment() -> N
             assert re.fullmatch(
                 r"nightly-\d{4}-\d{2}-\d{2}", installer["with"]["toolchain"]
             )
+            installed_toolchains.add(installer["with"]["toolchain"])
             consumers = []
             for step in job["steps"]:
                 command = str(step.get("run", ""))
@@ -610,3 +612,4 @@ def test_installed_nightly_matches_every_explicit_command_and_environment() -> N
                     )
             assert len(consumers) == expected_consumers
             assert set(consumers) == {"${{ steps.pinned_nightly.outputs.name }}"}
+    assert len(installed_toolchains) == 1
