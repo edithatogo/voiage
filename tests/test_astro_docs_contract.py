@@ -12,6 +12,29 @@ import yaml
 ROOT = Path(__file__).parents[1]
 
 
+def test_current_docs_platform_versions_match_site_manifest() -> None:
+    manifest = json.loads((ROOT / "docs/astro-site/package.json").read_text())
+    dependencies = manifest["dependencies"]
+    stack = (ROOT / "conductor/tech-stack.md").read_text()
+    for package in (
+        "astro",
+        "@astrojs/starlight",
+        "starlight-links-validator",
+        "starlight-llms-txt",
+    ):
+        label = "Astro" if package == "astro" else package
+        assert f"**{label}**: {dependencies[package]}" in stack
+    assert f"**pnpm**: {manifest['packageManager'].removeprefix('pnpm@')} " in stack
+    platform = (
+        ROOT
+        / "docs/astro-site/src/content/docs/developer-guide/starlight-docs-platform.mdx"
+    ).read_text()
+    assert (
+        f"Astro {dependencies['astro']} and Starlight {dependencies['@astrojs/starlight']}"
+        in platform
+    )
+
+
 def test_astro_site_is_the_active_docs_build() -> None:
     workflow = (ROOT / ".github/workflows/docs.yml").read_text(encoding="utf-8")
     manifest = (ROOT / "docs/astro-site/package.json").read_text(encoding="utf-8")
