@@ -105,3 +105,10 @@ Textstat output is deterministic editorial evidence from the canonical review
 PDF. Respect each formula's sample-size assumptions and do not use generic
 readability scores as automatic rewrite, acceptance, or scientific-quality
 thresholds.
+
+For manuscript revision and delivery, use the repository's
+[arXiv paper skill](.agents/skills/arxiv-paper/SKILL.md) for the paper contract,
+claim evidence, and scientific acceptance procedure. If a delivery includes
+manuscript or supplement DOCX files, apply its final-file validation procedure
+to every listed variant before marking the delivery ready. Retain structural
+receipts separately from fidelity, rendering, and any native Word evidence.

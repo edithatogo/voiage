@@ -1,5 +1,8 @@
 # Changelog
 
+- Document manuscript evidence contracts, scientific acceptance and final DOCX
+  validation for research-paper deliveries.
+
 - Keep frozen research environments outside Renovate's Python dependency
   discovery and update the isolated readability tools to patched NLTK 3.10.4.
 

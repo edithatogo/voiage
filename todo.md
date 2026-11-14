@@ -771,6 +771,9 @@ as recorded in the active task above; earlier route decisions below are historic
 
 ## Done
 
+- [x] Add paper-contract, scientific-acceptance and DOCX delivery guidance to
+  the existing manuscript skill and venue handoff.
+
 - [x] Link the pending simulation-outcome plan from the roadmap; its eight
   implementation leaves remain in the current queue.
 
