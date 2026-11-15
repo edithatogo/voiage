@@ -8,14 +8,6 @@ external-gate boundaries. The maintainer authorized the v2.2.0 release and
 pyOpenSci-first venue sequence on 2026-08-30; before that authorization these
 were not active Conductor implementation tasks.
 
-## [~] Track: Reduce unnecessary GitHub Actions setup
-
-*Link: [./tracks/ci_efficiency_20261115/index.md](./tracks/ci_efficiency_20261115/index.md)*
-
-Existing test and security gates remain required; hosted measurement is pending.
-
----
-
 ## [~] Track: Remaining Backlog Delivery
 *Link: [./tracks/remaining_backlog_delivery_20260831/index.md](./tracks/remaining_backlog_delivery_20260831/index.md)*
 *GitHub: [issue #1053](https://github.com/edithatogo/voiage/issues/1053).*

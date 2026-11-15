@@ -4,7 +4,7 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
-- [~] Qualify the bounded [CI efficiency changes](conductor/tracks/ci_efficiency_20261115/index.md)
+- [~] Qualify the bounded [CI efficiency changes](conductor/tracks/agent_safe_engineering_20260907/ci-efficiency-20261115/index.md)
   against current-revision hosted checks and retain separate queue/execution timings.
 
 Current priority: [5 November reconciliation](conductor/reconciliation-20261105.md).
