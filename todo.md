@@ -4,6 +4,9 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
+- [~] Verify the receiving privacy and secret scan after the shared Python
+  3.15.2 action is qualified. Original PR #1295 remains open.
+
 - [~] Keep the default Proptest lock compatible with Rust 1.85 while testing
   1.12 with current Rust. The original PR #1281 remains open for its deferred
   default-lock update; the separate current lock has its own qualification gates.
