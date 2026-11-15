@@ -216,10 +216,23 @@ def test_both_proptest_locks_keep_behavior_security_and_coverage_gates() -> None
         and "CARGO_RESOLVER_LOCKFILE_PATH" not in step.get("env", {})
         for step in stable
     )
+
+    workflow = yaml.safe_load(
+        (ROOT / ".github/workflows/proptest-current.yml").read_text()
+    )
+    assert workflow["permissions"] == {}
+    events = workflow.get("on", workflow.get(True))
+    assert {"pull_request", "push", "schedule", "merge_group"} <= set(events)
+    assert set(workflow["jobs"]) == {"rust-current", "coverage", "supply-chain"}
+    for job in workflow["jobs"].values():
+        assert job["permissions"] == {"contents": "read"}
+        assert "if" not in job
+        assert not job.get("continue-on-error", False)
+
     alternate_path = "${{ github.workspace }}/rust/locks/proptest-current/Cargo.lock"
     modern = next(
         step
-        for step in stable
+        for step in workflow["jobs"]["rust-current"]["steps"]
         if step.get("name") == "Verify current Proptest on stable Rust"
     )
     assert modern["env"]["CARGO_RESOLVER_LOCKFILE_PATH"] == alternate_path
@@ -233,9 +246,13 @@ def test_both_proptest_locks_keep_behavior_security_and_coverage_gates() -> None
     security = yaml.safe_load(
         (ROOT / ".github/workflows/rust-security.yml").read_text()
     )
+    assert any(
+        "check advisories licenses bans sources" in step.get("run", "")
+        for step in security["jobs"]["cargo-deny"]["steps"]
+    )
     security_step = next(
         step
-        for step in security["jobs"]["cargo-deny"]["steps"]
+        for step in workflow["jobs"]["supply-chain"]["steps"]
         if step.get("name") == "Enforce supply-chain policy for current Proptest"
     )
     assert security_step["env"]["CARGO_RESOLVER_LOCKFILE_PATH"] == alternate_path
@@ -245,15 +262,14 @@ def test_both_proptest_locks_keep_behavior_security_and_coverage_gates() -> None
     coverage = yaml.safe_load(
         (ROOT / ".github/workflows/rust-coverage.yml").read_text()
     )
-    coverage_steps = coverage["jobs"]["rust-workspace-coverage"]["steps"]
     baseline_coverage = next(
         step
-        for step in coverage_steps
+        for step in coverage["jobs"]["rust-workspace-coverage"]["steps"]
         if step.get("name") == "Measure and enforce workspace coverage"
     )
     modern_coverage = next(
         step
-        for step in coverage_steps
+        for step in workflow["jobs"]["coverage"]["steps"]
         if step.get("name") == "Measure and enforce coverage with current Proptest"
     )
     assert "CARGO_RESOLVER_LOCKFILE_PATH" not in baseline_coverage.get("env", {})

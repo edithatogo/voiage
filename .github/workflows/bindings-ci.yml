@@ -76,21 +76,13 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git
             rust/target
-          key: rust-stable-all-features-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('rust/Cargo.lock', 'rust/locks/proptest-current/Cargo.lock') }}
+          key: rust-stable-all-features-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('rust/Cargo.lock') }}
       - working-directory: rust
         run: cargo fmt --all --check
       - working-directory: rust
         run: cargo clippy --workspace --all-targets --all-features --locked -- -D warnings
       - working-directory: rust
         run: cargo test --workspace --all-features --locked
-      - name: Verify current Proptest on stable Rust
-        working-directory: rust
-        env:
-          CARGO_RESOLVER_LOCKFILE_PATH: ${{ github.workspace }}/rust/locks/proptest-current/Cargo.lock
-        run: |
-          cargo tree --locked -p proptest --depth 0 | grep -Fx 'proptest v1.12.0'
-          cargo clippy --workspace --all-targets --all-features --locked -- -D warnings
-          cargo test --workspace --all-features --locked
 
   rust-msrv:
     name: Rust workspace (MSRV 1.85)

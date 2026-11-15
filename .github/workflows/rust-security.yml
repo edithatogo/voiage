@@ -54,10 +54,6 @@ jobs:
         run: cargo install cargo-deny --version 0.20.2 --locked
       - name: Enforce Rust supply-chain policy
         run: cargo deny --manifest-path rust/Cargo.toml --config rust/deny.toml check advisories licenses bans sources
-      - name: Enforce supply-chain policy for current Proptest
-        env:
-          CARGO_RESOLVER_LOCKFILE_PATH: ${{ github.workspace }}/rust/locks/proptest-current/Cargo.lock
-        run: cargo deny --locked --manifest-path rust/Cargo.toml --config rust/deny.toml check advisories licenses bans sources
       - name: Set up qualified Python for retained lock audit
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
