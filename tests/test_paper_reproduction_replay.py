@@ -10,6 +10,7 @@ import shutil
 import subprocess
 import sys
 import tomllib
+from types import SimpleNamespace
 
 from packaging.version import Version
 import pytest
@@ -280,6 +281,40 @@ def test_new_replay_profile_cannot_declare_an_older_runtime() -> None:
     current["supported_python_versions"] = ["3.14"]
     with pytest.raises(ValueError, match="qualified Python 3.15.2"):
         VERIFIER.verify_manifest(ROOT, current)
+
+
+@pytest.mark.parametrize(
+    "profile",
+    [
+        "paper/reproduction-manifest-python315.json",
+        "paper/reproduction-manifest-python315-patched.json",
+    ],
+)
+def test_historical_replay_does_not_execute_a_retired_runtime(
+    monkeypatch: pytest.MonkeyPatch, profile: str
+) -> None:
+    def unexpected_run(*args: object, **kwargs: object) -> None:
+        raise AssertionError("Historical replay must not start a subprocess")
+
+    monkeypatch.setattr(VERIFIER.subprocess, "run", unexpected_run)
+    with pytest.raises(
+        ValueError, match="retired Python runtime.*retained as evidence"
+    ):
+        VERIFIER.replay(ROOT, ROOT / profile)
+
+
+def test_current_replay_rejects_an_unqualified_caller_before_execution(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    def unexpected_run(*args: object, **kwargs: object) -> None:
+        raise AssertionError("An unqualified caller must not start a subprocess")
+
+    monkeypatch.setattr(
+        VERIFIER, "sys", SimpleNamespace(version_info=(3, 15, 1), executable="python")
+    )
+    monkeypatch.setattr(VERIFIER.subprocess, "run", unexpected_run)
+    with pytest.raises(ValueError, match="selected Python 3.15.2 runtime"):
+        VERIFIER.replay(ROOT, ROOT / VERIFIER.DEFAULT_MANIFEST)
 
 
 @pytest.mark.parametrize("python_version", ["3.15.2", "3.15.1", "3.15.0", "3.14.9"])

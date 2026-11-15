@@ -24,6 +24,7 @@ QUALIFIED_RUNTIMES = {
     "voiage.paper.reproduction.v4": "3.15.1",
     "voiage.paper.reproduction.v5": "3.15.2",
 }
+CURRENT_REPLAY_SCHEMA = "voiage.paper.reproduction.v5"
 
 
 def bound_file(root: Path, descriptor: dict[str, str]) -> Path:
@@ -177,13 +178,20 @@ def replay(root: Path, manifest_path: Path) -> dict[str, Any]:
     """Run frozen verification without using or modifying the current environment."""
     raw = manifest_path.read_bytes()
     manifest = json.loads(raw)
-    if manifest["schema_version"] not in {
-        "voiage.paper.reproduction.v3",
-        "voiage.paper.reproduction.v4",
-        "voiage.paper.reproduction.v5",
-    }:
+    schema = manifest["schema_version"]
+    if schema not in QUALIFIED_RUNTIMES:
         raise ValueError(
             "Historical replay is retained for provenance; use a qualified profile"
+        )
+    if schema != CURRENT_REPLAY_SCHEMA:
+        raise ValueError(
+            "This historical replay requires a retired Python runtime and is "
+            "retained as evidence; use the current Python 3.15.2 replay"
+        )
+    expected_python = QUALIFIED_RUNTIMES[schema]
+    if ".".join(str(part) for part in sys.version_info[:3]) != expected_python:
+        raise ValueError(
+            f"Replay requires the selected Python {expected_python} runtime"
         )
     source = manifest["source_reference"]
     if not re.fullmatch(r"[0-9a-f]{40}", source):
@@ -278,7 +286,7 @@ def replay(root: Path, manifest_path: Path) -> dict[str, Any]:
             capture_output=True,
         )
         runtime = json.loads(runtime_result.stdout)
-        if runtime["python_version"] != QUALIFIED_RUNTIMES[manifest["schema_version"]]:
+        if runtime["python_version"] != expected_python:
             raise ValueError("Replay did not execute the qualified Python runtime")
         # Bind successful replay to both the selected source and the current declared outputs.
         for output in manifest["outputs"]:

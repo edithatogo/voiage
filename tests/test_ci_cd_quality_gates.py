@@ -647,7 +647,7 @@ def test_native_capacity_observation_reuses_the_checked_in_workflow() -> None:
         (GITHUB_WORKFLOWS_DIR / "native-build-capacity-observation.yml").read_text()
     )
     assert workflow["jobs"]["rust-source-capacity"]["uses"] == (
-        "./.github/workflows/native-rust-llvm-qualification.yml"
+        "$/.github/workflows/native-rust-llvm-qualification.yml"
     )
 
 
