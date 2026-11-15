@@ -46,7 +46,7 @@ Completed prerequisite records remain linked for navigation:
 `conductor/tracks/translation_reference_20261026/`.
 
 - [ ] Existing active delivery tracks: `conductor/tracks/remaining_backlog_delivery_20260831/` and `conductor/tracks/v2_2_release_and_venue_submissions_20260830/`.
-- [ ] Implement the [optional simulation-outcome boundary](conductor/tracks/simulation_outcome_boundary_20261107/index.md): paired draws, explicit value conventions, and optional installed use. All eight leaves remain pending; scientific alignment and HPC deferral retain their owners.
+- [ ] Implement the [optional simulation-outcome boundary](conductor/tracks/simulation_outcome_boundary_20261107/index.md): paired draws, explicit value conventions, and optional installed use. The [VOP/VOH planning supplement](conductor/tracks/simulation_outcome_boundary_20261107/value-perspective-heterogeneity.md) remains under the existing #1286/VP03 owner. All eight leaves remain pending; scientific alignment and HPC deferral retain their owners.
 - [x] Qualify the non-HPC installed Innovate, MARS, tobac and published VOP
   reference cases against Voiage 3.1.0. The current tobac adapter default passes.
   See the [14 November receipt](conductor/tracks/scientific_ecosystem_alignment_20261029/installed-adapters-20261114.md).

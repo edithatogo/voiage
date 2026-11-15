@@ -1,5 +1,8 @@
 # Changelog
 
+- Clarify Voiage ownership and qualification of Value of Perspective and Value
+  of Heterogeneity, with finite planning examples and POC migration boundaries.
+
 - Document security triage for preserved paper replay locks and strengthen
   checks that only the current, patched replay can run.
 
