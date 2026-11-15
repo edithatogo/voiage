@@ -65,7 +65,7 @@ jobs:
           import time
           import urllib.request
 
-          assert sys.version_info[:3] == (3, 15, 1), sys.version
+          assert sys.version_info[:3] == (3, 15, 2), sys.version
           root = Path.cwd()
           evidence = root / "native-capacity-evidence"
           evidence.mkdir()

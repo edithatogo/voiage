@@ -31,7 +31,7 @@ def test_source_claim_requires_exact_receipt(tmp_path: Path, damage: str) -> Non
     original = json.loads(
         (
             ROOT
-            / "conductor/tracks/remaining_backlog_delivery_20260831/source-qualification-20261028.json"
+            / "conductor/tracks/remaining_backlog_delivery_20260831/source-qualification-20261115-python3152.json"
         ).read_text()
     )
     runtime_path = tmp_path / "packaging/current/runtime.json"
@@ -42,6 +42,13 @@ def test_source_claim_requires_exact_receipt(tmp_path: Path, damage: str) -> Non
         source_archive_sha256=original["archive_sha256"],
     )
     original["source_revision"] = runtime["source_commit"]
+    baseline_receipt = tmp_path / receipt_name
+    baseline_receipt.write_text(json.dumps(original))
+    runtime["source_qualification_receipt_sha256"] = hashlib.sha256(
+        baseline_receipt.read_bytes()
+    ).hexdigest()
+    runtime_path.write_text(json.dumps(runtime))
+    assert validate(tmp_path) == []
     if damage == "revision":
         original["source_revision"] = "0" * 40
     if damage == "archive":
@@ -146,7 +153,7 @@ def test_core_compiler_cannot_use_an_unbounded_preview_range(tmp_path: Path) -> 
     recipe = tmp_path / "packaging/current/spack/packages/py-voiage/package.py"
     recipe.write_text(recipe.read_text().replace("rust@=1.99.1", "rust@1.85:"))
     assert "Current Spack dependency drift" in validate(tmp_path)
-    easy = tmp_path / "packaging/current/easybuild/voiage-candidate-Python-3.15.1.eb"
+    easy = tmp_path / "packaging/current/easybuild/voiage-candidate-Python-3.15.2.eb"
     easy.write_text(
         easy.read_text().replace('("Rust", "1.99.1")', '("Rust", "1.96.0")')
     )

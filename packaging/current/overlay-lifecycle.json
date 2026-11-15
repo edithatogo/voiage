@@ -3,6 +3,7 @@
   "current_root": "packaging/current",
   "historical_role": "Retained exact-source recipes and evidence for older published/runtime snapshots only. No current runtime activation or release acceptance is implied.",
   "historical_files": {
+    "conductor/tracks/remaining_backlog_delivery_20260831/historical/qualify-hpc-source-python3151-20261115.py.txt": "2b4cccbb8110c32d418a57b672b03105ce24b6408aafd3c348c87af63439d63e",
     "conductor/tracks/remaining_backlog_delivery_20260831/historical/python3151-current-overlay-20261115.tar.gz": "d3f835358556adc56203e92099688211a13f7bc782c48454e5174e3f2de476c6",
     "conductor/tracks/remaining_backlog_delivery_20260831/historical/python3151-current-overlay-20261115.json": "89049c28e0ae05af8fda9cac3767de6537afda612c2e8d0f7ce77ae409163c7b",
     "conductor/tracks/pandas_free_io_20261026/historical/hpc_package_smoke-20261115.py.txt": "7fd376f043be95e487918bd61bcc8d4514587e7913b48fb022cacdfc8a3eb042",

@@ -2,6 +2,11 @@
   "schema_version": "1.0",
   "scope": "Every Git-tracked text file, including literal templates; pinned external Gitlinks are outside parent-source scope. No wildcard permissions or automatic refresh.",
   "files": {
+    "conductor/tracks/remaining_backlog_delivery_20260831/historical/qualify-hpc-source-python3151-20261115.py.txt": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact source qualifier retained for the Python 3.15.1 source receipt.",
+      "sha256": "2b4cccbb8110c32d418a57b672b03105ce24b6408aafd3c348c87af63439d63e"
+    },
     "conductor/tracks/remaining_backlog_delivery_20260831/historical/python3151-current-overlay-20261115.json": {
       "category": "frozen_historical_evidence",
       "reason": "Verified inventory of the exact Python 3.15.1 overlay snapshot before runtime promotion.",

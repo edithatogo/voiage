@@ -1,7 +1,7 @@
 # Current-runtime overlay candidates
 
 These are the only current-runtime recipe declarations. They target Python
-3.15.1 and the canonical core policy. The Spack development recipe pins the
+3.15.2 and the canonical core policy. The Spack development recipe pins the
 immutable migrated source candidate; the EasyBuild recipe requires a matching
 qualified source archive and SHA-256 before it can be evaluated. It has no
 source-download or dependency-resolution fallback.
@@ -15,14 +15,14 @@ does not run a native solver or build. Do not substitute the published older
 sdist or treat the local candidate as a new release.
 
 Before using EasyBuild, run the source qualifier against the actual supplied
-archive on the selected Python 3.15.1 interpreter, with this repository retaining
+archive on the selected Python 3.15.2 interpreter, with this repository retaining
 the immutable source revision:
 
 ```sh
 .venv/bin/python scripts/guard_verification.py --work-dir .conductor/local/hpc-source -- \
-  .venv/bin/python scripts/qualify_hpc_source.py /path/to/voiage-2.2.0.tar.gz \
-  --revision 3df3cb49e5c927075c0609a48a2535b4457424d4 \
-  --sha256 3748d8c5d155dc90db2b2c9c35abac5bb27958cb34c747e60e1ef8f84212a989
+  .venv/bin/python scripts/qualify_hpc_source.py /path/to/voiage-3.1.0.tar.gz \
+  --revision 0a961dafd2e68a480c668b30600430d9ac71be38 \
+  --sha256 d7f49503baeb2f7ecf8d164c3e12f28dace36d8f2b6be7ed0132aa57df4b5244
 ```
 
 Only after that succeeds, supply the same archive and hash through
@@ -30,6 +30,11 @@ Only after that succeeds, supply the same archive and hash through
 qualifier output with the native execution receipt. The Spack candidate uses
 the same immutable source revision. Full Linux builds and the required foss
 compiler generations remain separate acceptance gates.
+
+The previous Python 3.15.1 current overlay is retained byte-for-byte in the
+[historical snapshot](../../conductor/tracks/remaining_backlog_delivery_20260831/historical/python3151-current-overlay-20261115.json);
+its original source receipt remains unchanged. The new receipt qualifies the
+source archive only, and all native acceptance gates remain open.
 
 The older source-bound recipes, provider maps, licences, patches and logs remain
 at their original paths for historical validation only. `overlay-lifecycle.json`
@@ -57,10 +62,10 @@ substituted to make the catalogue solve.
 
 ## Arrow source prerequisites
 
-The current LibCST source prerequisite selects Python 3.15.1, its native parser,
+The current LibCST source prerequisite selects Python 3.15.2, its native parser,
 the matching runtime dependency markers and upstream MIT/PSF notices. Check the
 actual source archive using `.venv/bin/python -m scripts.check_current_arrow_providers`
-with the selected repo-local Python 3.15.1 interpreter. The `cpp` profile additionally
+with the selected repo-local Python 3.15.2 interpreter. The `cpp` profile additionally
 requires `--builtin-arrow /path/to/pinned/catalogue/arrow/package.py`; it authenticates
 the immutable Arrow C++ source and preserves its upstream allocator declaration.
 These are source checks; the complete Arrow profile and native installed matrix
@@ -139,5 +144,5 @@ The source caches and build roots are private to one ephemeral Linux job.
 
 For a capacity-constrained developer machine, `qualification=full-tox` runs
 the unchanged `tox run-parallel -p 2` gate on Linux with repo-local Python
-3.15.1, complete repository history, bounded memory/time and an 8 GiB free-space
+3.15.2, complete repository history, bounded memory/time and an 8 GiB free-space
 reserve. It is separate Linux evidence; retain any local capacity stop.

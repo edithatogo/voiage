@@ -1,6 +1,7 @@
 """Enforce the active interpreter policy independently of historical fixtures."""
 
 from pathlib import Path
+import re
 import tomllib
 
 from packaging.specifiers import SpecifierSet
@@ -42,6 +43,12 @@ def test_hosted_interpreters_and_python_matrices_use_qualified_patch() -> None:
             if "python" in matrix:
                 assert matrix["python"] == ["3.15.2"], path
             for step in job.get("steps", []):
+                assertions = re.findall(
+                    r"sys\.version_info\[:3\]\s*(?:==|!=)\s*"
+                    r"\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)",
+                    step.get("run", ""),
+                )
+                assert all(version == ("3", "15", "2") for version in assertions), path
                 if not step.get("uses", "").startswith("actions/setup-python@"):
                     continue
                 value = str(step.get("with", {}).get("python-version", ""))

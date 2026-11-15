@@ -67,7 +67,7 @@ def source_receipt_matches(root: Path, runtime: dict[str, object]) -> bool:
         and receipt.get("archive_sha256") == archive_hash
         and receipt.get("source_revision") == runtime["source_commit"]
         and receipt.get("source_archive_qualified") is True
-        and receipt.get("python") == "3.15.1"
+        and receipt.get("python") == "3.15.2"
         and receipt.get("runtime_policy_sha256") == policy_hash
         and all(
             receipt.get(key) is False
@@ -121,7 +121,7 @@ def validate(root: Path) -> list[str]:
         and node.func.id == "depends_on"
     }
     expected = {spack_requirement(text) for text in canonical["runtime"]} | {
-        "python@3.15.1",
+        "python@3.15.2",
         "rust@=1.99.1",
         "py-maturin@1.9:1",
     }
@@ -139,7 +139,7 @@ def validate(root: Path) -> list[str]:
     if commits != [runtime["source_commit"]]:
         errors.append("Current Spack source drift")
     easy = ast.parse(
-        (current / "easybuild/voiage-candidate-Python-3.15.1.eb").read_text()
+        (current / "easybuild/voiage-candidate-Python-3.15.2.eb").read_text()
     )
     dependencies = next(
         ast.literal_eval(n.value)
@@ -159,7 +159,7 @@ def validate(root: Path) -> list[str]:
         errors.append("Current EasyBuild compiler drift")
     pins = {canonicalize_name(name): version for name, version in dependencies}
     pins["pyarrow"] = pins.pop("arrow")
-    if pins.pop("python") != "3.15.1":
+    if pins.pop("python") != "3.15.2":
         errors.append("Current EasyBuild interpreter drift")
     requirements = {
         canonicalize_name(Requirement(text).name): Requirement(text)

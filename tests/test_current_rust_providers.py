@@ -123,7 +123,7 @@ def test_dated_bootstrap_dependency_is_not_the_unversioned_sdk() -> None:
         "rust-bootstrap@=1.98.0",
         {"type": "build", "when": "@=1.99.1"},
     ) in declarations
-    assert ("python@3.15.1", {"type": "build"}) in declarations
+    assert ("python@3.15.2", {"type": "build"}) in declarations
     assert (
         "rust-bootstrap@=1.95.0",
         {"type": "build", "when": "@=1.96.0"},
@@ -329,7 +329,7 @@ def test_current_solver_profile_keeps_two_compiler_roles_and_one_python() -> Non
         }
     }
     packages = yaml.safe_load((profile / "packages.yaml").read_text())
-    assert packages == {"packages": {"python": {"require": ["@=3.15.1"]}}}
+    assert packages == {"packages": {"python": {"require": ["@=3.15.2"]}}}
 
 
 def test_bootstrap_is_classified_as_a_build_tool_for_minimal_duplication() -> None:

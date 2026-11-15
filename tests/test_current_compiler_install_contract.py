@@ -114,7 +114,7 @@ def test_spack_root_keeps_qualified_identity_without_git_metadata() -> None:
     receipt = json.loads(
         (
             ROOT
-            / "conductor/tracks/remaining_backlog_delivery_20260831/source-qualification-20261028.json"
+            / "conductor/tracks/remaining_backlog_delivery_20260831/source-qualification-20261115-python3152.json"
         ).read_text()
     )
     tree = ast.parse(
@@ -129,7 +129,9 @@ def test_spack_root_keeps_qualified_identity_without_git_metadata() -> None:
         and len(call.args) == 2
     }
     assert (
-        values["VOIAGE_SOURCE_REVISION"] == "3df3cb49e5c927075c0609a48a2535b4457424d4"
+        values["VOIAGE_SOURCE_REVISION"]
+        == receipt["source_revision"]
+        == "0a961dafd2e68a480c668b30600430d9ac71be38"
     )
     assert values["VOIAGE_SOURCE_TREE_GIT_OID"] == receipt["source_tree"]
     assert values["VOIAGE_SOURCE_CLEAN"] == "true"
