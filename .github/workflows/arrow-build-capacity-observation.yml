@@ -8,6 +8,7 @@ on:
       - .github/workflows/arrow-build-capacity-observation.yml
       - scripts/observe_arrow_capacity.py
       - docs/reviews/arrow-capacity-inputs-20261029.json
+      - docs/reviews/arrow-capacity-inputs-20261115-python3152.json
 
 permissions:
   contents: read
@@ -34,13 +35,13 @@ jobs:
       - name: Select qualified Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.15.1"
+          python-version: "3.15.2"
       - name: Compile source profile and retain stage measurements
         env:
           ARROW_CAPACITY_WORKSPACE: ${{ runner.temp }}/voiage-arrow-capacity
         run: >-
           python scripts/observe_arrow_capacity.py
-          --inputs docs/reviews/arrow-capacity-inputs-20261029.json
+          --inputs docs/reviews/arrow-capacity-inputs-20261115-python3152.json
           --workspace "$ARROW_CAPACITY_WORKSPACE"
           --evidence arrow-capacity-evidence
       - name: Upload source, configuration and resource evidence

@@ -125,9 +125,8 @@ def _validate_scalar(value: Any, schema: dict[str, Any], path: str) -> None:
     elif expected_type == "integer":
         if not isinstance(value, int) or isinstance(value, bool):
             raise ValidationError(f"{path}: expected integer")
-    elif expected_type == "boolean":
-        if not isinstance(value, bool):
-            raise ValidationError(f"{path}: expected boolean")
+    elif expected_type == "boolean" and not isinstance(value, bool):
+        raise ValidationError(f"{path}: expected boolean")
 
     if "const" in schema and value != schema["const"]:
         raise ValidationError(f"{path}: expected constant {schema['const']!r}")

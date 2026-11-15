@@ -50,6 +50,10 @@ security workflows exist, and repository governance files are present. The
 full tox environment additionally runs linting, type checking, docs, contract
 validation, the supported Python matrix, and the coverage threshold.
 
+The pre-commit, local and hosted `ty` checks use the same rule policy. The earlier
+`unresolved-attribute` exclusion covered both missing attributes and missing
+union-member attributes; the current tool names those rules separately.
+
 The installed-provider consumer test uses a private download cache by default
 and ignores an inherited `UV_CACHE_DIR`. To reuse an existing writable cache
 deliberately, locate it with `uv cache dir`, then set
@@ -58,8 +62,13 @@ reuses dependency downloads only: each test still builds the real wheels,
 creates a fresh consumer environment, copies installed files, and probes the
 public SDK outside the checkout. It does not disable dependency resolution or
 make the test offline. Each build, install, and probe has a ten-minute timeout.
+
 Reuse follows [uv's cache-safety contract](https://docs.astral.sh/uv/concepts/cache/#cache-safety);
 do not manually change files inside that cache.
+
+The DOCX validator tests use an isolated NuGet cache by default. To reuse a
+writable cache owned by the current verification run, set
+`VOIAGE_DOCX_TEST_NUGET_CACHE` to its absolute path before running pytest or tox.
 
 For dependency-only changes, also run `uvx --from pip-audit pip-audit --local
 --progress-spinner off` and `pnpm audit --prod` from `docs/astro-site`.
@@ -74,7 +83,7 @@ stop another task's process or treat its pending result as a pass.
 
 ## Dependency and experimental-feature policy
 
-The supported Python 3.15.1 range tracks compatible stable dependencies and
+The supported Python 3.15.2 range tracks compatible stable dependencies and
 commits `uv.lock` for reproducibility. Before dependency or runtime changes,
 run `uv lock --upgrade` and `python scripts/dependency_frontier.py . --strict`.
 
@@ -92,6 +101,19 @@ CSV/JSON/Parquet/Arrow profiles; they are not evidence about network transport,
 remote catalogues, or upstream parser performance.
 
 ## GitHub gates
+
+The prose check invokes Bash and Vale directly, and the repository harness uses
+only the pinned Python standard library. Tox-only jobs bootstrap from the locked
+`verification` group; tox still creates the installed-package test environments.
+After that bootstrap, `uv run --frozen --no-sync` keeps the outer environment
+limited to its tooling. C15 telemetry/oracles install the CI and producer-test
+dependencies and require JAX and Polars imports before running all oracle cases.
+The unrelated experimental database and serializers are not installed there.
+
+Dependency review and shard qualification cancel older revisions of the same
+PR. Their merge-group and manual runs have independent concurrency groups.
+Runner queue time and job execution time are measured separately; fewer setup
+steps do not establish a fixed end-to-end speedup under changing runner load.
 
 The hosted repository runs CodeQL, OpenSSF Scorecard, Dependency Review, and
 Zizmor. Workflows also enforce SHA-pinned actions, least-privilege
@@ -146,7 +168,7 @@ as locally complete merely because repository workflows pass.
 The reviewed runtime set in `specs/dependency-runtime-policy.json` binds PyPI,
 Conda requirements, tox Polars/Arrow floor/latest lanes and dependency previews.
 Run `.venv/bin/python scripts/check_packaging_dependencies.py .` to reject drift.
-Polars `>=2.1.0,<3` and Arrow `>=26.0.0,<27` retain the qualified Python 3.15.1
+Polars `>=2.1.0,<3` and Arrow `>=26.0.0,<27` retain the qualified Python 3.15.2
 surface; scientific core bounds remain unchanged. Published requirements omit
 pandas and xarray. The explicit, unpublished `producer-tests` group supplies
 external producer/oracle tests and stays outside default and wheel installs.
@@ -165,7 +187,7 @@ and metadata strings are not import nodes; their separate repository-reference
 gate remains Phase 7.
 
 `tox run -e pandas-free` installs the real wheel with no extras, dependency
-groups or test dependencies. A fresh isolated Python 3.15.1 subprocess verifies
+groups or test dependencies. A fresh isolated Python 3.15.2 subprocess verifies
 that neither legacy distribution is installed and neither module is loaded by
 `import voiage`. It checks the package path against the tox environment to
 reject source shadowing. Negative controls demonstrate actual rejection.
@@ -174,7 +196,7 @@ Linux, macOS and Windows CI use that same lane. The bootstrap's unpublished
 no-extras target environment and the producer-test group.
 
 The existing protected `Lint & Type Check` job invokes the source rule directly,
-and `Unit Tests (Python 3.15.1)` also executes the no-extras tox lane. These
+and `Unit Tests (Python 3.15.2)` also executes the no-extras tox lane. These
 checks therefore remain part of the current required status contexts; no
 branch-protection relaxation or new-job registration is needed.
 
@@ -233,3 +255,44 @@ peaks may miss spikes. Directory allocations can include shared blocks and must
 not be summed across overlapping roots. A VM needs separate host-backing evidence;
 this guard alone never claims physical-capacity qualification. Monitoring failures
 remain failures even when the child command succeeded.
+
+## Retained native qualification environments
+
+Renovate excludes the exact Cargo manifest at
+`conductor/tracks/scientific_ecosystem_alignment_20261029/installed-adapters/native/Cargo.toml`
+from its Cargo manager. This manifest belongs to the retained 1 November 2026
+qualification packet. Its locked replay requires the exact external Innovate
+source checkout documented in that packet; an ordinary maintenance checkout
+does not contain those inputs.
+
+The exclusion preserves the recorded environment and prevents an unrelated
+lockfile refresh from failing on an absent replay input. The Cargo setting
+retains Renovate's standard ignored directories because `ignorePaths` replaces,
+rather than extends, the inherited list. Current workspace manifests and the
+rest of the scientific-alignment track remain eligible for maintenance.
+
+Qualify newer adapter inputs in a separately identified packet. Keep the
+historical manifest, lockfile, source pins and receipts unchanged. This
+maintenance scope does not waive dependency review, security scans, the
+minimum release age, or any required local and hosted checks. The Rust
+supply-chain workflow separately audits the retained Cargo lock against current
+RustSec advisories and treats warnings as failures.
+
+The default Rust lock retains `proptest` 1.11 for the workspace's Rust 1.85
+minimum; Renovate holds its automated updates below 1.12. A separate
+`rust/locks/proptest-current/Cargo.lock` selects Proptest 1.12 for current Rust.
+CI checks the current lock with the same workspace tests, Clippy, coverage floor,
+and supply-chain policy while retaining the default lock's existing checks.
+Refresh the current lock with Cargo 1.100 or newer and the 14-day release-age
+policy, and retain the default lock until a separately reviewed MSRV change.
+From the repository root, the current lock can be refreshed with:
+
+```sh
+cp rust/Cargo.lock rust/locks/proptest-current/Cargo.lock
+CARGO_RESOLVER_LOCKFILE_PATH="$PWD/rust/locks/proptest-current/Cargo.lock" \
+  CARGO_REGISTRY_GLOBAL_MIN_PUBLISH_AGE="14 days" \
+  cargo update --manifest-path rust/Cargo.toml -p proptest --precise 1.12.0
+```
+
+Run the current-lock CI checks after refreshing it; this command does not change
+the default lock or replace the required hosted checks.

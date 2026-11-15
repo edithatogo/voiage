@@ -1,0 +1,4 @@
+# Prefer versions compatible with each workspace package's declared Rust version.
+# The Rust 1.85 CI job remains the authoritative compatibility check.
+[resolver]
+incompatible-rust-versions = "fallback"

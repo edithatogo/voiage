@@ -347,7 +347,7 @@ def test_root_project_state_docs_match_current_protocol() -> None:
     combined = "\n".join((product, tech_stack, workflow, guidelines))
 
     for expected in (
-        "Python 3.15.1",
+        "Python 3.15.2",
         "coverage threshold at **>90%**",
         "AGENTS.md",
         "todo.md",
@@ -359,6 +359,7 @@ def test_root_project_state_docs_match_current_protocol() -> None:
         assert expected in combined
 
     for stale in (
+        "Python 3.15.1",
         "Python >=3.8",
         "Policy Analystysts",
         "Financial Analystysts",

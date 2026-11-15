@@ -1,0 +1,14 @@
+{
+  "collector": "ephemeral-loopback-otlp-http-json",
+  "correlation": {
+    "backend": "numpy",
+    "numerical_policy_id": "voiage-c15-policy",
+    "run_id": "voiage-c15-probe",
+    "span_id": "0123456789abcdef",
+    "trace_id": "0123456789abcdef0123456789abcdef"
+  },
+  "correlation_source": "collector_received_payload",
+  "exports_received": 1,
+  "privacy_screened": true,
+  "schema_version": "1.0.0"
+}

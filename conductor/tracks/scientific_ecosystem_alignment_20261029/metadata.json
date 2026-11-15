@@ -9,9 +9,10 @@
     "issue": "https://github.com/edithatogo/voiage/issues/1221",
     "project": "https://github.com/users/edithatogo/projects/28"
   },
-  "updated_at": "2026-11-02T00:00:00Z",
+  "updated_at": "2026-11-13T23:20:38Z",
   "description": "Scientific ecosystem alignment (voiage)",
   "acceptance_record": "reconciliation-20261102.md",
+  "installed_adapter_qualification": "installed-adapters-20261114.md",
   "execution_disposition": "HPC deferred by maintainer 2026-11-05; MLX/Metal exempt; non-HPC scientific scope remains eligible",
   "reconciliation_record": "../../reconciliation-20261105.md"
 }

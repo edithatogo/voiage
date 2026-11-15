@@ -1,0 +1,235 @@
+{
+  "schema_version": "1.0",
+  "kind": "planning_supplement_not_runtime_registry",
+  "status": "implementation_pending",
+  "base_commit": "18636d1e3059aa150e5b40487dc1e2a32f27f35c",
+  "supplements": "frontier_20261108/packets.json",
+  "core_q09_dependencies_changed": false,
+  "blocks_initial_software_release": false,
+  "blocks_native_runtime_acceptance": false,
+  "creates_repository": false,
+  "changes_provider_pins": false,
+  "default_game_dependency_allowed": false,
+  "default_kairos_dependency_allowed": false,
+  "external_publication_performed": false,
+  "source_revisions": {
+    "edithatogo/voiage": "18636d1e3059aa150e5b40487dc1e2a32f27f35c",
+    "edithatogo/new-drug-reimbursement-game": "f6c1c87b6b00875b33c1e19401c1de09481913ce",
+    "edithatogo/innovate": "301abcb2a9c5b3e3e48200965ddcd77f71bbbd17",
+    "edithatogo/kairos": "e76b97be2ea3712645933d903822ff6381c8883e",
+    "edithatogo/UOGTO": "a5f90557c40f054255a1d6c2541fd76f07aa5090",
+    "edithatogo/careops-sim": "a44a8c9f1461839c5306dbf44a1fa9a3b1981c50",
+    "edithatogo/paignia": "0e28f1bf33ed8c7be5fa1d63b8cc40517b61d22c"
+  },
+  "packets": [
+    {
+      "id": "SI01",
+      "depends_on": [],
+      "requires_existing": [
+        "Q01"
+      ],
+      "acceptance_cases": [
+        "SI-V03",
+        "SI-V04",
+        "SI-V06"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "SI02",
+      "depends_on": [
+        "SI01"
+      ],
+      "requires_existing": [
+        "Q02",
+        "Q03"
+      ],
+      "acceptance_cases": [
+        "SI-V01",
+        "SI-V05"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "SI03",
+      "depends_on": [
+        "SI01",
+        "SI02"
+      ],
+      "requires_existing": [
+        "simulation_outcome_boundary_20261107"
+      ],
+      "requires_provider": [
+        "T17.01",
+        "T17.02",
+        "T17.03"
+      ],
+      "conditional_provider_dependencies": {
+        "mixed_normal_form": [
+          "T17.05"
+        ],
+        "general_correlated_equilibrium": [
+          "T17.06"
+        ],
+        "cfr_information_sets": [
+          "T17.07",
+          "T17.17"
+        ],
+        "dynamic_execution": [
+          "T17.08",
+          "T17.13",
+          "T17.14",
+          "T17.15",
+          "T17.16"
+        ],
+        "imperfect_information_representation": [
+          "T17.17"
+        ]
+      },
+      "separate_scientific_contract_required": [
+        "bayesian_equilibrium",
+        "bayes_correlated_equilibrium",
+        "information_design"
+      ],
+      "acceptance_cases": [
+        "SI-V02",
+        "SI-V03",
+        "SI-V04",
+        "SI-V06",
+        "SI-V07"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "SI04",
+      "depends_on": [
+        "SI03"
+      ],
+      "requires_existing": [],
+      "conditional_existing_dependencies": {
+        "evsi_enbs_design_claim": [
+          "Q05",
+          "Q06"
+        ]
+      },
+      "requires_application": "accepted valuation, information, response and source assumptions",
+      "acceptance_cases": [
+        "SI-V08"
+      ],
+      "status": "planned"
+    }
+  ],
+  "verification_cases": [
+    "SI-V01",
+    "SI-V02",
+    "SI-V03",
+    "SI-V04",
+    "SI-V05",
+    "SI-V06",
+    "SI-V07",
+    "SI-V08"
+  ],
+  "existing_verification_families_extended": [
+    "D01",
+    "D10",
+    "D11",
+    "D13",
+    "D16",
+    "D18"
+  ],
+  "static_extraction_rule": "Historical T17 qualification obligations must be mapped to Paignia artifacts before admission; two real application cases using the same qualified artifacts remain required for the scoped static package/consumer claim, not creation of the already existing Paignia repository. Reimbursement plus Innovate is eligible; CareOps is a candidate. Dynamic execution and unclaimed advanced methods are not blanket blockers.",
+  "automatic_gate_engine_implemented": false,
+  "provider_identity": {
+    "repository": "edithatogo/paignia",
+    "legacy_seed_repository": "edithatogo/new-drug-reimbursement-game",
+    "historical_obligation_namespace": "T17",
+    "obligation_mapping_status": "provider_ownership_mapped_artifact_qualification_pending",
+    "observed_status": "bounded_native_seed_merged_qualification_pending",
+    "inspected_commit": "12b22ce7571b9c590405bf53c2c1c5862b49cd64",
+    "handoff_pr": "https://github.com/edithatogo/paignia/pull/1",
+    "released_crate_names_verified": false,
+    "source_extraction_claimed_complete": false,
+    "record_is_not_dependency_pin": true,
+    "bounded_native_seed_transfer_observed": true,
+    "source_package_names": [
+      "paignia-core",
+      "paignia-solve"
+    ],
+    "source_package_version": "0.1.0",
+    "source_msrv": "1.75.0",
+    "package_publish_enabled": false,
+    "source_extraction_claim_scope": "Bounded finite native seed transferred; remaining source/method/consumer qualification is open.",
+    "provider_owned_leaves": [
+      "T17.01",
+      "T17.02",
+      "T17.03",
+      "T17.04",
+      "T17.05",
+      "T17.06",
+      "T17.07",
+      "T17.08",
+      "T17.12",
+      "T17.13",
+      "T17.14",
+      "T17.15",
+      "T17.16",
+      "T17.17"
+    ],
+    "external_owned_leaves": {
+      "T17.09": "edithatogo/new-drug-reimbursement-game",
+      "T17.10": "selected second application; Innovate G01-G04 candidate",
+      "T17.11": "edithatogo/new-drug-reimbursement-game"
+    }
+  },
+  "historical_provider_observation": {
+    "repository": "edithatogo/paignia",
+    "legacy_seed_repository": "edithatogo/new-drug-reimbursement-game",
+    "historical_obligation_namespace": "T17",
+    "obligation_mapping_status": "pending_before_provider_admission",
+    "observed_status": "bootstrap_source_transfer_and_qualification_pending",
+    "inspected_commit": "0e28f1bf33ed8c7be5fa1d63b8cc40517b61d22c",
+    "handoff_pr": "https://github.com/edithatogo/paignia/pull/1",
+    "released_crate_names_verified": false,
+    "source_extraction_claimed_complete": false,
+    "record_is_not_dependency_pin": true
+  },
+  "parallel_plan_reconciliation": {
+    "date": "2026-11-08",
+    "record": "https://github.com/edithatogo/paignia/blob/87b4bda345b85310e85239d4845b0f85bf1c6439/docs/integrations/parallel-plan-reconciliation-20261108.md",
+    "record_is_not_dependency_pin": true,
+    "source_revisions_are_initial_historical_observations": true,
+    "paired_outcome_owner": "simulation_outcome_boundary_20261107 O01-O08; Voiage PR1287",
+    "vop_and_feedback_owner": "Voiage issue1286 and existing E03/E04; VOP C17-C19",
+    "no_new_completion_ledger": true,
+    "live_chat_acknowledgements_claimed": false,
+    "independent_paths": {
+      "innovate_static": "G02; A08/static G04 do not require G03",
+      "innovate_native": "I10 does not require optional I07",
+      "uogto_static": "SGC.01-SGC.05 plus version-matched SGC.08; dynamic SGC.06 conditional",
+      "careops": "R76.5 optional; R76.6/R77 and ED MVP unchanged",
+      "voiage": "Q01-Q09 and initial software paper unchanged"
+    },
+    "shared_negative_control": {
+      "owner": "Voiage arithmetic; applications supply truthful input identities",
+      "extends_existing_cases": [
+        "SI-V01",
+        "SI-V04",
+        "SI-V06"
+      ],
+      "parameter_states": 1,
+      "replicates": {
+        "A": [
+          -1,
+          1
+        ],
+        "B": [
+          1,
+          -1
+        ]
+      },
+      "expected_parameter_evpi": 0,
+      "invalid_replicate_as_parameter_evpi": 1,
+      "requires_distinct_estimand_for_observed_process_outcomes": true
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "recorded_on": "2026-11-14",
+  "previous_disposition": "nltk-residual-advisory-20260902.json",
+  "selected_version": "3.10.4",
+  "patched_release": "3.10.4",
+  "advisories_patched_in_selected_release": [
+    "https://github.com/advisories/GHSA-8mgp-746c-j5xp",
+    "https://github.com/advisories/GHSA-8fx7-8jr8-84rv",
+    "https://github.com/advisories/GHSA-ffr9-mgrr-wcvr",
+    "https://github.com/advisories/GHSA-gpwc-27cw-rh9r",
+    "https://github.com/advisories/GHSA-qg35-44qx-7vrr"
+  ],
+  "affected_live_manifests": ["requirements-joss.txt", "requirements-arxiv.txt"],
+  "scope": ["scripts/audit_arxiv_readability.py", "scripts/audit_joss_readability.py"],
+  "qualification": {
+    "python": "3.15.1",
+    "package_source": "https://pypi.org/project/nltk/3.10.4/",
+    "wheel_sha256": "769ba5413f265b7d3e87cd163cc28efa01e29eeef8bb6080bc907949d9fcfb51",
+    "cmudict_archive_sha256": "d07cca47fd72ad32ea9d8ad1219f85301eeaf4568f8b6b73747506a71fb5afd6",
+    "synthetic_pdf_sha256": "eacf24e3fd62a8d4db30eba2c19714010326d9a107ccc421bcda3c09d673bd3f",
+    "words": 557,
+    "sentences": 40,
+    "arxiv_report_sha256": "67b0552823b7713bcca4314b58411eeac3717fd50e248e7706a6ccbd4e288cc1",
+    "joss_report_sha256": "0d498f4dc693f8611a58bd2702beba4170dc8b2e80e140a42c665b39e57a4363",
+    "reports_byte_identical_to_prior_release": true
+  }
+}

@@ -50,7 +50,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Resolve merged dependency graph
       run: uv lock
@@ -75,27 +75,11 @@ jobs:
       with:
         persist-credentials: false
 
-    - name: Install uv
-      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
-      with:
-        version: "0.13.6"
-        enable-cache: true
-        cache-suffix: ${{ github.job }}
-        cache-dependency-glob: "uv.lock"
-
-    - name: Set up Python
-      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
-      with:
-        python-version: "3.15.1"
-
-    - name: Install dependencies
-      run: uv sync --frozen --extra dev
-
     - name: Set up Go
       uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
       with:
         cache: false
-        go-version: "1.27.2"
+        go-version: "1.27.4"
 
     - name: Install Vale
       run: |
@@ -103,7 +87,7 @@ jobs:
         echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
 
     - name: Run Vale
-      run: uv run bash scripts/vale_prose.sh
+      run: bash scripts/vale_prose.sh
 
   frontier-contract:
     name: Frontier Contract Validation
@@ -125,7 +109,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci --extra dev --group producer-tests
@@ -184,13 +168,13 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
-    - name: Install dependencies
-      run: uv sync --frozen --extra ci --extra dev --group producer-tests
+    - name: Install only locked verification tools
+      run: uv sync --frozen --only-group verification
 
     - name: Validate version synchronization
-      run: uv run tox -e version-sync
+      run: uv run --frozen --no-sync tox -e version-sync
 
   # Fast linting job
   repository-harness:
@@ -204,24 +188,13 @@ jobs:
       with:
         persist-credentials: false
 
-    - name: Install uv
-      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
-      with:
-        version: "0.13.6"
-        enable-cache: true
-        cache-suffix: ${{ github.job }}
-        cache-dependency-glob: "uv.lock"
-
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
-
-    - name: Install dependencies
-      run: uv sync --frozen --extra ci --group producer-tests
+        python-version: "3.15.2"
 
     - name: Run repository harness
-      run: uv run python scripts/repo_harness.py
+      run: python scripts/repo_harness.py
 
   lint:
     name: Lint & Type Check
@@ -243,7 +216,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci --extra dev --group producer-tests
@@ -270,11 +243,12 @@ jobs:
       run: >-
         uv run ty check voiage --python-version=3.15
         --ignore invalid-argument-type --ignore invalid-assignment
-        --ignore unresolved-attribute --ignore unresolved-import
+        --ignore missing-attribute --ignore missing-union-attribute
+        --ignore import-not-found
         --ignore no-matching-overload --ignore unsupported-operator
-        --ignore call-non-callable --ignore not-iterable
-        --ignore not-subscriptable --ignore invalid-return-type
-        --ignore invalid-method-override --ignore unused-type-ignore-comment
+        --ignore not-callable --ignore not-iterable
+        --ignore not-subscriptable --ignore invalid-explicit-return
+        --ignore incompatible-method-override --ignore unused-type-ignore-comment
         --ignore redundant-cast
 
     - name: Run BasedPyright on new production contracts
@@ -286,7 +260,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: ["3.15.1"]
+        python: ["3.15.2"]
       fail-fast: false
     steps:
     - name: Checkout code
@@ -352,10 +326,13 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
+
+    - name: Install only locked verification tools
+      run: uv sync --frozen --only-group verification
 
     - name: Run tox conformance matrix
-      run: uv run --with tox tox -e ingestion-conformance
+      run: uv run --frozen --no-sync tox -e ingestion-conformance
       env:
         CI: true
 
@@ -384,7 +361,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Install only locked verification tools
       run: uv sync --frozen --only-group verification
@@ -417,14 +394,14 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Install explicit Excel extra
       run: uv sync --frozen --extra ci --extra excel --no-build-package python-calamine --no-build-package xlsxwriter --group producer-tests
 
     - name: Verify native engine runtime
       run: >-
-        uv run python -c "import sys, importlib.metadata as m; assert sys.version_info[:3] == (3, 15, 1), sys.version; print({n: m.version(n) for n in ('polars', 'python-calamine', 'xlsxwriter')})"
+        uv run python -c "import sys, importlib.metadata as m; assert sys.version_info[:3] == (3, 15, 2), sys.version; print({n: m.version(n) for n in ('polars', 'python-calamine', 'xlsxwriter')})"
 
     - name: Exercise Excel import and export
       run: >-
@@ -455,7 +432,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Install bounded example dependencies
       run: uv sync --frozen --extra ci --extra dev --group producer-tests
@@ -499,13 +476,13 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
-    - name: Install dependencies
-      run: uv sync --frozen --extra ci --group producer-tests
+    - name: Install only locked verification tools
+      run: uv sync --frozen --only-group verification
 
     - name: Verify coverage threshold
-      run: uv run --with tox tox -e coverage_report
+      run: uv run --frozen --no-sync tox -e coverage_report
 
     - name: Upload authoritative coverage to Codecov
       uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f
@@ -518,7 +495,7 @@ jobs:
         fail_ci_if_error: true
 
   free-threaded-observation:
-    name: Python 3.15.1t Observation
+    name: Python 3.15.2t Observation
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -538,7 +515,7 @@ jobs:
     - name: Set up free-threaded Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1t"
+        python-version: "3.15.2t"
 
     - name: Observe minimal free-threaded Arrow compatibility
       id: free_threaded_probe
@@ -551,8 +528,8 @@ jobs:
     - name: Record ecosystem readiness
       if: steps.free_threaded_probe.outcome != 'success'
       run: |
-        echo "::notice::Python 3.15.1t Arrow wheels are not yet available for this probe."
-        echo "Python 3.15.1t Arrow compatibility is currently observational." >> "$GITHUB_STEP_SUMMARY"
+        echo "::notice::Python 3.15.2t Arrow wheels are not yet available for this probe."
+        echo "Python 3.15.2t Arrow compatibility is currently observational." >> "$GITHUB_STEP_SUMMARY"
 
   benchmark-regression:
     name: Benchmark Regression Checks
@@ -574,7 +551,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci --group producer-tests
@@ -640,7 +617,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci --group producer-tests
@@ -674,7 +651,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Install voiage
       run: uv sync --frozen --extra ci --extra dev --group producer-tests
@@ -720,7 +697,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Install dependencies
       run: uv sync --frozen --extra ci --extra dev --group producer-tests
@@ -756,12 +733,21 @@ jobs:
       continue-on-error: true
       env:
         REVIEWED_BASELINE_SHA256: ${{ vars.VOIAGE_MUTATION_BASELINE_SHA256 }}
+        STAGED_REVIEW_JSON: ${{ vars.VOIAGE_MUTATION_STAGED_REVIEW }}
+        REVIEW_PR_NUMBER: ${{ github.event.pull_request.number }}
+        REVIEW_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        REVIEW_BASE_SHA: ${{ github.event.pull_request.base.sha }}
       run: >-
         uv run python scripts/check_mutation_cohort.py
         --stats mutants/mutmut-cicd-stats.json
         --baseline .github/mutation-baselines/voiage-cohort.json
         --universe mutants/mutmut-universe.txt
         --reviewed-baseline-sha256 "${REVIEWED_BASELINE_SHA256}"
+        --staged-review-json "${STAGED_REVIEW_JSON}"
+        --event-name "${GITHUB_EVENT_NAME}"
+        --pull-request "${REVIEW_PR_NUMBER}"
+        --head-sha "${REVIEW_HEAD_SHA}"
+        --base-sha "${REVIEW_BASE_SHA}"
         --threshold 75
         --output .benchmarks/mutation-cohort.json
 
@@ -815,7 +801,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Install dependencies
       run: uv sync --frozen --extra dev
@@ -872,7 +858,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
-        python-version: "3.15.1"
+        python-version: "3.15.2"
 
     - name: Install polyglot documentation extractor
       run: uv sync --locked --extra docs --no-install-project

@@ -1,4 +1,37 @@
-# Current continuation handoff — 28 October 2026
+# Remaining backlog delivery handoff
+
+## Integration continuation — 14 November 2026
+
+Chat `01a1d8ac-5d8e-77a3-82cf-39f876888d5d` owns the primary checkout
+`/Volumes/PortableSSD/GitHub/voiage` and the managed manuscript worktree
+`/Users/doughnut/.codex/worktrees/voiage-manuscript-guidance/voiage` on
+`codex/manuscript-guidance-20261114`. Its initial source scope is `AGENTS.md`,
+`.agents/skills/arxiv-paper/SKILL.md`, the existing venue handoff, changelog,
+task list and this coordination record. The continuation also owns the portable
+`scripts/docx_validator/` tool, its qualification tests, and the bounded Ruff
+compatibility fix in `voiage/analysis.py`, including cross-platform CI.
+The earlier manuscript worktree and
+its edits remain preserved. The standard Git verification checkout is
+`/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-manuscript-verify-20261114`;
+its isolated test environment and receipts belong to this chat. It provides
+working space on the SSD for the managed source tree. No native object or
+authentication scope is held.
+Next operations are manuscript guidance verification and protected delivery,
+then sequential PR review and recovery-backed cleanup. Deferred native and
+telemetry acceptance remain open.
+
+## B8 and B13 checkpoint — 14 November 2026
+
+Chat `01a1d44c-538d-7ac3-b556-7f1304675a7b` owns the bounded
+`codex/remaining-backlog-b8-b13-20261114` branch in the standard Git worktree
+`/Volumes/PortableSSD/GitHub/.codex-worktrees/voiage-backlog-b8-b13-20261114.aep6th/voiage`.
+The scope is B8 verification and dependency repair, B13 inventory, and
+recovery-backed retirement of two integrated branch tips from this chat.
+See the [checkpoint](b8-b13-checkpoint-20261114.md) for current results.
+The protected PR carries this change. Existing native, manuscript and
+producer owners retain their assignments.
+
+## 28 October continuation
 
 The active maintainer goal authorises implementation, review, fixes and archival
 of all four named tracks: #1053 (including B6/B8/B12–B14), agent-safe

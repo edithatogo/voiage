@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 from pathlib import Path
+import platform
 import shutil
 import subprocess
 import sys
@@ -51,7 +52,7 @@ def scenario(
     identity = {
         "source_head": head,
         "lock_digest": hashlib.sha256(lock.read_bytes()).hexdigest(),
-        "interpreter": "CPython 3.15.1",
+        "interpreter": f"{platform.python_implementation()} {platform.python_version()}",
         "features": "ci,dev",
         "coverage_config_digest": hashlib.sha256(config.read_bytes()).hexdigest(),
     }

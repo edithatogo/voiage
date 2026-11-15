@@ -16,7 +16,7 @@ class PyLibcst(PythonPackage):
         sha256="087b58a9afe076bb08e2d726478e1f16cb928d67ffa9092817e033c335de522a",
         url="https://files.pythonhosted.org/packages/02/c0/098e5c91ff1537f00c85a6438b6cb1863d17144680cc91f47c87f104a200/libcst-1.9.0.tar.gz",
     )
-    depends_on("python@3.15.1", type=("build", "run"))
+    depends_on("python@3.15.2", type=("build", "run"))
     depends_on("py-setuptools", type="build")
     depends_on("py-setuptools-scm", type="build")
     depends_on("py-setuptools-rust", type="build")

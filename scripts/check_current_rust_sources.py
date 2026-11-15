@@ -116,8 +116,8 @@ def main() -> int:
     parser.add_argument("bootstrap_manifest", type=Path)
     parser.add_argument("--root", type=Path, default=Path.cwd())
     args = parser.parse_args()
-    if sys.version_info[:3] != (3, 15, 1):
-        parser.error("Rust source qualification requires Python 3.15.1")
+    if sys.version_info[:3] != (3, 15, 2):
+        parser.error("Rust source qualification requires Python 3.15.2")
     try:
         report = validate(args.root, args.archive, args.bootstrap_manifest)
     except (

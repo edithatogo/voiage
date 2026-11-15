@@ -35,6 +35,8 @@ def test_citation_metadata_matches_the_verified_public_release() -> None:
     assert codemeta["downloadUrl"] == "https://pypi.org/project/voiage/3.1.0/"
     assert codemeta["releaseNotes"].endswith("/releases/tag/v3.1.0")
     assert codemeta["identifier"] == codemeta["releaseNotes"]
+    assert codemeta["runtimePlatform"] == ["Python >=3.15.1,<3.16"]
+    assert codemeta["softwareRequirements"][0] == "Python >=3.15.1,<3.16"
 
 
 def test_submission_packets_target_v2_2_0_without_claiming_submission() -> None:

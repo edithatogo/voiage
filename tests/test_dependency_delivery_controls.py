@@ -4,6 +4,7 @@ from fnmatch import fnmatchcase
 import json
 from pathlib import Path
 import re
+import tomllib
 
 import pytest
 import yaml
@@ -83,22 +84,22 @@ def test_linting_group_does_not_capture_runtime_or_stub_packages(package: str) -
     assert package not in lint["matchPackageNames"]
 
 
+def test_renovate_uses_hosted_dashboard_schema() -> None:
+    config = json.loads((ROOT / "renovate.json").read_text())
+    # The hosted app still expects a boolean dashboard switch (issue #1305).
+    assert isinstance(config.get("dependencyDashboard", True), bool)
+    assert config["dependencyDashboardOSVVulnerabilitySummary"] == "unresolved"
+
+
 def test_renovate_keeps_archival_environments_outside_live_dependency_updates() -> None:
     config = json.loads((ROOT / "renovate.json").read_text())
-    archive_rule = next(
-        rule
-        for rule in config["packageRules"]
-        if rule.get("matchFileNames")
-        == [
-            "paper/reproduction-environment/**",
-            "specs/submission-readiness/dependency-frontier-environment-20260829/**",
-        ]
-    )
-    assert archive_rule["enabled"] is False
-    patterns = archive_rule["matchFileNames"]
+    # Renovate discovers package files before applying dependency package rules.
+    patterns = config["pep621"]["ignorePaths"]
     for archived in (
         "paper/reproduction-environment/pyproject.toml",
         "paper/reproduction-environment/uv.lock",
+        "paper/reproduction-environment/python315/pyproject.toml",
+        "paper/reproduction-environment/python315/uv.lock",
         "specs/submission-readiness/dependency-frontier-environment-20260829/pyproject.toml",
     ):
         assert any(fnmatchcase(archived, pattern) for pattern in patterns)
@@ -109,6 +110,175 @@ def test_renovate_keeps_archival_environments_outside_live_dependency_updates() 
         "docs/astro-site/package.json",
     ):
         assert not any(fnmatchcase(live, pattern) for pattern in patterns)
+
+    cargo_patterns = config["cargo"]["ignorePaths"]
+    frozen_native = (
+        "conductor/tracks/scientific_ecosystem_alignment_20261029/"
+        "installed-adapters/native/Cargo.toml"
+    )
+    assert any(fnmatchcase(frozen_native, pattern) for pattern in cargo_patterns)
+    live_manifests = [
+        ROOT / "rust" / "Cargo.toml",
+        ROOT / "rust" / "fuzz" / "Cargo.toml",
+        ROOT / "r-package" / "voiageR" / "src" / "rust" / "Cargo.toml",
+        *(ROOT / "rust" / "crates").glob("*/Cargo.toml"),
+    ]
+    assert len(live_manifests) > 3
+    for manifest in live_manifests:
+        assert manifest.is_file()
+        relative_path = manifest.relative_to(ROOT).as_posix()
+        assert not any(
+            fnmatchcase(relative_path, pattern) for pattern in cargo_patterns
+        )
+
+
+def test_frozen_native_lock_retains_independent_advisory_coverage() -> None:
+    workflow = yaml.safe_load(
+        (ROOT / ".github/workflows/rust-security.yml").read_text()
+    )
+    events = workflow.get("on", workflow.get(True))
+    native = (
+        "conductor/tracks/scientific_ecosystem_alignment_20261029/"
+        "installed-adapters/native/"
+    )
+    for event in ("pull_request", "push"):
+        paths = events[event]["paths"]
+        assert native + "Cargo.toml" in paths
+        assert native + "Cargo.lock" in paths
+        assert "renovate.json" in paths
+    assert events["schedule"]
+    job = workflow["jobs"]["cargo-deny"]
+    assert not job.get("continue-on-error", False)
+    steps = job["steps"]
+    python = next(
+        step
+        for step in steps
+        if step.get("name") == "Set up qualified Python for retained lock audit"
+    )
+    assert re.fullmatch(r"actions/setup-python@[0-9a-f]{40}", python["uses"])
+    assert python["with"]["python-version"] == "3.15.2"
+    audit = next(
+        step
+        for step in steps
+        if step.get("name") == "Audit retained native adapter lock"
+    )
+    command = audit["run"]
+    assert "python scripts/audit_retained_native_lock.py prepare" in command
+    assert command.count("python scripts/audit_retained_native_lock.py verify") == 2
+    assert "cargo metadata --format-version 1" in command
+    assert (
+        'cargo deny --locked --manifest-path "$scratch/Cargo.toml" '
+        "--config rust/deny.toml check -D warnings advisories"
+    ) in command
+    assert command.index("cargo metadata") < command.index(" verify ")
+    assert command.index(" verify ") < command.index("cargo deny")
+    assert "if" not in audit
+    assert not audit.get("continue-on-error", False)
+    assert "ignore = []" in (ROOT / "rust/deny.toml").read_text()
+
+
+def test_renovate_keeps_proptest_within_the_declared_rust_floor() -> None:
+    config = json.loads((ROOT / "renovate.json").read_text())
+    rule = next(
+        rule
+        for rule in config["packageRules"]
+        if rule.get("matchPackageNames") == ["proptest"]
+    )
+    assert rule["matchManagers"] == ["cargo"]
+    assert rule["allowedVersions"] == "<1.12.0"
+    assert 'rust-version = "1.85"' in (ROOT / "rust/Cargo.toml").read_text()
+    for crate in ("voiage-domain", "voiage-numerics"):
+        manifest = (ROOT / "rust/crates" / crate / "Cargo.toml").read_text()
+        assert 'proptest = ">=1.7, <1.13"' in manifest
+
+    def locked_proptest(path: Path) -> str:
+        packages = tomllib.loads(path.read_text())["package"]
+        matches = [item for item in packages if item["name"] == "proptest"]
+        assert len(matches) == 1
+        return matches[0]["version"]
+
+    assert locked_proptest(ROOT / "rust/Cargo.lock") == "1.11.0"
+    assert locked_proptest(ROOT / "rust/locks/proptest-current/Cargo.lock") == "1.12.0"
+
+
+def test_both_proptest_locks_keep_behavior_security_and_coverage_gates() -> None:
+    bindings = yaml.safe_load((ROOT / ".github/workflows/bindings-ci.yml").read_text())
+    stable = bindings["jobs"]["rust"]["steps"]
+    msrv = bindings["jobs"]["rust-msrv"]["steps"]
+    assert any(
+        step.get("run")
+        == "cargo check --workspace --all-targets --all-features --locked"
+        and "CARGO_RESOLVER_LOCKFILE_PATH" not in step.get("env", {})
+        for step in msrv
+    )
+    assert any(
+        step.get("run") == "cargo test --workspace --all-features --locked"
+        and "CARGO_RESOLVER_LOCKFILE_PATH" not in step.get("env", {})
+        for step in stable
+    )
+
+    workflow = yaml.safe_load(
+        (ROOT / ".github/workflows/proptest-current.yml").read_text()
+    )
+    assert workflow["permissions"] == {}
+    events = workflow.get("on", workflow.get(True))
+    assert {"pull_request", "push", "schedule", "merge_group"} <= set(events)
+    assert set(workflow["jobs"]) == {"rust-current", "coverage", "supply-chain"}
+    for job in workflow["jobs"].values():
+        assert job["permissions"] == {"contents": "read"}
+        assert "if" not in job
+        assert not job.get("continue-on-error", False)
+
+    alternate_path = "${{ github.workspace }}/rust/locks/proptest-current/Cargo.lock"
+    modern = next(
+        step
+        for step in workflow["jobs"]["rust-current"]["steps"]
+        if step.get("name") == "Verify current Proptest on stable Rust"
+    )
+    assert modern["env"]["CARGO_RESOLVER_LOCKFILE_PATH"] == alternate_path
+    assert "cargo tree --locked -p proptest --depth 0" in modern["run"]
+    assert (
+        "cargo clippy --workspace --all-targets --all-features --locked -- -D warnings"
+        in modern["run"]
+    )
+    assert "cargo test --workspace --all-features --locked" in modern["run"]
+
+    security = yaml.safe_load(
+        (ROOT / ".github/workflows/rust-security.yml").read_text()
+    )
+    assert any(
+        "check advisories licenses bans sources" in step.get("run", "")
+        for step in security["jobs"]["cargo-deny"]["steps"]
+    )
+    security_step = next(
+        step
+        for step in workflow["jobs"]["supply-chain"]["steps"]
+        if step.get("name") == "Enforce supply-chain policy for current Proptest"
+    )
+    assert security_step["env"]["CARGO_RESOLVER_LOCKFILE_PATH"] == alternate_path
+    assert "--locked" in security_step["run"]
+    assert "check advisories licenses bans sources" in security_step["run"]
+
+    coverage = yaml.safe_load(
+        (ROOT / ".github/workflows/rust-coverage.yml").read_text()
+    )
+    baseline_coverage = next(
+        step
+        for step in coverage["jobs"]["rust-workspace-coverage"]["steps"]
+        if step.get("name") == "Measure and enforce workspace coverage"
+    )
+    modern_coverage = next(
+        step
+        for step in workflow["jobs"]["coverage"]["steps"]
+        if step.get("name") == "Measure and enforce coverage with current Proptest"
+    )
+    assert "CARGO_RESOLVER_LOCKFILE_PATH" not in baseline_coverage.get("env", {})
+    assert modern_coverage["env"]["CARGO_RESOLVER_LOCKFILE_PATH"] == alternate_path
+    for step in (baseline_coverage, modern_coverage):
+        assert "--all-features --locked --fail-under-lines 80" in step["run"]
+    for step in (modern, security_step, baseline_coverage, modern_coverage):
+        assert "if" not in step
+        assert not step.get("continue-on-error", False)
 
 
 def test_governed_python_upgrades_require_separate_qualification() -> None:

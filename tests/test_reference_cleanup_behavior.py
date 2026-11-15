@@ -36,7 +36,7 @@ def test_generated_notebook_code_compiles_and_uses_native_results(
     path = tmp_path / "analysis.ipynb"
     WorkflowConnector().create_jupyter_analysis(analysis, str(path))
     notebook = json.loads(path.read_text())
-    assert notebook["metadata"]["language_info"]["version"] == "3.15.1"
+    assert notebook["metadata"]["language_info"]["version"] == "3.15.2"
     scope: dict[str, object] = {}
     for cell in notebook["cells"]:
         if cell["cell_type"] != "code":

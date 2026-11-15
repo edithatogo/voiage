@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "python_profile": "3.15.1",
+  "python_profile": "3.15.2",
   "scope": "Source/declaration checks only; native compiler, solve, build and installed probes remain required",
   "providers": {
     "py-polars": {
@@ -22,7 +22,7 @@
         "polars-runtime-32 == 2.1.0"
       ],
       "spack_dependencies": {
-        "python@3.15.1": [
+        "python@3.15.2": [
           "build",
           "run"
         ],
@@ -60,7 +60,7 @@
         "nightly"
       ],
       "spack_dependencies": {
-        "python@3.15.1": [
+        "python@3.15.2": [
           "build",
           "run"
         ],

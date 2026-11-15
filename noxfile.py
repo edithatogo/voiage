@@ -7,7 +7,7 @@ uv-backed local runner with the same core sessions.
 import nox
 
 PYPROJECT = nox.project.load_toml("pyproject.toml")
-PYTHON_VERSIONS = ["3.15.1"]
+PYTHON_VERSIONS = ["3.15.2"]
 
 nox.options.default_venv_backend = "uv"
 
@@ -41,7 +41,7 @@ def tests(session: nox.Session) -> None:
     )
 
 
-@nox.session(python="3.15.1")
+@nox.session(python="3.15.2")
 def lint(session: nox.Session) -> None:
     """Run Ruff and Bandit checks."""
     _sync_project(session)
@@ -52,7 +52,7 @@ def lint(session: nox.Session) -> None:
     )
 
 
-@nox.session(python="3.15.1")
+@nox.session(python="3.15.2")
 def typecheck(session: nox.Session) -> None:
     """Run the static type checker."""
     _sync_project(session)
@@ -92,7 +92,7 @@ def typecheck(session: nox.Session) -> None:
     session.run("basedpyright", "voiage/logging.py")
 
 
-@nox.session(python="3.15.1")
+@nox.session(python="3.15.2")
 def docs(session: nox.Session) -> None:
     """Check and build the Astro/Starlight documentation."""
     site = "docs/astro-site"
@@ -101,7 +101,7 @@ def docs(session: nox.Session) -> None:
     session.run("pnpm", "run", "build", *session.posargs, external=True, cwd=site)
 
 
-@nox.session(python="3.15.1")
+@nox.session(python="3.15.2")
 def coverage_report(session: nox.Session) -> None:
     """Generate the HTML and XML coverage outputs."""
     _sync_project(session)
@@ -117,14 +117,14 @@ def coverage_report(session: nox.Session) -> None:
     )
 
 
-@nox.session(python="3.15.1")
+@nox.session(python="3.15.2")
 def frontier_contract(session: nox.Session) -> None:
     """Validate the frontier contract registry and fixtures."""
     _sync_project(session)
     session.run("python", "scripts/validate_frontier_contract.py", *session.posargs)
 
 
-@nox.session(python="3.15.1")
+@nox.session(python="3.15.2")
 def contracts(session: nox.Session) -> None:
     """Verify generated v2 contracts and their focused implementation surface."""
     _sync_project(session)
@@ -147,7 +147,7 @@ def contracts(session: nox.Session) -> None:
     session.run("basedpyright", "voiage/contracts", "scripts/export_v2_contracts.py")
 
 
-@nox.session(default=False)
+@nox.session(python="3.15.2", default=False)
 def contract_profile(session: nox.Session) -> None:
     """Profile a bounded canonical-contract workload on demand."""
     _sync_project(session)
@@ -160,7 +160,7 @@ def contract_profile(session: nox.Session) -> None:
     )
 
 
-@nox.session(default=False)
+@nox.session(python="3.15.2", default=False)
 def contract_mutation(session: nox.Session) -> None:
     """Run broad evidence plus the strict production-invariant mutation gate."""
     _sync_project(session)

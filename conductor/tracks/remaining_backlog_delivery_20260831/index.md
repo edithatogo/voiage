@@ -3,6 +3,7 @@
 - [Specification](./spec.md)
 - [Implementation Plan](./plan.md)
 - [Metadata](./metadata.json)
+- [B8 verification and B13 inventory refresh](./b8-b13-checkpoint-20261114.md)
 - [Evidence](./evidence.jsonl)
 - [Baseline and recovery receipt](./baseline-and-recovery-20260831.json)
 - [Remaining issue register](./remaining-issue-register-20260831.md)

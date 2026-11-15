@@ -35,4 +35,4 @@ jobs:
           sudo mv gitleaks /usr/local/bin/
           rm gitleaks.tar.gz
       - name: Run Gitleaks Audit
-        run: gitleaks detect --config .gitleaks.toml --source . -v
+        run: gitleaks detect --config .gitleaks.toml --source . -v --redact=100

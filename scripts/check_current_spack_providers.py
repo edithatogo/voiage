@@ -119,8 +119,8 @@ def validate(root: Path, sources: Path) -> dict[str, object]:
     )
     if set(packet["providers"]) != {"py-polars", "py-polars-runtime-32"}:
         raise ValueError("Both split Polars providers are required")
-    if packet["python_profile"] != "3.15.1":
-        raise ValueError("Provider Python profile must be 3.15.1")
+    if packet["python_profile"] != "3.15.2":
+        raise ValueError("Provider Python profile must be 3.15.2")
     for name, row in packet["providers"].items():
         recipe = _recipe(root / f"packaging/current/spack/packages/{name}/package.py")
         expected = (
@@ -195,8 +195,8 @@ def main() -> int:
     parser.add_argument("sources", type=Path)
     parser.add_argument("--root", type=Path, default=Path.cwd())
     args = parser.parse_args()
-    if sys.version_info[:3] != (3, 15, 1):
-        parser.error("Provider qualification requires Python 3.15.1")
+    if sys.version_info[:3] != (3, 15, 2):
+        parser.error("Provider qualification requires Python 3.15.2")
     try:
         report = validate(args.root, args.sources)
     except (

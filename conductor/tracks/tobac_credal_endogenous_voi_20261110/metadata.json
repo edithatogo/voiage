@@ -1,0 +1,23 @@
+{
+  "track_id": "tobac_credal_endogenous_voi_20261110",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-11-10T00:00:00Z",
+  "updated_at": "2026-11-10T00:00:00Z",
+  "description": "Credal LP dominance with Farkas duality witnesses and endogenous Tobit-censored sequential EVSI for tobac",
+  "execution_status": "pending",
+  "dependencies": [
+    "tobac_consumer_qualification_20261025",
+    "simulation_outcome_boundary_20261107",
+    "scientific_ecosystem_alignment_20261029"
+  ],
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/1290",
+    "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1193",
+    "project": "https://github.com/users/edithatogo/projects/28",
+    "relationship_evidence": "Issue-body parent reference to #1193 and #1221"
+  },
+  "leaf_count": 5,
+  "max_files_per_leaf": 5,
+  "execution_disposition": "Planning only; HPC remains deferred except MLX/Metal; no new runtime claim"
+}

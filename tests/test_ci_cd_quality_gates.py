@@ -18,6 +18,8 @@ from pathlib import Path
 import re
 import tomllib
 
+from packaging.requirements import Requirement
+from packaging.specifiers import SpecifierSet
 import yaml
 
 # Test data paths
@@ -206,7 +208,7 @@ class TestCICDQualityGatesConfiguration:
         test_unit_job = ci_config["jobs"]["test-unit"]
         python_versions = test_unit_job["strategy"]["matrix"]["python"]
 
-        assert python_versions == ["3.15.1"]
+        assert python_versions == ["3.15.2"]
 
     def test_weekly_expensive_gates_configured(self):
         """Test that expensive gates are configured for weekly scheduled runs."""
@@ -408,7 +410,7 @@ class TestQualityGatePolicyCompliance:
         assert job["permissions"] == {"contents": "read"}
         assert re.search(r"nightly-\d{4}-\d{2}-\d{2}", str(job))
         assert "components: miri,rust-src" in workflow_text
-        assert re.search(r"cargo \+nightly-\d{4}-\d{2}-\d{2} miri test", str(job))
+        assert 'cargo +"${VOIAGE_NIGHTLY_TOOLCHAIN}" miri test' in str(job)
         assert "--test lifecycle --test error_transport" in str(job)
         assert "continue-on-error" not in str(job)
 
@@ -425,9 +427,7 @@ class TestQualityGatePolicyCompliance:
         assert job["permissions"] == {"contents": "read"}
         assert re.search(r"nightly-\d{4}-\d{2}-\d{2}", rendered)
         assert "cargo install cargo-fuzz --version 0.13.2 --locked" in rendered
-        assert re.search(
-            r"cargo \+nightly-\d{4}-\d{2}-\d{2} fuzz run stable_evpi", rendered
-        )
+        assert 'cargo +"${VOIAGE_NIGHTLY_TOOLCHAIN}" fuzz run stable_evpi' in rendered
         assert "-max_total_time=60" in rendered
         assert "continue-on-error" not in rendered
 
@@ -557,27 +557,200 @@ class TestCICDDocumentation:
         assert "schedule:" in ci_content, "Schedule trigger not configured"
 
 
-def test_installed_nightly_matches_every_explicit_command_and_environment() -> None:
-    """A toolchain update must also update consumers, not leave an unused pin."""
+def test_vale_and_full_verification_use_the_same_pinned_go_version() -> None:
+    """Keep both hosted Vale entry points on a specific shared Go release."""
+    versions = []
+    for filename, job_name in (
+        ("ci.yml", "prose-lint"),
+        ("linux-graph-qualification.yml", "full-tox"),
+    ):
+        workflow = yaml.safe_load((GITHUB_WORKFLOWS_DIR / filename).read_text())
+        setup_steps = [
+            step
+            for step in workflow["jobs"][job_name]["steps"]
+            if str(step.get("uses", "")).startswith("actions/setup-go@")
+        ]
+        assert len(setup_steps) == 1
+        versions.append(setup_steps[0]["with"]["go-version"])
+    assert versions[0] == versions[1]
+    assert re.fullmatch(r"1\.\d+\.\d+", versions[0])
 
-    for filename in ("rust-miri.yml", "rust-fuzz.yml", "ffi-sanitizers.yml"):
+
+def test_installed_nightly_matches_every_explicit_command_and_environment() -> None:
+    """Every consumer must use the exact toolchain installed by its setup step."""
+
+    installed_toolchains = set()
+    for filename, expected_consumers in (
+        ("rust-miri.yml", 1),
+        ("rust-fuzz.yml", 3),
+        ("ffi-sanitizers.yml", 1),
+    ):
         workflow = yaml.safe_load((GITHUB_WORKFLOWS_DIR / filename).read_text())
         for job in workflow["jobs"].values():
-            toolchains = [
-                step["with"]["toolchain"]
+            installers = [
+                step
                 for step in job["steps"]
                 if str(step.get("uses", "")).startswith("dtolnay/rust-toolchain@")
             ]
-            assert len(toolchains) == 1
-            installed = toolchains[0]
-            assert re.fullmatch(r"nightly-\d{4}-\d{2}-\d{2}", installed)
+            assert len(installers) == 1
+            installer = installers[0]
+            assert installer["id"] == "pinned_nightly"
+            assert re.fullmatch(
+                r"nightly-\d{4}-\d{2}-\d{2}", installer["with"]["toolchain"]
+            )
+            installed_toolchains.add(installer["with"]["toolchain"])
             consumers = []
             for step in job["steps"]:
-                consumers.extend(
-                    re.findall(r"cargo \+(nightly-[\d-]+)", str(step.get("run", "")))
-                )
-                selected = step.get("env", {}).get("VOIAGE_SANITIZER_TOOLCHAIN")
-                if selected:
-                    consumers.append(selected)
-            assert consumers
-            assert set(consumers) == {installed}
+                command = str(step.get("run", ""))
+                assert not re.search(r"cargo \+nightly-[\d-]+", command)
+                if " miri test" in command or " fuzz run " in command:
+                    assert 'cargo +"${VOIAGE_NIGHTLY_TOOLCHAIN}"' in command
+                    consumers.append(
+                        step.get("env", {}).get("VOIAGE_NIGHTLY_TOOLCHAIN")
+                    )
+                if "bash scripts/run_ffi_sanitizers.sh" in command:
+                    consumers.append(
+                        step.get("env", {}).get("VOIAGE_SANITIZER_TOOLCHAIN")
+                    )
+            assert len(consumers) == expected_consumers
+            assert set(consumers) == {"${{ steps.pinned_nightly.outputs.name }}"}
+    assert len(installed_toolchains) == 1
+
+
+def test_docx_validator_uses_the_locked_pytest_on_every_platform() -> None:
+    """The standalone validator job exercises the same qualified pytest."""
+    lock = tomllib.loads((PROJECT_ROOT / "uv.lock").read_text())
+    versions = [p["version"] for p in lock["package"] if p["name"] == "pytest"]
+    assert len(versions) == 1
+    workflow = yaml.safe_load(
+        (GITHUB_WORKFLOWS_DIR / "c15-cross-platform.yml").read_text()
+    )
+    job = workflow["jobs"]["manuscript-docx-validator"]
+    assert {
+        "ubuntu-24.04",
+        "macos-15",
+        "windows-2025",
+    }.issubset(job["strategy"]["matrix"]["os"])
+    prepare = next(
+        step
+        for step in job["steps"]
+        if step.get("name") == "Prepare the selected Python environment"
+    )
+    assert re.search(
+        rf"(?<![\w-])pytest=={re.escape(versions[0])}(?=\s|$)", prepare["run"]
+    )
+
+
+def test_native_capacity_observation_reuses_the_checked_in_workflow() -> None:
+    """The deferred observation points at the repository's callable workflow."""
+    workflow = yaml.safe_load(
+        (GITHUB_WORKFLOWS_DIR / "native-build-capacity-observation.yml").read_text()
+    )
+    assert workflow["jobs"]["rust-source-capacity"]["uses"] == (
+        "$/.github/workflows/native-rust-llvm-qualification.yml"
+    )
+
+
+def test_native_rust_workflow_installs_the_source_profile_toolchain() -> None:
+    """Install the exact compiler used by both retained source profiles."""
+    workflow = yaml.safe_load(
+        (GITHUB_WORKFLOWS_DIR / "native-rust-llvm-qualification.yml").read_text()
+    )
+    providers = json.loads(
+        (PROJECT_ROOT / "packaging/current/rust-provider-sources.json").read_text()
+    )
+    inputs = json.loads(
+        (PROJECT_ROOT / "packaging/current/source-vendor-inputs.json").read_text()
+    )
+    toolchain = providers["nightly"]["version"]
+    assert all(
+        inputs["entries"][entry]["toolchain"] == toolchain
+        for entry in ("rust-stable", "rust-nightly")
+    )
+    steps = workflow["jobs"]["native"]["steps"]
+    install = next(
+        step for step in steps if step.get("name") == "Install source-profile Rust"
+    )
+    assert install["run"] == (
+        f"rustup toolchain install {toolchain} --profile minimal --no-self-update"
+    )
+    build = next(
+        step
+        for step in steps
+        if step.get("name") == "Build and install authenticated Rust and LLVM sources"
+    )
+    assert steps.index(install) < steps.index(build)
+    assert f"rustup which --toolchain {toolchain} cargo" in build["run"]
+    assert f"rustup which --toolchain {toolchain} rustc" in build["run"]
+
+
+def test_coverage_identity_is_tested_with_locked_dependencies_across_platforms() -> (
+    None
+):
+    """The CI-only Git implementation must preserve receipt checks on every OS."""
+    workflow = yaml.safe_load(
+        (GITHUB_WORKFLOWS_DIR / "c15-cross-platform.yml").read_text()
+    )
+    job = workflow["jobs"]["coverage-identity"]
+    assert {"ubuntu-24.04", "macos-15", "windows-2025"}.issubset(
+        job["strategy"]["matrix"]["os"]
+    )
+    command = next(
+        step["run"]
+        for step in job["steps"]
+        if step.get("name") == "Test locked coverage identity dependencies"
+    )
+    assert "uv export --frozen --extra ci" in command
+    assert "--constraint .locked-constraints.txt pytest GitPython" in command
+    assert "sys.version_info[:3] == (3, 15, 2)" in command
+    assert "tests/test_coverage_artifact_identity.py" in command
+
+
+def test_c15_telemetry_keeps_runtime_and_scientific_oracles_required() -> None:
+    """The lean telemetry job must not silently lose its scientific backends."""
+    workflow = yaml.safe_load(
+        (GITHUB_WORKFLOWS_DIR / "c15-cross-platform.yml").read_text()
+    )
+    job = workflow["jobs"]["telemetry-and-oracles"]
+    assert not job.get("continue-on-error", False)
+    steps = job["steps"]
+    commands = [str(step.get("run", "")) for step in steps]
+    assert any(
+        "uv sync --frozen --extra ci --group producer-tests" in c for c in commands
+    )
+    assert not any("--extra experimental" in c for c in commands)
+    assert any("sys.version_info[:3] == (3, 15, 2)" in c for c in commands)
+    assert any("import jax.numpy; import polars" in c for c in commands)
+    assert any("scripts/c15_otel_probe.py" in c for c in commands)
+    oracle_step = next(
+        step
+        for step in steps
+        if step.get("name") == "Verify privacy and scientific surfaces"
+    )
+    assert not oracle_step.get("continue-on-error", False)
+    assert oracle_step["env"]["JAX_ENABLE_X64"] == "1"
+    for name in ("reproducibility", "performance", "otel", "oracles"):
+        assert f"tests/test_c15_{name}.py" in oracle_step["run"]
+
+
+def test_testing_tool_guidance_matches_declared_constraints() -> None:
+    """Current setup guidance follows the package's qualified tool policy."""
+    project = tomllib.loads(PYPROJECT_TOML.read_text())["project"]
+    requirements = {
+        requirement.name.lower(): requirement
+        for group in ("ci", "dev")
+        for text in project["optional-dependencies"][group]
+        for requirement in [Requirement(text)]
+    }
+    guidance = (PROJECT_ROOT / "conductor/tech-stack.md").read_text()
+    for label, package in (
+        ("pytest", "pytest"),
+        ("pytest-benchmark", "pytest-benchmark"),
+        ("Ruff", "ruff"),
+        ("ty", "ty"),
+        ("tox", "tox"),
+        ("Mutmut", "mutmut"),
+    ):
+        match = re.search(rf"(?m)^- \*\*{re.escape(label)}\*\*:\s+(\S+)", guidance)
+        assert match, label
+        assert SpecifierSet(match.group(1)) == requirements[package].specifier

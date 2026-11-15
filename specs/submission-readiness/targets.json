@@ -116,10 +116,10 @@
         {"id": "method-provenance-and-overlap", "status": "satisfied", "evidence": ["README.md", "paper.md", "docs/astro-site/src/content/docs/methods/index.mdx"]},
         {"id": "maintenance-commitment", "status": "satisfied", "evidence": ["GOVERNANCE.md", "SUPPORT.md", "docs/release/pyopensci-readiness.md", "specs/submission-readiness/pyopensci-evidence.json"]},
         {"id": "ai-affirmation", "status": "satisfied", "evidence": ["AI_CONTRIBUTIONS.md", "AI_USAGE.md", "specs/submission-readiness/pyopensci-submission-staging.json", "conductor/tracks/v2_2_release_and_venue_submissions_20260830/maintainer-venue-decision-20260831.json"]},
-        {"id": "survey-and-human-written-submission", "status": "pending", "evidence": ["docs/release/pyopensci-submission-draft.md", "specs/submission-readiness/pyopensci-submission-staging.json", "conductor/tracks/v2_2_release_and_venue_submissions_20260830/venue-next-actions-20260831.md"]}
+        {"id": "survey-and-human-written-submission", "status": "pending", "evidence": ["conductor/tracks/v2_2_release_and_venue_submissions_20260830/pyopensci-survey-receipt-20261113.md", "docs/release/pyopensci-submission-draft.md", "specs/submission-readiness/pyopensci-submission-staging.json"]}
       ],
       "acceptance_evidence": ["pyOpenSci review issue", "pyOpenSci approval label and catalogue entry"],
-      "next_decision": "Personal declarations are confirmed and previous requests #271 and #272 are withdrawn. Complete the private pre-review survey, supply a human-written submission body, and perform the authenticated pyOpenSci submission. The maintainer's separate commitment to write later review communication personally is confirmed. The subsequent eligible JOSS route is already authorized; arXiv remains deferred until an actual journal submission and later author action."
+      "next_decision": "The private pre-review survey is complete and previous requests #271 and #272 are withdrawn. Supply a human-written submission body and assess the current disclosures before the authenticated pyOpenSci submission. The maintainer's separate commitment to write later review communication personally is confirmed. The subsequent eligible JOSS route is already authorized; arXiv remains deferred until an actual journal submission and later author action."
     },
     {
       "id": "ropensci",

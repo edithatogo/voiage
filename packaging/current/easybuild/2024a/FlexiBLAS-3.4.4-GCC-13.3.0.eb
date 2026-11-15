@@ -13,7 +13,7 @@ toolchainopts = {'pic': True, 'extra_cflags': local_extra_flags, 'extra_fflags':
 
 builddependencies = [
     ('CMake', '3.29.3'),
-    ('Python', '3.15.1'),  # required for running the tests
+    ('Python', '3.15.2'),  # required for running the tests
     ('BLIS', '1.0'),
     #   ('AOCL-BLAS', '5.0'),  # Uncomment for support for AOCL-BLAS
 ]

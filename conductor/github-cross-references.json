@@ -5618,8 +5618,18 @@
       },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1111",
       "subissues": [],
-      "pull_requests": [],
-      "pull_request_evidence": "none_found"
+      "pull_requests": [
+        {
+          "number": 1330,
+          "url": "https://github.com/edithatogo/voiage/pull/1330",
+          "status": "open",
+          "evidence": [
+            "submitted-head:9fcbee860668bc102acefc961aa98160fa0c7417",
+            "conductor/tracks/agent_safe_engineering_20260907/ci-efficiency-20261115/validation.json"
+          ]
+        }
+      ],
+      "pull_request_evidence": "PR #1330 records a bounded CI efficiency follow-up; full local and current-revision hosted qualification remain pending."
     },
     {
       "track_id": "execution_packet_guard_20260907",
@@ -5870,6 +5880,22 @@
       },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1221",
       "relationship_evidence": "Issue-body parent reference; native GitHub sub-issue linkage not verified",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "Planning prepared locally; no pull request evidence recorded"
+    },
+    {
+      "track_id": "tobac_credal_endogenous_voi_20261110",
+      "metadata_track_id": "tobac_credal_endogenous_voi_20261110",
+      "path": "conductor/tracks/tobac_credal_endogenous_voi_20261110",
+      "lifecycle": "new",
+      "issue": {
+        "number": 1290,
+        "url": "https://github.com/edithatogo/voiage/issues/1290",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1193",
+      "relationship_evidence": "Issue-body parent reference to #1193 and #1221",
       "subissues": [],
       "pull_requests": [],
       "pull_request_evidence": "Planning prepared locally; no pull request evidence recorded"

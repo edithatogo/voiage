@@ -61,6 +61,33 @@
   "minimumReleaseAge": "14 days",
   "osvVulnerabilityAlerts": true,
   "dependencyDashboardOSVVulnerabilitySummary": "unresolved",
+  "cargo": {
+    "ignorePaths": [
+      "**/node_modules/**",
+      "**/bower_components/**",
+      "**/vendor/**",
+      "**/examples/**",
+      "**/__tests__/**",
+      "**/test/**",
+      "**/tests/**",
+      "**/__fixtures__/**",
+      "conductor/tracks/scientific_ecosystem_alignment_20261029/installed-adapters/native/Cargo.toml"
+    ]
+  },
+  "pep621": {
+    "ignorePaths": [
+      "**/node_modules/**",
+      "**/bower_components/**",
+      "**/vendor/**",
+      "**/examples/**",
+      "**/__tests__/**",
+      "**/test/**",
+      "**/tests/**",
+      "**/__fixtures__/**",
+      "paper/reproduction-environment/**",
+      "specs/submission-readiness/dependency-frontier-environment-20260829/**"
+    ]
+  },
   "packageRules": [
     {
       "matchManagers": [
@@ -167,21 +194,6 @@
       "enabled": false
     },
     {
-      "description": "Preserve immutable recorded reproduction and frontier environments",
-      "matchFileNames": [
-        "paper/reproduction-environment/**",
-        "specs/submission-readiness/dependency-frontier-environment-20260829/**"
-      ],
-      "enabled": false
-    },
-    {
-      "description": "Hold nltk at 3.10.3 per governed residual advisory disposition until an installable patched release exists on PyPI",
-      "matchPackageNames": [
-        "nltk"
-      ],
-      "allowedVersions": "<=3.10.3"
-    },
-    {
       "description": "Keep the declared Rust MSRV and its release qualification lanes at 1.85; upgrades require compatibility-policy review",
       "matchManagers": [
         "github-actions"
@@ -223,6 +235,12 @@
       "matchManagers": ["cargo"],
       "matchPackageNames": ["sha2"],
       "allowedVersions": "<=0.11.0"
+    },
+    {
+      "description": "Hold automated Proptest updates below 1.12 for the Rust 1.85 lock; refresh and qualify the current-compiler lock separately",
+      "matchManagers": ["cargo"],
+      "matchPackageNames": ["proptest"],
+      "allowedVersions": "<1.12.0"
     },
     {
       "description": "Review executable source and lock changes through pull requests",

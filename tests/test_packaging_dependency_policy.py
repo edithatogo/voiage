@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 from pathlib import Path
 import shutil
 import tomllib
@@ -9,6 +11,23 @@ import tomllib
 import pytest
 
 ROOT = Path(__file__).parents[1]
+
+
+def test_previous_runtime_policy_remains_exact_during_patch_promotion() -> None:
+    previous_path = (
+        ROOT / "conductor/tracks/pandas_free_io_20261026/historical/"
+        "dependency-runtime-policy-python3151.json"
+    )
+    assert hashlib.sha256(previous_path.read_bytes()).hexdigest() == (
+        "f8e0639e1568bc7b2ef3c2c6870f812b6cddc1c14ab2b27647a484a488428ef3"
+    )
+    previous = json.loads(previous_path.read_text())
+    current = json.loads((ROOT / "specs/dependency-runtime-policy.json").read_text())
+    assert previous["requires_python"] == ">=3.15.1,<3.16"
+    assert current["requires_python"] == ">=3.15.2,<3.16"
+    previous["requires_python"] = current["requires_python"]
+    previous["reason"] = previous["reason"].replace("3.15.1", "3.15.2")
+    assert previous == current
 
 
 def test_published_runtime_has_no_legacy_tabular_dependencies() -> None:

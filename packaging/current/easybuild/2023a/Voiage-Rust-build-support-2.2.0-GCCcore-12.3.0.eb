@@ -7,7 +7,7 @@ description = "Source-bound foss 2023a provider for the Voiage HPC candidate."
 toolchain = {"name": "GCCcore", "version": "12.3.0"}
 
 builddependencies = []
-dependencies = [("Python", "3.15.1")]
+dependencies = [("Python", "3.15.2")]
 use_pip = True
 pip_no_index = True
 pip_ignore_installed = True
