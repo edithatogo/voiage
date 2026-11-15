@@ -261,7 +261,9 @@ rest of the scientific-alignment track remain eligible for maintenance.
 Qualify newer adapter inputs in a separately identified packet. Keep the
 historical manifest, lockfile, source pins and receipts unchanged. This
 maintenance scope does not waive dependency review, security scans, the
-minimum release age, or any required local and hosted checks.
+minimum release age, or any required local and hosted checks. The Rust
+supply-chain workflow separately audits the retained Cargo lock against current
+RustSec advisories and treats warnings as failures.
 
 Renovate also holds `proptest` below 1.12.0 because that release requires Rust
 1.88 while the workspace supports Rust 1.85. Lift this bound only with a

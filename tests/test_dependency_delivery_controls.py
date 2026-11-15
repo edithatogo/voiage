@@ -131,6 +131,66 @@ def test_renovate_keeps_archival_environments_outside_live_dependency_updates() 
         )
 
 
+def test_frozen_native_lock_retains_independent_advisory_coverage() -> None:
+    workflow = yaml.safe_load(
+        (ROOT / ".github/workflows/rust-security.yml").read_text()
+    )
+    events = workflow.get("on", workflow.get(True))
+    native = (
+        "conductor/tracks/scientific_ecosystem_alignment_20261029/"
+        "installed-adapters/native/"
+    )
+    for event in ("pull_request", "push"):
+        paths = events[event]["paths"]
+        assert native + "Cargo.toml" in paths
+        assert native + "Cargo.lock" in paths
+        assert "renovate.json" in paths
+    assert events["schedule"]
+    job = workflow["jobs"]["cargo-deny"]
+    assert not job.get("continue-on-error", False)
+    steps = job["steps"]
+    python = next(
+        step
+        for step in steps
+        if step.get("name") == "Set up qualified Python for retained lock audit"
+    )
+    assert re.fullmatch(r"actions/setup-python@[0-9a-f]{40}", python["uses"])
+    assert python["with"]["python-version"] == "3.15.1"
+    audit = next(
+        step
+        for step in steps
+        if step.get("name") == "Audit retained native adapter lock"
+    )
+    command = audit["run"]
+    assert "python scripts/audit_retained_native_lock.py prepare" in command
+    assert command.count("python scripts/audit_retained_native_lock.py verify") == 2
+    assert "cargo metadata --format-version 1" in command
+    assert (
+        'cargo deny --locked --manifest-path "$scratch/Cargo.toml" '
+        "--config rust/deny.toml check -D warnings advisories"
+    ) in command
+    assert command.index("cargo metadata") < command.index(" verify ")
+    assert command.index(" verify ") < command.index("cargo deny")
+    assert "if" not in audit
+    assert not audit.get("continue-on-error", False)
+    assert "ignore = []" in (ROOT / "rust/deny.toml").read_text()
+
+
+def test_renovate_keeps_proptest_within_the_declared_rust_floor() -> None:
+    config = json.loads((ROOT / "renovate.json").read_text())
+    rule = next(
+        rule
+        for rule in config["packageRules"]
+        if rule.get("matchPackageNames") == ["proptest"]
+    )
+    assert rule["matchManagers"] == ["cargo"]
+    assert rule["allowedVersions"] == "<1.12.0"
+    assert 'rust-version = "1.85"' in (ROOT / "rust/Cargo.toml").read_text()
+    for crate in ("voiage-domain", "voiage-numerics"):
+        manifest = (ROOT / "rust/crates" / crate / "Cargo.toml").read_text()
+        assert 'proptest = ">=1.7, <1.12"' in manifest
+
+
 def test_governed_python_upgrades_require_separate_qualification() -> None:
     config = json.loads((ROOT / "renovate.json").read_text())
     rule = next(
