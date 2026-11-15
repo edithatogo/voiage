@@ -1,5 +1,8 @@
 # Changelog
 
+- Document security triage for preserved paper replay locks and strengthen
+  checks that only the current, patched replay can run.
+
 - Install the source-qualified Rust compiler alongside the current CI nightly.
 
 - Prepare Python 3.15.2 runtime and exact-source paper replay qualification,

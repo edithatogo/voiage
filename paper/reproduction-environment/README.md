@@ -16,6 +16,24 @@ paths and their digests. The earlier Python 3.15 replay is retained in
 `paper/reproduction-manifest-python315.json`. Both frozen locks contain
 dependencies with open security advisories; retain them as historical evidence.
 
+The original lock and the earlier Python 3.15 lock are evidence, not supported
+installation or replay inputs. Their SHA-256 values are, respectively,
+`e5bfefe59aa2920d5b28e9beaa5a6e05cc8b08e4a91e74ed8589d7fc3354f7c5` and
+`ee0d8fbaab209be5f858e32e8d2e8d3c43b710cf10b696dc6b24ecc77baa2d57`.
+The verifier rejects their historical replay descriptors before starting a
+subprocess; the hosted paper workflow selects the current patched descriptor.
+The root and current replay locks are checked against the advisory floors for
+Pillow, soupsieve, Tornado and OpenTelemetry API.
+
+GitHub may report the frozen locks as runtime dependencies because it discovers
+lockfiles independently of the replay selection. Assess each alert individually:
+the 11 alerts numbered 335–338 and 340–346 were traced to these two files, and
+may be classified as not used only while these exact vulnerable archive entries
+remain outside supported execution. This does not fix the archived packages.
+Reopen the affected alerts before enabling an archived environment or if an
+affected version enters an active environment; assess new alerts separately.
+Do not rewrite the archives or disable dependency scanning to resolve alerts.
+
 The previous patched Python 3.15.1 replay remains in
 `paper/reproduction-manifest-python315-patched.json`. The earlier 3.15.1
 profiles remain verifiable as historical records, but the current verifier
