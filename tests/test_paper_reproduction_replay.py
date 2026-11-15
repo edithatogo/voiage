@@ -172,20 +172,24 @@ def test_python3152_replay_requires_the_previous_patched_descriptor() -> None:
         VERIFIER.verify_manifest(ROOT, current)
 
 
-def test_patched_lock_meets_current_advisory_floors() -> None:
-    lock = tomllib.loads((ROOT / manifest()["lockfile"]["path"]).read_text())
-    versions = {
-        package["name"]: Version(package["version"])
-        for package in lock["package"]
-        if "version" in package
-    }
+@pytest.mark.parametrize("lock_path", ["uv.lock", "current-replay"])
+def test_active_locks_meet_current_advisory_floors(lock_path: str) -> None:
+    if lock_path == "current-replay":
+        lock_path = manifest()["lockfile"]["path"]
+    lock = tomllib.loads((ROOT / lock_path).read_text())
     for package, minimum in {
         "opentelemetry-api": "1.45.2",
         "pillow": "13.0.0",
         "soupsieve": "4.0.0",
         "tornado": "6.6.1",
     }.items():
-        assert versions[package] >= Version(minimum)
+        versions = [
+            Version(entry["version"])
+            for entry in lock["package"]
+            if entry["name"] == package and "version" in entry
+        ]
+        assert versions
+        assert all(version >= Version(minimum) for version in versions)
 
 
 def test_patched_replay_archives_are_bound_by_reference_policy() -> None:
@@ -284,22 +288,28 @@ def test_new_replay_profile_cannot_declare_an_older_runtime() -> None:
 
 
 @pytest.mark.parametrize(
-    "profile",
+    ("profile", "message"),
     [
-        "paper/reproduction-manifest-python315.json",
-        "paper/reproduction-manifest-python315-patched.json",
+        ("paper/reproduction-manifest.json", "Historical replay is retained"),
+        (
+            "paper/reproduction-manifest-python315.json",
+            "retired Python runtime.*retained as evidence",
+        ),
+        (
+            "paper/reproduction-manifest-python315-patched.json",
+            "retired Python runtime.*retained as evidence",
+        ),
     ],
 )
 def test_historical_replay_does_not_execute_a_retired_runtime(
-    monkeypatch: pytest.MonkeyPatch, profile: str
+    monkeypatch: pytest.MonkeyPatch, profile: str, message: str
 ) -> None:
     def unexpected_run(*args: object, **kwargs: object) -> None:
         raise AssertionError("Historical replay must not start a subprocess")
 
     monkeypatch.setattr(VERIFIER.subprocess, "run", unexpected_run)
-    with pytest.raises(
-        ValueError, match="retired Python runtime.*retained as evidence"
-    ):
+    monkeypatch.setattr(VERIFIER.subprocess, "check_output", unexpected_run)
+    with pytest.raises(ValueError, match=message):
         VERIFIER.replay(ROOT, ROOT / profile)
 
 
