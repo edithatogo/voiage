@@ -31,7 +31,7 @@ else
   export FPATH="${FPATH:-}" # Newer Lmod initialization expects this under nounset.
   source /etc/profile.d/lmod.sh
   generation=${cell#easybuild-}
-  export VOIAGE_QUALIFIED_SOURCE_ARCHIVE="$out/source/graph/source-dist/voiage-2.2.0.tar.gz"
+  export VOIAGE_QUALIFIED_SOURCE_ARCHIVE="$out/source/graph/source-dist/voiage-3.1.0.tar.gz"
   export VOIAGE_QUALIFIED_SOURCE_SHA256
   VOIAGE_QUALIFIED_SOURCE_SHA256=$(sha256sum "$VOIAGE_QUALIFIED_SOURCE_ARCHIVE" | cut -d ' ' -f1)
   export VOIAGE_SOURCE_ROOTS="$work/sources:$root/packaging/current/easybuild:$root/.graph-tools/easyconfigs/easybuild/easyconfigs:$out/source/graph/source-dist"
@@ -40,7 +40,7 @@ else
   "${build[@]}" "$root/.venv/bin/python" -m easybuild.main "$out/source/graph/root.eb" --robot --minimal-toolchains "--robot-paths=$robot" --enforce-checksums --trace \
     "--sourcepath=$work/sources" "--buildpath=$work/build" "--prefix=$work/prefix" "--hooks=$root/scripts/easybuild_source_hooks.py" --parallel=4 --max-parallel=4
   prefix="$work/prefix"
-  printf 'export FPATH="${FPATH:-}"\nsource /etc/profile.d/lmod.sh\nmodule purge\nmodule use %q\nmodule load %q\n' "$prefix/modules/all" "voiage/2.2.0-foss-$generation-candidate-Python-3.15.1" > "$out/load.sh"
+  printf 'export FPATH="${FPATH:-}"\nsource /etc/profile.d/lmod.sh\nmodule purge\nmodule use %q\nmodule load %q\n' "$prefix/modules/all" "voiage/3.1.0-foss-$generation-candidate-Python-3.15.2" > "$out/load.sh"
   printf 'module purge\n' > "$out/unload.sh"
 fi
 [[ $(find "$VOIAGE_COMPILER_RECEIPTS" -name '*.toml' -type f | wc -l) -ge 2 ]]

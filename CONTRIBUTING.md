@@ -6,7 +6,7 @@ We welcome contributions from the community, whether from humans or AI agents. T
 
 ### Prerequisites
 
-*   Python 3.15.1
+*   Python 3.15.2
 *   [Rust](https://www.rust-lang.org/tools/install) 1.85 or later for source builds
 *   [uv](https://docs.astral.sh/uv/) for locked environments and builds
 *   [pre-commit](https://pre-commit.com/#installation) for automated checks
@@ -57,7 +57,7 @@ the required CI, security, coverage, documentation, and contract checks pass.
 3.  **Verify Changes:**
     *   Use affected tests during iteration, then run the complete local gate once on the final candidate. Bound environment concurrency to avoid oversubscribing test workers:
         ```bash
-        # Select the verified repo-local Python 3.15.1 executable.
+        # Select the verified repo-local Python 3.15.2 executable.
         export VOIAGE_TOX_PYTHON="$PWD/.venv/bin/python"
         "$VOIAGE_TOX_PYTHON" --version
         .venv/bin/tox run-parallel -p 2
@@ -196,7 +196,7 @@ Producer/oracle tests use the explicit unpublished `producer-tests` dependency
 group. It does not enter wheel metadata or default installs; tox test lanes
 select it independently. A clean runtime install excludes this group and both
 legacy tabular distributions. Run `.venv/bin/python scripts/check_packaging_dependencies.py`
-with the repo-local Python 3.15.1 interpreter to compare the runtime declarations.
+with the repo-local Python 3.15.2 interpreter to compare the runtime declarations.
 
 The default tox gate includes `pandas-free`, a real installed-wheel environment
 with no extras or producer/test dependencies. Run that lane through the resource

@@ -24,7 +24,7 @@ class PyCython(PythonPackage):
         sha256="eed0d93fbca7087f143b42c34b05a825849bdf17f101572c2105acfa49aa88b8",
         url="https://files.pythonhosted.org/packages/a9/d8/4981ef716ad0e3ff0d3ef383aefc6b03c4a88dee33b272bf8e0d833001ca/cython-3.3.0.tar.gz",
     )
-    depends_on("python@3.15.1", type=("build", "link", "run"))
+    depends_on("python@3.15.2", type=("build", "link", "run"))
     depends_on("c", type="build")
     depends_on("cxx", type="build")
     depends_on("py-setuptools@66:", type=("build", "run"))

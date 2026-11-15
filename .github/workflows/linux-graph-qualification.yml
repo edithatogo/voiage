@@ -79,7 +79,7 @@ jobs:
           CELL: ${{ matrix.cell }}
           QUALIFICATION: ${{ inputs.qualification || 'graph' }}
         run: |
-          uv venv --python 3.15.1 .venv
+          uv venv --python 3.15.2 .venv
           uv pip install --python .venv/bin/python psutil==7.2.2 packaging==26.3 maturin==1.15.0
           if [[ "$QUALIFICATION" == installed || "$QUALIFICATION" == installed-controls ]]; then
             sudo apt-get update -qq
@@ -158,11 +158,11 @@ jobs:
       - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
         with:
           cache: false
-          go-version: "1.27.2"
+          go-version: "1.27.4"
       - name: Prepare qualified verification tools
         run: |
-          uv venv --python 3.15.1 .venv
-          .venv/bin/python -c 'import sys; assert sys.version_info[:3] == (3, 15, 1), sys.version'
+          uv venv --python 3.15.2 .venv
+          .venv/bin/python -c 'import sys; assert sys.version_info[:3] == (3, 15, 2), sys.version'
           uv pip install --python .venv/bin/python tox==4.67.2 tox-uv==1.37.2 psutil==7.2.2
           go install github.com/errata-ai/vale/v3/cmd/vale@v3.15.1
           echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"

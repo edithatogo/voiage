@@ -22,7 +22,7 @@
     },
     {
       "path": "tests/test_mcda_information.py",
-      "sha256": "1036b811cbb45c1740dee61901e74001c77ebdbfb0f68cda5b3a1a7df7fc8d88"
+      "sha256": "d1e9dd894cc95ca59aee79de9d7fb49853ea2ac452e8998a80ccf2d7723c0da1"
     },
     {
       "path": "tests/test_mcda_information_surfaces.py",

@@ -3,7 +3,7 @@
 **Historical replay only:** This guide and byte-pinned driver describe an old
 Python 3.12 source snapshot. Their former 250 GiB preflight is not a current
 capacity requirement. They remain unchanged for historical receipt validation;
-do not use this replay as the current Python 3.15.1 qualification. The current
+do not use this replay as the current Python 3.15.2 qualification. The current
 resource guard retains a 2 GiB safety reserve.
 
 The native driver builds one maintained generation at a time and refuses to

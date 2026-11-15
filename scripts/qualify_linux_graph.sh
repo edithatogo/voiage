@@ -36,7 +36,7 @@ else
   SOURCE_DATE_EPOCH=$(git show -s --format=%ct "$revision")
   python "$source_checkout/scripts/embed_sdist_provenance.py"
   (cd "$source_checkout" && "$OLDPWD/.venv/bin/maturin" sdist --out "$out/source-dist")
-  export VOIAGE_QUALIFIED_SOURCE_ARCHIVE="$out/source-dist/voiage-2.2.0.tar.gz"
+  export VOIAGE_QUALIFIED_SOURCE_ARCHIVE="$out/source-dist/voiage-3.1.0.tar.gz"
   export VOIAGE_QUALIFIED_SOURCE_SHA256
   VOIAGE_QUALIFIED_SOURCE_SHA256=$(sha256sum "$VOIAGE_QUALIFIED_SOURCE_ARCHIVE" | cut -d ' ' -f1)
   python scripts/qualify_hpc_source.py "$VOIAGE_QUALIFIED_SOURCE_ARCHIVE" --revision "$revision" --sha256 "$VOIAGE_QUALIFIED_SOURCE_SHA256" > "$out/source-qualification.json"
@@ -44,7 +44,7 @@ else
 from pathlib import Path
 import sys
 generation, output = sys.argv[1:]
-source = Path("packaging/current/easybuild/voiage-candidate-Python-3.15.1.eb")
+source = Path("packaging/current/easybuild/voiage-candidate-Python-3.15.2.eb")
 text = source.read_text().replace(
     'toolchain = {"name": "system", "version": ""}',
     f'toolchain = {{"name": "foss", "version": "{generation}"}}',
@@ -69,7 +69,7 @@ from pathlib import Path
 import re
 import sys
 modules = re.findall(r"module: (Python/[^)]+)", Path(sys.argv[1]).read_text())
-if not modules or any(not module.startswith("Python/3.15.1-") for module in modules):
+if not modules or any(not module.startswith("Python/3.15.2-") for module in modules):
     raise ValueError(f"Unqualified Python modules in resolved graph: {modules}")
 PYTHON
 fi

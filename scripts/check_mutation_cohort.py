@@ -98,6 +98,63 @@ def validate_runtime_version(identity: dict[str, object], runtime_version: str) 
         raise ValueError("installed Mutmut version does not match the locked cohort")
 
 
+def select_reviewed_anchor(
+    baseline_sha256: str,
+    current_sha256: str,
+    *,
+    staged_review_json: str,
+    event_name: str,
+    pull_request: str,
+    head_sha: str,
+    base_sha: str,
+) -> tuple[str, str]:
+    """Select a protected, exact-PR review without changing the main anchor."""
+    if baseline_sha256 == current_sha256:
+        return current_sha256, "current"
+    if event_name != "pull_request" or not staged_review_json:
+        return current_sha256, "current"
+
+    def unique_object(pairs: list[tuple[str, object]]) -> dict[str, object]:
+        result: dict[str, object] = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate staged review field")
+            result[key] = value
+        return result
+
+    try:
+        candidate: object = json.loads(
+            staged_review_json, object_pairs_hook=unique_object
+        )
+    except TypeError, ValueError:
+        return current_sha256, "current"
+    if not isinstance(candidate, dict):
+        return current_sha256, "current"
+
+    def is_hex(value: str, length: int) -> bool:
+        return len(value) == length and all(c in "0123456789abcdef" for c in value)
+
+    number = candidate.get("pull_request")
+    if (
+        set(candidate)
+        != {"baseline_sha256", "current_sha256", "pull_request", "head_sha", "base_sha"}
+        or not isinstance(number, int)
+        or isinstance(number, bool)
+        or number <= 0
+        or str(number) != pull_request
+        or not is_hex(current_sha256, 64)
+        or not is_hex(baseline_sha256, 64)
+        or not is_hex(head_sha, 40)
+        or not is_hex(base_sha, 40)
+        or candidate.get("baseline_sha256") != baseline_sha256
+        or candidate.get("current_sha256") != current_sha256
+        or candidate.get("head_sha") != head_sha
+        or candidate.get("base_sha") != base_sha
+    ):
+        return current_sha256, "current"
+    return baseline_sha256, "staged"
+
+
 def mutation_universe(text: str) -> dict[str, object]:
     """Parse and digest the complete stable ID set from ``mutmut results --all``."""
     identities: dict[str, str] = {}
@@ -267,6 +324,11 @@ def main() -> int:
     parser.add_argument("--baseline", type=Path, required=True)
     parser.add_argument("--universe", type=Path, required=True)
     parser.add_argument("--reviewed-baseline-sha256", required=True)
+    parser.add_argument("--staged-review-json", default="")
+    parser.add_argument("--event-name", default="")
+    parser.add_argument("--pull-request", default="")
+    parser.add_argument("--head-sha", default="")
+    parser.add_argument("--base-sha", default="")
     parser.add_argument("--config", type=Path, default=Path("pyproject.toml"))
     parser.add_argument("--repo", type=Path, default=Path.cwd())
     parser.add_argument("--threshold", type=float, default=75.0)
@@ -282,14 +344,35 @@ def main() -> int:
     except ImportError as exc:
         raise RuntimeError("Mutmut runtime is required for cohort enforcement") from exc
     validate_runtime_version(identity, runtime_version)
+    baseline_sha256 = sha256(baseline_bytes).hexdigest()
+    reviewed_sha256, review_source = select_reviewed_anchor(
+        baseline_sha256,
+        args.reviewed_baseline_sha256,
+        staged_review_json=args.staged_review_json,
+        event_name=args.event_name,
+        pull_request=args.pull_request,
+        head_sha=args.head_sha,
+        base_sha=args.base_sha,
+    )
     report = evaluate_cohort(
         _object(args.stats),
         _object(args.baseline),
         identity,
         mutation_universe(args.universe.read_text(encoding="utf-8")),
         args.threshold,
-        baseline_sha256=sha256(baseline_bytes).hexdigest(),
-        reviewed_baseline_sha256=args.reviewed_baseline_sha256,
+        baseline_sha256=baseline_sha256,
+        reviewed_baseline_sha256=reviewed_sha256,
+    )
+    report["review_anchor_source"] = review_source
+    report["review_anchor_scope"] = (
+        {
+            "pull_request": int(args.pull_request),
+            "head_sha": args.head_sha,
+            "base_sha": args.base_sha,
+            "previous_anchor_sha256": args.reviewed_baseline_sha256,
+        }
+        if review_source == "staged"
+        else None
     )
     rendered = json.dumps(report, indent=2, sort_keys=True) + "\n"
     args.output.parent.mkdir(parents=True, exist_ok=True)

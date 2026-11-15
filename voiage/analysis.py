@@ -197,14 +197,13 @@ class DecisionAnalysis:
             jax_values = nb_array.jax_values
             if jax_values is not None:
                 return "jax"
-        elif isinstance(nb_array, np.ndarray):
-            # Check if numpy array is actually a JAX array in disguise
-            if (
-                hasattr(nb_array, "dtype")
-                and hasattr(nb_array, "shape")
-                and (hasattr(nb_array, "device") or hasattr(nb_array, "aval"))
-            ):
-                return "jax"
+        elif (
+            isinstance(nb_array, np.ndarray)
+            and hasattr(nb_array, "dtype")
+            and hasattr(nb_array, "shape")
+            and (hasattr(nb_array, "device") or hasattr(nb_array, "aval"))
+        ):
+            return "jax"
 
         # Check parameter samples for JAX arrays
         if parameter_samples is not None:

@@ -8,6 +8,11 @@ confirms that the survey has since been submitted. The survey section below
 records the earlier inspection; the remaining author action is the issue
 body and assessment of the disclosures.
 
+For manuscript revisions and delivery, use the
+[paper contract and delivery guidance](../../.agents/skills/arxiv-paper/SKILL.md).
+Apply its final-file validation to every manuscript and supplement DOCX in the
+delivery inventory, alongside the required fidelity and rendering checks.
+
 ## Decisions already recorded
 
 Retain voiage 2.2.0, pyOpenSci first, the eligible JOSS partner route next,

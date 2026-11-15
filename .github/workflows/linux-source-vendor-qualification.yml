@@ -35,7 +35,7 @@ jobs:
         with:
           version: "0.13.6"
       - run: |
-          uv venv --python 3.15.1 .venv
+          uv venv --python 3.15.2 .venv
           uv pip install --python .venv/bin/python pytest==9.1.1
           .venv/bin/python -m pytest --noconftest -o addopts= tests/test_source_vendor_qualification.py
   sources:
@@ -78,7 +78,7 @@ jobs:
       - name: Prepare source-only qualification tools
         timeout-minutes: 10
         run: |
-          uv venv --python 3.15.1 .venv
+          uv venv --python 3.15.2 .venv
           uv pip install --python .venv/bin/python psutil==7.2.2
       - name: Release unused hosted SDK capacity for Rust sources
         if: (matrix.entry == 'rust-stable' || matrix.entry == 'rust-nightly') && runner.environment == 'github-hosted'
@@ -133,7 +133,7 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y lmod
-          uv venv --python 3.15.1 .venv
+          uv venv --python 3.15.2 .venv
           uv pip install --python .venv/bin/python psutil==7.2.2 easybuild-framework==5.4.2 easybuild-easyblocks==5.4.2
       - name: Qualify Git archive bytes from two independent fixed-revision fetches
         run: |

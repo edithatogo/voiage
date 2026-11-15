@@ -151,7 +151,7 @@ flowchart LR
     Polars[Polars consumer]
     Fixtures[Golden fixtures and manifest]
     Harness[Repository and benchmark harness]
-    CI[Python 3.12–3.14 CI and security gates]
+    CI[Python 3.15.1 CI and security gates]
     External[External maturity and publication gates]
 
     VOP --> Mirror

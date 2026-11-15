@@ -15,7 +15,7 @@ class Arrow(BuiltinArrow):
         sha256="764adbb5601a4d0d9d67a10cf04892d33cfac9fd43012f08a2d7c9956a7a90d2",
         url="https://github.com/apache/arrow/archive/446167169a0dc547e00e1bc29f417a40c0ca267a.tar.gz",
     )
-    depends_on("python@3.15.1", when="+python", type=("build", "run"))
+    depends_on("python@3.15.2", when="+python", type=("build", "run"))
     resource(
         name="mimalloc-3.4.1",
         url="https://github.com/microsoft/mimalloc/archive/v3.4.1.tar.gz",

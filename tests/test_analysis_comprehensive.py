@@ -24,6 +24,31 @@ from voiage.schema import (
 class TestDecisionAnalysisComprehensive:
     """Comprehensive tests for DecisionAnalysis class to improve coverage."""
 
+    def test_auto_detection_checks_parameter_samples_after_numpy_input(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """A plain array still allows a JAX-like parameter to select the backend."""
+
+        class ArrayWithoutDevice(np.ndarray):
+            def __getattribute__(self, name: str) -> object:
+                if name in {"device", "aval"}:
+                    raise AttributeError(name)
+                return super().__getattribute__(name)
+
+        class ArrayWithDevice(np.ndarray):
+            @property
+            def device(self) -> str:
+                return "test-device"
+
+        monkeypatch.setattr("voiage.analysis.JAX_AVAILABLE", True)
+        plain = np.array([[1.0, 2.0]]).view(ArrayWithoutDevice)
+        device = np.array([1.0]).view(ArrayWithDevice)
+        analysis = object.__new__(DecisionAnalysis)
+
+        assert analysis._auto_detect_backend(plain) == "numpy"
+        assert analysis._auto_detect_backend(plain, {"parameter": device}) == "jax"
+        assert analysis._auto_detect_backend(device) == "jax"
+
     def test_init_with_value_array(self) -> None:
         """Test DecisionAnalysis initialization with ValueArray."""
         # Create a ValueArray

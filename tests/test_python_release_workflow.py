@@ -126,13 +126,13 @@ def test_conda_release_recipe_is_single_native_maturin_contract() -> None:
     )
     assert "{% set python_min" not in recipe
     assert "  skip: true  # [py<315]" in recipe
-    assert "  host:\n    - python >=3.15.1,<3.16\n" in recipe
-    assert "  run:\n    - python >=3.15.1,<3.16\n" in recipe
+    assert "  host:\n    - python >=3.15.2,<3.16\n" in recipe
+    assert "  run:\n    - python >=3.15.2,<3.16\n" in recipe
     assert "python >= {{ python_min }}" not in recipe
     assert "    - voiage._core" in recipe
     assert "core.runtime_info()['core_version'] == voiage.__version__" in recipe
     assert "voiage.evpi(np.array(" in recipe
-    assert "  requires:\n    - python >=3.15.1,<3.16\n    - pip" in recipe
+    assert "  requires:\n    - python >=3.15.2,<3.16\n    - pip" in recipe
     assert (
         "sha256: f0844694c628a92d29a532170f5a5672acfe210efe1d797359a4dc18c11ab901"
         in recipe
@@ -362,6 +362,12 @@ def test_sdist_derived_wheel_is_installed_and_smoked() -> None:
     steps = workflow["jobs"]["sdist"]["steps"]
     names = [step["name"] for step in steps]
 
+    validation = next(
+        step for step in steps if step["name"] == "Verify sdist-derived wheel tag"
+    )
+    assert "python scripts/validate_wheel_tags.py .sdist-wheel" in validation["run"]
+    assert '--abi "$VOIAGE_PYTHON_ABI" --platform ' in validation["run"]
+    assert "manylinux_2_17_x86_64.manylinux2014_x86_64" in validation["run"]
     assert "Install and smoke sdist-derived wheel" in names
     smoke = next(
         step
@@ -393,8 +399,11 @@ def test_release_validates_real_wheel_platform_suffixes() -> None:
     assert (
         validation["env"]["EXPECTED_PLATFORM_SUFFIX"] == "${{ matrix.platform-suffix }}"
     )
-    assert "WHEEL_PLATFORM" in validation["run"]
-    assert "endswith(expected)" in validation["run"]
+    assert "python scripts/validate_wheel_tags.py dist" in validation["run"]
+    assert (
+        '--abi "$VOIAGE_PYTHON_ABI" --platform "$EXPECTED_PLATFORM_SUFFIX"'
+        in validation["run"]
+    )
 
 
 def test_release_architecture_policy_is_explicit_and_extensible() -> None:

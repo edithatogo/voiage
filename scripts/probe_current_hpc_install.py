@@ -44,8 +44,8 @@ def main() -> None:
     )
     args = parser.parse_args()
     prefix = args.prefix.resolve(strict=True)
-    if sys.version_info[:3] != (3, 15, 1):
-        raise ValueError("Installed Python must be 3.15.1")
+    if sys.version_info[:3] != (3, 15, 2):
+        raise ValueError("Installed Python must be 3.15.2")
     if not Path(sys.executable).resolve(strict=True).is_relative_to(prefix):
         raise ValueError("Installed Python escapes selected prefix")
 
@@ -74,10 +74,10 @@ def main() -> None:
         raise ValueError("Installed imports escape selected prefix")
     info = voiage._core.runtime_info()
     if (
-        metadata.version("voiage") != "2.2.0"
+        metadata.version("voiage") != "3.1.0"
         or info["engine"] != "rust"
-        or info["core_version"] != "2.2.0"
-        or info["source_revision"] != "3df3cb49e5c927075c0609a48a2535b4457424d4"
+        or info["core_version"] != "3.1.0"
+        or info["source_revision"] != "0a961dafd2e68a480c668b30600430d9ac71be38"
         or info["source_dirty"] is not False
     ):
         raise ValueError("Installed candidate provenance differs from qualified source")
@@ -158,7 +158,7 @@ def main() -> None:
     args.output.write_text(
         json.dumps(
             {
-                "candidate": "2.2.0",
+                "candidate": "3.1.0",
                 "python": sys.version,
                 "prefix": str(prefix),
                 "paths": paths,

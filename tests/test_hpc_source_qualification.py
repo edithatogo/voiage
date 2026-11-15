@@ -37,11 +37,38 @@ def test_directory_entries_count_toward_archive_limit(
         )
 
 
-def test_cli_returns_structured_rejection(tmp_path: Path) -> None:
+def test_cli_returns_structured_rejection(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    # Exercise the current CLI after its version gate using a synthetic
+    # version; no source or installed qualification is claimed.
+    monkeypatch.setattr(sys, "version_info", (3, 15, 2))
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "qualify_hpc_source.py",
+            str(tmp_path / "missing.tar.gz"),
+            "--revision",
+            "invalid",
+            "--sha256",
+            "0" * 64,
+        ],
+    )
+    assert qualify_hpc_source.main() == 1
+    captured = capsys.readouterr()
+    assert json.loads(captured.out)["source_archive_qualified"] is False
+    assert "Traceback" not in captured.err
+
+
+def test_historical_cli_rejects_current_unqualified_interpreter(tmp_path: Path) -> None:
     result = subprocess.run(
         [
             sys.executable,
-            str(ROOT / "scripts/qualify_hpc_source.py"),
+            str(
+                ROOT
+                / "conductor/tracks/remaining_backlog_delivery_20260831/historical/qualify-hpc-source-python3151-20261115.py.txt"
+            ),
             str(tmp_path / "missing.tar.gz"),
             "--revision",
             "invalid",
@@ -52,9 +79,50 @@ def test_cli_returns_structured_rejection(tmp_path: Path) -> None:
         text=True,
         check=False,
     )
-    assert result.returncode == 1
-    assert json.loads(result.stdout)["source_archive_qualified"] is False
+    assert result.returncode == 2
+    assert "Source qualification requires Python 3.15.1" in result.stderr
+    assert not result.stdout
     assert "Traceback" not in result.stderr
+
+
+def test_current_qualifier_preserves_the_exact_previous_script() -> None:
+    historical = (
+        ROOT / "conductor/tracks/remaining_backlog_delivery_20260831/historical/"
+        "qualify-hpc-source-python3151-20261115.py.txt"
+    )
+    original = historical.read_bytes()
+    assert hashlib.sha256(original).hexdigest() == (
+        "2b4cccbb8110c32d418a57b672b03105ce24b6408aafd3c348c87af63439d63e"
+    )
+    expected = original.replace(b"(3, 15, 1)", b"(3, 15, 2)").replace(
+        b"Source qualification requires Python 3.15.1",
+        b"Source qualification requires Python 3.15.2",
+    )
+    assert (ROOT / "scripts/qualify_hpc_source.py").read_bytes() == expected
+
+
+def test_current_qualifier_rejects_the_previous_patch_before_reading(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    monkeypatch.setattr(sys, "version_info", (3, 15, 1))
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "qualify_hpc_source.py",
+            str(tmp_path / "missing.tar.gz"),
+            "--revision",
+            "0" * 40,
+            "--sha256",
+            "0" * 64,
+        ],
+    )
+    with pytest.raises(SystemExit) as error:
+        qualify_hpc_source.main()
+    assert error.value.code == 2
+    output = capsys.readouterr()
+    assert "Source qualification requires Python 3.15.2" in output.err
+    assert not output.out
 
 
 @pytest.fixture
@@ -151,7 +219,7 @@ def archive_for(
         )
     elif damage == "metadata":
         entries["PKG-INFO"] = entries["PKG-INFO"].replace(
-            b">=3.15.1,<3.16", b">=3.12,<3.13"
+            b">=3.15.2,<3.16", b">=3.12,<3.13"
         )
     elif damage == "provenance":
         entries["rust/crates/voiage-python/source-provenance.txt"] = provenance.replace(
@@ -185,7 +253,7 @@ def archive_for(
         entries["build_backend.py"] = b"raise RuntimeError('injected build hook')\n"
     elif damage == "runtime":
         entries["pyproject.toml"] = entries["pyproject.toml"].replace(
-            b">=3.15.1,<3.16", b">=3.12,<3.13"
+            b">=3.15.2,<3.16", b">=3.12,<3.13"
         )
     elif damage == "dependency":
         entries["pyproject.toml"] += (

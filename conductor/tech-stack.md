@@ -31,7 +31,8 @@
 - **seaborn**: >=0.13.2,<1 - Statistical data visualization
 
 ## Testing
-- **pytest**: >=9.1.1,<9.2 - Qualified test runner; latest benchmark plugin still requires a private attribute removed in 9.2
+- **pytest**: >=9.2,<9.3 - Qualified test runner
+- **pytest-benchmark**: >=5.3.1,<6.0 - Uses pytest's public node identifiers
 - **pytest-cov**: >=7.1,<8 - Coverage reporting
 - **hypothesis**: >=6.157,<7 - Property-based testing
 
@@ -46,28 +47,28 @@ network-isolated tests or the existing mutation authority. Tool versions remain
 subject to the evaluated extra and committed lock, not a promotion claim.
 
 ## Code Quality
-- **Ruff**: >=0.15.22,<1 - Fast Python linter, formatter, and security-rule checker
-- **ty**: >=0.0.61,<1.0 - Static type checking
+- **Ruff**: >=0.17.2,<0.18 - Fast Python linter, formatter, and security-rule checker
+- **ty**: >=0.0.104,<1.0 - Static type checking
 - **BasedPyright**: >=1.39.9,<2 - Strict second-opinion static analysis
-- **tox**: >=4.57,<5 - Test environment automation
+- **tox**: >=4.67,<5 - Test environment automation
 - **nox**: >=2026.7.11,<2027 - Python-coded session orchestration backed by uv
 - **pre-commit**: >=4.6,<5 - Git pre-commit hooks
-- **Mutmut**: >=3.6,<4 - Source-bound mutation assurance
+- **Mutmut**: ==3.8.1 - Source-bound mutation assurance
 - **Scalene**: >=2.3,<3 - CPU and memory profiling evidence
 
 ## Documentation (Current)
-- **Astro**: 7.1.3 — Sole documentation build platform
-- **@astrojs/starlight**: 0.41.4 — Docs framework with built-in search,
+- **Astro**: 7.4.11 — Sole documentation build platform
+- **@astrojs/starlight**: 0.42.10 — Docs framework with built-in search,
   navigation and MDX support; replaces Sphinx
 - **astro-polyglot**: source-pinned 0.1.0 at commit `054d11e` — generates
   Starlight-native API documentation from language-native source extraction;
   npm publication remains an external gate
-- **starlight-links-validator**: 0.25.2 — build-time internal-link validation
-- **starlight-llms-txt**: 0.11.0 — LLM-friendly text export
+- **starlight-links-validator**: 0.27.0 — build-time internal-link validation
+- **starlight-llms-txt**: 0.12.0 — LLM-friendly text export
 - **Griffe**: >=1.14,<2 — Python API extraction for the initial polyglot lane
 - **Vale**: prose linting for Markdown
 - **Node.js**: >=22.23.4 for the pinned Astro release; CI resolves the current 22.x patch
-- **pnpm**: 10.34.5 site package manager (full-gate bootstrap 10.34.9)
+- **pnpm**: 10.34.9 site package manager and full-gate bootstrap
 
 - **cbindgen**: optional header generation for a narrow Rust C ABI edge
 

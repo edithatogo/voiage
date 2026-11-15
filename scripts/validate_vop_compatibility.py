@@ -32,7 +32,7 @@ def validate() -> dict[str, object]:
     # metadata equality. The pinned historical profile is retained while the
     # current package runtime follows its separately qualified Python policy.
     supported_python = SpecifierSet(project["requires-python"])
-    assert supported_python.contains("3.15.1")
+    assert supported_python.contains("3.15.2")
     assert not supported_python.contains("3.14")
     assert not supported_python.contains("3.11")
     declared = [Requirement(item) for item in project["dependencies"]]

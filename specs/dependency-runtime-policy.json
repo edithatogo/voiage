@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "requires_python": ">=3.15.1,<3.16",
+  "requires_python": ">=3.15.2,<3.16",
   "runtime": [
     "click>=8.3.3,<9",
     "numpy>=2.5.4,<3",
@@ -17,6 +17,6 @@
     "polars": "2.1.0",
     "pyarrow": "26.0.0"
   },
-  "reason": "Polars 2.1.0 is the Python 3.15.1-qualified floor and latest stable at qualification; <3 excludes an unqualified major API change. Arrow 26 is retained for ingestion interchange. Scientific core bounds are unchanged.",
+  "reason": "Polars 2.1.0 is the Python 3.15.2-qualified floor and latest stable at qualification; <3 excludes an unqualified major API change. Arrow 26 is retained for ingestion interchange. Scientific core bounds are unchanged.",
   "producer_tests": "Pandas is external producer/oracle tooling in an unpublished explicit group, never a wheel requirement or default install."
 }

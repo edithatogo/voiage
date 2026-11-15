@@ -18,7 +18,7 @@ import importlib.metadata as metadata
 import json
 from pathlib import Path
 import sys
-assert sys.version_info[:3] == (3, 15, 1), sys.version
+assert sys.version_info[:3] == (3, 15, 2), sys.version
 forbidden = {"pandas", "xarray"}
 installed = {d.metadata["Name"].lower().replace("_", "-") for d in metadata.distributions()}
 assert not (installed & forbidden), f"Forbidden installed distributions: {installed & forbidden}"

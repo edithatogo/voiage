@@ -17,5 +17,6 @@ workspace = true
 serde = { version = "1.0", features = ["derive"] }
 
 [dev-dependencies]
-proptest = "1.7"
+# The default lock retains Rust 1.85; a separate CI lock tests Proptest 1.12.
+proptest = ">=1.7, <1.13"
 serde_json = "1.0"
