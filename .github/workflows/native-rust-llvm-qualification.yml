@@ -58,7 +58,7 @@ jobs:
         with:
           version: "0.13.6"
       - run: |
-          uv venv --python 3.15.1 .venv
+          uv venv --python 3.15.2 .venv
           uv pip install --python .venv/bin/python pytest==9.1.1 psutil==7.2.2
           .venv/bin/python -m pytest --noconftest --basetemp="$RUNNER_TEMP/native-controls" -o addopts= -q tests/test_native_stage_observation.py tests/test_native_rust_build.py tests/test_arrow_capacity_observation.py tests/test_source_vendor_qualification.py
       - name: Retain native control receipts
@@ -90,7 +90,7 @@ jobs:
           toolchain: nightly-2026-09-01
       - name: Prepare native build tools
         run: |
-          uv venv --python 3.15.1 .venv
+          uv venv --python 3.15.2 .venv
           uv pip install --python .venv/bin/python psutil==7.2.2
           sudo apt-get update -qq
           sudo apt-get install -y cmake ninja-build pkg-config libssl-dev zlib1g-dev time

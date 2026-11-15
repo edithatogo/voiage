@@ -386,7 +386,7 @@ def test_pending_r_qualification_cannot_claim_current_success(
 
     def read_text(path: Path, *args: object, **kwargs: object) -> str:
         content = original(path, *args, **kwargs)
-        if path.name == "r-workflow-requalification-20261027.json":
+        if path.name == "r-workflow-requalification-20261115.json":
             payload = json.loads(content)
             payload["current_workflow_qualified"] = True
             return json.dumps(payload)
@@ -394,6 +394,24 @@ def test_pending_r_qualification_cannot_claim_current_success(
 
     monkeypatch.setattr(Path, "read_text", read_text)
     with pytest.raises(ValueError, match="requalification boundary"):
+        validate_ropensci_evidence(
+            ROOT / "specs/submission-readiness/ropensci-evidence.json", ROOT
+        )
+
+
+def test_pending_r_qualification_rejects_changed_previous_evidence(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    original = Path.read_bytes
+
+    def read_bytes(path: Path) -> bytes:
+        content = original(path)
+        if path.name == "r-workflow-requalification-20261027.json":
+            return content + b"changed"
+        return content
+
+    monkeypatch.setattr(Path, "read_bytes", read_bytes)
+    with pytest.raises(ValueError, match="previous requalification evidence changed"):
         validate_ropensci_evidence(
             ROOT / "specs/submission-readiness/ropensci-evidence.json", ROOT
         )

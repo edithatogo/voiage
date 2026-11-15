@@ -63,7 +63,7 @@ else
   source /etc/profile.d/lmod.sh
   generation=${cell#easybuild-}
   robot="$PWD/packaging/current/easybuild/$generation:$PWD/packaging/current/easybuild:$PWD/.graph-tools/easyconfigs/easybuild/easyconfigs"
-  export VOIAGE_QUALIFIED_SOURCE_ARCHIVE="$out/graph/source-dist/voiage-2.2.0.tar.gz"
+  export VOIAGE_QUALIFIED_SOURCE_ARCHIVE="$out/graph/source-dist/voiage-3.1.0.tar.gz"
   export VOIAGE_QUALIFIED_SOURCE_SHA256
   VOIAGE_QUALIFIED_SOURCE_SHA256=$(sha256sum "$VOIAGE_QUALIFIED_SOURCE_ARCHIVE" | cut -d ' ' -f1)
   export VOIAGE_SOURCE_ROOTS="$work/sources:$PWD/packaging/current/easybuild:$PWD/.graph-tools/easyconfigs/easybuild/easyconfigs:$out/graph/source-dist"

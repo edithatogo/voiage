@@ -339,8 +339,8 @@ def main() -> int:
         "--policy", type=Path, default=Path("specs/dependency-runtime-policy.json")
     )
     args = parser.parse_args()
-    if sys.version_info[:3] != (3, 15, 1):
-        parser.error("Source qualification requires Python 3.15.1")
+    if sys.version_info[:3] != (3, 15, 2):
+        parser.error("Source qualification requires Python 3.15.2")
     try:
         result = qualify_source(
             args.archive, args.repository, args.revision, args.sha256, args.policy

@@ -208,7 +208,7 @@ class TestCICDQualityGatesConfiguration:
         test_unit_job = ci_config["jobs"]["test-unit"]
         python_versions = test_unit_job["strategy"]["matrix"]["python"]
 
-        assert python_versions == ["3.15.1"]
+        assert python_versions == ["3.15.2"]
 
     def test_weekly_expensive_gates_configured(self):
         """Test that expensive gates are configured for weekly scheduled runs."""
@@ -641,6 +641,16 @@ def test_docx_validator_uses_the_locked_pytest_on_every_platform() -> None:
     )
 
 
+def test_native_capacity_observation_reuses_the_checked_in_workflow() -> None:
+    """The deferred observation points at the repository's callable workflow."""
+    workflow = yaml.safe_load(
+        (GITHUB_WORKFLOWS_DIR / "native-build-capacity-observation.yml").read_text()
+    )
+    assert workflow["jobs"]["rust-source-capacity"]["uses"] == (
+        "$/.github/workflows/native-rust-llvm-qualification.yml"
+    )
+
+
 def test_coverage_identity_is_tested_with_locked_dependencies_across_platforms() -> (
     None
 ):
@@ -659,7 +669,35 @@ def test_coverage_identity_is_tested_with_locked_dependencies_across_platforms()
     )
     assert "uv export --frozen --extra ci" in command
     assert "--constraint .locked-constraints.txt pytest GitPython" in command
+    assert "sys.version_info[:3] == (3, 15, 2)" in command
     assert "tests/test_coverage_artifact_identity.py" in command
+
+
+def test_c15_telemetry_keeps_runtime_and_scientific_oracles_required() -> None:
+    """The lean telemetry job must not silently lose its scientific backends."""
+    workflow = yaml.safe_load(
+        (GITHUB_WORKFLOWS_DIR / "c15-cross-platform.yml").read_text()
+    )
+    job = workflow["jobs"]["telemetry-and-oracles"]
+    assert not job.get("continue-on-error", False)
+    steps = job["steps"]
+    commands = [str(step.get("run", "")) for step in steps]
+    assert any(
+        "uv sync --frozen --extra ci --group producer-tests" in c for c in commands
+    )
+    assert not any("--extra experimental" in c for c in commands)
+    assert any("sys.version_info[:3] == (3, 15, 2)" in c for c in commands)
+    assert any("import jax.numpy; import polars" in c for c in commands)
+    assert any("scripts/c15_otel_probe.py" in c for c in commands)
+    oracle_step = next(
+        step
+        for step in steps
+        if step.get("name") == "Verify privacy and scientific surfaces"
+    )
+    assert not oracle_step.get("continue-on-error", False)
+    assert oracle_step["env"]["JAX_ENABLE_X64"] == "1"
+    for name in ("reproducibility", "performance", "otel", "oracles"):
+        assert f"tests/test_c15_{name}.py" in oracle_step["run"]
 
 
 def test_testing_tool_guidance_matches_declared_constraints() -> None:

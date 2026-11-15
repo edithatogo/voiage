@@ -149,8 +149,8 @@
     },
     "voiage": {
       "kind": "git",
-      "revision": "3df3cb49e5c927075c0609a48a2535b4457424d4",
-      "tree": "3a178a7479907f93dc8b514a4db27d7ab6615b06",
+      "revision": "0a961dafd2e68a480c668b30600430d9ac71be38",
+      "tree": "6561ac4d928fa2bf75ff15ca19981c6e1b416018",
       "manifests": [
         "rust/Cargo.toml"
       ],

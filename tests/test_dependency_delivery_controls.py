@@ -155,7 +155,7 @@ def test_frozen_native_lock_retains_independent_advisory_coverage() -> None:
         if step.get("name") == "Set up qualified Python for retained lock audit"
     )
     assert re.fullmatch(r"actions/setup-python@[0-9a-f]{40}", python["uses"])
-    assert python["with"]["python-version"] == "3.15.1"
+    assert python["with"]["python-version"] == "3.15.2"
     audit = next(
         step
         for step in steps

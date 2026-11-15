@@ -374,8 +374,8 @@ def main() -> int:
     parser.add_argument("--cargo", type=Path, required=True)
     parser.add_argument("--rustc", type=Path, required=True)
     args = parser.parse_args()
-    if sys.version_info[:3] != (3, 15, 1) or sys.platform != "linux":
-        raise RuntimeError("Select repo-local Python 3.15.1 on Linux")
+    if sys.version_info[:3] != (3, 15, 2) or sys.platform != "linux":
+        raise RuntimeError("Select repo-local Python 3.15.2 on Linux")
     build = Build(args)
     try:
         build.execute()

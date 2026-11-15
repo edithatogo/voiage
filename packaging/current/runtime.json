@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "requires_python": ">=3.15.1,<3.16",
+  "requires_python": ">=3.15.2,<3.16",
   "runtime": [
     "click>=8.3.3,<9",
     "numpy>=2.5.4,<3",
@@ -13,13 +13,13 @@
     "typing_extensions>=4.16.0",
     "typer>=0.9,<1.0"
   ],
-  "source_commit": "3df3cb49e5c927075c0609a48a2535b4457424d4",
-  "source_role": "immutable migrated development candidate, not a newly published release",
+  "source_commit": "0a961dafd2e68a480c668b30600430d9ac71be38",
+  "source_role": "immutable Python 3.15.2 development candidate, not a newly published release",
   "native_solver_executed": false,
   "native_build_executed": false,
   "installed_module_acceptance": false,
   "source_archive_qualified": true,
-  "source_qualification_receipt": "conductor/tracks/remaining_backlog_delivery_20260831/source-qualification-20261028.json",
-  "source_qualification_receipt_sha256": "7451fd13bdb6be568c0545ae7226538f49df5cd6d9d1c2066bdef3ac80200efc",
-  "source_archive_sha256": "3748d8c5d155dc90db2b2c9c35abac5bb27958cb34c747e60e1ef8f84212a989"
+  "source_qualification_receipt": "conductor/tracks/remaining_backlog_delivery_20260831/source-qualification-20261115-python3152.json",
+  "source_qualification_receipt_sha256": "b2d98da169357309def4a31f8e7dbc24c595d01adc613341384bc8f5314ded9b",
+  "source_archive_sha256": "d7f49503baeb2f7ecf8d164c3e12f28dace36d8f2b6be7ed0132aa57df4b5244"
 }

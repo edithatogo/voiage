@@ -16,13 +16,18 @@ paths and their digests. The earlier Python 3.15 replay is retained in
 `paper/reproduction-manifest-python315.json`. Both frozen locks contain
 dependencies with open security advisories; retain them as historical evidence.
 
-The current patched replay uses
-`paper/reproduction-manifest-python315-patched.json`. Its source commit
+The previous patched Python 3.15.1 replay remains in
+`paper/reproduction-manifest-python315-patched.json`. The earlier 3.15.1
+profiles remain verifiable as historical records, but the current verifier
+does not execute them because the active repository runtime is Python 3.15.2.
+
+The current patched Python 3.15.2 replay uses
+`paper/reproduction-manifest-python3152-patched.json`. Its source commit
 identifies a new replay selection, not an attribution of the historical
 execution. Run from the repository root:
 
 ```sh
-python scripts/verify_paper_reproduction.py --manifest paper/reproduction-manifest-python315-patched.json
+.venv/bin/python scripts/verify_paper_reproduction.py --manifest paper/reproduction-manifest-python3152-patched.json
 ```
 
 The verifier requires the exact source commit in local Git history, Git, uv,

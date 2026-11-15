@@ -23,7 +23,7 @@ checksums = [
     'f373fb252c0d14036fb631f048091976cceb02abb3e570a97fbaeac2fbb12328',
 ]
 builddependencies = [
-    ('Python', '3.15.1'),
+    ('Python', '3.15.2'),
     ('Perl', '5.36.1'),
 ]
 

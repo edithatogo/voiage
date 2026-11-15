@@ -1,5 +1,8 @@
 # Changelog
 
+- Prepare Python 3.15.2 runtime and exact-source paper replay qualification,
+  retaining earlier runtime profiles as historical evidence.
+
 - Keep automated Proptest updates within the workspace's Rust 1.85 support policy.
 
 - Keep the retained native adapter replay manifest outside routine Renovate

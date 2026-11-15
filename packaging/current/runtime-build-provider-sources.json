@@ -1,5 +1,5 @@
 {
-  "python_profile": "3.15.1",
+  "python_profile": "3.15.2",
   "providers": {
     "py-cython": {
       "version": "3.3.0",

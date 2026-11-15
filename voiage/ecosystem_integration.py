@@ -796,7 +796,7 @@ class WorkflowConnector(EcosystemConnector):
                         "language": "python",
                         "name": "python3",
                     },
-                    "language_info": {"name": "python", "version": "3.15.1"},
+                    "language_info": {"name": "python", "version": "3.15.2"},
                 },
                 "nbformat": 4,
                 "nbformat_minor": 4,

@@ -37,8 +37,8 @@ def validate_libcst(root: Path, sources: Path) -> dict[str, object]:
     packet = json.loads(
         (root / "packaging/current/arrow-provider-sources.json").read_text()
     )
-    if packet["python_profile"] != "3.15.1" or "py-libcst" not in packet["providers"]:
-        raise ValueError("The Python 3.15.1 LibCST prerequisite is required")
+    if packet["python_profile"] != "3.15.2" or "py-libcst" not in packet["providers"]:
+        raise ValueError("The Python 3.15.2 LibCST prerequisite is required")
     row = packet["providers"]["py-libcst"]
     recipe = _recipe(root / "packaging/current/spack/packages/py-libcst/package.py")
     if row["license"] != "MIT AND PSF-2.0" or set(row["licenses"]) != LICENSES:
@@ -51,7 +51,7 @@ def validate_libcst(root: Path, sources: Path) -> dict[str, object]:
     ] or recipe["licenses"] != [row["license"]]:
         raise ValueError("LibCST source identity or license drift")
     expected = {
-        "python@3.15.1": ["build", "run"],
+        "python@3.15.2": ["build", "run"],
         "py-setuptools": ["build"],
         "py-setuptools-scm": ["build"],
         "py-setuptools-rust": ["build"],
@@ -98,14 +98,14 @@ def validate_libcst(root: Path, sources: Path) -> dict[str, object]:
     selected_run = set()
     for requirement in requirements:
         if requirement.marker is None or requirement.marker.evaluate(
-            {"python_version": "3.15", "python_full_version": "3.15.1"}
+            {"python_version": "3.15", "python_full_version": "3.15.2"}
         ):
             requirement.marker = None
             selected_run.add(requirement)
     if (
         project["project"]["name"] != "libcst"
         or project["project"]["requires-python"] != row["requires_python"]
-        or Version("3.15.1") not in SpecifierSet(row["requires_python"])
+        or Version("3.15.2") not in SpecifierSet(row["requires_python"])
         or project["project"]["license"] != {"file": "LICENSE"}
         or set(project["build-system"]) != {"requires"}
         or _requirements(project["build-system"]["requires"])
@@ -127,7 +127,7 @@ def validate_libcst(root: Path, sources: Path) -> dict[str, object]:
         raise ValueError("LibCST upstream source contract drift")
     return {
         "libcst_source_declaration_qualified": True,
-        "python_profile": "3.15.1",
+        "python_profile": "3.15.2",
         "source_archive_sha256": checksum,
         "licenses_checked": len(LICENSES),
         "spack_build_executed": False,
@@ -290,7 +290,7 @@ def validate_pyarrow(root: Path, sources: Path) -> dict[str, object]:
     recipe_path = root / "packaging/current/spack/packages/py-pyarrow/package.py"
     recipe = _recipe(recipe_path)
     if (
-        packet["python_profile"] != "3.15.1"
+        packet["python_profile"] != "3.15.2"
         or row["version"] != packet["providers"]["arrow"]["version"]
     ):
         raise ValueError("PyArrow must match the current Python and C++ profile")
@@ -307,7 +307,7 @@ def validate_pyarrow(root: Path, sources: Path) -> dict[str, object]:
     ):
         raise ValueError("PyArrow source identity or license drift")
     expected = {
-        "python@3.15.1": ["build", "run"],
+        "python@3.15.2": ["build", "run"],
         "c": ["build"],
         "cxx": ["build"],
         "cmake@3.25:": ["build"],
@@ -402,7 +402,7 @@ def validate_pyarrow(root: Path, sources: Path) -> dict[str, object]:
     for text in build["requires"]:
         requirement = Requirement(text)
         if requirement.marker is None or requirement.marker.evaluate(
-            {"python_version": "3.15", "python_full_version": "3.15.1"}
+            {"python_version": "3.15", "python_full_version": "3.15.2"}
         ):
             requirement.marker = None
             selected_build.add(requirement)
@@ -414,7 +414,7 @@ def validate_pyarrow(root: Path, sources: Path) -> dict[str, object]:
         or project["license"] != "Apache-2.0"
         or set(project["license-files"]) != set(row["licenses"])
         or project["requires-python"] != row["requires_python"]
-        or Version("3.15.1") not in SpecifierSet(row["requires_python"])
+        or Version("3.15.2") not in SpecifierSet(row["requires_python"])
         or build["build-backend"] != "scikit_build_core.build"
         or row["build_backend"] != build["build-backend"]
         or _requirements(build["requires"]) != _requirements(row["build_requires"])
@@ -486,8 +486,8 @@ def main() -> int:
     )
     parser.add_argument("--builtin-arrow", type=Path)
     args = parser.parse_args()
-    if sys.version_info[:3] != (3, 15, 1):
-        parser.error("Source qualification requires Python 3.15.1")
+    if sys.version_info[:3] != (3, 15, 2):
+        parser.error("Source qualification requires Python 3.15.2")
     try:
         if args.profile in {"cpp", "all"}:
             if args.builtin_arrow is None:

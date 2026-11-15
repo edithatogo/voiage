@@ -60,7 +60,7 @@ def test_source_profile_keeps_native_acceptance_separate(
 ) -> None:
     report = validate_libcst(*candidate)
     assert report["libcst_source_declaration_qualified"] is True
-    assert report["python_profile"] == "3.15.1"
+    assert report["python_profile"] == "3.15.2"
     assert report["spack_build_executed"] is False
     assert report["linux_build_executed"] is False
     assert report["full_arrow_profile_qualified"] is False

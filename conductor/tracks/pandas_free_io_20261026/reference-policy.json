@@ -2,6 +2,31 @@
   "schema_version": "1.0",
   "scope": "Every Git-tracked text file, including literal templates; pinned external Gitlinks are outside parent-source scope. No wildcard permissions or automatic refresh.",
   "files": {
+    "conductor/tracks/remaining_backlog_delivery_20260831/historical/observe-arrow-capacity-python3151-20261115.py.txt": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact 3.15.1 Arrow capacity observer retained before the new unexecuted profile.",
+      "sha256": "b920992eb58190965d1d1f7dbde3024e04b91eaac699e7d1771c7849c8670a4a"
+    },
+    "conductor/tracks/remaining_backlog_delivery_20260831/historical/qualify-hpc-source-python3151-20261115.py.txt": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact source qualifier retained for the Python 3.15.1 source receipt.",
+      "sha256": "2b4cccbb8110c32d418a57b672b03105ce24b6408aafd3c348c87af63439d63e"
+    },
+    "conductor/tracks/remaining_backlog_delivery_20260831/historical/python3151-current-overlay-20261115.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Verified inventory of the exact Python 3.15.1 overlay snapshot before runtime promotion.",
+      "sha256": "89049c28e0ae05af8fda9cac3767de6537afda612c2e8d0f7ce77ae409163c7b"
+    },
+    "conductor/tracks/pandas_free_io_20261026/historical/dependency-runtime-policy-python3151.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact previous Python 3.15.1 source-qualification policy retained during runtime promotion.",
+      "sha256": "f8e0639e1568bc7b2ef3c2c6870f812b6cddc1c14ab2b27647a484a488428ef3"
+    },
+    "conductor/tracks/pandas_free_io_20261026/historical/v3-stable-api-python3151.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact previous v3 API contract retained before updating its active Python minimum.",
+      "sha256": "6d7dcd1253899c60a7fa6eaf3206718494212e6b2195a57821da7fc559f52421"
+    },
     "conductor/tracks/pandas_free_io_20261026/historical/hpc_package_smoke-20261115.py.txt": {
       "category": "frozen_historical_evidence",
       "reason": "Byte-exact historical smoke script retained before removing an obsolete lint annotation.",
@@ -1586,6 +1611,16 @@
       "reason": "Exact-source dependency snapshot for the versioned patched paper replay.",
       "sha256": "003e35f7293e20392c703382b6177c6f4e8e3b597b7c97230d4be7e3862bacbd"
     },
+    "paper/reproduction-environment/python3152-patched/pyproject.toml": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact-source project snapshot for the Python 3.15.2 paper replay.",
+      "sha256": "2ad514a98a7d391ddc63a6053acc586370d0c612d1c71cda52d12844ef7e2574"
+    },
+    "paper/reproduction-environment/python3152-patched/uv.lock": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact-source dependency snapshot for the Python 3.15.2 paper replay.",
+      "sha256": "db34fbf3f6ec1f7bfa681ced3fa5a48dc1ea80df21f2bc8e139a80a32acf4aee"
+    },
     "paper/reproduction-environment/python315/pyproject.toml": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
@@ -1774,7 +1809,7 @@
     "specs/v3/stable-api.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
-      "sha256": "6d7dcd1253899c60a7fa6eaf3206718494212e6b2195a57821da7fc559f52421"
+      "sha256": "9d9f0a0ea208d2efad8e37200f320a2b59ba888e9cd157f1c90496a659f90c72"
     },
     "tests/packaging/test_dependency_minimization.py": {
       "category": "producer_compatibility",
@@ -2868,6 +2903,11 @@
       "category": "frozen_historical_evidence",
       "reason": "Exact capture contract, immutable committed-source excerpt inventory or retained upstream notice.",
       "sha256": "1e5a4ab8ad9d6562415e1314898d2cb605947149f92f901705e7d90e8f0e403a"
+    },
+    "conductor/tracks/translation_reference_20261026/voiage-idioms-python3152.json": {
+      "category": "frozen_historical_evidence",
+      "reason": "Exact committed-source excerpt inventory for Python 3.15.2, preserving the earlier capture.",
+      "sha256": "1a6d4a1a11c77a47ad54d886a0645034360c9953001d1ee856bbc21f564c7c76"
     },
     "conductor/tracks/translation_reference_20261026/consumer-notices/tobac-LICENSE": {
       "category": "frozen_historical_evidence",

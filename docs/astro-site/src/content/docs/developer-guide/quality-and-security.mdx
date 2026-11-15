@@ -83,7 +83,7 @@ stop another task's process or treat its pending result as a pass.
 
 ## Dependency and experimental-feature policy
 
-The supported Python 3.15.1 range tracks compatible stable dependencies and
+The supported Python 3.15.2 range tracks compatible stable dependencies and
 commits `uv.lock` for reproducibility. Before dependency or runtime changes,
 run `uv lock --upgrade` and `python scripts/dependency_frontier.py . --strict`.
 
@@ -168,7 +168,7 @@ as locally complete merely because repository workflows pass.
 The reviewed runtime set in `specs/dependency-runtime-policy.json` binds PyPI,
 Conda requirements, tox Polars/Arrow floor/latest lanes and dependency previews.
 Run `.venv/bin/python scripts/check_packaging_dependencies.py .` to reject drift.
-Polars `>=2.1.0,<3` and Arrow `>=26.0.0,<27` retain the qualified Python 3.15.1
+Polars `>=2.1.0,<3` and Arrow `>=26.0.0,<27` retain the qualified Python 3.15.2
 surface; scientific core bounds remain unchanged. Published requirements omit
 pandas and xarray. The explicit, unpublished `producer-tests` group supplies
 external producer/oracle tests and stays outside default and wheel installs.
@@ -187,7 +187,7 @@ and metadata strings are not import nodes; their separate repository-reference
 gate remains Phase 7.
 
 `tox run -e pandas-free` installs the real wheel with no extras, dependency
-groups or test dependencies. A fresh isolated Python 3.15.1 subprocess verifies
+groups or test dependencies. A fresh isolated Python 3.15.2 subprocess verifies
 that neither legacy distribution is installed and neither module is loaded by
 `import voiage`. It checks the package path against the tox environment to
 reject source shadowing. Negative controls demonstrate actual rejection.
@@ -196,7 +196,7 @@ Linux, macOS and Windows CI use that same lane. The bootstrap's unpublished
 no-extras target environment and the producer-test group.
 
 The existing protected `Lint & Type Check` job invokes the source rule directly,
-and `Unit Tests (Python 3.15.1)` also executes the no-extras tox lane. These
+and `Unit Tests (Python 3.15.2)` also executes the no-extras tox lane. These
 checks therefore remain part of the current required status contexts; no
 branch-protection relaxation or new-job registration is needed.
 

@@ -21,7 +21,8 @@ TRACK = Path("conductor/tracks/translation_reference_20261026")
 PAGE = Path(
     "docs/astro-site/src/content/docs/user-guide/tabular-translation-reference.mdx"
 )
-BASE = "f7fcbe4d0a27174d5ae69c33da46575f149f5c1e"
+BASE = "4271e6811ea825908775c474a69596db75095f38"
+NATIVE_CAPTURE = "voiage-idioms-python3152.json"
 CONSUMER_FILES = (
     "scripts/run_empirical_longitudinal.py",
     "scripts/run_release_calibration.py",
@@ -140,7 +141,7 @@ def render(rows: list[dict[str, Any]]) -> str:
         "description: Source-derived, executable semantic differences for the v3 migration",
         "---",
         "",
-        "This reference targets Python 3.15.1 and the qualified Polars 2.1 floor.",
+        "This reference targets Python 3.15.2 and the qualified Polars 2.1 floor.",
         "The v3 containers use wide frames. Public array constructors, numerical",
         "methods, wire contracts and bindings retain their existing behavior.",
         "",
@@ -152,7 +153,7 @@ def render(rows: list[dict[str, Any]]) -> str:
         "The committed capture records source commits, file and excerpt digests,",
         "and one-based line ranges. CI needs no external consumer checkout.",
         "The source manifests are `tobac-consumer-idioms.json` and",
-        "`voiage-idioms.json` under `conductor/tracks/translation_reference_20261026/`.",
+        "`voiage-idioms-python3152.json` under `conductor/tracks/translation_reference_20261026/`.",
         "See the [migration guide](/voiage/user-guide/migration-guide).",
         "",
         "Fixtures below establish the stated relationships only: value/order",
@@ -219,7 +220,7 @@ def validate(root: Path) -> list[str]:
     citations: dict[str, set[str]] = {}
     for source, filename in [
         ("tobac", "tobac-consumer-idioms.json"),
-        ("voiage", "voiage-idioms.json"),
+        ("voiage", NATIVE_CAPTURE),
     ]:
         path = root / TRACK / filename
         if not path.is_file():
@@ -299,8 +300,8 @@ def main() -> int:
     parser.add_argument("--mode", choices=["target", "legacy"])
     parser.add_argument("--require-all", action="store_true")
     args = parser.parse_args()
-    if sys.version_info[:3] != (3, 15, 1):
-        parser.error("Reference qualification requires Python 3.15.1")
+    if sys.version_info[:3] != (3, 15, 2):
+        parser.error("Reference qualification requires Python 3.15.2")
     root = Path(__file__).resolve().parents[1]
     if args.capture_consumer:
         if not args.revision:
@@ -315,7 +316,7 @@ def main() -> int:
         )
         for filename, data in [
             ("tobac-consumer-idioms.json", consumer),
-            ("voiage-idioms.json", snapshot(root, BASE, NATIVE_FILES)),
+            (NATIVE_CAPTURE, snapshot(root, BASE, NATIVE_FILES)),
         ]:
             (root / TRACK / filename).write_text(json.dumps(data, indent=2) + "\n")
         notices = root / TRACK / "consumer-notices"

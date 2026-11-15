@@ -1855,7 +1855,7 @@ builddependencies = [
     ("setuptools-rust", "1.12.0"),
     ("pkgconf", "2.2.0"),
 ]
-dependencies = [("Python", "3.15.1")]
+dependencies = [("Python", "3.15.2")]
 use_pip = True
 pip_no_index = True
 pip_ignore_installed = True

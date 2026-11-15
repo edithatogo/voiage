@@ -57,11 +57,11 @@ jobs:
       - name: Set up qualified Python for retained lock audit
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.15.1"
+          python-version: "3.15.2"
       - name: Audit retained native adapter lock
         shell: bash
         run: |
-          python -c 'import sys; assert sys.version_info[:3] == (3, 15, 1)'
+          python -c 'import sys; assert sys.version_info[:3] == (3, 15, 2)'
           scratch="$RUNNER_TEMP/voiage-retained-native"
           python scripts/audit_retained_native_lock.py prepare "$scratch"
           cargo metadata --format-version 1 --manifest-path "$scratch/Cargo.toml" > "$RUNNER_TEMP/voiage-retained-native-metadata.json"
