@@ -651,6 +651,39 @@ def test_native_capacity_observation_reuses_the_checked_in_workflow() -> None:
     )
 
 
+def test_native_rust_workflow_installs_the_source_profile_toolchain() -> None:
+    """Install the exact compiler used by both retained source profiles."""
+    workflow = yaml.safe_load(
+        (GITHUB_WORKFLOWS_DIR / "native-rust-llvm-qualification.yml").read_text()
+    )
+    providers = json.loads(
+        (PROJECT_ROOT / "packaging/current/rust-provider-sources.json").read_text()
+    )
+    inputs = json.loads(
+        (PROJECT_ROOT / "packaging/current/source-vendor-inputs.json").read_text()
+    )
+    toolchain = providers["nightly"]["version"]
+    assert all(
+        inputs["entries"][entry]["toolchain"] == toolchain
+        for entry in ("rust-stable", "rust-nightly")
+    )
+    steps = workflow["jobs"]["native"]["steps"]
+    install = next(
+        step for step in steps if step.get("name") == "Install source-profile Rust"
+    )
+    assert install["run"] == (
+        f"rustup toolchain install {toolchain} --profile minimal --no-self-update"
+    )
+    build = next(
+        step
+        for step in steps
+        if step.get("name") == "Build and install authenticated Rust and LLVM sources"
+    )
+    assert steps.index(install) < steps.index(build)
+    assert f"rustup which --toolchain {toolchain} cargo" in build["run"]
+    assert f"rustup which --toolchain {toolchain} rustc" in build["run"]
+
+
 def test_coverage_identity_is_tested_with_locked_dependencies_across_platforms() -> (
     None
 ):

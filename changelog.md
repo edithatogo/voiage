@@ -1,5 +1,7 @@
 # Changelog
 
+- Install the source-qualified Rust compiler alongside the current CI nightly.
+
 - Prepare Python 3.15.2 runtime and exact-source paper replay qualification,
   retaining earlier runtime profiles as historical evidence.
 
