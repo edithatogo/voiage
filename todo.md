@@ -5,17 +5,16 @@ This document lists the actionable tasks for `voiage` development. Agents should
 ## To Do
 
 - [~] Prevent incompatible Proptest 1.12 proposals while the workspace supports
-  Rust 1.85. PR #1281 remains open with a documented compatibility hold; the
-  Renovate constraint awaits qualification and integration with the retained
-  native-manifest repair below.
+  Rust 1.85. The compatible workspace bounds and Renovate constraint are merged;
+  PR #1281 remains open because the update requires Rust 1.88.
 
-- [~] Repair Renovate discovery of the retained 1 November native adapter
-  manifest exposed by PR #1327. The exact-manifest configuration and rationale
-  are prepared; full local and current-revision hosted qualification, integration,
-  and the dependent lockfile retry remain pending.
+- [~] Complete the documentation lockfile update in PR #1327 after its 14-day
+  dependency stability window and current-revision qualification. Renovate's
+  retained native-manifest discovery repair is merged in PR #1331.
 
-- [~] Qualify the bounded [CI efficiency changes](conductor/tracks/agent_safe_engineering_20260907/ci-efficiency-20261115/index.md)
-  against current-revision hosted checks and retain separate queue/execution timings.
+- [~] Record comparable hosted queue and execution timings for the merged
+  [CI efficiency changes](conductor/tracks/agent_safe_engineering_20260907/ci-efficiency-20261115/index.md).
+  PR #1332 passed its local and hosted gates; an end-to-end speedup is not yet claimed.
 
 Current priority: [5 November reconciliation](conductor/reconciliation-20261105.md).
 HPC is deferred except MLX/Metal; retain unsatisfied native acceptance gates.

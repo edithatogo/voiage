@@ -1,8 +1,11 @@
 # Track: Reduce unnecessary GitHub Actions setup
 
-Status: implementation delivered in [draft PR #1330](https://github.com/edithatogo/voiage/pull/1330).
-The focused contracts and frozen C15 runtime pass. The full local tox gate is
-capacity-blocked; current-revision hosted checks and timing remain pending.
+Status: implementation merged in [PR #1332](https://github.com/edithatogo/voiage/pull/1332),
+carrying the signed equivalent of [PR #1330](https://github.com/edithatogo/voiage/pull/1330).
+The merged candidate passed the full local tox gate and required hosted checks.
+The linked validation record preserves an earlier capacity-blocked attempt;
+it is historical evidence, not the final merge result. Comparable hosted queue
+and execution timings remain pending, so no end-to-end speedup is claimed.
 Existing test, platform, coverage, security and source-identity contracts remain.
 
 - [Specification](./spec.md)
