@@ -1,5 +1,9 @@
 # Changelog
 
+- Reduce CI setup by running standalone checks directly, using locked tox
+  bootstraps, and removing unused experimental packages from telemetry/oracles.
+  Cancel superseded dependency-review and shard-qualification PR runs.
+
 - Add a patched, exact-source manuscript replay while retaining historical locks.
 
 - Keep release and validation scripts compatible with the current lint preview,

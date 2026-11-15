@@ -1,0 +1,10 @@
+{
+  "track_id": "ci_efficiency_20261115",
+  "type": "chore",
+  "status": "in_progress",
+  "created_at": "2026-11-15T00:05:24Z",
+  "updated_at": "2026-11-15T00:05:24Z",
+  "description": "Remove unnecessary GitHub Actions dependency setup while preserving qualification gates",
+  "source_baseline": "cee30c63bc8c4edfe8968544315d21065fb34142",
+  "authorization": "Maintainer request to optimise this repository's GitHub Actions"
+}
