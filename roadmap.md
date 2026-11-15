@@ -63,6 +63,9 @@ Future Rust-first providers may expose distinct APIs; semantic interchange and
 Voiage's own promised interfaces have separate compatibility gates.
 The original twenty method/software packages remain proposed and are mapped
 to these engineering prerequisites without activating them.
+The [CI efficiency follow-up](conductor/tracks/agent_safe_engineering_20260907/ci-efficiency-20261115/index.md)
+retains its qualification evidence within this existing track; full local and
+current-revision hosted gates remain required.
 
 Prepared track records:
 

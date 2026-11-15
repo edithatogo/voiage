@@ -1,0 +1,649 @@
+{
+  "schema_version": 1,
+  "repository": "edithatogo/voiage",
+  "observed_at_utc": "2026-11-15 00:03:52 UTC",
+  "purpose": "Read-only baseline for CI optimisation; no optimised-run results are included.",
+  "measurement_definitions": {
+    "workflow_elapsed": "Workflow updated_at minus created_at; includes queueing and orchestration, and updated_at is not an explicit completed_at field.",
+    "job_queue": "Job started_at minus created_at, for completed successful jobs only. Dependent jobs are measured from their own creation time, not workflow creation.",
+    "job_execution": "Job completed_at minus started_at; includes setup and post steps.",
+    "step_execution": "Step completed_at minus started_at.",
+    "sum": "Sum of successful job execution seconds; parallel wall time and billing minutes are different quantities.",
+    "median": "Arithmetic mean of the two middle values for even-sized samples."
+  },
+  "caveats": [
+    "A bounded, purposive sample of five successful main push runs; not a benchmark experiment or an all-history audit.",
+    "Different source commits may change workloads. C15 expanded from nine to twelve successful jobs between the two observed commits because coverage-identity platform jobs were added.",
+    "Queueing is observed directly, but its cause (account concurrency, other repository demand, configured limits or GitHub capacity) is not established.",
+    "All selected runs have run_attempt 1. An older rerun showed inconsistent job creation timestamps and was excluded.",
+    "Current pull-request failures are listed separately and are not evidence that this optimisation caused or fixed them.",
+    "Removing the unused experimental extra is a candidate supported by source inspection; full runtime validation belongs to the implementation.",
+    "No single percentage or fixed end-to-end speedup can be inferred from these observations."
+  ],
+  "runs": [
+    {
+      "id": 43644441955,
+      "name": "CI",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/43644441955",
+      "api_url": "https://api.github.com/repos/edithatogo/voiage/actions/runs/43644441955",
+      "event": "push",
+      "head_branch": "main",
+      "head_sha": "b0f07ab0a88eb5500a8eda3b8d0ec85b6905a108",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-14T21:44:58Z",
+      "api_run_started_at": "2026-11-14T21:44:58Z",
+      "updated_at": "2026-11-14T21:49:53Z",
+      "first_successful_job_started_at": "2026-11-14T21:45:00Z",
+      "last_successful_job_completed_at": "2026-11-14T21:49:52Z",
+      "created_to_updated_seconds": 295,
+      "returned_job_count": 23,
+      "successful_job_count": 21,
+      "total_successful_job_execution_seconds": 2111,
+      "successful_job_queue_seconds": {
+        "minimum": 1,
+        "median": 39,
+        "maximum": 61
+      },
+      "selected_jobs": [
+        {
+          "id": 132598955475,
+          "name": "Unit Tests (Python 3.15.1)",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/43644441955/job/132598955475",
+          "created_at": "2026-11-14T21:44:59Z",
+          "started_at": "2026-11-14T21:45:00Z",
+          "completed_at": "2026-11-14T21:47:16Z",
+          "queue_seconds": 1,
+          "execution_seconds": 136,
+          "conclusion": "success",
+          "runner_labels": [
+            "ubuntu-latest"
+          ],
+          "steps": [
+            {
+              "name": "Set up Python 3.15.1",
+              "started_at": "2026-11-14T21:45:05Z",
+              "completed_at": "2026-11-14T21:45:12Z",
+              "duration_seconds": 7
+            },
+            {
+              "name": "Install dependencies",
+              "started_at": "2026-11-14T21:45:12Z",
+              "completed_at": "2026-11-14T21:45:43Z",
+              "duration_seconds": 31
+            },
+            {
+              "name": "Run bounded parallel unit compatibility tests",
+              "started_at": "2026-11-14T21:45:43Z",
+              "completed_at": "2026-11-14T21:46:10Z",
+              "duration_seconds": 27
+            },
+            {
+              "name": "Enforce installed base runtime and producer compatibility",
+              "started_at": "2026-11-14T21:46:10Z",
+              "completed_at": "2026-11-14T21:47:13Z",
+              "duration_seconds": 63
+            }
+          ]
+        },
+        {
+          "id": 132598955547,
+          "name": "Lint & Type Check",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/43644441955/job/132598955547",
+          "created_at": "2026-11-14T21:44:59Z",
+          "started_at": "2026-11-14T21:45:38Z",
+          "completed_at": "2026-11-14T21:46:35Z",
+          "queue_seconds": 39,
+          "execution_seconds": 57,
+          "conclusion": "success",
+          "runner_labels": [
+            "ubuntu-latest"
+          ],
+          "steps": [
+            {
+              "name": "Set up Python",
+              "started_at": "2026-11-14T21:45:43Z",
+              "completed_at": "2026-11-14T21:45:49Z",
+              "duration_seconds": 6
+            },
+            {
+              "name": "Install dependencies",
+              "started_at": "2026-11-14T21:45:49Z",
+              "completed_at": "2026-11-14T21:46:19Z",
+              "duration_seconds": 30
+            }
+          ]
+        },
+        {
+          "id": 132598955648,
+          "name": "Coverage Report",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/43644441955/job/132598955648",
+          "created_at": "2026-11-14T21:44:59Z",
+          "started_at": "2026-11-14T21:45:35Z",
+          "completed_at": "2026-11-14T21:49:52Z",
+          "queue_seconds": 36,
+          "execution_seconds": 257,
+          "conclusion": "success",
+          "runner_labels": [
+            "ubuntu-latest"
+          ],
+          "steps": [
+            {
+              "name": "Set up Python",
+              "started_at": "2026-11-14T21:45:41Z",
+              "completed_at": "2026-11-14T21:45:47Z",
+              "duration_seconds": 6
+            },
+            {
+              "name": "Install dependencies",
+              "started_at": "2026-11-14T21:45:47Z",
+              "completed_at": "2026-11-14T21:46:19Z",
+              "duration_seconds": 32
+            },
+            {
+              "name": "Verify coverage threshold",
+              "started_at": "2026-11-14T21:46:19Z",
+              "completed_at": "2026-11-14T21:49:45Z",
+              "duration_seconds": 206
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 43650959556,
+      "name": "CI",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/43650959556",
+      "api_url": "https://api.github.com/repos/edithatogo/voiage/actions/runs/43650959556",
+      "event": "push",
+      "head_branch": "main",
+      "head_sha": "6cdadfe16e2640216c423146cc3acf0d19f28804",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-14T23:00:02Z",
+      "api_run_started_at": "2026-11-14T23:00:02Z",
+      "updated_at": "2026-11-14T23:22:24Z",
+      "first_successful_job_started_at": "2026-11-14T23:05:31Z",
+      "last_successful_job_completed_at": "2026-11-14T23:22:24Z",
+      "created_to_updated_seconds": 1342,
+      "returned_job_count": 23,
+      "successful_job_count": 21,
+      "total_successful_job_execution_seconds": 2333,
+      "successful_job_queue_seconds": {
+        "minimum": 328,
+        "median": 750,
+        "maximum": 1229
+      },
+      "selected_jobs": [
+        {
+          "id": 132619104946,
+          "name": "Unit Tests (Python 3.15.1)",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/43650959556/job/132619104946",
+          "created_at": "2026-11-14T23:00:03Z",
+          "started_at": "2026-11-14T23:12:33Z",
+          "completed_at": "2026-11-14T23:14:47Z",
+          "queue_seconds": 750,
+          "execution_seconds": 134,
+          "conclusion": "success",
+          "runner_labels": [
+            "ubuntu-latest"
+          ],
+          "steps": [
+            {
+              "name": "Set up Python 3.15.1",
+              "started_at": "2026-11-14T23:12:39Z",
+              "completed_at": "2026-11-14T23:12:46Z",
+              "duration_seconds": 7
+            },
+            {
+              "name": "Install dependencies",
+              "started_at": "2026-11-14T23:12:46Z",
+              "completed_at": "2026-11-14T23:13:14Z",
+              "duration_seconds": 28
+            },
+            {
+              "name": "Run bounded parallel unit compatibility tests",
+              "started_at": "2026-11-14T23:13:14Z",
+              "completed_at": "2026-11-14T23:13:41Z",
+              "duration_seconds": 27
+            },
+            {
+              "name": "Enforce installed base runtime and producer compatibility",
+              "started_at": "2026-11-14T23:13:41Z",
+              "completed_at": "2026-11-14T23:14:44Z",
+              "duration_seconds": 63
+            }
+          ]
+        },
+        {
+          "id": 132619105263,
+          "name": "Coverage Report",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/43650959556/job/132619105263",
+          "created_at": "2026-11-14T23:00:03Z",
+          "started_at": "2026-11-14T23:16:37Z",
+          "completed_at": "2026-11-14T23:22:06Z",
+          "queue_seconds": 994,
+          "execution_seconds": 329,
+          "conclusion": "success",
+          "runner_labels": [
+            "ubuntu-latest"
+          ],
+          "steps": [
+            {
+              "name": "Set up Python",
+              "started_at": "2026-11-14T23:16:44Z",
+              "completed_at": "2026-11-14T23:16:51Z",
+              "duration_seconds": 7
+            },
+            {
+              "name": "Install dependencies",
+              "started_at": "2026-11-14T23:16:51Z",
+              "completed_at": "2026-11-14T23:17:19Z",
+              "duration_seconds": 28
+            },
+            {
+              "name": "Verify coverage threshold",
+              "started_at": "2026-11-14T23:17:19Z",
+              "completed_at": "2026-11-14T23:21:57Z",
+              "duration_seconds": 278
+            }
+          ]
+        },
+        {
+          "id": 132619105310,
+          "name": "Excel Interchange Extra (macos-15)",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/43650959556/job/132619105310",
+          "created_at": "2026-11-14T23:00:03Z",
+          "started_at": "2026-11-14T23:20:32Z",
+          "completed_at": "2026-11-14T23:22:24Z",
+          "queue_seconds": 1229,
+          "execution_seconds": 112,
+          "conclusion": "success",
+          "runner_labels": [
+            "macos-15"
+          ],
+          "steps": [
+            {
+              "name": "Set up Python",
+              "started_at": "2026-11-14T23:20:40Z",
+              "completed_at": "2026-11-14T23:21:21Z",
+              "duration_seconds": 41
+            },
+            {
+              "name": "Install explicit Excel extra",
+              "started_at": "2026-11-14T23:21:21Z",
+              "completed_at": "2026-11-14T23:21:59Z",
+              "duration_seconds": 38
+            },
+            {
+              "name": "Exercise Excel import and export",
+              "started_at": "2026-11-14T23:22:00Z",
+              "completed_at": "2026-11-14T23:22:16Z",
+              "duration_seconds": 16
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 43644441763,
+      "name": "C15 Cross-platform Assurance",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/43644441763",
+      "api_url": "https://api.github.com/repos/edithatogo/voiage/actions/runs/43644441763",
+      "event": "push",
+      "head_branch": "main",
+      "head_sha": "b0f07ab0a88eb5500a8eda3b8d0ec85b6905a108",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-14T21:44:58Z",
+      "api_run_started_at": "2026-11-14T21:44:58Z",
+      "updated_at": "2026-11-14T21:50:23Z",
+      "first_successful_job_started_at": "2026-11-14T21:45:00Z",
+      "last_successful_job_completed_at": "2026-11-14T21:50:23Z",
+      "created_to_updated_seconds": 325,
+      "returned_job_count": 9,
+      "successful_job_count": 9,
+      "total_successful_job_execution_seconds": 801,
+      "successful_job_queue_seconds": {
+        "minimum": 2,
+        "median": 2,
+        "maximum": 30
+      },
+      "selected_jobs": [
+        {
+          "id": 132598954701,
+          "name": "Wheel and sdist identity (windows-2025)",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/43644441763/job/132598954701",
+          "created_at": "2026-11-14T21:44:58Z",
+          "started_at": "2026-11-14T21:45:00Z",
+          "completed_at": "2026-11-14T21:49:03Z",
+          "queue_seconds": 2,
+          "execution_seconds": 243,
+          "conclusion": "success",
+          "runner_labels": [
+            "windows-2025"
+          ],
+          "steps": [
+            {
+              "name": "Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+              "started_at": "2026-11-14T21:45:03Z",
+              "completed_at": "2026-11-14T21:45:19Z",
+              "duration_seconds": 16
+            },
+            {
+              "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+              "started_at": "2026-11-14T21:45:19Z",
+              "completed_at": "2026-11-14T21:46:23Z",
+              "duration_seconds": 64
+            },
+            {
+              "name": "Run uv sync --frozen --extra ci --extra dev --group producer-tests",
+              "started_at": "2026-11-14T21:46:27Z",
+              "completed_at": "2026-11-14T21:47:48Z",
+              "duration_seconds": 81
+            },
+            {
+              "name": "Build reproducible distributions",
+              "started_at": "2026-11-14T21:47:48Z",
+              "completed_at": "2026-11-14T21:48:54Z",
+              "duration_seconds": 66
+            }
+          ]
+        },
+        {
+          "id": 132598954749,
+          "name": "telemetry-and-oracles",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/43644441763/job/132598954749",
+          "created_at": "2026-11-14T21:44:58Z",
+          "started_at": "2026-11-14T21:45:00Z",
+          "completed_at": "2026-11-14T21:45:58Z",
+          "queue_seconds": 2,
+          "execution_seconds": 58,
+          "conclusion": "success",
+          "runner_labels": [
+            "ubuntu-24.04"
+          ],
+          "steps": [
+            {
+              "name": "Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+              "started_at": "2026-11-14T21:45:03Z",
+              "completed_at": "2026-11-14T21:45:09Z",
+              "duration_seconds": 6
+            },
+            {
+              "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+              "started_at": "2026-11-14T21:45:09Z",
+              "completed_at": "2026-11-14T21:45:16Z",
+              "duration_seconds": 7
+            },
+            {
+              "name": "Run uv sync --frozen --extra ci --extra experimental --group producer-tests",
+              "started_at": "2026-11-14T21:45:17Z",
+              "completed_at": "2026-11-14T21:45:45Z",
+              "duration_seconds": 28
+            },
+            {
+              "name": "Verify privacy and scientific surfaces",
+              "started_at": "2026-11-14T21:45:46Z",
+              "completed_at": "2026-11-14T21:45:54Z",
+              "duration_seconds": 8
+            }
+          ]
+        },
+        {
+          "id": 132600058786,
+          "name": "compare-distributions",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/43644441763/job/132600058786",
+          "created_at": "2026-11-14T21:49:03Z",
+          "started_at": "2026-11-14T21:49:33Z",
+          "completed_at": "2026-11-14T21:50:23Z",
+          "queue_seconds": 30,
+          "execution_seconds": 50,
+          "conclusion": "success",
+          "runner_labels": [
+            "ubuntu-24.04"
+          ],
+          "steps": [
+            {
+              "name": "Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+              "started_at": "2026-11-14T21:49:37Z",
+              "completed_at": "2026-11-14T21:49:42Z",
+              "duration_seconds": 5
+            },
+            {
+              "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+              "started_at": "2026-11-14T21:49:42Z",
+              "completed_at": "2026-11-14T21:49:49Z",
+              "duration_seconds": 7
+            },
+            {
+              "name": "Run uv sync --frozen --extra ci --group producer-tests",
+              "started_at": "2026-11-14T21:49:50Z",
+              "completed_at": "2026-11-14T21:50:18Z",
+              "duration_seconds": 28
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 43650959657,
+      "name": "C15 Cross-platform Assurance",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/43650959657",
+      "api_url": "https://api.github.com/repos/edithatogo/voiage/actions/runs/43650959657",
+      "event": "push",
+      "head_branch": "main",
+      "head_sha": "6cdadfe16e2640216c423146cc3acf0d19f28804",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-14T23:00:02Z",
+      "api_run_started_at": "2026-11-14T23:00:02Z",
+      "updated_at": "2026-11-14T23:30:26Z",
+      "first_successful_job_started_at": "2026-11-14T23:07:15Z",
+      "last_successful_job_completed_at": "2026-11-14T23:30:25Z",
+      "created_to_updated_seconds": 1824,
+      "returned_job_count": 12,
+      "successful_job_count": 12,
+      "total_successful_job_execution_seconds": 1863,
+      "successful_job_queue_seconds": {
+        "minimum": 432,
+        "median": 494,
+        "maximum": 1277
+      },
+      "selected_jobs": [
+        {
+          "id": 132619105348,
+          "name": "Wheel and sdist identity (windows-2025)",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/43650959657/job/132619105348",
+          "created_at": "2026-11-14T23:00:03Z",
+          "started_at": "2026-11-14T23:07:38Z",
+          "completed_at": "2026-11-14T23:11:39Z",
+          "queue_seconds": 455,
+          "execution_seconds": 241,
+          "conclusion": "success",
+          "runner_labels": [
+            "windows-2025"
+          ],
+          "steps": [
+            {
+              "name": "Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+              "started_at": "2026-11-14T23:07:40Z",
+              "completed_at": "2026-11-14T23:07:50Z",
+              "duration_seconds": 10
+            },
+            {
+              "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+              "started_at": "2026-11-14T23:07:50Z",
+              "completed_at": "2026-11-14T23:08:34Z",
+              "duration_seconds": 44
+            },
+            {
+              "name": "Run uv sync --frozen --extra ci --extra dev --group producer-tests",
+              "started_at": "2026-11-14T23:08:35Z",
+              "completed_at": "2026-11-14T23:10:01Z",
+              "duration_seconds": 86
+            },
+            {
+              "name": "Build reproducible distributions",
+              "started_at": "2026-11-14T23:10:01Z",
+              "completed_at": "2026-11-14T23:11:27Z",
+              "duration_seconds": 86
+            }
+          ]
+        },
+        {
+          "id": 132619105401,
+          "name": "telemetry-and-oracles",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/43650959657/job/132619105401",
+          "created_at": "2026-11-14T23:00:03Z",
+          "started_at": "2026-11-14T23:08:49Z",
+          "completed_at": "2026-11-14T23:24:16Z",
+          "queue_seconds": 526,
+          "execution_seconds": 927,
+          "conclusion": "success",
+          "runner_labels": [
+            "ubuntu-24.04"
+          ],
+          "steps": [
+            {
+              "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+              "started_at": "2026-11-14T23:08:53Z",
+              "completed_at": "2026-11-14T23:09:00Z",
+              "duration_seconds": 7
+            },
+            {
+              "name": "Run uv sync --frozen --extra ci --extra experimental --group producer-tests",
+              "started_at": "2026-11-14T23:09:01Z",
+              "completed_at": "2026-11-14T23:23:58Z",
+              "duration_seconds": 897
+            },
+            {
+              "name": "Verify privacy and scientific surfaces",
+              "started_at": "2026-11-14T23:24:00Z",
+              "completed_at": "2026-11-14T23:24:09Z",
+              "duration_seconds": 9
+            }
+          ]
+        },
+        {
+          "id": 132622280316,
+          "name": "compare-distributions",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/43650959657/job/132622280316",
+          "created_at": "2026-11-14T23:11:39Z",
+          "started_at": "2026-11-14T23:29:48Z",
+          "completed_at": "2026-11-14T23:30:25Z",
+          "queue_seconds": 1089,
+          "execution_seconds": 37,
+          "conclusion": "success",
+          "runner_labels": [
+            "ubuntu-24.04"
+          ],
+          "steps": [
+            {
+              "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+              "started_at": "2026-11-14T23:29:51Z",
+              "completed_at": "2026-11-14T23:29:57Z",
+              "duration_seconds": 6
+            },
+            {
+              "name": "Run uv sync --frozen --extra ci --group producer-tests",
+              "started_at": "2026-11-14T23:29:59Z",
+              "completed_at": "2026-11-14T23:30:21Z",
+              "duration_seconds": 22
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 43650959518,
+      "name": "Operational Assurance",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/43650959518",
+      "api_url": "https://api.github.com/repos/edithatogo/voiage/actions/runs/43650959518",
+      "event": "push",
+      "head_branch": "main",
+      "head_sha": "6cdadfe16e2640216c423146cc3acf0d19f28804",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-14T23:00:02Z",
+      "api_run_started_at": "2026-11-14T23:00:02Z",
+      "updated_at": "2026-11-14T23:14:06Z",
+      "first_successful_job_started_at": "2026-11-14T23:08:28Z",
+      "last_successful_job_completed_at": "2026-11-14T23:14:05Z",
+      "created_to_updated_seconds": 844,
+      "returned_job_count": 1,
+      "successful_job_count": 1,
+      "total_successful_job_execution_seconds": 337,
+      "successful_job_queue_seconds": {
+        "minimum": 505,
+        "median": 505,
+        "maximum": 505
+      },
+      "selected_jobs": [
+        {
+          "id": 132619104500,
+          "name": "compatibility-and-coverage",
+          "url": "https://github.com/edithatogo/voiage/actions/runs/43650959518/job/132619104500",
+          "created_at": "2026-11-14T23:00:03Z",
+          "started_at": "2026-11-14T23:08:28Z",
+          "completed_at": "2026-11-14T23:14:05Z",
+          "queue_seconds": 505,
+          "execution_seconds": 337,
+          "conclusion": "success",
+          "runner_labels": [
+            "ubuntu-latest"
+          ],
+          "steps": [
+            {
+              "name": "Set up Python",
+              "started_at": "2026-11-14T23:08:33Z",
+              "completed_at": "2026-11-14T23:08:40Z",
+              "duration_seconds": 7
+            },
+            {
+              "name": "Install frozen dependencies",
+              "started_at": "2026-11-14T23:08:40Z",
+              "completed_at": "2026-11-14T23:09:22Z",
+              "duration_seconds": 42
+            },
+            {
+              "name": "Verify independent consumer matrix",
+              "started_at": "2026-11-14T23:09:22Z",
+              "completed_at": "2026-11-14T23:09:32Z",
+              "duration_seconds": 10
+            },
+            {
+              "name": "Collect full branch coverage",
+              "started_at": "2026-11-14T23:09:32Z",
+              "completed_at": "2026-11-14T23:14:01Z",
+              "duration_seconds": 269
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "cold_build": {
+    "run_id": 43650959657,
+    "job_id": 132619105401,
+    "job_url": "https://github.com/edithatogo/voiage/actions/runs/43650959657/job/132619105401",
+    "source_head": "6cdadfe16e2640216c423146cc3acf0d19f28804",
+    "command": "uv sync --frozen --extra ci --extra experimental --group producer-tests",
+    "dependency_step_duration_seconds": 897,
+    "cache_result": "Exact setup-uv cache miss",
+    "cache_key": "setup-uv-2-x86_64-unknown-linux-gnu-ubuntu-24.04-3.15.1-pruned-b4cfcdf23e2fe37dda6ee47a532ec2386ccfdc7ccae06d4ee01d4315558f59a2-c15-telemetry-oracles",
+    "source_built_package": "duckdb==1.5.6",
+    "build_started_at": "2026-11-14T23:09:03.7236406Z",
+    "build_completed_at": "2026-11-14T23:23:58.3208931Z",
+    "approximate_build_duration_seconds": 894.5972525,
+    "privacy_and_scientific_test_step_seconds": 9,
+    "earlier_warm_dependency_step_seconds": 28,
+    "evidence_origin": "GitHub Actions job log, fetched with github_fetch_workflow_job_logs; raw log and credentials are deliberately not retained.",
+    "candidate_change": "Remove --extra experimental only from telemetry-and-oracles after confirming the selected tests retain all intended coverage and no new dependency skips."
+  }
+}

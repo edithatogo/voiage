@@ -75,22 +75,6 @@ jobs:
       with:
         persist-credentials: false
 
-    - name: Install uv
-      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
-      with:
-        version: "0.13.6"
-        enable-cache: true
-        cache-suffix: ${{ github.job }}
-        cache-dependency-glob: "uv.lock"
-
-    - name: Set up Python
-      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
-      with:
-        python-version: "3.15.2"
-
-    - name: Install dependencies
-      run: uv sync --frozen --extra dev
-
     - name: Set up Go
       uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
       with:
@@ -103,7 +87,7 @@ jobs:
         echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
 
     - name: Run Vale
-      run: uv run bash scripts/vale_prose.sh
+      run: bash scripts/vale_prose.sh
 
   frontier-contract:
     name: Frontier Contract Validation
@@ -186,11 +170,11 @@ jobs:
       with:
         python-version: "3.15.2"
 
-    - name: Install dependencies
-      run: uv sync --frozen --extra ci --extra dev --group producer-tests
+    - name: Install only locked verification tools
+      run: uv sync --frozen --only-group verification
 
     - name: Validate version synchronization
-      run: uv run tox -e version-sync
+      run: uv run --frozen --no-sync tox -e version-sync
 
   # Fast linting job
   repository-harness:
@@ -204,24 +188,13 @@ jobs:
       with:
         persist-credentials: false
 
-    - name: Install uv
-      uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
-      with:
-        version: "0.13.6"
-        enable-cache: true
-        cache-suffix: ${{ github.job }}
-        cache-dependency-glob: "uv.lock"
-
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
       with:
         python-version: "3.15.2"
 
-    - name: Install dependencies
-      run: uv sync --frozen --extra ci --group producer-tests
-
     - name: Run repository harness
-      run: uv run python scripts/repo_harness.py
+      run: python scripts/repo_harness.py
 
   lint:
     name: Lint & Type Check
@@ -355,8 +328,11 @@ jobs:
       with:
         python-version: "3.15.2"
 
+    - name: Install only locked verification tools
+      run: uv sync --frozen --only-group verification
+
     - name: Run tox conformance matrix
-      run: uv run --with tox tox -e ingestion-conformance
+      run: uv run --frozen --no-sync tox -e ingestion-conformance
       env:
         CI: true
 
@@ -502,11 +478,11 @@ jobs:
       with:
         python-version: "3.15.2"
 
-    - name: Install dependencies
-      run: uv sync --frozen --extra ci --group producer-tests
+    - name: Install only locked verification tools
+      run: uv sync --frozen --only-group verification
 
     - name: Verify coverage threshold
-      run: uv run --with tox tox -e coverage_report
+      run: uv run --frozen --no-sync tox -e coverage_report
 
     - name: Upload authoritative coverage to Codecov
       uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f

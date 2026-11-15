@@ -1,0 +1,122 @@
+{
+  "source_baseline": "cee30c63bc8c4edfe8968544315d21065fb34142",
+  "baseline_sha256": {
+    ".github/workflows/ci.yml": "fe31b53e530a9ea34a1a508612f08bfc6630d052c8427c6c97bf4006e701e419",
+    ".github/workflows/c15-cross-platform.yml": "1e2efef9bfcfed7a0f79aa671a5ed02124b2910ea2c7d1bdedf17c7414204641",
+    ".github/workflows/dependency-review.yml": "65b4632cb7dff47de0435aad61acc886627b824e3a50800e6ccc260123b5437c",
+    ".github/workflows/shard-coverage-qualification.yml": "6c713ee4409ebe3c851269f1981fcc824f76ad8a27beaee6689e4d1bcf35032f",
+    "pyproject.toml": "2ad514a98a7d391ddc63a6053acc586370d0c612d1c71cda52d12844ef7e2574",
+    "uv.lock": "db34fbf3f6ec1f7bfa681ced3fa5a48dc1ea80df21f2bc8e139a80a32acf4aee",
+    "tox.ini": "0b52f8437711e5d6e10acb72080fc90ed256b47798c30ddcda4c6c87a4e6f9e0"
+  },
+  "candidate_sha256": {
+    ".github/workflows/ci.yml": "d63732866115d5e1751933861e263bed0c4b6345d909dd8d2bea69b99f7198a5",
+    ".github/workflows/c15-cross-platform.yml": "0407ed8e7ac40ee5ad5f04ab1a14d7b170d04546dceccd38c0285d73b606f391",
+    ".github/workflows/dependency-review.yml": "b994396ece95931feb266e0b9a9fadd8f921c7913ac0b265090ca0e478fa4ccd",
+    ".github/workflows/shard-coverage-qualification.yml": "594b786f7f6ca68ceb4ea99fb1159e7a44cd66781666d474a18ed55d0ae79a5a",
+    "pyproject.toml": "2ad514a98a7d391ddc63a6053acc586370d0c612d1c71cda52d12844ef7e2574",
+    "uv.lock": "db34fbf3f6ec1f7bfa681ced3fa5a48dc1ea80df21f2bc8e139a80a32acf4aee",
+    "tox.ini": "0b52f8437711e5d6e10acb72080fc90ed256b47798c30ddcda4c6c87a4e6f9e0"
+  },
+  "local_validation": {
+    "python": "3.15.1",
+    "baseline_workflow_tests_passed": 52,
+    "candidate_workflow_security_shard_tests_passed": 86,
+    "harness_without_site_packages": "pass, zero findings, 37 workflows",
+    "locked_verification_bootstrap": "pass; tox 4.67.13, tox-uv 1.37.7; Voiage and scientific dependencies not installed",
+    "full_gate": {
+      "status": "blocked_before_execution",
+      "command": "tox run-parallel -p 2",
+      "guard_exit_code": 125,
+      "reason": "insufficient_free_space",
+      "available_bytes": 125771776,
+      "required_free_bytes": 2147483648
+    },
+    "initial_expanded_test_invocation": "Collection stopped because isolated test tooling omitted coverage; adding coverage resolved this and all 86 tests passed.",
+    "evidence_reference_policy": "The initial complete inventory introduced a producer reference outside the reviewed allowlist. Replaced that uncommitted attachment with an explicitly scoped scientific dependency receipt; reference policy was not changed."
+  },
+  "qualified_candidate": {
+    "c15": {
+      "collector": {
+        "collector": "ephemeral-loopback-otlp-http-json",
+        "correlation": {
+          "backend": "numpy",
+          "numerical_policy_id": "voiage-c15-policy",
+          "run_id": "voiage-c15-probe",
+          "span_id": "0123456789abcdef",
+          "trace_id": "0123456789abcdef0123456789abcdef"
+        },
+        "correlation_source": "collector_received_payload",
+        "exports_received": 1,
+        "privacy_screened": true,
+        "schema_version": "1.0.0"
+      },
+      "elapsed_seconds_including_setup_probe_tests": 28.323,
+      "errors": 0,
+      "experimental_distributions_absent": [
+        "duckdb",
+        "orjson",
+        "msgspec"
+      ],
+      "failures": 0,
+      "guard_exit_code": 0,
+      "jax_polars_oracle_cases": 4,
+      "outcome": "passed",
+      "peak_rss_kib": 652580,
+      "setup_command": "uv sync --frozen --extra ci --group producer-tests",
+      "skipped": 0,
+      "test_seconds": 4.127,
+      "tests": 95,
+      "selected_dependency_receipt": "c15-dependencies.json"
+    },
+    "configuration_sha256": {
+      "pyproject.toml": "2ad514a98a7d391ddc63a6053acc586370d0c612d1c71cda52d12844ef7e2574",
+      "tox.ini": "0b52f8437711e5d6e10acb72080fc90ed256b47798c30ddcda4c6c87a4e6f9e0",
+      "uv.lock": "db34fbf3f6ec1f7bfa681ced3fa5a48dc1ea80df21f2bc8e139a80a32acf4aee"
+    },
+    "evidence_sha256": {
+      "c15-tests.xml": "7c3ed02383456760f79b890a00e3524d30ea6675d12ef0d9e138839a8c9d0287",
+      "c15-otel-probe.json": "8321a9148b45438f2e9327b88fa0e0a48c586576ec9d8428b405855e34942469",
+      "c15-dependencies.json": "f671463efeb68af66b66718b0576924b7fa8bebcbadc41e573284f1556adc135"
+    },
+    "full_tox": {
+      "command": "tox run-parallel -p 2",
+      "completed_evidence": {
+        "joss_readiness_tests": 19,
+        "lint": "all commands exit 0",
+        "pandas_free": "both probes exit 0",
+        "producer_compatibility_tests": 21,
+        "vale_files": 1053,
+        "vale_findings": 0
+      },
+      "elapsed_seconds": 103.725,
+      "guard_exit_code": 125,
+      "guard_reason": "free_space_limit",
+      "minimum_allowed_free_bytes": 2147483648,
+      "minimum_free_bytes": 1966112768,
+      "outcome": "blocked",
+      "peak_rss_kib": 781156
+    },
+    "limitations": [
+      "Local C15 timing is not a comparable hosted end-to-end speedup measurement.",
+      "Full tox validation remains capacity-blocked; no full-suite success is claimed."
+    ],
+    "runtimes": {
+      "cargo": "1.99.1",
+      "node": "24.22.1",
+      "pnpm": "10.34.9",
+      "python": "3.15.1",
+      "rustc": "1.99.1",
+      "tox": "4.67.13",
+      "tox_uv": "1.37.7",
+      "uv": "0.13.6",
+      "vale": "3.15.1"
+    },
+    "source_head": "dba304a5a7b1b608cd59c2637f80cb9d49d975e6",
+    "source_tree": "5a7c2d10ad32932f5edf7dd7248fc93425868ce2",
+    "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence_note": "Included JUnit and collector bytes match their execution hashes. The selected dependency receipt summarises the inspected full inventory and retains its hash; it is explicitly not a full inventory. Raw resource and partial tox logs were inspected locally; the compact full-tox outcome records the unchanged guard stop."
+  },
+  "pull_request": "https://github.com/edithatogo/voiage/pull/1330",
+  "hosted_status": "queued when recorded; consult the PR for current revision checks"
+}
