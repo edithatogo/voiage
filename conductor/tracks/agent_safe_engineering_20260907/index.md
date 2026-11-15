@@ -15,6 +15,7 @@ GitHub issue: https://github.com/edithatogo/voiage/issues/1110
 - [Metadata](./metadata.json)
 - [Evidence](./evidence.jsonl)
 - [13 November acceptance reconciliation](./acceptance-20261113.md)
+- [CI efficiency follow-up and qualification](./ci-efficiency-20261115/index.md)
 - [Evidence and recommendations](./assessment.md)
 - [Packet schema](./packet-schema.json)
 - [Planning validation](./planning-validation.json)
