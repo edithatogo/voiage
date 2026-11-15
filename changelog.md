@@ -1,5 +1,7 @@
 # Changelog
 
+- Update maintenance status while keeping dependency holds and CI timing work open.
+
 - Clarify Voiage ownership and qualification of Value of Perspective and Value
   of Heterogeneity, with finite planning examples and POC migration boundaries.
 
