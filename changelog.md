@@ -1,5 +1,11 @@
 # Changelog
 
+- Keep automated Proptest updates within the workspace's Rust 1.85 support policy.
+
+- Keep the retained native adapter replay manifest outside routine Renovate
+  maintenance while auditing its frozen lock and preserving current workspace
+  updates and qualification gates.
+
 - Add a patched, exact-source manuscript replay while retaining historical locks.
 
 - Keep release and validation scripts compatible with the current lint preview,
