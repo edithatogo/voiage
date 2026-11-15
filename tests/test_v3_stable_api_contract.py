@@ -64,6 +64,22 @@ def _sha256(path: Path) -> str:
     return sha256(path.read_bytes()).hexdigest()
 
 
+def test_python_patch_promotion_preserves_the_previous_v3_contract() -> None:
+    previous_path = (
+        ROOT / "conductor/tracks/pandas_free_io_20261026/historical/"
+        "v3-stable-api-python3151.json"
+    )
+    assert _sha256(previous_path) == (
+        "6d7dcd1253899c60a7fa6eaf3206718494212e6b2195a57821da7fc559f52421"
+    )
+    previous = _json(previous_path)
+    previous_python = previous["python"]
+    assert isinstance(previous_python, dict)
+    assert previous_python["minimum_patch"] == "3.15.1"
+    previous_python["minimum_patch"] = "3.15.2"
+    assert previous == _json(V3_CONTRACT_PATH)
+
+
 def test_v3_authority_revision_records_polars_tabular_model_and_xarray_removal() -> (
     None
 ):

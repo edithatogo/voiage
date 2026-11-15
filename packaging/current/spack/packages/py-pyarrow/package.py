@@ -16,7 +16,7 @@ class PyPyarrow(PythonPackage):
         sha256="0cccd36e00ea3afeb52ded61f2721ce71f604853d70c45365c58324eb773d6ae",
         url="https://files.pythonhosted.org/packages/ec/34/17c34cb38e5d940e38f0f0d9fdfa0e8a506676409ea9b85aff7e3079f831/pyarrow-26.0.0.tar.gz",
     )
-    depends_on("python@3.15.1", type=("build", "run"))
+    depends_on("python@3.15.2", type=("build", "run"))
     depends_on("c", type="build")
     depends_on("cxx", type="build")
     depends_on("cmake@3.25:", type="build")

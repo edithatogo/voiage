@@ -173,7 +173,7 @@ class Rust(Package):
     depends_on("ninja", type="build")
     depends_on("openssl")
     depends_on("pkgconfig", type="build")
-    depends_on("python@3.15.1", type="build")
+    depends_on("python@3.15.2", type="build")
     depends_on("zlib-api")
 
     # cmake dependency comes from LLVM. Rust has their own fork of LLVM, with tags corresponding

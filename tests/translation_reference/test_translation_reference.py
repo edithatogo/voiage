@@ -31,6 +31,31 @@ def test_derived_inventory_and_documentation_are_complete() -> None:
     assert [row["id"] for row in load_cases(ROOT)] == IDS
 
 
+def test_python3152_capture_preserves_the_historical_excerpt_inventory() -> None:
+    import hashlib
+    import json
+
+    from scripts.check_translation_reference import BASE, NATIVE_CAPTURE, TRACK
+
+    old_path = ROOT / TRACK / "voiage-idioms.json"
+    assert hashlib.sha256(old_path.read_bytes()).hexdigest() == (
+        "1e5a4ab8ad9d6562415e1314898d2cb605947149f92f901705e7d90e8f0e403a"
+    )
+    old = json.loads(old_path.read_text())
+    current = json.loads((ROOT / TRACK / NATIVE_CAPTURE).read_text())
+    assert current["source_commit"] == BASE
+    assert len(old["files"]) == len(current["files"])
+    for before, after in zip(old["files"], current["files"], strict=True):
+        assert before["path"] == after["path"]
+        if before["path"] == "voiage/ecosystem_integration.py":
+            assert before["sha256"] != after["sha256"]
+            assert {k: v for k, v in before.items() if k != "sha256"} == {
+                k: v for k, v in after.items() if k != "sha256"
+            }
+        else:
+            assert before == after
+
+
 @pytest.mark.parametrize("row_id", IDS)
 def test_polars_target(row_id: str) -> None:
     row = next(row for row in load_cases(ROOT) if row["id"] == row_id)

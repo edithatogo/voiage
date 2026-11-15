@@ -227,7 +227,7 @@ print(json.dumps({'python':sys.version.split()[0], 'package':voiage.__file__, 'l
         check=False,
     )
     assert result.returncode == 0, result.stderr
-    assert json.loads(result.stdout)["python"] == "3.15.1"
+    assert json.loads(result.stdout)["python"] == "3.15.2"
 
 
 @pytest.fixture(autouse=True)
@@ -235,7 +235,7 @@ def qualified_interpreter_and_install_location() -> None:
     """The dedicated lane must consume its own wheel in this process too."""
     import voiage
 
-    assert sys.version_info[:3] == (3, 15, 1)
+    assert sys.version_info[:3] == (3, 15, 2)
     prefix = os.environ.get("VOIAGE_PRODUCER_PREFIX")
     if prefix is not None:
         assert Path(voiage.__file__).resolve().is_relative_to(Path(prefix).resolve())

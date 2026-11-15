@@ -362,14 +362,14 @@ def main() -> int:
     parser.add_argument("--workspace", type=Path, required=True)
     parser.add_argument("--evidence", type=Path, required=True)
     args = parser.parse_args()
-    if sys.version_info[:3] != (3, 15, 1):
-        raise RuntimeError("Select Python 3.15.1 explicitly")
+    if sys.version_info[:3] != (3, 15, 2):
+        raise RuntimeError("Select Python 3.15.2 explicitly")
     if sys.platform != "linux":
         raise RuntimeError("This experiment requires an isolated Linux builder")
     args.workspace = args.workspace.resolve()
     args.evidence = args.evidence.resolve()
     packet = json.loads(args.inputs.read_text())
-    if packet["python_profile"] != "3.15.1":
+    if packet["python_profile"] != "3.15.2":
         raise ValueError("Unexpected Python input profile")
     arrow, frontend = (packet["providers"][key] for key in ("arrow", "py-pyarrow"))
     profile = frontend["native_profile"]

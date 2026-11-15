@@ -8,7 +8,9 @@ import json
 from pathlib import Path
 import shutil
 import subprocess
+import sys
 import tomllib
+from types import SimpleNamespace
 
 from packaging.version import Version
 import pytest
@@ -37,10 +39,13 @@ def source_objects(monkeypatch: pytest.MonkeyPatch) -> None:
     previous = json.loads(
         (ROOT / current["previous_python315_replay"]["path"]).read_text()
     )
+    previous_patched = json.loads(
+        (ROOT / current["previous_patched_replay"]["path"]).read_text()
+    )
 
     def read_object(command: list[str], **kwargs: object) -> bytes | str:
         reference = command[-1]
-        for profile in (current, previous):
+        for profile in (current, previous_patched, previous):
             source = profile["source_reference"]
             if reference == source + "^{commit}":
                 return source + "\n"
@@ -50,6 +55,11 @@ def source_objects(monkeypatch: pytest.MonkeyPatch) -> None:
                 return (
                     ROOT / current["previous_python315_replay"]["path"]
                 ).read_bytes()
+            if (
+                reference
+                == source + ":paper/reproduction-manifest-python315-patched.json"
+            ):
+                return (ROOT / current["previous_patched_replay"]["path"]).read_bytes()
             for name, local in (
                 ("lockfile", "uv.lock"),
                 ("project_file", "pyproject.toml"),
@@ -85,6 +95,13 @@ def test_previous_python315_profile_remains_verifiable() -> None:
     VERIFIER.verify_manifest(ROOT, previous)
 
 
+def test_previous_patched_profile_remains_verifiable() -> None:
+    previous = json.loads(
+        (ROOT / manifest()["previous_patched_replay"]["path"]).read_text()
+    )
+    VERIFIER.verify_manifest(ROOT, previous)
+
+
 @pytest.mark.parametrize(
     "field",
     [
@@ -93,6 +110,7 @@ def test_previous_python315_profile_remains_verifiable() -> None:
         "historical_receipt",
         "historical_replay",
         "previous_python315_replay",
+        "previous_patched_replay",
     ],
 )
 def test_replay_rejects_missing_or_tampered_declared_artifacts(field: str) -> None:
@@ -121,7 +139,13 @@ def test_replay_rejects_unresolvable_or_mutable_source(source: str) -> None:
 
 
 @pytest.mark.parametrize(
-    "field", ["lockfile", "project_file", "previous_python315_replay"]
+    "field",
+    [
+        "lockfile",
+        "project_file",
+        "previous_python315_replay",
+        "previous_patched_replay",
+    ],
 )
 def test_replay_rejects_digest_valid_file_from_wrong_source(field: str) -> None:
     current = manifest()
@@ -141,20 +165,31 @@ def test_patched_replay_requires_the_previous_descriptor() -> None:
         VERIFIER.verify_manifest(ROOT, current)
 
 
-def test_patched_lock_meets_current_advisory_floors() -> None:
-    lock = tomllib.loads((ROOT / manifest()["lockfile"]["path"]).read_text())
-    versions = {
-        package["name"]: Version(package["version"])
-        for package in lock["package"]
-        if "version" in package
-    }
+def test_python3152_replay_requires_the_previous_patched_descriptor() -> None:
+    current = manifest()
+    del current["previous_patched_replay"]
+    with pytest.raises(ValueError, match="requires its previous patched"):
+        VERIFIER.verify_manifest(ROOT, current)
+
+
+@pytest.mark.parametrize("lock_path", ["uv.lock", "current-replay"])
+def test_active_locks_meet_current_advisory_floors(lock_path: str) -> None:
+    if lock_path == "current-replay":
+        lock_path = manifest()["lockfile"]["path"]
+    lock = tomllib.loads((ROOT / lock_path).read_text())
     for package, minimum in {
         "opentelemetry-api": "1.45.2",
         "pillow": "13.0.0",
         "soupsieve": "4.0.0",
         "tornado": "6.6.1",
     }.items():
-        assert versions[package] >= Version(minimum)
+        versions = [
+            Version(entry["version"])
+            for entry in lock["package"]
+            if entry["name"] == package and "version" in entry
+        ]
+        assert versions
+        assert all(version >= Version(minimum) for version in versions)
 
 
 def test_patched_replay_archives_are_bound_by_reference_policy() -> None:
@@ -248,11 +283,51 @@ def test_replay_rejects_changed_scientific_contract(field: str) -> None:
 def test_new_replay_profile_cannot_declare_an_older_runtime() -> None:
     current = manifest()
     current["supported_python_versions"] = ["3.14"]
-    with pytest.raises(ValueError, match="qualified Python 3.15.1"):
+    with pytest.raises(ValueError, match="qualified Python 3.15.2"):
         VERIFIER.verify_manifest(ROOT, current)
 
 
-@pytest.mark.parametrize("python_version", ["3.15.1", "3.15.0", "3.14.9"])
+@pytest.mark.parametrize(
+    ("profile", "message"),
+    [
+        ("paper/reproduction-manifest.json", "Historical replay is retained"),
+        (
+            "paper/reproduction-manifest-python315.json",
+            "retired Python runtime.*retained as evidence",
+        ),
+        (
+            "paper/reproduction-manifest-python315-patched.json",
+            "retired Python runtime.*retained as evidence",
+        ),
+    ],
+)
+def test_historical_replay_does_not_execute_a_retired_runtime(
+    monkeypatch: pytest.MonkeyPatch, profile: str, message: str
+) -> None:
+    def unexpected_run(*args: object, **kwargs: object) -> None:
+        raise AssertionError("Historical replay must not start a subprocess")
+
+    monkeypatch.setattr(VERIFIER.subprocess, "run", unexpected_run)
+    monkeypatch.setattr(VERIFIER.subprocess, "check_output", unexpected_run)
+    with pytest.raises(ValueError, match=message):
+        VERIFIER.replay(ROOT, ROOT / profile)
+
+
+def test_current_replay_rejects_an_unqualified_caller_before_execution(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    def unexpected_run(*args: object, **kwargs: object) -> None:
+        raise AssertionError("An unqualified caller must not start a subprocess")
+
+    monkeypatch.setattr(
+        VERIFIER, "sys", SimpleNamespace(version_info=(3, 15, 1), executable="python")
+    )
+    monkeypatch.setattr(VERIFIER.subprocess, "run", unexpected_run)
+    with pytest.raises(ValueError, match="selected Python 3.15.2 runtime"):
+        VERIFIER.replay(ROOT, ROOT / VERIFIER.DEFAULT_MANIFEST)
+
+
+@pytest.mark.parametrize("python_version", ["3.15.2", "3.15.1", "3.15.0", "3.14.9"])
 @pytest.mark.parametrize("missing_source", [False, True])
 def test_replay_receipt_records_observed_runtime_and_selected_extra(
     monkeypatch: pytest.MonkeyPatch,
@@ -300,6 +375,7 @@ def test_replay_receipt_records_observed_runtime_and_selected_extra(
         if "--frozen" in command:
             query_directories.append(kwargs["cwd"])
             assert command[command.index("--extra") + 1] == "plotting"
+            assert command[command.index("--python") + 1] == sys.executable
         if "-c" in command:
             return subprocess.CompletedProcess(
                 command, 0, json.dumps(observed).encode(), b""
@@ -308,7 +384,7 @@ def test_replay_receipt_records_observed_runtime_and_selected_extra(
 
     monkeypatch.setattr(VERIFIER.subprocess, "run", run)
     monkeypatch.setattr(VERIFIER.subprocess, "check_output", read_object)
-    if python_version != "3.15.1":
+    if python_version != "3.15.2":
         with pytest.raises(ValueError, match="did not execute the qualified"):
             VERIFIER.replay(ROOT, ROOT / VERIFIER.DEFAULT_MANIFEST)
         assert len(fetch_directories) == int(missing_source)

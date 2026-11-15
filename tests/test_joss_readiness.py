@@ -185,7 +185,14 @@ def test_joss_workflow_uses_pinned_open_journals_builder() -> None:
     assert "submodules: recursive" in workflow
     assert "fetch-depth: 0" in workflow
     assert "python scripts/verify_paper_reproduction.py" in workflow
-    assert "--manifest paper/reproduction-manifest-python315-patched.json" in workflow
+    assert workflow.count("python scripts/verify_paper_reproduction.py") == 1
+    assert "--manifest paper/reproduction-manifest-python3152-patched.json" in workflow
+    for retired in (
+        "paper/reproduction-manifest.json",
+        "paper/reproduction-manifest-python315.json",
+        "paper/reproduction-manifest-python315-patched.json",
+    ):
+        assert retired not in workflow
     assert "build/joss/reproduction-replay.json" in workflow
     assert "scripts/audit_joss_sources.py" in workflow
     assert "scripts/audit_joss_authentext.py" in workflow

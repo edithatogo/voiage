@@ -125,20 +125,20 @@ def validate(root: Path, sources: Path) -> dict[str, object]:
     packet = json.loads(
         (root / "packaging/current/runtime-build-provider-sources.json").read_text()
     )
-    if packet["python_profile"] != "3.15.1" or set(packet["providers"]) != {
+    if packet["python_profile"] != "3.15.2" or set(packet["providers"]) != {
         "py-cython",
         "py-pydantic-core",
     }:
         raise ValueError("Wrong provider profile")
     deps = {
         "py-cython": {
-            "python@3.15.1": ["build", "link", "run"],
+            "python@3.15.2": ["build", "link", "run"],
             "c": ["build"],
             "cxx": ["build"],
             "py-setuptools@66:": ["build", "run"],
         },
         "py-pydantic-core": {
-            "python@3.15.1": ["build", "run"],
+            "python@3.15.2": ["build", "run"],
             "rust@1.88:1": ["build"],
             "py-maturin@1.10:1": ["build"],
             "py-typing-extensions@4.14.1:": ["run"],
@@ -194,7 +194,7 @@ def validate(root: Path, sources: Path) -> dict[str, object]:
             if (
                 meta["Name"].lower() != "cython"
                 or meta["Version"] != row["version"]
-                or Version("3.15.1") not in SpecifierSet(meta["Requires-Python"])
+                or Version("3.15.2") not in SpecifierSet(meta["Requires-Python"])
                 or "PYTHON_REQUIRES" not in data["setup.py"].decode()
             ):
                 raise ValueError("Cython source contract changed")
@@ -211,7 +211,7 @@ def validate(root: Path, sources: Path) -> dict[str, object]:
                 or project["build-system"]["build-backend"] != "maturin"
                 or {Requirement(x) for x in project["build-system"]["requires"]}
                 != {Requirement("maturin>=1.10,<2")}
-                or Version("3.15.1")
+                or Version("3.15.2")
                 not in SpecifierSet(project["project"]["requires-python"])
                 or cargo["package"]["rust-version"] != "1.88"
                 or cargo["dependencies"]["pyo3"]["version"] != "0.28"

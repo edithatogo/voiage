@@ -1,5 +1,34 @@
 # Changelog
 
+- Add the shared Python 3.15.2 privacy and secret scan alongside existing
+  security checks.
+
+- Test Proptest 1.12 on current Rust while preserving the Rust 1.85 dependency
+  lock and its compatibility, coverage, and security checks.
+
+- Update maintenance status while keeping dependency holds and CI timing work open.
+
+- Clarify Voiage ownership and qualification of Value of Perspective and Value
+  of Heterogeneity, with finite planning examples and POC migration boundaries.
+
+- Document security triage for preserved paper replay locks and strengthen
+  checks that only the current, patched replay can run.
+
+- Install the source-qualified Rust compiler alongside the current CI nightly.
+
+- Prepare Python 3.15.2 runtime and exact-source paper replay qualification,
+  retaining earlier runtime profiles as historical evidence.
+
+- Keep automated Proptest updates within the workspace's Rust 1.85 support policy.
+
+- Keep the retained native adapter replay manifest outside routine Renovate
+  maintenance while auditing its frozen lock and preserving current workspace
+  updates and qualification gates.
+
+- Reduce CI setup by running standalone checks directly, using locked tox
+  bootstraps, and removing unused experimental packages from telemetry/oracles.
+  Cancel superseded dependency-review and shard-qualification PR runs.
+
 - Add a patched, exact-source manuscript replay while retaining historical locks.
 
 - Keep release and validation scripts compatible with the current lint preview,

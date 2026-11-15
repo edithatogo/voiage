@@ -61,6 +61,19 @@
   "minimumReleaseAge": "14 days",
   "osvVulnerabilityAlerts": true,
   "dependencyDashboardOSVVulnerabilitySummary": "unresolved",
+  "cargo": {
+    "ignorePaths": [
+      "**/node_modules/**",
+      "**/bower_components/**",
+      "**/vendor/**",
+      "**/examples/**",
+      "**/__tests__/**",
+      "**/test/**",
+      "**/tests/**",
+      "**/__fixtures__/**",
+      "conductor/tracks/scientific_ecosystem_alignment_20261029/installed-adapters/native/Cargo.toml"
+    ]
+  },
   "pep621": {
     "ignorePaths": [
       "**/node_modules/**",
@@ -222,6 +235,12 @@
       "matchManagers": ["cargo"],
       "matchPackageNames": ["sha2"],
       "allowedVersions": "<=0.11.0"
+    },
+    {
+      "description": "Hold automated Proptest updates below 1.12 for the Rust 1.85 lock; refresh and qualify the current-compiler lock separately",
+      "matchManagers": ["cargo"],
+      "matchPackageNames": ["proptest"],
+      "allowedVersions": "<1.12.0"
     },
     {
       "description": "Review executable source and lock changes through pull requests",

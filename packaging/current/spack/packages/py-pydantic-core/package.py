@@ -16,7 +16,7 @@ class PyPydanticCore(PythonPackage):
         sha256="62f875393d7f270851f20523dd2e29f082bcc82292d66db2b64ea71f64b6e1c1",
         url="https://files.pythonhosted.org/packages/9d/56/921726b776ace8d8f5db44c4ef961006580d91dc52b803c489fafd1aa249/pydantic_core-2.46.4.tar.gz",
     )
-    depends_on("python@3.15.1", type=("build", "run"))
+    depends_on("python@3.15.2", type=("build", "run"))
     depends_on("rust@1.88:1", type="build")
     depends_on("py-maturin@1.10:1", type="build")
     depends_on("py-typing-extensions@4.14.1:", type="run")

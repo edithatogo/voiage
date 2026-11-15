@@ -147,7 +147,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.15.1"
+          python-version: "3.15.2"
       - name: Install Rust 1.85
         uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
@@ -193,7 +193,7 @@ jobs:
       - name: Set up supported Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.15.1"
+          python-version: "3.15.2"
       - name: Install the immutable release environment
         run: uv sync --frozen --extra ci --group producer-tests
       - name: Run fresh non-sharded full coverage gate
@@ -249,10 +249,10 @@ jobs:
         with:
           version: "0.13.6"
           enable-cache: false
-      - name: Set up Python 3.15.1 build runtime
+      - name: Set up Python 3.15.2 build runtime
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.15.1"
+          python-version: "3.15.2"
       - name: Install Rust 1.85
         uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
@@ -280,7 +280,7 @@ jobs:
           python -c "from pathlib import Path; from zipfile import ZipFile; wheel=next(Path('dist').glob('*.whl')); assert any(name.startswith('voiage/_core.') for name in ZipFile(wheel).namelist())"
       - name: Install wheel into clean environment
         run: |
-          uv venv --python 3.15.1 .release-wheel-venv
+          uv venv --python 3.15.2 .release-wheel-venv
           uv pip install --python .release-wheel-venv dist/*.whl
           uv pip check --python .release-wheel-venv
           uv pip install --python .release-wheel-venv pytest rfc8785==0.1.4
@@ -336,7 +336,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.15.1"
+          python-version: "3.15.2"
       - name: Install Rust 1.85
         uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
@@ -373,7 +373,7 @@ jobs:
           EXPECTED_SOURCE_TREE_GIT_OID: ${{ env.VOIAGE_SOURCE_TREE_GIT_OID }}
           EXPECTED_PLATFORM_SUFFIX: manylinux_2_17_x86_64.manylinux2014_x86_64
         run: |
-          uv venv --python 3.15.1 .sdist-wheel-venv
+          uv venv --python 3.15.2 .sdist-wheel-venv
           uv pip install --python .sdist-wheel-venv .sdist-wheel/*.whl
           uv pip check --python .sdist-wheel-venv
           uv pip install --python .sdist-wheel-venv pytest rfc8785==0.1.4
@@ -409,7 +409,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.15.1"
+          python-version: "3.15.2"
       - name: Generate resolved Python inventory
         run: |
           uv export --frozen --no-dev --no-emit-project --format requirements-txt \
@@ -463,7 +463,7 @@ jobs:
       - name: Select qualified Python runtime
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
-          python-version: "3.15.1"
+          python-version: "3.15.2"
       - name: Revalidate remote tag binding
         shell: bash
         run: |
@@ -678,7 +678,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: ["3.15.1"]
+        python: ["3.15.2"]
     timeout-minutes: 10
     permissions:
       contents: read

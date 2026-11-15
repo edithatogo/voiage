@@ -4,6 +4,21 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
+- [~] Verify the receiving privacy and secret scan after the shared Python
+  3.15.2 action is qualified. Original PR #1295 remains open.
+
+- [~] Keep the default Proptest lock compatible with Rust 1.85 while testing
+  1.12 with current Rust. The original PR #1281 remains open for its deferred
+  default-lock update; the separate current lock has its own qualification gates.
+
+- [~] Complete the documentation lockfile update in PR #1327 after its 14-day
+  dependency stability window and current-revision qualification. Renovate's
+  retained native-manifest discovery repair is merged in PR #1331.
+
+- [~] Record comparable hosted queue and execution timings for the merged
+  [CI efficiency changes](conductor/tracks/agent_safe_engineering_20260907/ci-efficiency-20261115/index.md).
+  PR #1332 passed its local and hosted gates; an end-to-end speedup is not yet claimed.
+
 Current priority: [5 November reconciliation](conductor/reconciliation-20261105.md).
 HPC is deferred except MLX/Metal; retain unsatisfied native acceptance gates.
 The ordered engineering list below is historical navigation: its first five
@@ -33,7 +48,7 @@ Completed prerequisite records remain linked for navigation:
 `conductor/tracks/translation_reference_20261026/`.
 
 - [ ] Existing active delivery tracks: `conductor/tracks/remaining_backlog_delivery_20260831/` and `conductor/tracks/v2_2_release_and_venue_submissions_20260830/`.
-- [ ] Implement the [optional simulation-outcome boundary](conductor/tracks/simulation_outcome_boundary_20261107/index.md): paired draws, explicit value conventions, and optional installed use. All eight leaves remain pending; scientific alignment and HPC deferral retain their owners.
+- [ ] Implement the [optional simulation-outcome boundary](conductor/tracks/simulation_outcome_boundary_20261107/index.md): paired draws, explicit value conventions, and optional installed use. The [VOP/VOH planning supplement](conductor/tracks/simulation_outcome_boundary_20261107/value-perspective-heterogeneity.md) remains under the existing #1286/VP03 owner. All eight leaves remain pending; scientific alignment and HPC deferral retain their owners.
 - [x] Qualify the non-HPC installed Innovate, MARS, tobac and published VOP
   reference cases against Voiage 3.1.0. The current tobac adapter default passes.
   See the [14 November receipt](conductor/tracks/scientific_ecosystem_alignment_20261029/installed-adapters-20261114.md).
@@ -770,6 +785,9 @@ as recorded in the active task above; earlier route decisions below are historic
         signed publication, and explicit closeout of external indexing gates.
 
 ## Done
+
+- [x] Add current-Rust Proptest 1.12 qualification while retaining the Rust 1.85
+  default lock and both graphs' behavior, coverage and supply-chain checks.
 
 - [x] Add paper-contract, scientific-acceptance and DOCX delivery guidance to
   the existing manuscript skill and venue handoff.

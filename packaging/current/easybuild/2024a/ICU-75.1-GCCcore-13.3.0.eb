@@ -16,7 +16,7 @@ checksums = ['cb968df3e4d2e87e8b11c49a5d01c787bd13b9545280fc6642f826527618caef']
 
 builddependencies = [
     ('binutils', '2.42'),
-    ('Python', '3.15.1'),
+    ('Python', '3.15.2'),
 ]
 
 start_dir = 'source'

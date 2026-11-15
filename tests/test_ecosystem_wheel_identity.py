@@ -33,6 +33,9 @@ def test_unreviewed_subpackage_cannot_shadow_verified_module(
     module = SimpleNamespace(__file__=str(root / "fixture/__init__.py"))
     monkeypatch.setitem(verify.__globals__, "import_module", lambda _: module)
     monkeypatch.setattr(sys, "prefix", str(tmp_path))
+    # Exercise the historical adapter's file-identity boundary with a synthetic
+    # version; this does not qualify the adapter on the current interpreter.
+    monkeypatch.setattr(sys, "version_info", (3, 15, 1))
     digest = sha256(wheel.read_bytes()).hexdigest()
     assert verify("fixture", "fixture", "1", digest, wheel) == 2
     extra = root / "fixture/basic/__init__.py"

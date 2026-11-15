@@ -10,7 +10,7 @@ name = "voiage"
 dynamic = ["version"]
 description = "Value of Information analysis with a Rust core and Python, R, and Julia interfaces."
 readme = "README.md"
-requires-python = ">=3.15.1,<3.16"
+requires-python = ">=3.15.2,<3.16"
 license = "Apache-2.0"
 license-files = ["LICENSE"]
 authors = [
@@ -319,7 +319,7 @@ nox = "uv run nox"
 build = "uv build"
 publish-test = "uv publish --publish-url https://test.pypi.org/legacy/"
 publish = "uv publish"
-conda-build = "conda-build conda-recipe/ --python 3.15.1"
+conda-build = "conda-build conda-recipe/ --python 3.15.2"
 refresh-registry-audit = "python scripts/refresh_binding_registry_audit.py"
 arxiv-readiness = "python scripts/build_arxiv_submission.py"
 arxiv-validate = "python scripts/validate_arxiv_manifest.py && python scripts/validate_arxiv.py paper"
