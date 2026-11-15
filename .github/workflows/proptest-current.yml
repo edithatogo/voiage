@@ -1,0 +1,110 @@
+name: Rust current Proptest compatibility
+
+on:
+  merge_group:
+    types: [checks_requested]
+  pull_request:
+    paths:
+      - "rust/**"
+      - ".github/workflows/proptest-current.yml"
+      - "tests/test_dependency_delivery_controls.py"
+  push:
+    branches: [main]
+    paths:
+      - "rust/**"
+      - ".github/workflows/proptest-current.yml"
+      - "tests/test_dependency_delivery_controls.py"
+  schedule:
+    - cron: "17 5 * * 1"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: proptest-current-${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  rust-current:
+    name: Rust workspace with current Proptest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.15.2"
+      - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
+        with:
+          toolchain: stable
+          components: clippy,rustfmt
+      - name: Verify current Proptest on stable Rust
+        working-directory: rust
+        env:
+          CARGO_RESOLVER_LOCKFILE_PATH: ${{ github.workspace }}/rust/locks/proptest-current/Cargo.lock
+        run: |
+          cargo tree --locked -p proptest --depth 0 | grep -Fx 'proptest v1.12.0'
+          cargo fmt --all --check
+          cargo clippy --workspace --all-targets --all-features --locked -- -D warnings
+          cargo test --workspace --all-features --locked
+
+  coverage:
+    name: Rust coverage with current Proptest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.15.2"
+      - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
+        with:
+          toolchain: "1.99.1"
+          components: llvm-tools-preview
+      - name: Install pinned cargo-llvm-cov
+        run: cargo install cargo-llvm-cov --version 0.6.16 --locked
+      - name: Measure and enforce coverage with current Proptest
+        env:
+          CARGO_RESOLVER_LOCKFILE_PATH: ${{ github.workspace }}/rust/locks/proptest-current/Cargo.lock
+        run: >-
+          cargo llvm-cov --manifest-path rust/Cargo.toml --workspace
+          --all-features --locked --fail-under-lines 80
+          --cobertura --output-path rust-proptest-coverage.xml
+      - name: Upload current Proptest coverage report
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: rust-proptest-current-coverage
+          path: rust-proptest-coverage.xml
+          if-no-files-found: error
+          retention-days: 14
+
+  supply-chain:
+    name: Rust supply chain with current Proptest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
+        with:
+          toolchain: "1.99.1"
+      - name: Install pinned cargo-deny
+        run: cargo install cargo-deny --version 0.20.2 --locked
+      - name: Enforce supply-chain policy for current Proptest
+        env:
+          CARGO_RESOLVER_LOCKFILE_PATH: ${{ github.workspace }}/rust/locks/proptest-current/Cargo.lock
+        run: cargo deny --locked --manifest-path rust/Cargo.toml --config rust/deny.toml check advisories licenses bans sources

@@ -278,6 +278,21 @@ minimum release age, or any required local and hosted checks. The Rust
 supply-chain workflow separately audits the retained Cargo lock against current
 RustSec advisories and treats warnings as failures.
 
-Renovate also holds `proptest` below 1.12.0 because that release requires Rust
-1.88 while the workspace supports Rust 1.85. Lift this bound only with a
-reviewed change to the compatibility policy and its qualification lanes.
+The default Rust lock retains `proptest` 1.11 for the workspace's Rust 1.85
+minimum; Renovate holds its automated updates below 1.12. A separate
+`rust/locks/proptest-current/Cargo.lock` selects Proptest 1.12 for current Rust.
+CI checks the current lock with the same workspace tests, Clippy, coverage floor,
+and supply-chain policy while retaining the default lock's existing checks.
+Refresh the current lock with Cargo 1.100 or newer and the 14-day release-age
+policy, and retain the default lock until a separately reviewed MSRV change.
+From the repository root, the current lock can be refreshed with:
+
+```sh
+cp rust/Cargo.lock rust/locks/proptest-current/Cargo.lock
+CARGO_RESOLVER_LOCKFILE_PATH="$PWD/rust/locks/proptest-current/Cargo.lock" \
+  CARGO_REGISTRY_GLOBAL_MIN_PUBLISH_AGE="14 days" \
+  cargo update --manifest-path rust/Cargo.toml -p proptest --precise 1.12.0
+```
+
+Run the current-lock CI checks after refreshing it; this command does not change
+the default lock or replace the required hosted checks.
