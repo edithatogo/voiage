@@ -26,7 +26,7 @@ def test_unavailable_torch_extra_preserves_explicit_api_diagnostic(monkeypatch) 
 def test_active_package_requires_the_qualified_python_series() -> None:
     project = tomllib.loads((ROOT / "pyproject.toml").read_text())["project"]
     supported = SpecifierSet(project["requires-python"])
-    assert supported.contains("3.15.1")
+    assert not supported.contains("3.15.1")
     assert supported.contains("3.15.2")
     assert not supported.contains("3.15.0")
     assert not supported.contains("3.14.9")

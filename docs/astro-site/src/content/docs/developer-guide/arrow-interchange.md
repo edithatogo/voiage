@@ -23,5 +23,5 @@ and Linux while retaining byte-exact binary verification.
 
 CI verifies PyArrow-to-Polars round trips, fresh-process reads, the current and
 previous fixture version, and relative serialization performance against JSON
-Lines. The supported runtime is Python 3.15.1. Free-threaded Python 3.15.1t is
+Lines. The supported runtime is Python 3.15.2. Free-threaded Python 3.15.2t is
 observed in a non-blocking job while its ecosystem support remains beta.

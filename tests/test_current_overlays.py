@@ -4,6 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 import shutil
+import tarfile
 
 import pytest
 
@@ -66,6 +67,42 @@ def test_source_claim_requires_exact_receipt(tmp_path: Path, damage: str) -> Non
 
 def test_current_declarations_and_frozen_graphs_validate() -> None:
     assert validate(ROOT) == []
+
+
+def test_python3151_overlay_snapshot_retains_every_recorded_file() -> None:
+    base = ROOT / "conductor/tracks/remaining_backlog_delivery_20260831/historical"
+    archive = base / "python3151-current-overlay-20261115.tar.gz"
+    manifest = json.loads(
+        (base / "python3151-current-overlay-20261115.json").read_text()
+    )
+    assert manifest["source_revision"] == "7f1bbab88a266fbb23b818dd82d3d55666ca1b8d"
+    assert (
+        hashlib.sha256(archive.read_bytes()).hexdigest() == manifest["archive_sha256"]
+    )
+    expected = {entry["path"]: entry for entry in manifest["files"]}
+    assert len(expected) == len(manifest["files"]) == 147
+    seen = set()
+    with tarfile.open(archive, "r:gz") as source:
+        for member in source.getmembers():
+            if member.isdir():
+                continue
+            assert member.name not in seen
+            assert member.name in expected
+            seen.add(member.name)
+            entry = expected[member.name]
+            if member.issym():
+                assert entry["mode"] == "120000"
+                data = member.linkname.encode()
+            else:
+                assert member.isfile()
+                assert entry["mode"] in ("100644", "100755")
+                assert member.mode & 0o777 == int(entry["mode"][-3:], 8)
+                stream = source.extractfile(member)
+                assert stream is not None
+                data = stream.read()
+            assert len(data) == entry["bytes"]
+            assert hashlib.sha256(data).hexdigest() == entry["sha256"]
+    assert seen == set(expected)
 
 
 def test_historical_smoke_bytes_and_lint_only_derivation_are_preserved() -> None:

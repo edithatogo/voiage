@@ -1,0 +1,1040 @@
+{
+  "schema_version": "1.0",
+  "purpose": "Exact Python 3.15.1 current-overlay source before 3.15.2 preparation; no new native acceptance.",
+  "source_revision": "7f1bbab88a266fbb23b818dd82d3d55666ca1b8d",
+  "source_tree": "e9c25edee14730a074034e4b51d793878efe708b",
+  "archive": "conductor/tracks/remaining_backlog_delivery_20260831/historical/python3151-current-overlay-20261115.tar.gz",
+  "archive_sha256": "d3f835358556adc56203e92099688211a13f7bc782c48454e5174e3f2de476c6",
+  "archive_bytes": 307594,
+  "files": [
+    {
+      "path": "packaging/current/LICENSE.polars",
+      "mode": "100644",
+      "git_blob": "33b09bbb6c5bd43c5e985e2affed64c5ed093616",
+      "sha256": "8296022372dc83cc8ef234b3d4889ef8f8b1779754a78bebf13d2c5178a6b4c4",
+      "bytes": 1145
+    },
+    {
+      "path": "packaging/current/README.md",
+      "mode": "100644",
+      "git_blob": "49fbaa9e5f0a7067230b65f74dd04811e5f0edc5",
+      "sha256": "3c43dbb3c01f4e6e61aa4be8fbbd21c40b9cd1c439887fafcaa6a87841a20426",
+      "bytes": 8353
+    },
+    {
+      "path": "packaging/current/arrow-provider-sources.json",
+      "mode": "100644",
+      "git_blob": "c7ca5620bc2a1b39cef8d915ad10c8b4e32cc1c4",
+      "sha256": "a847d5a2d23e3bce51ad7dedfe6b6400bad5dd9cab3003a86399c900168a27df",
+      "bytes": 4431
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/Arrow-26.0.0-gfbf-2023a.eb",
+      "mode": "100644",
+      "git_blob": "64d167076dddf5bd5d458c77bd71f0e7b91979b0",
+      "sha256": "e720a4241181603d1edfb632e2b737d0ba7b2c449e7f9fa7fd0820f2b92ad99c",
+      "bytes": 4961
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/BLIS-0.9.0-GCC-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "7c28a163a18d92040416db2fa3592152ad302bf2",
+      "sha256": "314c77fbc70d34f6cdb73b3e535657ec281b69fb9f67e05fb3359f9d970b12a1",
+      "bytes": 1276
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/Brotli-1.1.0-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "4bd7bcb04a2c79eb0d3efb280960911c08bca29b",
+      "sha256": "4d2d505cffba5e6cb35966a5e9c50e0c08356e63ee27602b729e98efa14162d6",
+      "bytes": 1403
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/Brotli-1.1.0_CVE-2026-111497.patch",
+      "mode": "100644",
+      "git_blob": "6aaa8f48a4b2086b9ce87b0399ae6ab6304ce79f",
+      "sha256": "3c1e4587947e4c61dd9c7c4619b1ae12d6bedbfd3c33c23981bf31269e18d52c",
+      "bytes": 9821
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/Cython-3.3.1-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "0c0af14572f02f58a08f731706a41de905d0dfc4",
+      "sha256": "6dde124e8b0b4939444809d2c17ca53b098231e8766cb0e05f246fabe79b0264",
+      "bytes": 770
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/FlexiBLAS-3.3.1-GCC-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "361916eec9e379abe11a6566a9188e8de9c6f112",
+      "sha256": "0542d1dae6cc05bc3ec7916880ce65356d235d3fc46e2108344cd222a990add7",
+      "bytes": 2205
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/ICU-73.2-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "7ef3e698d56a87b02f45ef14f90a25c507465fe1",
+      "sha256": "88741e29ac8a71f9699da5fad05a1e3ec572a6cb6dda2f987e98d79094c28c81",
+      "bytes": 910
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/Meson-1.12.1-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "539a5bc7a0b615c6a73099cf1ce240b726be6ef1",
+      "sha256": "c9f19cb12b24536e48afc2a431d6b53c37c17973deb9194078056f67cf74fa0a",
+      "bytes": 769
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/Ninja-1.11.1-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "bfc902cab9fa3c874aa43618c6dcb067202e15e8",
+      "sha256": "a096187d9c1643465c8184173e21391d0833386450c79be71741a195fb83bcd7",
+      "bytes": 701
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/NumPy-2.5.4-gfbf-2023a.eb",
+      "mode": "100644",
+      "git_blob": "ffc9aed1c929ee640e6afd150f2ef8cb11a2b1f0",
+      "sha256": "913f640a532e47d6435aabb3b47c0ef8cba5d4e3f4970d34350aeecb824f1953",
+      "bytes": 812
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/OpenBLAS-0.3.23-GCC-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "47e39eedc05d2e74ab2e879e762544f7071fe880",
+      "sha256": "356b98c8eb38e635c388f115b7456613fd44d7ae3b67dd5abba5ecada6c81abf",
+      "bytes": 2547
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/OpenMPI-4.1.1_build-with-internal-cuda-header.patch",
+      "mode": "100644",
+      "git_blob": "9baec9a91295328ca3ccbd622d17f3d4d7c01c19",
+      "sha256": "63eac52736bdf7644c480362440a7f1f0ae7c7cae47b7565f5635c41793f8c83",
+      "bytes": 4694
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/OpenMPI-4.1.1_opal-datatype-cuda-performance.patch",
+      "mode": "100644",
+      "git_blob": "8c1a1f8ec353b5e35b8ee3912b4ecb0373de0c94",
+      "sha256": "b767c7166cf0b32906132d58de5439c735193c9fd09ec3c5c11db8d5fa68750e",
+      "bytes": 20793
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/OpenMPI-4.1.5-GCC-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "c068fffcc385ddc67cd9ccf9debe847b55a65bc4",
+      "sha256": "7d20c78a3200492a064c6eafdb6c8114a5e6567339ebcaa71503dc8552fb5ca8",
+      "bytes": 2548
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/OpenMPI-4.1.5_fix-pmix3x.patch",
+      "mode": "100644",
+      "git_blob": "5f209139a3d1b966e1ab4aa47cbabd954a66ccf8",
+      "sha256": "46edac3dbf32f2a611d45e8a3c8edd3ae2f430eec16a1373b510315272115c40",
+      "bytes": 24999
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/OpenMPI-4.1.5_fix_opal_unsupported_key.patch",
+      "mode": "100644",
+      "git_blob": "c6e998a11270db32ed5010453703903fc448cfe5",
+      "sha256": "4375a58a18c8bced14cc5978f98a7f2395cc6a9c07dd65b1c28f53294cad4385",
+      "bytes": 3279
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/OpenMPI-4.1.x_add_atomic_wmb.patch",
+      "mode": "100644",
+      "git_blob": "960e6100ed1e514296a3aec5ce6c277b65672eb5",
+      "sha256": "9494bbc546d661ba5189e44b4c84a7f8df30a87cdb9d96ce2e73a7c8fecba172",
+      "bytes": 1874
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/OpenMPI-4.x_fix-gpfs.patch",
+      "mode": "100644",
+      "git_blob": "f5c3939e652061fa7e4492619a3341b5c793616e",
+      "sha256": "94858c78f58d7f6be8df4b81c89b3d125c1fec3bbf1a9554ebf1e558231b08f7",
+      "bytes": 1063
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/Python-3.15.1-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "d2eb6811acb8a7886f7b63634b6d23150ac3fbf3",
+      "sha256": "db21cb340818438451ab95e6483ab245c6fc41dd3e419a7bddd0ea78787f0b0d",
+      "bytes": 1145
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/Rust-1.96_sysroot-fix-interpreter.patch",
+      "mode": "100644",
+      "git_blob": "56711afa57408095fd085e736a1b17ac1b418a06",
+      "sha256": "beb558ea39683772ff3b06e189e178604a3fa835f6a0f66be0e14d9cdb5512f1",
+      "bytes": 2243
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/Rust-1.99.1-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "050579b3113784a7c3eb81539052a68532298d2f",
+      "sha256": "76a451dd6fb4962baa0403179d5c8c7ec5c927ef178c0b39a3b8ae3523bf17a6",
+      "bytes": 1075
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/Rust-nightly-2026-09-01-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "24ae3321ac6be60ae6a748cacece0edfb4f93f4b",
+      "sha256": "65f7a280868dce0f9b1940c6917dfde60d49bcccb70e19251ad7e269730459c7",
+      "bytes": 1165
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/Rust-nightly-2026-09-01_sysroot-fix-interpreter.patch",
+      "mode": "100644",
+      "git_blob": "708d6b54f35de3dbf88d032501821bee713fdb41",
+      "sha256": "1f4d55815f7a4bedadf44612645c46c1f1b91b7dabbee050c750dd42c1655c30",
+      "bytes": 2241
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/SciPy-1.18.1-gfbf-2023a.eb",
+      "mode": "100644",
+      "git_blob": "9fb2128dca594e2da78a0bac912f9b670488e5dd",
+      "sha256": "b97153e4d26c86efe0aab5d77bec3197af452f60b6478068c8dd506019194167",
+      "bytes": 926
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/Thrift-0.22.0-GCC-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "3c57bb6d0d2c5eba295a16abb777384fe62c054b",
+      "sha256": "2ada047b9cd3d55a7a96c7438ed79459aaba706a3134d74bcd35cdd2c28340f6",
+      "bytes": 1185
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/Voiage-Arrow-build-support-26.0.0-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "183575ae2ba8e33a8d7ddfbf1cd6c7bad7c8b8b7",
+      "sha256": "c798c5d699ec918ae998993afdb5a467f02155ef6e81fb9e13e633bc9c19c754",
+      "bytes": 2575
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/Voiage-Python-support-2.2.0-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "af86aadb3019cebc859ca8f7091774a3cf2b33fa",
+      "sha256": "681cf37c29dd05e7cd9f0c30323196cadf66ae09aafc64dc70fac44e8c3e7dfb",
+      "bytes": 5100
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/Voiage-Rust-build-support-2.2.0-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "ca2e7a7cd95783dc1dd85d3fe666e4046d8e73fd",
+      "sha256": "290966e9e4ffd83c6e2dbb01b984d9b29e9f516469246f09a5015631e31d3a59",
+      "bytes": 3741
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/beniget-0.5.0-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "a122ae99ac14571c93085ebb0b4ac1ce7eb8a154",
+      "sha256": "a341673b8c7e380ab57e39583545d37b8c70d6d3c344199a89056ae46898d745",
+      "bytes": 792
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/cloudpickle-3.1.2-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "0c968fb15ce1b08ce5bf97e1771058b493e950f5",
+      "sha256": "a359e17d02254d74f0660b99a4f77e9dca560bcc806596234da16fd0a06f3f3c",
+      "bytes": 666
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/gast-0.7.0-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "4174693fbd6be2278e7f03075f2694421f08701e",
+      "sha256": "84477af788d6a76b99b8fdf1e8a9608a0be6a16e948600cba65e6bc6012985bc",
+      "bytes": 764
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/hatchling-1.24.2-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "d4e872f2b36afad991be11229dde69744faefe76",
+      "sha256": "a030a3f791fe0e3a1f6864de7978c824e693e0e73feca31372ab15aae6e933c1",
+      "bytes": 2313
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/hwloc-2.9.1-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "533df0351606434ddbd4d68ae177604d0d5ebb21",
+      "sha256": "e4c68f277ac0d6f95822df5726a944ed0099e423a043567563b714fe23532365",
+      "bytes": 1477
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/joblib-1.6.0-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "41d2030894e06d22375282448d30b0c188668940",
+      "sha256": "a57294e8a40d40d62135260963f465afce156a5bc14421dcc7de202b9ede045b",
+      "bytes": 848
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/jsonschema-4.26.0-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "2113dd6c8df2957d495811d0fa7e4426a03e78d8",
+      "sha256": "277cbfebb3dbf6ac431236c4d960a315b4ab084113a494dbf99d1339bd051fb7",
+      "bytes": 1777
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/libcst-1.9.0-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "92357e726d39436820e545ea4b16c64da697c0dd",
+      "sha256": "b5c708ffb76b6064ef845343b91d318848092c357df8e1b4396b510c9bb75bac",
+      "bytes": 12222
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/libpciaccess-0.17-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "440fdd43f87caab430a3109f55bd2483fb143a3b",
+      "sha256": "0848c4ecd80beabf3efdc2b64bd253beeca3e2cb86d3c37aaeb51d1609e822e8",
+      "bytes": 630
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/maturin-1.13.1-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "9d375adfbc26d81fb1795a2f77faf9e4dbd0ac65",
+      "sha256": "97c59f2249e2541d89aafc34b8c67467616be7998b04838e5bee0b311991a034",
+      "bytes": 68181
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/meson-python-0.22.1-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "6d83c0a83c026c1353594518493693f3d962cfe1",
+      "sha256": "25ae36f70204be7af8f0094adcce846d443a79c7badaef00ce84f841bbcaed06",
+      "bytes": 866
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/mimalloc-3.4.1-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "0822320a7e272750d6c339701bed4406a7d0599a",
+      "sha256": "148f2d86d8ab1b3468489904f3d0502ff497b52e635c2bad298a3ea8ba579395",
+      "bytes": 498
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/narwhals-2.28.0-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "4e789391fdafbf9429523e9c3b5de2fdf8abed8f",
+      "sha256": "0a3c5bde84265b2e17478a2ac6f9df698260a71a4ee69d7ef67df8ca911bdcb5",
+      "bytes": 683
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/ply-3.11-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "9d684dc84369258e033f8a07d19f182ee1997667",
+      "sha256": "fdcfff5d6a9fb0876fb0834279af69adb14e77b82902270eddb7217eed6e9e85",
+      "bytes": 759
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/polars-2.1.0-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "dee8b62b16c9ebf691063a81cc92ec7440acaacf",
+      "sha256": "050ba1851caee10910595d441b6dd307abb5dd59f87305ced78df2107c989e6b",
+      "bytes": 701
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/polars-runtime-32-2.1.0-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "9e3da03d6542b0eb3149d1688f2cee8b58ee6e53",
+      "sha256": "82cbc20f75c51ff858692258cd7524e7f833d5520fbb35fde04246a43c9b9448",
+      "bytes": 69367
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/pybind11-3.1.0-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "81f90d849b6aabba4447012903cca6ac43b949cb",
+      "sha256": "3f36faa9778cff4194bf3796bb13b80bc78f2f0640fac9f0f35500bc8d9963ec",
+      "bytes": 657
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/pydantic-2.13.4-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "092489e7321c975bf52e45210d543a65556618c7",
+      "sha256": "f16851728636779b739d5f24377c54f44383a25d49d37b0149a5674a10059c71",
+      "bytes": 1475
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/pydantic-core-2.46.4-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "6e2d71d899ce18369ed8473ae8bd64cb07ed78b6",
+      "sha256": "14f07b9271e943a7e6bb67436d3862f10a5c02b79c8d5263b6aab7d67d5547c5",
+      "bytes": 15908
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/pyproject-metadata-0.12.1-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "57fa1b425b2d7480bf89729974cf40e677c02b51",
+      "sha256": "6149fb6c3fcb677fe49284547fc7151db91b7c425ca086ad4ccbdb12f08d3f65",
+      "bytes": 808
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/pythran-0.19.0-gfbf-2023a.eb",
+      "mode": "100644",
+      "git_blob": "a9de665759d3d12d2611f709fe89aa5b169dd958",
+      "sha256": "76179d629c63fbedf2cb0052d5577088e5d07b3683a2a86bc20307023196918a",
+      "bytes": 849
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/rpds-py-2026.6.3-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "af9c85add173c144c40d4c7d68172c1b33d7c232",
+      "sha256": "9e9f4e12cc1506b22cdb182092a2be8ca0a3928375ff48af7b376d4c22208576",
+      "bytes": 3419
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/scikit-learn-1.9.1-gfbf-2023a.eb",
+      "mode": "100644",
+      "git_blob": "b181a8fc609158459c065094c3e99b0964437be8",
+      "sha256": "6f36190ac4b4ccaaa9297e5e40109efaa7886abd0e6846a6e4b3d0b206a460f3",
+      "bytes": 995
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/setuptools-rust-1.12.0-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "4e3b207f34a4bc5a92a582c2c028f90c6006e55e",
+      "sha256": "b40ebfcf6c0c81e09e09f76771d75798c794376b253ec40d85f4883e362561a1",
+      "bytes": 1114
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/threadpoolctl-3.7.0-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "982aee19967baf694b958a7464ccf135c4b4704a",
+      "sha256": "9ac89c25abf3e167dd0c9d432fae983d615c0ed54f46c51b426e7d6728dd8b5d",
+      "bytes": 791
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/uv-build-0.13.6-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "18c0452469893212e94d68e2d38fdcba37154099",
+      "sha256": "c043a4b4c02a84635d40f0c23aa19ebefb017e569663003c6308322d3960d7ac",
+      "bytes": 37631
+    },
+    {
+      "path": "packaging/current/easybuild/2023a/xsimd-14.2.0-GCCcore-12.3.0.eb",
+      "mode": "100644",
+      "git_blob": "b3e45936e875f1626774c45cbad43f12bbaeb815",
+      "sha256": "c74208c17c82edad948158d58393b29e2114e99474231f95fa861bdeca1cc942",
+      "bytes": 758
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/Arrow-26.0.0-gfbf-2024a.eb",
+      "mode": "100644",
+      "git_blob": "b91258eefa440868dbf44b5ab8930c32b78b0e79",
+      "sha256": "5cdd6a5e9b9a13412e59414e821e27066ef6f0129ab88dd14e32b04ea1c7f38b",
+      "bytes": 4959
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/BLIS-1.0-GCC-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "85dfaa38946a655efa2e00c1f2fb9d927929b910",
+      "sha256": "f2f3631f83e6eca721ef75030899760d87acdbfe2efeb063b878ff7dafa0e5ae",
+      "bytes": 583
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/Brotli-1.1.0-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "2f2fc8f6e310301041ef41310f94b58cf9ed768a",
+      "sha256": "e379a8fe24aa0facec4342c00a8429d70cb03ed149ed4c63dd0bdd40a9224de2",
+      "bytes": 1403
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/Brotli-1.1.0_CVE-2026-111497.patch",
+      "mode": "100644",
+      "git_blob": "6aaa8f48a4b2086b9ce87b0399ae6ab6304ce79f",
+      "sha256": "3c1e4587947e4c61dd9c7c4619b1ae12d6bedbfd3c33c23981bf31269e18d52c",
+      "bytes": 9821
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/Cython-3.3.1-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "6123336b83cc18a8c3d2bcc5a81a130777726a87",
+      "sha256": "d6032bb1485ee37c9efe3e0ed9947cf9a0a2f3b58d04b9471c6536c14fedf9fa",
+      "bytes": 770
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/FlexiBLAS-3.4.4-GCC-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "0de549d7d1887f621c70cccaebfeb904bfff781f",
+      "sha256": "cd51168271c77517d4d9664fa40827559cc75ec877d77f200f7a59b096cab2bf",
+      "bytes": 2351
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/ICU-75.1-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "065d8894b6a35a39e58d7e213bf977ca8e96f4d7",
+      "sha256": "7f4408fc25ad66e9f08dec08041b6b0ff61ded3cf9b1e3494d810560a4e61d34",
+      "bytes": 910
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/Meson-1.12.1-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "46e0830b7399c3713ac0a6ddf6f4e4869cd893e7",
+      "sha256": "51ca9730b30cb8a9dc3acf06ae4570bff5db1f96334a203b4af6ffa0466061a9",
+      "bytes": 769
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/Ninja-1.12.1-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "c82ebf2561b68c8810f7a11c49d686a43cb5392a",
+      "sha256": "92f56d64e51e2238a56f0afd3078972f03ea421fe68daa36f83cbb84f0ddcbfa",
+      "bytes": 701
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/NumPy-2.5.4-gfbf-2024a.eb",
+      "mode": "100644",
+      "git_blob": "efd90edfafb81445d0e626376c37ad112d20a125",
+      "sha256": "85c30f1d44e04508db6c41abaaca19715d01ca739e321b193be851faf3ea52d9",
+      "bytes": 812
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/OpenBLAS-0.3.27-GCC-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "58519508e6dccfb1018ff3f28ec5226b223890ca",
+      "sha256": "3a089b28f2a82d711986c5298ff904ed15eddc7898715171077941d95b547454",
+      "bytes": 2553
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/OpenMPI-5.0.2_build-with-internal-cuda-header.patch",
+      "mode": "100644",
+      "git_blob": "2d935fda64ad48fb29b8542539dc8c342f51670f",
+      "sha256": "f52dc470543f35efef10d651dd159c771ae25f8f76a420d20d87abf4dc769ed7",
+      "bytes": 6306
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/OpenMPI-5.0.3-GCC-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "3ef3f3af7d2794fc8b4eb7171dcf64ed54056559",
+      "sha256": "87ccdc3e522816cc72134b138e661d5cdad6ab092060cd2f4a5c571a3d6d2eab",
+      "bytes": 2019
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/OpenMPI-5.0.3_disable_opal_path_nfs_test.patch",
+      "mode": "100644",
+      "git_blob": "09d9f829f0691c9e51cb8f52a7c64178994e3206",
+      "sha256": "75d4417e35252ea3a19b2792f1b06e9aeb408c253aa4921d77226d57b71dee45",
+      "bytes": 1199
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/OpenMPI-5.0.3_fix_c90_compliance.patch",
+      "mode": "100644",
+      "git_blob": "fc91fc30a5da57effe4a7d5a80d193b8d7604181",
+      "sha256": "ece1dff504673179daf298f74c978d31132fcde71af9eca38a530b30aec85cca",
+      "bytes": 10930
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/OpenMPI-5.0.7_fix_gpfs_compatibility.patch",
+      "mode": "100644",
+      "git_blob": "8b6fdb1b56f9ea2b5675cd4abade456ece7537a3",
+      "sha256": "9739134ce273a691c9deac6e410510653a88c1542b60dbf8789e4a423447d4f6",
+      "bytes": 1088
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/Python-3.15.1-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "0b32feef51c58e881d946ed9f739f2531ef3a81e",
+      "sha256": "80d6215124fbeb9cf59ec0fb6fd3e63fe3b95e7b7b3e7414624d7f3cc6d4ae62",
+      "bytes": 1156
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/Rust-1.96_sysroot-fix-interpreter.patch",
+      "mode": "100644",
+      "git_blob": "56711afa57408095fd085e736a1b17ac1b418a06",
+      "sha256": "beb558ea39683772ff3b06e189e178604a3fa835f6a0f66be0e14d9cdb5512f1",
+      "bytes": 2243
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/Rust-1.99.1-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "f9ad63c48ceb2f10300fd0f09af8a3aef5227546",
+      "sha256": "8ddd00075b7cd16b0362c28e8bdc7fdb53d03fd957b24932d086324be909faec",
+      "bytes": 1075
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/Rust-nightly-2026-09-01-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "617ed35051f7a5d5aeaac437053259eea3d6a832",
+      "sha256": "4ea71322454bec5bbd19ef53e965f723c64eda8ab189842d15e03a5d3564b8f3",
+      "bytes": 1165
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/Rust-nightly-2026-09-01_sysroot-fix-interpreter.patch",
+      "mode": "100644",
+      "git_blob": "56711afa57408095fd085e736a1b17ac1b418a06",
+      "sha256": "beb558ea39683772ff3b06e189e178604a3fa835f6a0f66be0e14d9cdb5512f1",
+      "bytes": 2243
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/SciPy-1.18.1-gfbf-2024a.eb",
+      "mode": "100644",
+      "git_blob": "fed774422d541144cb365141def4198e44b1acda",
+      "sha256": "5cb7d465d318ccd268089aaeca2bffe6088d28a5c33203368cd6acdff74ea8f2",
+      "bytes": 926
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/Thrift-0.22.0-GCC-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "aeff20c3e6c49dc5acfb096489ca1460585895de",
+      "sha256": "c8913451fb7b765fc5188795bf2b76a876216a3134511d634c5078eb9438fc83",
+      "bytes": 1184
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/Voiage-Arrow-build-support-26.0.0-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "0a3945dbac039230b483e56a17486213081ac54d",
+      "sha256": "aed78135921a6b8c34b945766b816a94210ec88847179d2718920fd083783c2f",
+      "bytes": 2575
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/Voiage-Python-support-2.2.0-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "7bc81b5243a24c58c13f8949129096e42378dcb7",
+      "sha256": "dcb31e22811e57b7ca447580fb56e7a62563d7deb1c0802211652e8ab69f8bee",
+      "bytes": 5100
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/Voiage-Rust-build-support-2.2.0-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "e7a59dd4969b6875c9d2e546e7ed76d5539ff1aa",
+      "sha256": "0224d11ab223ab4904f2c9ea98cade80811a9251d39dd3571bed8500cb0f9160",
+      "bytes": 3741
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/beniget-0.5.0-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "235739d61e19b4e5a012bdeb689411e1d9a3cd32",
+      "sha256": "51663895a9efe5ce1a13b9722f20b422c905a522e20a32f9c878a2babf589f0d",
+      "bytes": 792
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/cloudpickle-3.1.2-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "98185fdf0308e59df05af5d6e874da80271f994d",
+      "sha256": "5276867c2b2d0962e507874906d138eeaf65cf8132a61a94c1e8f2494cce8827",
+      "bytes": 666
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/gast-0.7.0-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "3032989d8164be823187992c318ff1489caf465e",
+      "sha256": "a966f7c648bdf640bed99d59f950a9e6994412f3d458a88142799b7e64e857c2",
+      "bytes": 764
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/hatchling-1.24.2-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "3c4fa7a70381ed68c6bdb3ba6a49416f4621b9d6",
+      "sha256": "93548da2f3a0adf604a4fef52952c2f7af650128bf143501c8706ed47a80c4bf",
+      "bytes": 2313
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/hwloc-2.10.0-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "5317548552168d78b0ad05e6d01f8d3a13b6b3de",
+      "sha256": "638a0c452d1a086b6f12f086de2f48e00f275d3c8690ab0f95a3725b9bcf1619",
+      "bytes": 1480
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/joblib-1.6.0-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "db84f90d293ac3418dfb7cc1af8ee1c1cf5c3ca5",
+      "sha256": "4ab23e4d4146bd9755236b83420ce70030710b58646fe154ec00305f9acb2c8b",
+      "bytes": 848
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/jsonschema-4.26.0-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "5b3530161d5cd5e5fde11bab6eaba3ee24e7fb90",
+      "sha256": "4c4be88a2edb6aa9fd8fe251d2d810ae3ceadc2004212f261160e1351718be9e",
+      "bytes": 1777
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/libcst-1.9.0-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "bcd2d40b310793404421372a882c85231e5bd848",
+      "sha256": "1f053550f180621f18444c618e10836bea3687e74f3286b5e8eff4a6f062d902",
+      "bytes": 12222
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/libpciaccess-0.18.1-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "3795a58857c4e4204b4dfd7999b40e7627f17353",
+      "sha256": "cea9f1fafb494800b396a7d3a3cd8cc1e6731f68851221b4b54252ffa1a9100e",
+      "bytes": 716
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/maturin-1.13.1-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "17080d6acac03ef5b5d87f19d85af70a9de2a229",
+      "sha256": "09752f38ad56eddcccbf4a1c665b71ee2a8ad823c3cf809046e22dd823dd5228",
+      "bytes": 68181
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/meson-python-0.22.1-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "d99d182d4319e90e189bd005ec07c0b04986cb37",
+      "sha256": "9905e6ae519470b5b21582cb0f6c5338f8b1bd50857d904eb890d186ea863264",
+      "bytes": 866
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/mimalloc-3.4.1-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "385acb4b460b90c5b0037e664e66021b3f817e7a",
+      "sha256": "f553def77c83c43a75f96145b43c1e0cc016919e26814b569a08b1ad207a1c59",
+      "bytes": 498
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/narwhals-2.28.0-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "a58692e1af322122bdc8afd4e531aebf2a9ec3f1",
+      "sha256": "47374ff218eaeb6ff29d528ebc3c61f70cf136326c0af44082e80ec07b2e4992",
+      "bytes": 683
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/ply-3.11-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "951f4b48714a9c132e23d32ad4d937bb36b677ac",
+      "sha256": "5d7e8d5f16f139b4040ff37c886219e3713dcf08a8fdcfa728fd0bc691793700",
+      "bytes": 759
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/polars-2.1.0-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "ba29031ffc9e90a375fb9646631df23505ff23ff",
+      "sha256": "8c72c603541d6c3ba7d8d472c300ee0d749542fe0815530d37844c56efd10c83",
+      "bytes": 701
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/polars-runtime-32-2.1.0-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "53606d971b33ee56043fdba6bd8995463ec75d59",
+      "sha256": "9e686c3fbebb05ea97987a73e71f1a5eaf18d41d38a08ec687e6acc90fbf01fc",
+      "bytes": 69367
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/pybind11-3.1.0-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "7bb5c1f3ec0cb9fcb4f8e8568fb18e6675350998",
+      "sha256": "24a2930a6314adcad87ddb9abbe23ff7fcd898850c39477ea45134e524583915",
+      "bytes": 657
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/pydantic-2.13.4-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "2f8cfb8a0207daa71e81d836a8d931feed1a7ce9",
+      "sha256": "833cdaf6abd4adc9f608646c70b7ea63eedbc5140134ffd7c1d0e2cd28748f25",
+      "bytes": 1475
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/pydantic-core-2.46.4-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "6ad366bf252083f7cdd8e8e0981c24045402039b",
+      "sha256": "28f000e6e3eed0a146d7982c09bbb1795648e7ecf69676b418b71cd475a31eeb",
+      "bytes": 15908
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/pyproject-metadata-0.12.1-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "221763b22f60f6c91d873539caab642c2f1015f0",
+      "sha256": "e70da6a1429c99c0926ad7a3b3a7a5a9f5837655d3ceb38b1fa38f2f2769d29c",
+      "bytes": 808
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/pythran-0.19.0-gfbf-2024a.eb",
+      "mode": "100644",
+      "git_blob": "3c564be24333fac19b630c66528a8dc12193a0de",
+      "sha256": "bfe6d647ca427f8d2ba46dd97502a7d7b924dc154952b08631093eb03cd4d581",
+      "bytes": 849
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/rpds-py-2026.6.3-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "f57f7c0726b8c77d76e5eeca6aafabc8481e84aa",
+      "sha256": "a021acf611658ee45d915c6a96a2997c0ab9875c181a884da9f67b86d0ffcf37",
+      "bytes": 3419
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/scikit-learn-1.9.1-gfbf-2024a.eb",
+      "mode": "100644",
+      "git_blob": "01effb5abf91778dbae4fceb64886c5c74252686",
+      "sha256": "5d84f4a4bdc56f565cabd192066464b206a315b5486cd119775b47ea5c6b49a3",
+      "bytes": 995
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/setuptools-rust-1.12.0-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "727151db1b7c9e70556baa55b6fe0f8d71af3ba6",
+      "sha256": "ebd0f08a32f978eb8bb56388b617d5b5b1381199cb15a48cc91bf0da835432de",
+      "bytes": 1114
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/threadpoolctl-3.7.0-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "0afced8871a58381d813397f9f69ff28d1c413a6",
+      "sha256": "08c99bf698e41f2e8e403138b41a5395d9c9545f9155ed64c95148a6da79fb9f",
+      "bytes": 791
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/uv-build-0.13.6-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "88815069ce9f9eb12cafbf1f172b860222975f40",
+      "sha256": "df24483c6cf4934bde4d7af5195c80be9762aed33ff1a635bb61519397a901f7",
+      "bytes": 37631
+    },
+    {
+      "path": "packaging/current/easybuild/2024a/xsimd-14.2.0-GCCcore-13.3.0.eb",
+      "mode": "100644",
+      "git_blob": "6a275d132fdd26dcbacb1b7d725e94b3508ab347",
+      "sha256": "517c0af97a271e3690a7e76eb947487bc7e664f70a0d73f53da4742753d8e77f",
+      "bytes": 758
+    },
+    {
+      "path": "packaging/current/easybuild/LICENSE.easybuild",
+      "mode": "100644",
+      "git_blob": "d159169d1050894d3ea3b98e1c965c4058208fe1",
+      "sha256": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643",
+      "bytes": 18092
+    },
+    {
+      "path": "packaging/current/easybuild/NOTICE",
+      "mode": "100644",
+      "git_blob": "cdd81cb53b74cf21ae5fe0b52ae23e64b8b431ba",
+      "sha256": "a265d8c0d7516c0cb77aaf8a860ec0744d68adbb36884f45b471d0a46d84f391",
+      "bytes": 1049
+    },
+    {
+      "path": "packaging/current/easybuild/RustBootstrap-1.98.0.eb",
+      "mode": "100644",
+      "git_blob": "b61c22db4754ac469a1795cfbfe64bf36852980f",
+      "sha256": "1fa6c62b297e720577ed091c3da8d3d20ab4f8bf106622f303152862bcdcb4bf",
+      "bytes": 857
+    },
+    {
+      "path": "packaging/current/easybuild/RustBootstrap-1.99.0-beta.1.eb",
+      "mode": "100644",
+      "git_blob": "b23339e54a7fd7d8f2e25bd9177cad42807ec600",
+      "sha256": "39c518f2e25f8aeca0a96421f4c1e3692445ef08e6fffa811edafcedac53c93e",
+      "bytes": 862
+    },
+    {
+      "path": "packaging/current/easybuild/catalogue-backports.json",
+      "mode": "100644",
+      "git_blob": "a0df8faa002ab9fd6379f196e6677ad14f513c90",
+      "sha256": "c318a8a8f74fa258f82cdbdd0345ddc24e5227848adbe3b55b4a4e39344c5d4a",
+      "bytes": 2782
+    },
+    {
+      "path": "packaging/current/easybuild/native-source-closures.json",
+      "mode": "100644",
+      "git_blob": "cd4801140b670039aefb5daa3425f508f8a56b39",
+      "sha256": "2948e9f4ee6158d7d36b171f5206282226b544c3893a1e31f36ad2790ce6d539",
+      "bytes": 2530
+    },
+    {
+      "path": "packaging/current/easybuild/scientific-sources.json",
+      "mode": "100644",
+      "git_blob": "5da1c85b8028831cb82412deb44ccef9c5a2e5b3",
+      "sha256": "c32c891f13ff7dd5d0df042c94ab975cd5d38a212282500a8adff508a353566f",
+      "bytes": 5913
+    },
+    {
+      "path": "packaging/current/easybuild/voiage-candidate-Python-3.15.1.eb",
+      "mode": "100644",
+      "git_blob": "70a1a7b7645fe1ea19dca0b3626158f3e5172ab0",
+      "sha256": "9c45b13c95e9f78e01a3a70d5e869469fc0e6e2ef2933501af346d69dc60af64",
+      "bytes": 1098
+    },
+    {
+      "path": "packaging/current/history/stable-rust-1.96.0-inputs.json",
+      "mode": "100644",
+      "git_blob": "2c9585cf04dcacf45075ac9a46ca3b29eb8b8600",
+      "sha256": "2e70b3dd1ea28fa20348592bf2c92c6668f2e1384ebd75eaaa442fa64955f753",
+      "bytes": 1956
+    },
+    {
+      "path": "packaging/current/overlay-lifecycle.json",
+      "mode": "100644",
+      "git_blob": "9b6e246109b5503d3d97341e4bfd8946a41d325f",
+      "sha256": "b4d6980ef7a9fa4c9f8411e8279f3b94d4924c02c0b86176a8761f99e306e3b4",
+      "bytes": 66500
+    },
+    {
+      "path": "packaging/current/polars-provider-sources.json",
+      "mode": "100644",
+      "git_blob": "51557347c393cd30c9f51af2f79a6ca5759231a8",
+      "sha256": "bafc75d37ce774b677757ee5d486a91771a8c4e98c64851c96d7bbcdd6e2fe3f",
+      "bytes": 2412
+    },
+    {
+      "path": "packaging/current/polars-runtime-32-2.1.0-lock.patch",
+      "mode": "100644",
+      "git_blob": "990bd4326a1a2b56d4ba9b7ae5f4fe3d180c6ae2",
+      "sha256": "6ec9eb135e8690484ffaa5e61da79ed08d0fb595b7459ad394777f94bfc4d058",
+      "bytes": 39218
+    },
+    {
+      "path": "packaging/current/runtime-build-provider-sources.json",
+      "mode": "100644",
+      "git_blob": "8e1490e6a984e4b784c077d8d5845d5605bbca17",
+      "sha256": "0fb910078d91a8c3970584a93505b7a29c55f8c19e487cb08126949791596231",
+      "bytes": 1160
+    },
+    {
+      "path": "packaging/current/runtime.json",
+      "mode": "100644",
+      "git_blob": "71902f6fb4937ec1380fc8a9549d4a5c6a43b75f",
+      "sha256": "1f17a502f4b54698c6d3fcc52b9cd4512f8125c1c44d17d7ea93ee9096d92f1f",
+      "bytes": 985
+    },
+    {
+      "path": "packaging/current/rust-provider-sources.json",
+      "mode": "100644",
+      "git_blob": "72c75b7064f387312240f920c1aa372ab83453b1",
+      "sha256": "d3ecd85b72fe785e0c0a16739d03071ba0bbd35f7d9b99fb5739c2082c533b0c",
+      "bytes": 1351
+    },
+    {
+      "path": "packaging/current/source-vendor-inputs.json",
+      "mode": "100644",
+      "git_blob": "ed64b8a2fa3ead8637ffcda04ac531436494d542",
+      "sha256": "fbe4c93a8c391ab477910c1d0d55e8db53c0b5c1da8cfdee4985fa4a08057f48",
+      "bytes": 6572
+    },
+    {
+      "path": "packaging/current/spack/COPYRIGHT",
+      "mode": "100644",
+      "git_blob": "1de5106e3cb3d74c22f3a4921bee0f2a375df630",
+      "sha256": "3a4b5df63d7cf23cc04a1d7ca214d3c1123ebc3a85e9ea71f97d3d0b99172aea",
+      "bytes": 1058
+    },
+    {
+      "path": "packaging/current/spack/LICENSE-APACHE",
+      "mode": "100644",
+      "git_blob": "d645695673349e3947e8e5ae42332d0ac3164cd7",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "bytes": 11358
+    },
+    {
+      "path": "packaging/current/spack/LICENSE-MIT",
+      "mode": "100644",
+      "git_blob": "417e7646c3e46658db11cbf652ff237a3450bd1a",
+      "sha256": "7663eb55eae739d30e14b06a6d9fab39052d518ab10523c53ffe8820d5805bf1",
+      "bytes": 1077
+    },
+    {
+      "path": "packaging/current/spack/NOTICE",
+      "mode": "100644",
+      "git_blob": "3737d5a86ddc20bfd04ce225fff2d34407df06f9",
+      "sha256": "f4247dde07952a5ff866b24e45b5cdd1fce410cdb2e038255a1635867f59c10c",
+      "bytes": 1167
+    },
+    {
+      "path": "packaging/current/spack/concretizer.yaml",
+      "mode": "100644",
+      "git_blob": "7b78eaa9806aaa426f370ded7db9dd1a0e51b4b3",
+      "sha256": "e3eca0d24a48dd27aeba3d473878bec37d27d18fce71e89a20997d83aa195328",
+      "bytes": 200
+    },
+    {
+      "path": "packaging/current/spack/packages.yaml",
+      "mode": "100644",
+      "git_blob": "1de674a5621a4e91600818b4025774c39781b4ba",
+      "sha256": "2a2e601be6a698a34c3c16f8bfd3d817eea0f8edc3a5ecfbb34c34c8abbc149c",
+      "bytes": 151
+    },
+    {
+      "path": "packaging/current/spack/packages/arrow/package.py",
+      "mode": "100644",
+      "git_blob": "d2c124cf84ae56ed16f225b5f5c9b61904215968",
+      "sha256": "c6b1c7c09343337e9782ccad38f256aa348173911a7132245de28aecb1d6961b",
+      "bytes": 2082
+    },
+    {
+      "path": "packaging/current/spack/packages/py-cython/package.py",
+      "mode": "100644",
+      "git_blob": "169d74d56353afca27f1db4cbaea4791f4bd581d",
+      "sha256": "664e30542f4bb20123ed801b2b41d8a7d58d9659ea16a5d400fce0f7c9d058c5",
+      "bytes": 1579
+    },
+    {
+      "path": "packaging/current/spack/packages/py-libcst/package.py",
+      "mode": "100644",
+      "git_blob": "9a274275c1815255cc94510a016830ee14bb90c6",
+      "sha256": "38eb5a0fb6db4c36b6f1e89377dc3be59296540485b5e69264d273504639fbdc",
+      "bytes": 1434
+    },
+    {
+      "path": "packaging/current/spack/packages/py-polars-runtime-32/package.py",
+      "mode": "100644",
+      "git_blob": "e9af97dd20e97b32e4a18de7da4e067c43beeccf",
+      "sha256": "2b212608e69a12cea9aa0ea722e04c6afee6d751082da105f74d5cd970678471",
+      "bytes": 1424
+    },
+    {
+      "path": "packaging/current/spack/packages/py-polars/package.py",
+      "mode": "100644",
+      "git_blob": "f9274e36fc779115dda9836edcdbc5f31d48c747",
+      "sha256": "e303d7d6c50194377b07e7031bd95dd90b4875e60dc0dcd0f8b0648dc5883ec9",
+      "bytes": 929
+    },
+    {
+      "path": "packaging/current/spack/packages/py-pyarrow/package.py",
+      "mode": "100644",
+      "git_blob": "7ce97a3959b22eef90bcf3b07375c28ed82c83d9",
+      "sha256": "47ec1e773c1844c6bc7322f961e7777396e0fd663d4e2a21b329ed8176ac869b",
+      "bytes": 1540
+    },
+    {
+      "path": "packaging/current/spack/packages/py-pydantic-core/package.py",
+      "mode": "100644",
+      "git_blob": "9244a595efe1926d43c2070902935d71892425a7",
+      "sha256": "478d453059826b877e64c7f6eeb5cd9e9929adc06e55d51110aa8205f6edcf79",
+      "bytes": 1372
+    },
+    {
+      "path": "packaging/current/spack/packages/py-voiage/package.py",
+      "mode": "100644",
+      "git_blob": "23db1dbc4f62e3711debe1fd69d9bbcc8f2a3002",
+      "sha256": "8e98ff3d9de669082b22538e3c21e7a90a9475c8d8f39ddf638dc464841aa0e5",
+      "bytes": 1713
+    },
+    {
+      "path": "packaging/current/spack/packages/rust-bootstrap-polars/package.py",
+      "mode": "100644",
+      "git_blob": "503dc5747291e8424d7a1e72c22cde1132c9b9be",
+      "sha256": "966044149bacdb14cfe8238ccf01b72abfa22414ae90f8b6cf6b848e2babc4ff",
+      "bytes": 14462
+    },
+    {
+      "path": "packaging/current/spack/packages/rust-bootstrap/package.py",
+      "mode": "100644",
+      "git_blob": "054d6592ca1621cb732a52203539c01b902302a4",
+      "sha256": "45c2a0d1050f1c9f333d9dc6f20ca3b9b39434cf2a3f6207d7c9465abc8a2275",
+      "bytes": 14449
+    },
+    {
+      "path": "packaging/current/spack/packages/rust-polars/package.py",
+      "mode": "100644",
+      "git_blob": "94944e448798ff425c49559b6f37b91330b62755",
+      "sha256": "e143838f6a54ac07ede21f2bf0474e83343572db85a9c1a348aa3c07af1c2830",
+      "bytes": 15796
+    },
+    {
+      "path": "packaging/current/spack/packages/rust/package.py",
+      "mode": "100644",
+      "git_blob": "d390c020885d5691abbb02ef0aeb314a528abede",
+      "sha256": "a61ecefe947f870e4c1960997b8ee7c19579ccbbb084f8f21b16fed072825301",
+      "bytes": 15601
+    },
+    {
+      "path": "packaging/current/spack/repo.yaml",
+      "mode": "100644",
+      "git_blob": "640c2ce73005d60dca6d6ce8a2620716c416a953",
+      "sha256": "28576b5d5ee4fc2d4aca4fd13f0fc4c1ff2a984bd422150fb9c5c00c019ab364",
+      "bytes": 34
+    },
+    {
+      "path": "packaging/current/stable-rust-inputs.json",
+      "mode": "100644",
+      "git_blob": "2daf24938b691c0210ac404f1590bb0daa0765fd",
+      "sha256": "93ae4912a3dd39af6a6fc4920ca19aa2f2cd146a49840c62b52a69b415fd1580",
+      "bytes": 1956
+    }
+  ]
+}
