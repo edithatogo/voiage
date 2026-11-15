@@ -228,13 +228,16 @@ jobs:
           enable-cache: true
           cache-dependency-glob: uv.lock
           cache-suffix: c15-telemetry-oracles
-      - run: uv sync --frozen --extra ci --extra experimental --group producer-tests
-      - run: uv run --frozen python scripts/c15_otel_probe.py --output c15-evidence/otel-probe.json
+      # The experimental serializers/database are not used by these checks.
+      - run: uv sync --frozen --extra ci --group producer-tests
+      - name: Require scientific oracle backends
+        run: uv run --frozen --no-sync python -c "import jax.numpy; import polars"
+      - run: uv run --frozen --no-sync python scripts/c15_otel_probe.py --output c15-evidence/otel-probe.json
       - name: Verify privacy and scientific surfaces
         env:
           JAX_ENABLE_X64: "1"
         run: >-
-          uv run --frozen pytest -q --no-cov
+          uv run --frozen --no-sync pytest -q --no-cov
           tests/test_c15_reproducibility.py tests/test_c15_performance.py
           tests/test_c15_otel.py tests/test_c15_oracles.py
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
