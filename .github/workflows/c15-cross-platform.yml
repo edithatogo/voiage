@@ -1,4 +1,4 @@
-# Diagnostic branch only: Python 3.15.2 is not yet the qualified default.
+# Cross-platform assurance for the selected Python runtime.
 name: C15 Cross-platform Assurance
 
 on:
