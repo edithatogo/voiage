@@ -1,5 +1,8 @@
 # Changelog
 
+- Test Proptest 1.12 on current Rust while preserving the Rust 1.85 dependency
+  lock and its compatibility, coverage, and security checks.
+
 - Update maintenance status while keeping dependency holds and CI timing work open.
 
 - Clarify Voiage ownership and qualification of Value of Perspective and Value

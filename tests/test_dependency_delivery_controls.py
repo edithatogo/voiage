@@ -4,6 +4,7 @@ from fnmatch import fnmatchcase
 import json
 from pathlib import Path
 import re
+import tomllib
 
 import pytest
 import yaml
@@ -188,7 +189,80 @@ def test_renovate_keeps_proptest_within_the_declared_rust_floor() -> None:
     assert 'rust-version = "1.85"' in (ROOT / "rust/Cargo.toml").read_text()
     for crate in ("voiage-domain", "voiage-numerics"):
         manifest = (ROOT / "rust/crates" / crate / "Cargo.toml").read_text()
-        assert 'proptest = ">=1.7, <1.12"' in manifest
+        assert 'proptest = ">=1.7, <1.13"' in manifest
+
+    def locked_proptest(path: Path) -> str:
+        packages = tomllib.loads(path.read_text())["package"]
+        matches = [item for item in packages if item["name"] == "proptest"]
+        assert len(matches) == 1
+        return matches[0]["version"]
+
+    assert locked_proptest(ROOT / "rust/Cargo.lock") == "1.11.0"
+    assert locked_proptest(ROOT / "rust/locks/proptest-current/Cargo.lock") == "1.12.0"
+
+
+def test_both_proptest_locks_keep_behavior_security_and_coverage_gates() -> None:
+    bindings = yaml.safe_load((ROOT / ".github/workflows/bindings-ci.yml").read_text())
+    stable = bindings["jobs"]["rust"]["steps"]
+    msrv = bindings["jobs"]["rust-msrv"]["steps"]
+    assert any(
+        step.get("run")
+        == "cargo check --workspace --all-targets --all-features --locked"
+        and "CARGO_RESOLVER_LOCKFILE_PATH" not in step.get("env", {})
+        for step in msrv
+    )
+    assert any(
+        step.get("run") == "cargo test --workspace --all-features --locked"
+        and "CARGO_RESOLVER_LOCKFILE_PATH" not in step.get("env", {})
+        for step in stable
+    )
+    alternate_path = "${{ github.workspace }}/rust/locks/proptest-current/Cargo.lock"
+    modern = next(
+        step
+        for step in stable
+        if step.get("name") == "Verify current Proptest on stable Rust"
+    )
+    assert modern["env"]["CARGO_RESOLVER_LOCKFILE_PATH"] == alternate_path
+    assert "cargo tree --locked -p proptest --depth 0" in modern["run"]
+    assert (
+        "cargo clippy --workspace --all-targets --all-features --locked -- -D warnings"
+        in modern["run"]
+    )
+    assert "cargo test --workspace --all-features --locked" in modern["run"]
+
+    security = yaml.safe_load(
+        (ROOT / ".github/workflows/rust-security.yml").read_text()
+    )
+    security_step = next(
+        step
+        for step in security["jobs"]["cargo-deny"]["steps"]
+        if step.get("name") == "Enforce supply-chain policy for current Proptest"
+    )
+    assert security_step["env"]["CARGO_RESOLVER_LOCKFILE_PATH"] == alternate_path
+    assert "--locked" in security_step["run"]
+    assert "check advisories licenses bans sources" in security_step["run"]
+
+    coverage = yaml.safe_load(
+        (ROOT / ".github/workflows/rust-coverage.yml").read_text()
+    )
+    coverage_steps = coverage["jobs"]["rust-workspace-coverage"]["steps"]
+    baseline_coverage = next(
+        step
+        for step in coverage_steps
+        if step.get("name") == "Measure and enforce workspace coverage"
+    )
+    modern_coverage = next(
+        step
+        for step in coverage_steps
+        if step.get("name") == "Measure and enforce coverage with current Proptest"
+    )
+    assert "CARGO_RESOLVER_LOCKFILE_PATH" not in baseline_coverage.get("env", {})
+    assert modern_coverage["env"]["CARGO_RESOLVER_LOCKFILE_PATH"] == alternate_path
+    for step in (baseline_coverage, modern_coverage):
+        assert "--all-features --locked --fail-under-lines 80" in step["run"]
+    for step in (modern, security_step, baseline_coverage, modern_coverage):
+        assert "if" not in step
+        assert not step.get("continue-on-error", False)
 
 
 def test_governed_python_upgrades_require_separate_qualification() -> None:
