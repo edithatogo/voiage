@@ -6,12 +6,24 @@ on:
       - ".github/workflows/rust-security.yml"
       - "rust/**"
       - "tests/test_ci_cd_quality_gates.py"
+      - "tests/test_dependency_delivery_controls.py"
+      - "tests/test_retained_native_lock_audit.py"
+      - "scripts/audit_retained_native_lock.py"
+      - "renovate.json"
+      - "conductor/tracks/scientific_ecosystem_alignment_20261029/installed-adapters/native/Cargo.toml"
+      - "conductor/tracks/scientific_ecosystem_alignment_20261029/installed-adapters/native/Cargo.lock"
   push:
     branches: [main]
     paths:
       - ".github/workflows/rust-security.yml"
       - "rust/**"
       - "tests/test_ci_cd_quality_gates.py"
+      - "tests/test_dependency_delivery_controls.py"
+      - "tests/test_retained_native_lock_audit.py"
+      - "scripts/audit_retained_native_lock.py"
+      - "renovate.json"
+      - "conductor/tracks/scientific_ecosystem_alignment_20261029/installed-adapters/native/Cargo.toml"
+      - "conductor/tracks/scientific_ecosystem_alignment_20261029/installed-adapters/native/Cargo.lock"
   schedule:
     - cron: "17 5 * * 1"
   workflow_dispatch:
@@ -42,3 +54,17 @@ jobs:
         run: cargo install cargo-deny --version 0.20.2 --locked
       - name: Enforce Rust supply-chain policy
         run: cargo deny --manifest-path rust/Cargo.toml --config rust/deny.toml check advisories licenses bans sources
+      - name: Set up qualified Python for retained lock audit
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.15.2"
+      - name: Audit retained native adapter lock
+        shell: bash
+        run: |
+          python -c 'import sys; assert sys.version_info[:3] == (3, 15, 2)'
+          scratch="$RUNNER_TEMP/voiage-retained-native"
+          python scripts/audit_retained_native_lock.py prepare "$scratch"
+          cargo metadata --format-version 1 --manifest-path "$scratch/Cargo.toml" > "$RUNNER_TEMP/voiage-retained-native-metadata.json"
+          python scripts/audit_retained_native_lock.py verify "$scratch"
+          cargo deny --locked --manifest-path "$scratch/Cargo.toml" --config rust/deny.toml check -D warnings advisories
+          python scripts/audit_retained_native_lock.py verify "$scratch"

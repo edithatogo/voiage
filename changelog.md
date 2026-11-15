@@ -2,6 +2,12 @@
 
 - Prepare Python 3.15.2 runtime and exact-source paper replay qualification.
 
+- Keep automated Proptest updates within the workspace's Rust 1.85 support policy.
+
+- Keep the retained native adapter replay manifest outside routine Renovate
+  maintenance while auditing its frozen lock and preserving current workspace
+  updates and qualification gates.
+
 - Add a patched, exact-source manuscript replay while retaining historical locks.
 
 - Keep release and validation scripts compatible with the current lint preview,
