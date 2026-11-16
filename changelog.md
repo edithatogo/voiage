@@ -9,6 +9,8 @@
 - Add the shared Python 3.15.2 privacy and secret scan alongside existing
   security checks.
 
+- Update the shared privacy scanner pin to repair full-history audit handling.
+
 - Test Proptest 1.12 on current Rust while preserving the Rust 1.85 dependency
   lock and its compatibility, coverage, and security checks.
 

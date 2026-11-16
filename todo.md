@@ -4,8 +4,10 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
-- [~] Verify the receiving privacy and secret scan after the shared Python
-  3.15.2 action is qualified. Original PR #1295 remains open.
+- [~] Verify the revised privacy and secret scan on the default branch after
+  integration. PR #1344's full-history audit at `5d34f714` reported no blocking
+  findings, with 502 advisory matches and 310 binary or submodule skips;
+  coverage remains incomplete. PR #1295 was closed as superseded.
 
 - [~] Keep the default Proptest lock compatible with Rust 1.85 while testing
   1.12 with current Rust. The original PR #1281 remains open for its deferred
@@ -785,6 +787,9 @@ as recorded in the active task above; earlier route decisions below are historic
         signed publication, and explicit closeout of external indexing gates.
 
 ## Done
+
+- [x] Pin the receiving privacy workflow to the reviewed shared scanner repair;
+  the default-branch audit and its coverage limitations remain open.
 
 - [x] Add the Innovate decision-binding adapter with unique paired draw IDs
   and register its optional Python runtime surface; broader simulation-outcome
