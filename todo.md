@@ -26,6 +26,11 @@ HPC is deferred except MLX/Metal; retain unsatisfied native acceptance gates.
 The ordered engineering list below is historical navigation: its first five
 implementation tracks are complete; parent review and optional telemetry are separate.
 
+- [x] Retain the distinct dated observations recovered from older local
+  branches in the [branch-history review](docs/reviews/branch-history-20261117/README.md).
+  Current engineering, consumer and native acceptance gates remain open.
+- [x] Preserve the direct-execution configuration checks from the older test
+  branches alongside the existing pytest coverage.
 
 - [x] Qualify the bounded Linux Cargo/compiler-source and vendor checkpoint with authenticated inputs, offline replay and retained source/resource receipts. Full native HPC acceptance remains open.
 
