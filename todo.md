@@ -800,6 +800,10 @@ as recorded in the active task above; earlier route decisions below are historic
   and register its optional Python runtime surface; broader simulation-outcome
   qualification remains pending.
 
+- [x] Reject unsupported Innovate binding versions and invalid labels, scaling
+  metadata, or net benefits. Cross-repository contract and empirical
+  qualification remain open.
+
 - [x] Add current-Rust Proptest 1.12 qualification while retaining the Rust 1.85
   default lock and both graphs' behavior, coverage and supply-chain checks.
 
