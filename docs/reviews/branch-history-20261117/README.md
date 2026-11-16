@@ -61,3 +61,14 @@ the direct-execution list now calls both. The latter branch's unrelated
 four-line `read_pr_comments.py` merely printed a tool-use instruction and was
 not adopted as project functionality. Its exact source remains in the verified
 Git recovery bundle.
+
+The `fix-missing-rf-rmse-test-4086974318902082962` branch at
+`a1eaee432b094ac0fc82e11d6ad41c575aaa7886` added the same three unfitted
+random-forest method checks now present on main, plus formatting across 12
+other Python files. Their syntax trees matched the branch's merge base after
+accounting for trailing docstring whitespace, standard-library import order,
+and `datetime.timezone.utc` versus `datetime.UTC`; import positions relative to
+other statements were unchanged. This is a bounded structural comparison, not
+byte equality or a guarantee about every import side effect. The formatting was
+not replayed over later source; the exact branch history remains in the
+verified recovery bundle.
