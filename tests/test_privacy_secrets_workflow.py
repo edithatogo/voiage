@@ -7,7 +7,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW = ROOT / ".github/workflows/privacy-secrets.yml"
-ACTION_COMMIT = "b30b07bcdaa6aebad2c6a57a4d0adc3616dabfe4"
+ACTION_COMMIT = "dd3a6d89a89a59fd1fcb231382a0dddbb868d363"
 
 
 def _workflow() -> dict[str | bool, Any]:
