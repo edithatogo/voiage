@@ -35,9 +35,12 @@ candidate; they are not release or current-main qualification:
   built from the selected base plus the adapter patch with Python 3.15.2,
   maturin 1.16.0 and Rust/Cargo 1.100.0.
 - The runtime and test patch SHA-256 was
-  `49eae1ca0452763102deec78a452d3805736347b5c4fa53babd522c1b45b3746`;
-  the [probe](installed-adapters/e02-native-binding-probe-20261117.py)
-  SHA-256 was `98fc163bc47174c4c48639f225d9ce658e93fabcc04568bc4cdd94ba568ebd0d`.
+  `49eae1ca0452763102deec78a452d3805736347b5c4fa53babd522c1b45b3746`.
+  The original probe SHA-256 was
+  `98fc163bc47174c4c48639f225d9ce658e93fabcc04568bc4cdd94ba568ebd0d`.
+  The [integrated probe](installed-adapters/e02-native-binding-probe-20261117.py)
+  uses a single module import and has SHA-256
+  `401f672be5310ec81dd4f0d230f2438ec40b52b91e1f517207f00b87716fba93`.
 - From outside the source checkout, 47 focused installed-candidate tests and
   `uv pip check` passed; imports resolved to the candidate environment.
   Focused Ruff and format checks also passed.
@@ -51,8 +54,8 @@ candidate; they are not release or current-main qualification:
 The application mapping assigns one synthetic utility per adoption, uses an
 alternative value of 16 and assumes no costs. `fit_status` is assumed for this
 forward-model fixture and is not fit validation. The integrator independently
-verified both retained wheel hashes and the probe hash; the original installed
-run was not repeated for this handoff.
+verified both retained wheel hashes and the original probe hash; the original
+installed run was not repeated for this handoff or the import-only revision.
 
 ## Remaining gates
 

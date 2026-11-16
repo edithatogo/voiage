@@ -24,7 +24,6 @@ import polars as pl
 import voiage
 import voiage._core
 import voiage.innovate_binding
-from voiage.innovate_binding import evaluate_innovate_decision_binding
 
 
 def sha256(path: Path) -> str:
@@ -128,7 +127,7 @@ def main() -> None:
             for strategy in ("diffusion", "alternative")
         ],
     }
-    result = evaluate_innovate_decision_binding(binding)
+    result = voiage.innovate_binding.evaluate_innovate_decision_binding(binding)
     decay = math.exp(-(rates[0] + 0.3) * 3.0)
     analytic_low = 100.0 * (1.0 - decay) / (1.0 + 0.3 / rates[0] * decay)
     reference_evpi = (16.0 - analytic_low) / 2.0
@@ -137,7 +136,7 @@ def main() -> None:
     mispaired = deepcopy(binding)
     mispaired["strategies"][1]["draws"].reverse()
     try:
-        evaluate_innovate_decision_binding(mispaired)
+        voiage.innovate_binding.evaluate_innovate_decision_binding(mispaired)
     except ValueError as exc:
         if "align" not in str(exc):
             raise
