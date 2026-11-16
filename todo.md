@@ -789,6 +789,8 @@ as recorded in the active task above; earlier route decisions below are historic
 - [x] Add current-Rust Proptest 1.12 qualification while retaining the Rust 1.85
   default lock and both graphs' behavior, coverage and supply-chain checks.
 
+- [x] Align the current Starlight version references with the site manifest.
+
 - [x] Add paper-contract, scientific-acceptance and DOCX delivery guidance to
   the existing manuscript skill and venue handoff.
 
