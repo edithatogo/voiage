@@ -7,7 +7,12 @@ case "$cell" in spack|easybuild-2023a|easybuild-2024a) ;; *) exit 2 ;; esac
 work="${RUNNER_TEMP:?Linux runner private temporary directory required}/voiage-sources-$cell"
 mkdir "$work" # A prior run is evidence, never an implicit mutable cache.
 mkdir -p "$out"
-trap 'status=$?; printf "{\"source_replay_passed\":false,\"installed_acceptance\":false,\"reason\":\"source_preflight_failed\",\"exit_code\":%d}\n" "$status" > "$out/result.json"; exit "$status"' ERR
+write_failure_receipt() {
+  local status=$?
+  printf '{"source_replay_passed":false,"installed_acceptance":false,"reason":"source_preflight_failed","exit_code":%d}\n' "$status" > "$out/result.json"
+  exit "$status"
+}
+trap write_failure_receipt ERR
 export VOIAGE_SOURCE_WORK="$work"
 bash scripts/qualify_linux_graph.sh "$cell" "$out/graph"
 

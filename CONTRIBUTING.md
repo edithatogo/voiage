@@ -10,6 +10,7 @@ We welcome contributions from the community, whether from humans or AI agents. T
 *   [Rust](https://www.rust-lang.org/tools/install) 1.85 or later for source builds
 *   [uv](https://docs.astral.sh/uv/) for locked environments and builds
 *   [pre-commit](https://pre-commit.com/#installation) for automated checks
+*   [ShellCheck](https://github.com/koalaman/shellcheck) for the shell-file pre-commit check
 
 ### Setting Up the Development Environment
 

@@ -386,7 +386,7 @@ def test_pending_r_qualification_cannot_claim_current_success(
 
     def read_text(path: Path, *args: object, **kwargs: object) -> str:
         content = original(path, *args, **kwargs)
-        if path.name == "r-workflow-requalification-20261115.json":
+        if path.name == "r-workflow-requalification-20261116-stepsecurity.json":
             payload = json.loads(content)
             payload["current_workflow_qualified"] = True
             return json.dumps(payload)
@@ -399,14 +399,22 @@ def test_pending_r_qualification_cannot_claim_current_success(
         )
 
 
+@pytest.mark.parametrize(
+    "previous_name",
+    [
+        "r-workflow-requalification-20261027.json",
+        "r-workflow-requalification-20261115.json",
+    ],
+)
 def test_pending_r_qualification_rejects_changed_previous_evidence(
     monkeypatch: pytest.MonkeyPatch,
+    previous_name: str,
 ) -> None:
     original = Path.read_bytes
 
     def read_bytes(path: Path) -> bytes:
         content = original(path)
-        if path.name == "r-workflow-requalification-20261027.json":
+        if path.name == previous_name:
             return content + b"changed"
         return content
 

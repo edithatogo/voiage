@@ -623,28 +623,35 @@ def validate_ropensci_evidence(path: Path, root: Path) -> dict[str, Any]:
         record = json.loads(
             (
                 root
-                / "specs/submission-readiness/r-workflow-requalification-20261115.json"
+                / "specs/submission-readiness/r-workflow-requalification-20261116-stepsecurity.json"
             ).read_text(encoding="utf-8")
         )
         content = (root / ".github/workflows/bindings-ci.yml").read_bytes()
         digest = hashlib.sha256(content).hexdigest()
-        previous_path = (
+        historical_path = (
             "specs/submission-readiness/r-workflow-requalification-20261027.json"
         )
-        previous_digest = (
+        historical_digest = (
             "fc27591363ee7fab541fd4c4f4a26b882978450e89aad2a1e9452ed5e0721947"
         )
-        if (
-            hashlib.sha256((root / previous_path).read_bytes()).hexdigest()
-            != previous_digest
+        previous_path = (
+            "specs/submission-readiness/r-workflow-requalification-20261115.json"
+        )
+        previous_digest = (
+            "89049b7069a8a122a14322159a7790c8c3926d2819713ce7612b23dc4dca5eb7"
+        )
+        for relative, expected in (
+            (historical_path, historical_digest),
+            (previous_path, previous_digest),
         ):
-            raise ValueError("R workflow previous requalification evidence changed")
+            if hashlib.sha256((root / relative).read_bytes()).hexdigest() != expected:
+                raise ValueError("R workflow previous requalification evidence changed")
         if record != {
             "state": "hosted_pending",
             "workflow_sha256": digest,
             "unqualified_r_source_tree": R_PY315_PENDING_TREE,
             "historical_receipt": R_DISTRIBUTION_RECEIPT.as_posix(),
-            "reason": "Python 3.15.2 cross-language conformance requires fresh hosted qualification.",
+            "reason": "Python 3.15.2 and workflow security instrumentation require fresh hosted qualification.",
             "current_workflow_qualified": False,
             "new_hosted_execution_claimed": False,
             "previous_requalification": {

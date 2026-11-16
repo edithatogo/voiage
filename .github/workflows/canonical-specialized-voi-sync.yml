@@ -36,6 +36,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a # v2.22.4
+        with:
+          egress-policy: audit
+
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           persist-credentials: false
@@ -88,6 +93,11 @@ jobs:
       DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
       GH_TOKEN: ${{ github.token }}
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a # v2.22.4
+        with:
+          egress-policy: audit
+
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           persist-credentials: false
@@ -142,7 +152,9 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/edithatogo/voiage.git"
+          git remote set-url origin "https://github.com/edithatogo/voiage.git"
+          git config --local --replace-all credential.helper ""
+          git config --local --add credential.helper "!gh auth git-credential"
           if git ls-remote --exit-code --heads origin "$AUTOMATION_BRANCH" >/dev/null; then
             git fetch origin "$AUTOMATION_BRANCH:refs/remotes/origin/$AUTOMATION_BRANCH"
           fi

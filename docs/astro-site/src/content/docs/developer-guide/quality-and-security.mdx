@@ -123,6 +123,18 @@ publishes the signed SLSA bundle as a `.intoto.jsonl` release asset so
 independent tools can discover provenance without privileged access to
 GitHub's attestation store.
 
+Selected GitHub-hosted jobs use the pinned StepSecurity Harden-Runner action in
+audit mode. Its agent sends telemetry to StepSecurity and can record network
+destinations, file-write paths, and process names and arguments; audit mode
+does not block outbound traffic. Do not put credentials in process arguments.
+The canonical-sync and conda proposal jobs use the GitHub CLI credential
+protocol, and the code-scanning gates read their token from the environment.
+The Julia TagBot job is excluded from this monitoring because its
+[pinned action constructs a token-bearing Git clone argument](https://github.com/JuliaRegistries/TagBot/blob/6b7c22e7bc2b8f4d1c56b7199a63421cf2667ed1/tagbot/action/git.py#L86-L92).
+Reassess that exclusion when the action changes. An action commit pin does not
+by itself pin every agent binary it downloads; see the vendor's
+[architecture description](https://github.com/step-security/harden-runner/blob/main/docs/how-it-works.md).
+
 The protected `main` ruleset requires pull requests, resolved review threads,
 successful required checks, signed commits, and linear history. The required
 approval count is zero for the single-maintainer operating model; CODEOWNERS

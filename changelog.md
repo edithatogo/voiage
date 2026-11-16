@@ -11,6 +11,13 @@
 
 - Update the shared privacy scanner pin to repair full-history audit handling.
 
+- Audit CI runner network activity with the SHA-pinned StepSecurity action,
+  while keeping Renovate as the dependency-update owner. The Julia TagBot job
+  remains outside process telemetry while its pinned action uses a credential
+  in a Git process argument.
+
+- Keep the shell pre-commit check usable while preserving HPC failure receipts.
+
 - Test Proptest 1.12 on current Rust while preserving the Rust 1.85 dependency
   lock and its compatibility, coverage, and security checks.
 

@@ -1,0 +1,13 @@
+{
+  "state": "hosted_pending",
+  "workflow_sha256": "019263de02d26f9ff8fbb22a4fe2c652080359bcaa01db6621c8ca134407946e",
+  "historical_receipt": "specs/submission-readiness/r-distribution-evidence-20260902.json",
+  "reason": "Python 3.15.2 and workflow security instrumentation require fresh hosted qualification.",
+  "current_workflow_qualified": false,
+  "new_hosted_execution_claimed": false,
+  "unqualified_r_source_tree": "f1d48ff44f4288056f364b28e080279c121824dc",
+  "previous_requalification": {
+    "path": "specs/submission-readiness/r-workflow-requalification-20261115.json",
+    "sha256": "89049b7069a8a122a14322159a7790c8c3926d2819713ce7612b23dc4dca5eb7"
+  }
+}

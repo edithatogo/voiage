@@ -35,6 +35,11 @@ jobs:
         language: ['python']
 
     steps:
+    - name: Harden the runner (Audit all outbound calls)
+      uses: step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a # v2.22.4
+      with:
+        egress-policy: audit
+
     - name: Checkout repository
       uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
       with:
@@ -63,6 +68,5 @@ jobs:
         python scripts/check_code_scanning_alerts.py
         --repository "$GITHUB_REPOSITORY"
         --commit-sha "$GITHUB_SHA"
-        --token "$GITHUB_TOKEN"
         --timeout-seconds 120
         --retry-attempts 4

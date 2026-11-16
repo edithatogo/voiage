@@ -22,6 +22,11 @@ jobs:
       (github.event_name == 'workflow_dispatch' && startsWith(inputs.release_tag, 'v'))
 
     steps:
+    - name: Harden the runner (Audit all outbound calls)
+      uses: step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a # v2.22.4
+      with:
+        egress-policy: audit
+
     - name: Checkout code
       uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
       with:
@@ -124,7 +129,8 @@ jobs:
         git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git add recipes/voiage/meta.yaml
         git commit -m "chore(conda): update voiage to v${RELEASE_VERSION}"
-        git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/edithatogo/staged-recipes.git"
+        git config --local --replace-all credential.helper ""
+        git config --local --add credential.helper "!gh auth git-credential"
         git push --force origin "$branch"
         gh pr create \
           --repo conda-forge/staged-recipes \

@@ -17,6 +17,8 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     steps:
+      # TagBot 1.25.7 clones with its token in a Git process argument. Leave
+      # process telemetry off this job until the pinned action is corrected.
       - uses: JuliaRegistries/TagBot@6b7c22e7bc2b8f4d1c56b7199a63421cf2667ed1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
