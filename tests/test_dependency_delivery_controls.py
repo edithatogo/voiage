@@ -86,9 +86,10 @@ def test_linting_group_does_not_capture_runtime_or_stub_packages(package: str) -
 
 def test_renovate_uses_hosted_dashboard_schema() -> None:
     config = json.loads((ROOT / "renovate.json").read_text())
-    # The hosted app still expects a boolean dashboard switch (issue #1305).
-    assert isinstance(config.get("dependencyDashboard", True), bool)
-    assert config["dependencyDashboardOSVVulnerabilitySummary"] == "unresolved"
+    # The hosted app now migrates the former flat option to this object.
+    assert ":dependencyDashboard" in config["extends"]
+    assert config["dependencyDashboard"]["osvVulnerabilitySummary"] == "unresolved"
+    assert "dependencyDashboardOSVVulnerabilitySummary" not in config
 
 
 def test_renovate_keeps_archival_environments_outside_live_dependency_updates() -> None:
