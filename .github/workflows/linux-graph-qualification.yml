@@ -68,7 +68,7 @@ jobs:
         cell: ${{ fromJSON(inputs.cells == 'spack' && '["spack"]' || inputs.cells == 'easybuild-2023a' && '["easybuild-2023a"]' || inputs.cells == 'easybuild-2024a' && '["easybuild-2024a"]' || inputs.cells == 'easybuild' && '["easybuild-2023a","easybuild-2024a"]' || '["spack","easybuild-2023a","easybuild-2024a"]') }}
     steps:
       - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@v2
+        uses: step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a # v2.22.4
         with:
           egress-policy: audit
 
@@ -145,7 +145,7 @@ jobs:
     timeout-minutes: 110
     steps:
       - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@v2
+        uses: step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a # v2.22.4
         with:
           egress-policy: audit
 

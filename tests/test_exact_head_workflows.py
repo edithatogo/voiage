@@ -17,7 +17,12 @@ SOURCE_HEAD_EXPRESSION = "${{ github.event.pull_request.head.sha || github.sha }
 
 
 def _assert_exact_head_steps(steps: list[dict[str, object]]) -> None:
-    checkout = steps[0]
+    hardener = steps[0]
+    assert hardener["uses"] == (
+        "step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a"
+    )
+    assert hardener["with"] == {"egress-policy": "audit"}
+    checkout = steps[1]
     assert str(checkout["uses"]).startswith("actions/checkout@")
     options = checkout["with"]
     assert isinstance(options, dict)
@@ -27,7 +32,7 @@ def _assert_exact_head_steps(steps: list[dict[str, object]]) -> None:
         "persist-credentials": False,
     }
 
-    assertion = steps[1]
+    assertion = steps[2]
     assert assertion["name"] == "Assert and record exact source head"
     assert assertion["env"] == {"EXPECTED_SOURCE_HEAD": SOURCE_HEAD_EXPRESSION}
     command = str(assertion["run"])

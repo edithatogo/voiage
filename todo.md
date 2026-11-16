@@ -4,18 +4,18 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
-- [~] Verify the revised privacy and secret scan on the default branch after
-  integration. PR #1344's full-history audit at `5d34f714` reported no blocking
-  findings, with 502 advisory matches and 310 binary or submodule skips;
-  coverage remains incomplete. PR #1295 was closed as superseded.
+- [~] Maintain the default-branch privacy and secret scan. The full-history
+  audit at `588b8dca` reported no blocking findings, with 502 advisory matches
+  and 310 binary or submodule skips; coverage remains incomplete. Investigate
+  separate scheduled-scan failures. PR #1295 was closed as superseded.
 
 - [~] Keep the default Proptest lock compatible with Rust 1.85 while testing
-  1.12 with current Rust. The original PR #1281 remains open for its deferred
-  default-lock update; the separate current lock has its own qualification gates.
+  1.12 with current Rust. PR #1281 is merged; the default and separate current
+  lock graphs retain their respective qualification gates.
 
-- [~] Complete the documentation lockfile update in PR #1327 after its 14-day
-  dependency stability window and current-revision qualification. Renovate's
-  retained native-manifest discovery repair is merged in PR #1331.
+- [~] Maintain the documentation lockfiles after merged PR #1327, with the
+  configured stability and current-revision gates for future updates.
+  Renovate's retained native-manifest discovery repair is merged in PR #1331.
 
 - [~] Record comparable hosted queue and execution timings for the merged
   [CI efficiency changes](conductor/tracks/agent_safe_engineering_20260907/ci-efficiency-20261115/index.md).
@@ -802,6 +802,9 @@ as recorded in the active task above; earlier route decisions below are historic
 
 - [x] Add paper-contract, scientific-acceptance and DOCX delivery guidance to
   the existing manuscript skill and venue handoff.
+
+- [x] Pin the CI runner audit action and retain Renovate-only updates; the
+  changed R workflow still requires hosted qualification.
 
 - [x] Link the pending simulation-outcome plan from the roadmap; its eight
   implementation leaves remain in the current queue.

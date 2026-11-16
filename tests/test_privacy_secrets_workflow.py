@@ -33,7 +33,11 @@ def test_privacy_workflow_uses_immutable_qualified_action_and_complete_history()
     None
 ):
     steps = _workflow()["jobs"]["privacy-and-secrets"]["steps"]
-    checkout, scanner = steps
+    hardener, checkout, scanner = steps
+    assert hardener["uses"] == (
+        "step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a"
+    )
+    assert hardener["with"]["egress-policy"] == "audit"
     assert checkout["with"]["fetch-depth"] == 0
     assert checkout["with"]["persist-credentials"] is False
     assert checkout["with"]["submodules"] is False

@@ -297,7 +297,12 @@ class TestCICDQualityGatesConfiguration:
         assert "version-sync" in ci_config["jobs"], (
             "Version sync validation job not found"
         )
-        checkout = ci_config["jobs"]["version-sync"]["steps"][0]
+        steps = ci_config["jobs"]["version-sync"]["steps"]
+        assert steps[0]["uses"] == (
+            "step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a"
+        )
+        checkout = steps[1]
+        assert checkout["uses"].startswith("actions/checkout@")
         assert checkout["with"]["fetch-depth"] == 0, (
             "Version sync requires release tags from a full checkout"
         )
@@ -766,3 +771,24 @@ def test_testing_tool_guidance_matches_declared_constraints() -> None:
         match = re.search(rf"(?m)^- \*\*{re.escape(label)}\*\*:\s+(\S+)", guidance)
         assert match, label
         assert SpecifierSet(match.group(1)) == requirements[package].specifier
+
+
+def test_harden_runner_is_pinned_and_starts_before_monitored_jobs() -> None:
+    """Audit monitoring cannot silently drift to a mutable action reference."""
+    expected = "step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a"
+    observed = set()
+    for workflow_path in GITHUB_WORKFLOWS_DIR.glob("*.yml"):
+        workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
+        for job_name, job in workflow.get("jobs", {}).items():
+            for index, step in enumerate(job.get("steps", [])):
+                action = str(step.get("uses", ""))
+                if action.startswith("step-security/harden-runner@"):
+                    assert action == expected, (workflow_path.name, job_name)
+                    assert index == 0, (workflow_path.name, job_name)
+                    assert step["with"]["egress-policy"] == "audit"
+                    observed.add((workflow_path.name, job_name))
+    assert {
+        ("ci.yml", "coverage-report"),
+        ("bindings-ci.yml", "r"),
+        ("privacy-secrets.yml", "privacy-and-secrets"),
+    } <= observed
