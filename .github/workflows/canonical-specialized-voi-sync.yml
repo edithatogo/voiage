@@ -152,7 +152,9 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/edithatogo/voiage.git"
+          git remote set-url origin "https://github.com/edithatogo/voiage.git"
+          git config --local --replace-all credential.helper ""
+          git config --local --add credential.helper "!gh auth git-credential"
           if git ls-remote --exit-code --heads origin "$AUTOMATION_BRANCH" >/dev/null; then
             git fetch origin "$AUTOMATION_BRANCH:refs/remotes/origin/$AUTOMATION_BRANCH"
           fi

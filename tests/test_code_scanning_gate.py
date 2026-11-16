@@ -6,6 +6,7 @@ from email.message import Message
 from io import BytesIO
 import json
 from pathlib import Path
+import sys
 import urllib.error
 
 import yaml
@@ -31,10 +32,29 @@ def test_scorecard_action_uses_the_self_repository_aware_release() -> None:
 
 
 def test_workflows_use_the_repository_owned_retrying_gate() -> None:
+    github_context = "${{ github.token }}"
     for workflow in ("codeql.yml", "scorecard.yml"):
         content = (ROOT / ".github" / "workflows" / workflow).read_text()
         assert "scripts/check_code_scanning_alerts.py" in content
         assert "edithatogo/.github/.github/actions/code-scanning-gate" not in content
+        jobs = yaml.safe_load(content)["jobs"].values()
+        steps = [
+            step
+            for job in jobs
+            for step in job.get("steps", [])
+            if "scripts/check_code_scanning_alerts.py" in step.get("run", "")
+        ]
+        assert len(steps) == 1
+        assert steps[0]["env"]["GITHUB_TOKEN"] == github_context
+        assert "--token" not in steps[0]["run"].split()
+
+
+def test_gate_reads_credential_from_environment(monkeypatch) -> None:
+    marker = "fixture-github-token"
+    monkeypatch.setenv("GITHUB_TOKEN", marker)
+    monkeypatch.setattr(sys, "argv", ["check_code_scanning_alerts.py"])
+
+    assert gate.parse_args().token == marker
 
 
 def test_blocking_alerts_are_limited_to_current_commit_and_high_severity() -> None:

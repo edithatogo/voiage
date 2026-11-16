@@ -76,6 +76,5 @@ jobs:
           python scripts/check_code_scanning_alerts.py
           --repository "$GITHUB_REPOSITORY"
           --commit-sha "$GITHUB_SHA"
-          --token "$GITHUB_TOKEN"
           --timeout-seconds 120
           --retry-attempts 4

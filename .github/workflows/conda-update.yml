@@ -129,7 +129,8 @@ jobs:
         git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git add recipes/voiage/meta.yaml
         git commit -m "chore(conda): update voiage to v${RELEASE_VERSION}"
-        git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/edithatogo/staged-recipes.git"
+        git config --local --replace-all credential.helper ""
+        git config --local --add credential.helper "!gh auth git-credential"
         git push --force origin "$branch"
         gh pr create \
           --repo conda-forge/staged-recipes \
