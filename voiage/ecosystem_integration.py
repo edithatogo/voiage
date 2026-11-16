@@ -1173,7 +1173,9 @@ def load_innovate_decision_binding(binding: dict[str, Any]) -> InnovateDecisionB
             raise_value_error(f"Missing required DecisionBinding field: {field}")
 
     if binding["fit_status"] != "valid":
-        raise_value_error("Cannot bind an Innovate fit whose fit_status is not 'valid'.")
+        raise_value_error(
+            "Cannot bind an Innovate fit whose fit_status is not 'valid'."
+        )
 
     units = str(binding["units"])
     if units in _INNOVATE_FORBIDDEN_UNITS or "net_benefit" not in units:
@@ -1202,7 +1204,9 @@ def load_innovate_decision_binding(binding: dict[str, Any]) -> InnovateDecisionB
         elif draw_ids != reference_draw_ids:
             raise_value_error("Correlated draw_ids must align across strategies.")
         strategy_ids.append(strat_id)
-        columns.append(np.asarray([float(d["net_benefit"]) for d in draws], dtype=float))
+        columns.append(
+            np.asarray([float(d["net_benefit"]) for d in draws], dtype=float)
+        )
 
     assert reference_draw_ids is not None
     matrix = np.column_stack(columns)
