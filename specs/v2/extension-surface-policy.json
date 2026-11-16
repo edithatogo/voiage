@@ -44,6 +44,7 @@
       "voiage/hta_integration.py",
       "voiage/_tabular_io.py",
       "voiage/ecosystem_integration.py",
+      "voiage/innovate_binding.py",
       "voiage/experimental_design.py",
       "voiage/ingestion/**",
       "voiage/main_backends.py",

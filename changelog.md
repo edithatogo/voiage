@@ -1,5 +1,8 @@
 # Changelog
 
+- Add an Innovate decision-binding adapter that rejects duplicate or invalid
+  draw identifiers before pairing strategies.
+
 - Add the shared Python 3.15.2 privacy and secret scan alongside existing
   security checks.
 

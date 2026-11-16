@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from operator import eq
 from typing import Any
 
 import numpy as np
@@ -75,6 +76,15 @@ def load_innovate_decision_binding(binding: dict[str, Any]) -> InnovateDecisionB
         if not draws:
             raise_value_error(f"Strategy '{strat_id}' has no draws.")
         draw_ids = [d["draw_id"] for d in draws]
+        try:
+            unique_draw_ids = set(draw_ids)
+        except TypeError as exc:
+            raise_value_error("Each draw ID must be a hashable value.", exc)
+        # NaN-like identifiers cannot establish a reliable joint draw.
+        if any(not eq(draw_id, draw_id) for draw_id in draw_ids):
+            raise_value_error("Each draw ID must be a reflexive value.")
+        if len(unique_draw_ids) != len(draw_ids):
+            raise_value_error(f"Duplicate draw ID in strategy '{strat_id}'.")
         if reference_draw_ids is None:
             reference_draw_ids = draw_ids
         elif draw_ids != reference_draw_ids:

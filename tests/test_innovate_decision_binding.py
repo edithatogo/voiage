@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 import pytest
 
 from voiage.innovate_binding import (
@@ -10,7 +12,7 @@ from voiage.innovate_binding import (
 )
 
 
-def _valid_binding() -> dict[str, object]:
+def _valid_binding() -> dict[str, Any]:
     return {
         "schema_version": "1.0",
         "perspective": "healthcare_payer",
@@ -63,7 +65,7 @@ def test_innovate_decision_binding_rejects_invalid_inputs() -> None:
     swapped = {
         **base,
         "strategies": [
-            base["strategies"][0],  # type: ignore[index]
+            base["strategies"][0],
             {
                 "id": "new_therapy",
                 "draws": [
@@ -80,3 +82,46 @@ def test_innovate_decision_binding_rejects_invalid_inputs() -> None:
     del missing["perspective"]
     with pytest.raises(ValueError, match="Missing required DecisionBinding field"):
         load_innovate_decision_binding(missing)
+
+
+@pytest.mark.parametrize(
+    ("first_ids", "second_ids"),
+    [([0, 0], [0, 0]), ([0, 1], [0, 0]), ([0, 0], [0, 1])],
+)
+def test_innovate_decision_binding_rejects_duplicate_draw_ids(
+    first_ids: list[int], second_ids: list[int]
+) -> None:
+    binding = {
+        **_valid_binding(),
+        "strategies": [
+            {
+                "id": "status_quo",
+                "draws": [
+                    {"draw_id": draw_id, "net_benefit": value}
+                    for draw_id, value in zip(first_ids, (0.0, 10.0), strict=True)
+                ],
+            },
+            {
+                "id": "new_therapy",
+                "draws": [
+                    {"draw_id": draw_id, "net_benefit": value}
+                    for draw_id, value in zip(second_ids, (10.0, 0.0), strict=True)
+                ],
+            },
+        ],
+    }
+    with pytest.raises(ValueError, match="Duplicate draw ID"):
+        load_innovate_decision_binding(binding)
+
+
+@pytest.mark.parametrize("draw_id", [[], {}, float("nan")])
+def test_innovate_decision_binding_rejects_invalid_draw_ids(draw_id: object) -> None:
+    binding = {
+        **_valid_binding(),
+        "strategies": [
+            {"id": "a", "draws": [{"draw_id": draw_id, "net_benefit": 1.0}]},
+            {"id": "b", "draws": [{"draw_id": draw_id, "net_benefit": 2.0}]},
+        ],
+    }
+    with pytest.raises(ValueError, match="draw ID"):
+        load_innovate_decision_binding(binding)
