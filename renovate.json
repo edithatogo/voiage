@@ -60,7 +60,9 @@
   ],
   "minimumReleaseAge": "14 days",
   "osvVulnerabilityAlerts": true,
-  "dependencyDashboardOSVVulnerabilitySummary": "unresolved",
+  "dependencyDashboard": {
+    "osvVulnerabilitySummary": "unresolved"
+  },
   "cargo": {
     "ignorePaths": [
       "**/node_modules/**",
