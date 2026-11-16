@@ -53,6 +53,44 @@ def test_innovate_decision_binding_computes_exact_evpi() -> None:
     assert result["units"] == "net_benefit_usd"
 
 
+def test_innovate_decision_binding_scales_evpi_for_population() -> None:
+    binding = {**_valid_binding(), "population": 4, "horizon": 3, "discount_rate": 0.1}
+
+    result = evaluate_innovate_decision_binding(binding, population_scaled=True)
+
+    discounted_years = sum(1 / 1.1**year for year in range(1, 4))
+    assert result["evpi"] == pytest.approx(2.5 * 4 * discounted_years)
+    assert result["strategy_ids"] == ["status_quo", "new_therapy"]
+
+
+@pytest.mark.parametrize(
+    "strategies",
+    [None, [], [{"id": "only", "draws": [{"draw_id": 0, "net_benefit": 1.0}]}]],
+)
+def test_innovate_decision_binding_requires_two_strategies(strategies: object) -> None:
+    binding = {**_valid_binding(), "strategies": strategies}
+    with pytest.raises(ValueError, match="At least two strategies"):
+        load_innovate_decision_binding(binding)
+
+
+def test_innovate_decision_binding_rejects_duplicate_strategy_ids() -> None:
+    binding = _valid_binding()
+    binding["strategies"][1]["id"] = binding["strategies"][0]["id"]
+
+    with pytest.raises(ValueError, match="Duplicate strategy id.*status_quo"):
+        load_innovate_decision_binding(binding)
+
+
+@pytest.mark.parametrize("strategy_index", [0, 1])
+def test_innovate_decision_binding_rejects_empty_draws(strategy_index: int) -> None:
+    binding = _valid_binding()
+    strategy = binding["strategies"][strategy_index]
+    strategy["draws"] = []
+
+    with pytest.raises(ValueError, match=f"Strategy '{strategy['id']}' has no draws"):
+        load_innovate_decision_binding(binding)
+
+
 def test_innovate_decision_binding_rejects_invalid_inputs() -> None:
     base = _valid_binding()
 
