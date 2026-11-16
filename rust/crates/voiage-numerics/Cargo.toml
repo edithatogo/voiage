@@ -16,6 +16,7 @@ voiage-domain.workspace = true
 sha2 = "0.11"
 
 [dev-dependencies]
+# proptest 1.12 requires Rust 1.88; retain the workspace's Rust 1.85 MSRV.
 # The default lock retains Rust 1.85; a separate CI lock tests Proptest 1.12.
 proptest = ">=1.7, <1.13"
 serde_json = "1.0"
