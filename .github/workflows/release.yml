@@ -73,6 +73,11 @@ jobs:
     permissions:
       id-token: write
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
       - name: Exchange GitHub identity for a short-lived index token
         env:
           INDEX: ${{ matrix.index }}
@@ -101,6 +106,11 @@ jobs:
       is_prerelease: ${{ steps.tag.outputs.is_prerelease }}
       python_version: ${{ steps.version.outputs.python_version }}
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
       - name: Check out repository for tag resolution
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
@@ -177,6 +187,11 @@ jobs:
     env:
       TAG_SHA: ${{ needs.resolve-tag.outputs.tag_sha }}
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
       - name: Check out immutable release commit
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
@@ -233,6 +248,11 @@ jobs:
       run:
         shell: bash
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
       - name: Check out immutable release commit
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
@@ -317,6 +337,11 @@ jobs:
       VOIAGE_SOURCE_REVISION: ${{ needs.resolve-tag.outputs.tag_sha }}
       VOIAGE_SOURCE_CLEAN: "true"
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
       - name: Check out immutable release commit
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
@@ -396,6 +421,11 @@ jobs:
     permissions:
       contents: read
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
       - name: Check out immutable release commit
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
@@ -454,6 +484,11 @@ jobs:
       PYTHON_VERSION: ${{ needs.resolve-tag.outputs.python_version }}
       EXPECTED_NATIVE_ARCHITECTURES: linux-x86_64,macos-arm64,windows-x86_64
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
       - name: Check out immutable release commit
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
@@ -542,6 +577,11 @@ jobs:
       RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
       TAG_SHA: ${{ needs.resolve-tag.outputs.tag_sha }}
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
       - name: Check out immutable release commit
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
         with:
@@ -598,6 +638,11 @@ jobs:
     env:
       RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
       - name: Download reviewed private draft payload
         shell: bash
         env:
@@ -644,6 +689,11 @@ jobs:
       RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
       TAG_SHA: ${{ needs.resolve-tag.outputs.tag_sha }}
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
       - name: Check out immutable release commit
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
@@ -687,6 +737,11 @@ jobs:
       TAG_SHA: ${{ needs.resolve-tag.outputs.tag_sha }}
       PYTHON_VERSION: ${{ needs.resolve-tag.outputs.python_version }}
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
       - name: Check out immutable release commit
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
@@ -821,6 +876,11 @@ jobs:
       RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
       TAG_SHA: ${{ needs.resolve-tag.outputs.tag_sha }}
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
       - name: Check out immutable release commit
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
@@ -858,6 +918,11 @@ jobs:
       RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
       TAG_SHA: ${{ needs.resolve-tag.outputs.tag_sha }}
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
       - name: Check out immutable release commit
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
