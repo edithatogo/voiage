@@ -14,6 +14,25 @@ import yaml
 ROOT = Path(__file__).parents[1]
 
 
+def test_tagbot_credential_arguments_are_not_sent_to_process_monitor() -> None:
+    # The pinned action constructs a token-bearing Git clone URL:
+    # https://github.com/JuliaRegistries/TagBot/blob/6b7c22e7bc2b8f4d1c56b7199a63421cf2667ed1/tagbot/action/git.py#L90-L92
+    workflow = yaml.safe_load(
+        (ROOT / ".github" / "workflows" / "julia-tagbot.yml").read_text(
+            encoding="utf-8"
+        )
+    )
+    steps = workflow["jobs"]["tagbot"]["steps"]
+    assert any(
+        str(step.get("uses", "")).startswith("JuliaRegistries/TagBot@")
+        for step in steps
+    )
+    assert all(
+        "step-security/harden-runner@" not in str(step.get("uses", ""))
+        for step in steps
+    )
+
+
 @pytest.mark.skipif(
     os.name == "nt", reason="The fixture credential helper is a POSIX shell script"
 )
