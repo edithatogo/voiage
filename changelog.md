@@ -1,5 +1,8 @@
 # Changelog
 
+- Update the OpenSSF Scorecard action to recognize pinned same-repository
+  workflows and avoid false dependency alerts.
+
 - Add an Innovate decision-binding adapter that rejects duplicate or invalid
   draw identifiers before pairing strategies.
 
