@@ -544,6 +544,7 @@ def test_create_streaming_config() -> None:
 if __name__ == "__main__":
     test_create_default_config()
     test_voi_analysis_config()
+    test_voi_analysis_config_to_dict_contract()
     test_streaming_config()
     test_metamodel_config()
     test_optimization_config()
@@ -553,6 +554,7 @@ if __name__ == "__main__":
     test_parallel_config()
     test_create_healthcare_config()
     test_create_parallel_config()
+    test_create_financial_config()
     test_factory_functions()
     test_create_optimization_config()
     test_create_streaming_config()

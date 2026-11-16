@@ -47,3 +47,17 @@ The copied text has SHA-256 values `50c2ac2de08fe3ff4164c2044e54609447f7ecf048b2
 `1368098b0916eb3951824e72ddd6a8f356c55fe9a8e2d7f3b316f973424300a2`
 (agent-safe) and `273f79a45bbea86dd40e4fbdc33a9d066ac74dffdfc53f59bfdd2e2cd5f13d7a`
 (telemetry).
+
+## Earlier configuration-test branches
+
+The `test-create-financial-config-8805096995058823085` branch at
+`754d98e63078b8e4331975f3e3ebc453a6a1ab07` added the financial factory test to
+the module's direct-execution list. The
+`test-to-dict-improvement-15134409924331881500` branch at
+`2bf371b681fedc6e31890d28b06b8a6feeaee42b` added a serialization test and
+called it from the same list. Main already contains the equivalent factory
+test and a stronger complete-mapping and object-identity serialization test;
+the direct-execution list now calls both. The latter branch's unrelated
+four-line `read_pr_comments.py` merely printed a tool-use instruction and was
+not adopted as project functionality. Its exact source remains in the verified
+Git recovery bundle.
