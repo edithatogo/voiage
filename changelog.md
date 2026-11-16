@@ -1,5 +1,8 @@
 # Changelog
 
+- Validate Innovate decision-binding versions, labels, scaling metadata, and
+  finite net benefits before evaluating paired draws.
+
 - Update the OpenSSF Scorecard action to recognize pinned same-repository
   workflows and avoid false dependency alerts.
 

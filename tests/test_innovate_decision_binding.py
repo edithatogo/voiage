@@ -40,6 +40,99 @@ def _valid_binding() -> dict[str, Any]:
     }
 
 
+@pytest.mark.parametrize("version", ["2.0", "", None, 1.0])
+def test_innovate_decision_binding_rejects_unsupported_schema_versions(
+    version: object,
+) -> None:
+    binding = {**_valid_binding(), "schema_version": version}
+
+    with pytest.raises(ValueError, match="schema version"):
+        load_innovate_decision_binding(binding)
+
+
+@pytest.mark.parametrize("perspective", [None, "", "   ", 5])
+def test_innovate_decision_binding_requires_a_labelled_perspective(
+    perspective: object,
+) -> None:
+    binding = {**_valid_binding(), "perspective": perspective}
+
+    with pytest.raises(ValueError, match="perspective"):
+        load_innovate_decision_binding(binding)
+
+
+@pytest.mark.parametrize("strategy_id", [None, "", "   ", 5])
+def test_innovate_decision_binding_requires_string_strategy_ids(
+    strategy_id: object,
+) -> None:
+    binding = _valid_binding()
+    binding["strategies"][0]["id"] = strategy_id
+
+    with pytest.raises(ValueError, match="strategy id"):
+        load_innovate_decision_binding(binding)
+
+
+@pytest.mark.parametrize("units", [["net_benefit_usd"], {"net_benefit": 1}])
+def test_innovate_decision_binding_requires_string_units(units: object) -> None:
+    binding = {**_valid_binding(), "units": units}
+
+    with pytest.raises(ValueError, match="units"):
+        load_innovate_decision_binding(binding)
+
+
+@pytest.mark.parametrize(
+    ("field", "value"),
+    [
+        ("population", 0),
+        ("population", -1),
+        ("population", float("nan")),
+        ("population", float("inf")),
+        ("horizon", 0),
+        ("horizon", -1),
+        ("horizon", float("nan")),
+        ("horizon", float("inf")),
+        ("discount_rate", -0.01),
+        ("discount_rate", 1.01),
+        ("discount_rate", float("nan")),
+        ("discount_rate", float("inf")),
+    ],
+)
+def test_innovate_decision_binding_rejects_invalid_scaling_metadata(
+    field: str,
+    value: float,
+) -> None:
+    binding = {**_valid_binding(), field: value}
+
+    with pytest.raises(ValueError, match=field):
+        load_innovate_decision_binding(binding)
+
+
+@pytest.mark.parametrize("discount_rate", [0.0, 1.0])
+def test_innovate_decision_binding_accepts_scaling_boundaries(
+    discount_rate: float,
+) -> None:
+    binding = {
+        **_valid_binding(),
+        "population": 0.5,
+        "horizon": 0.5,
+        "discount_rate": discount_rate,
+    }
+
+    loaded = load_innovate_decision_binding(binding)
+
+    assert loaded.population == 0.5
+    assert loaded.horizon == 0.5
+    assert loaded.discount_rate == discount_rate
+
+
+@pytest.mark.parametrize("value", [float("nan"), float("inf"), -float("inf")])
+def test_innovate_decision_binding_rejects_nonfinite_net_benefits(value: float) -> None:
+    binding = _valid_binding()
+    binding["strategies"][0]["draws"][0]["net_benefit"] = value
+
+    with pytest.raises(ValueError, match="finite"):
+        load_innovate_decision_binding(binding)
+
+
 def test_innovate_decision_binding_computes_exact_evpi() -> None:
     binding = _valid_binding()
     loaded = load_innovate_decision_binding(binding)
@@ -51,6 +144,47 @@ def test_innovate_decision_binding_computes_exact_evpi() -> None:
     assert result["evpi"] == pytest.approx(2.5)
     assert result["n_draws"] == 2
     assert result["units"] == "net_benefit_usd"
+
+
+def test_innovate_decision_binding_matches_frozen_diffusion_fixture() -> None:
+    # Hand-authored Innovate fixture, manifest SHA-256 b61feb8ed857dc1ab5f9b6d18d75091fe5b458c345cdace66338d0ae6afcbc5e.
+    # At time 3 the synthetic utility equals cumulative adoption, minus 0.05
+    # adoption-equivalent units for accelerated access. This is not a clinical
+    # or economic valuation; the independent exact EVPI is 1/600.
+    binding = {
+        **_valid_binding(),
+        "perspective": "synthetic_fixture",
+        "population": 1000,
+        "horizon": 3,
+        "discount_rate": 0,
+        "units": "net_benefit_adoption_equivalent",
+        "strategies": [
+            {
+                "id": "baseline_access",
+                "draws": [
+                    {"draw_id": draw_id, "net_benefit": value}
+                    for draw_id, value in zip(
+                        (1, 2, 3), (0.235, 0.258, 0.280), strict=True
+                    )
+                ],
+            },
+            {
+                "id": "accelerated_access",
+                "draws": [
+                    {"draw_id": draw_id, "net_benefit": value - 0.05}
+                    for draw_id, value in zip(
+                        (1, 2, 3), (0.282, 0.306, 0.339), strict=True
+                    )
+                ],
+            },
+        ],
+    }
+
+    result = evaluate_innovate_decision_binding(binding)
+
+    assert result["evpi"] == pytest.approx(1 / 600, abs=1e-14)
+    assert result["strategy_ids"] == ["baseline_access", "accelerated_access"]
+    assert result["n_draws"] == 3
 
 
 def test_innovate_decision_binding_scales_evpi_for_population() -> None:
