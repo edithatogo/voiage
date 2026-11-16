@@ -786,6 +786,10 @@ as recorded in the active task above; earlier route decisions below are historic
 
 ## Done
 
+- [x] Add the Innovate decision-binding adapter with unique paired draw IDs
+  and register its optional Python runtime surface; broader simulation-outcome
+  qualification remains pending.
+
 - [x] Add current-Rust Proptest 1.12 qualification while retaining the Rust 1.85
   default lock and both graphs' behavior, coverage and supply-chain checks.
 

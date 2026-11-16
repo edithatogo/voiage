@@ -1,0 +1,165 @@
+"""Tests for Voiage-side Innovate DecisionBinding adapter (E02)."""
+
+from __future__ import annotations
+
+from typing import Any
+
+import pytest
+
+from voiage.innovate_binding import (
+    evaluate_innovate_decision_binding,
+    load_innovate_decision_binding,
+)
+
+
+def _valid_binding() -> dict[str, Any]:
+    return {
+        "schema_version": "1.0",
+        "perspective": "healthcare_payer",
+        "population": 10000.0,
+        "horizon": 10.0,
+        "discount_rate": 0.035,
+        "units": "net_benefit_usd",
+        "fit_status": "valid",
+        "strategies": [
+            {
+                "id": "status_quo",
+                "draws": [
+                    {"draw_id": 0, "net_benefit": 10.0},
+                    {"draw_id": 1, "net_benefit": 20.0},
+                ],
+            },
+            {
+                "id": "new_therapy",
+                "draws": [
+                    {"draw_id": 0, "net_benefit": 15.0},
+                    {"draw_id": 1, "net_benefit": 12.0},
+                ],
+            },
+        ],
+    }
+
+
+def test_innovate_decision_binding_computes_exact_evpi() -> None:
+    binding = _valid_binding()
+    loaded = load_innovate_decision_binding(binding)
+    assert loaded.strategy_ids == ["status_quo", "new_therapy"]
+    assert loaded.draw_ids == [0, 1]
+
+    result = evaluate_innovate_decision_binding(binding)
+    # E[NB_sq]=15, E[NB_new]=13.5 -> max=15; E[max(10,15), max(20,12)]=(15+20)/2=17.5 -> EVPI=2.5
+    assert result["evpi"] == pytest.approx(2.5)
+    assert result["n_draws"] == 2
+    assert result["units"] == "net_benefit_usd"
+
+
+def test_innovate_decision_binding_scales_evpi_for_population() -> None:
+    binding = {**_valid_binding(), "population": 4, "horizon": 3, "discount_rate": 0.1}
+
+    result = evaluate_innovate_decision_binding(binding, population_scaled=True)
+
+    discounted_years = sum(1 / 1.1**year for year in range(1, 4))
+    assert result["evpi"] == pytest.approx(2.5 * 4 * discounted_years)
+    assert result["strategy_ids"] == ["status_quo", "new_therapy"]
+
+
+@pytest.mark.parametrize(
+    "strategies",
+    [None, [], [{"id": "only", "draws": [{"draw_id": 0, "net_benefit": 1.0}]}]],
+)
+def test_innovate_decision_binding_requires_two_strategies(strategies: object) -> None:
+    binding = {**_valid_binding(), "strategies": strategies}
+    with pytest.raises(ValueError, match="At least two strategies"):
+        load_innovate_decision_binding(binding)
+
+
+def test_innovate_decision_binding_rejects_duplicate_strategy_ids() -> None:
+    binding = _valid_binding()
+    binding["strategies"][1]["id"] = binding["strategies"][0]["id"]
+
+    with pytest.raises(ValueError, match="Duplicate strategy id.*status_quo"):
+        load_innovate_decision_binding(binding)
+
+
+@pytest.mark.parametrize("strategy_index", [0, 1])
+def test_innovate_decision_binding_rejects_empty_draws(strategy_index: int) -> None:
+    binding = _valid_binding()
+    strategy = binding["strategies"][strategy_index]
+    strategy["draws"] = []
+
+    with pytest.raises(ValueError, match=f"Strategy '{strategy['id']}' has no draws"):
+        load_innovate_decision_binding(binding)
+
+
+def test_innovate_decision_binding_rejects_invalid_inputs() -> None:
+    base = _valid_binding()
+
+    with pytest.raises(ValueError, match="utilities"):
+        load_innovate_decision_binding({**base, "units": "prescriptions"})
+
+    with pytest.raises(ValueError, match="fit_status"):
+        load_innovate_decision_binding({**base, "fit_status": "invalid"})
+
+    swapped = {
+        **base,
+        "strategies": [
+            base["strategies"][0],
+            {
+                "id": "new_therapy",
+                "draws": [
+                    {"draw_id": 1, "net_benefit": 12.0},
+                    {"draw_id": 0, "net_benefit": 15.0},
+                ],
+            },
+        ],
+    }
+    with pytest.raises(ValueError, match="align"):
+        load_innovate_decision_binding(swapped)
+
+    missing = dict(base)
+    del missing["perspective"]
+    with pytest.raises(ValueError, match="Missing required DecisionBinding field"):
+        load_innovate_decision_binding(missing)
+
+
+@pytest.mark.parametrize(
+    ("first_ids", "second_ids"),
+    [([0, 0], [0, 0]), ([0, 1], [0, 0]), ([0, 0], [0, 1])],
+)
+def test_innovate_decision_binding_rejects_duplicate_draw_ids(
+    first_ids: list[int], second_ids: list[int]
+) -> None:
+    binding = {
+        **_valid_binding(),
+        "strategies": [
+            {
+                "id": "status_quo",
+                "draws": [
+                    {"draw_id": draw_id, "net_benefit": value}
+                    for draw_id, value in zip(first_ids, (0.0, 10.0), strict=True)
+                ],
+            },
+            {
+                "id": "new_therapy",
+                "draws": [
+                    {"draw_id": draw_id, "net_benefit": value}
+                    for draw_id, value in zip(second_ids, (10.0, 0.0), strict=True)
+                ],
+            },
+        ],
+    }
+    with pytest.raises(ValueError, match="Duplicate draw ID"):
+        load_innovate_decision_binding(binding)
+
+
+@pytest.mark.parametrize("draw_id", [[], {}, float("nan")])
+def test_innovate_decision_binding_rejects_invalid_draw_ids(draw_id: object) -> None:
+    binding = {
+        **_valid_binding(),
+        "strategies": [
+            {"id": "a", "draws": [{"draw_id": draw_id, "net_benefit": 1.0}]},
+            {"id": "b", "draws": [{"draw_id": draw_id, "net_benefit": 2.0}]},
+        ],
+    }
+    with pytest.raises(ValueError, match="draw ID"):
+        load_innovate_decision_binding(binding)
