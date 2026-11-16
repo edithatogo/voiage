@@ -3,6 +3,9 @@
 - Update the OpenSSF Scorecard action to recognize pinned same-repository
   workflows and avoid false dependency alerts.
 
+- Preserve dated qualification observations from older branches with their
+  provenance and outstanding acceptance boundaries.
+
 - Add an Innovate decision-binding adapter that rejects duplicate or invalid
   draw identifiers before pairing strategies.
 
