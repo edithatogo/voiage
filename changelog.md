@@ -14,6 +14,8 @@
 - Audit CI runner network activity with the SHA-pinned StepSecurity action,
   while keeping Renovate as the dependency-update owner.
 
+- Keep the shell pre-commit check usable while preserving HPC failure receipts.
+
 - Test Proptest 1.12 on current Rust while preserving the Rust 1.85 dependency
   lock and its compatibility, coverage, and security checks.
 

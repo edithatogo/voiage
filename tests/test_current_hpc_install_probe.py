@@ -92,8 +92,8 @@ def test_installed_driver_stops_at_failed_source_admission(tmp_path: Path) -> No
         check=False,
     )
     assert result.returncode == 23
-    assert (
-        json.loads((output / "result.json").read_text())["installed_cell_accepted"]
-        is False
-    )
+    assert json.loads((output / "result.json").read_text()) == {
+        "installed_cell_accepted": False,
+        "exit_code": 23,
+    }
     assert not (output / "install-stage").exists()
