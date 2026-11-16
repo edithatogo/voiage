@@ -646,9 +646,21 @@ def test_native_capacity_observation_reuses_the_checked_in_workflow() -> None:
     workflow = yaml.safe_load(
         (GITHUB_WORKFLOWS_DIR / "native-build-capacity-observation.yml").read_text()
     )
-    assert workflow["jobs"]["rust-source-capacity"]["uses"] == (
-        "$/.github/workflows/native-rust-llvm-qualification.yml"
+    job = workflow["jobs"]["rust-source-capacity"]
+    assert job["uses"] == ("$/.github/workflows/native-rust-llvm-qualification.yml")
+    assert job["if"] == (
+        "inputs.profile == 'rust-stable' || inputs.profile == 'rust-nightly'"
     )
+    assert job["with"]["entry"] == "${{ inputs.profile }}"
+
+    callee = yaml.safe_load(
+        (GITHUB_WORKFLOWS_DIR / "native-rust-llvm-qualification.yml").read_text()
+    )
+    # PyYAML's YAML 1.1 loader interprets the unquoted `on` key as True.
+    assert callee[True]["workflow_call"]["inputs"]["entry"] == {
+        "required": True,
+        "type": "string",
+    }
 
 
 def test_native_rust_workflow_installs_the_source_profile_toolchain() -> None:

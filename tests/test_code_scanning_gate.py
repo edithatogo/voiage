@@ -8,9 +8,26 @@ import json
 from pathlib import Path
 import urllib.error
 
+import yaml
+
 import scripts.check_code_scanning_alerts as gate
 
 ROOT = Path(__file__).parents[1]
+
+
+def test_scorecard_action_uses_the_self_repository_aware_release() -> None:
+    workflow = yaml.safe_load((ROOT / ".github/workflows/scorecard.yml").read_text())
+    steps = workflow["jobs"]["analysis"]["steps"]
+    action = next(step for step in steps if step.get("name") == "Run Scorecard")
+
+    assert action["uses"] == (
+        "ossf/scorecard-action@fa7117db83c52d787ae5a89f350999701505d78e"
+    )
+    assert action["with"] == {
+        "results_file": "scorecard-results.json",
+        "results_format": "sarif",
+        "publish_results": True,
+    }
 
 
 def test_workflows_use_the_repository_owned_retrying_gate() -> None:
