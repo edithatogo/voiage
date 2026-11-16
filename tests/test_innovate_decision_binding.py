@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from voiage.ecosystem_integration import (
+from voiage.innovate_binding import (
     evaluate_innovate_decision_binding,
     load_innovate_decision_binding,
 )
