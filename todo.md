@@ -793,6 +793,9 @@ as recorded in the active task above; earlier route decisions below are historic
 
 ## Done
 
+- [x] Retire obsolete security-report issue-template guidance; retain the
+  private vulnerability advisory link and SECURITY.md as the reporting authority.
+
 - [x] Constrain Julia TagBot's automatic notification path and document its
   scoped scanner exception; native registry-release qualification remains open.
 
