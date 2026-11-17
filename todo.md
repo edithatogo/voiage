@@ -793,6 +793,9 @@ as recorded in the active task above; earlier route decisions below are historic
 
 ## Done
 
+- [x] Constrain Julia TagBot's automatic notification path and document its
+  scoped scanner exception; native registry-release qualification remains open.
+
 - [x] Pin the receiving privacy workflow to the reviewed shared scanner repair;
   the default-branch audit and its coverage limitations remain open.
 
