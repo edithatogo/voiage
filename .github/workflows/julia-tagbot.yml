@@ -1,7 +1,8 @@
 name: Julia Registry Sync
 
 on:
-  issue_comment:
+  # General sends registry notifications through a bot-owned closed issue.
+  issue_comment: # zizmor: ignore[dangerous-triggers] -- The job validates the registry bot event.
     types:
       - created
   workflow_dispatch:
@@ -12,7 +13,20 @@ permissions:
 jobs:
   tagbot:
     name: TagBot
-    if: github.actor == 'JuliaTagBot'
+    if: >-
+      github.actor == 'JuliaTagBot' &&
+      (
+        github.event_name == 'workflow_dispatch' ||
+        (
+          github.event_name == 'issue_comment' &&
+          github.event.action == 'created' &&
+          github.event.sender.id == 50554310 &&
+          github.event.comment.user.id == 50554310 &&
+          github.event.issue.user.id == 50554310 &&
+          github.event.issue.state == 'closed' &&
+          !github.event.issue.pull_request
+        )
+      )
     permissions:
       contents: write
     runs-on: ubuntu-latest

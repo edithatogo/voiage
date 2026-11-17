@@ -1,5 +1,8 @@
 # Changelog
 
+- Restrict automatic Julia TagBot runs to the registry bot's closed-issue
+  notifications, while documenting the scoped audit exception and release limits.
+
 - Make the observational validation example reject selection bias that its
   illustrative model does not implement, and clarify optional-dependency tests.
 - Document that the testing-oriented Bayesian adaptive simulator does not yet

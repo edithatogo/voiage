@@ -2,12 +2,50 @@
 
 import hashlib
 import json
+import os
 from pathlib import Path
+import shutil
+import subprocess
 import tomllib
 
+import pytest
 import yaml
 
 ROOT = Path(__file__).parents[1]
+
+
+@pytest.fixture(scope="module")
+def tagbot_act() -> str:
+    """Select act only when its offline dry-run controls are available."""
+    act = shutil.which("act")
+    if act is None:
+        pytest.skip(
+            "act is unavailable for offline GitHub Actions expression simulation"
+        )
+    try:
+        result = subprocess.run(
+            [act, "--help"], capture_output=True, text=True, timeout=10, check=False
+        )
+    except OSError, subprocess.TimeoutExpired:
+        pytest.skip("act cannot provide its offline dry-run capabilities")
+    required = (
+        "--dryrun",
+        "--workflows",
+        "--eventpath",
+        "--actor",
+        "--container-daemon-socket",
+        "--no-cache-server",
+        "--action-offline-mode",
+        "--pull",
+        "--secret-file",
+        "--env-file",
+        "--var-file",
+        "--platform",
+        "--action-cache-path",
+    )
+    if result.returncode != 0 or any(flag not in result.stdout for flag in required):
+        pytest.skip("installed act lacks the required offline dry-run controls")
+    return act
 
 
 def test_binarybuilder_recipe_pins_release_and_supported_products() -> None:
@@ -51,12 +89,137 @@ def test_tagbot_is_configured_for_the_julia_subpackage() -> None:
     workflow = yaml.safe_load(workflow_path.read_text())
     rendered = workflow_path.read_text()
 
-    assert "issue_comment" in workflow[True]
-    assert "workflow_dispatch" in workflow[True]
-    assert workflow["jobs"]["tagbot"]["if"] == "github.actor == 'JuliaTagBot'"
-    assert "subdir: bindings/julia" in rendered
-    assert "tag_prefix: julia" in rendered
-    assert "JuliaRegistries/TagBot@6b7c22e7bc2b8f4d1c56b7199a63421cf2667ed1" in rendered
+    assert workflow[True] == {
+        "issue_comment": {"types": ["created"]},
+        "workflow_dispatch": None,
+    }
+    assert "issue_comment: # zizmor: ignore[dangerous-triggers]" in rendered
+    assert workflow["permissions"] == {"contents": "read"}
+    assert list(workflow["jobs"]) == ["tagbot"]
+    job = workflow["jobs"]["tagbot"]
+    assert " ".join(job["if"].split()) == (
+        "github.actor == 'JuliaTagBot' && "
+        "( github.event_name == 'workflow_dispatch' || "
+        "( github.event_name == 'issue_comment' && "
+        "github.event.action == 'created' && "
+        "github.event.sender.id == 50554310 && "
+        "github.event.comment.user.id == 50554310 && "
+        "github.event.issue.user.id == 50554310 && "
+        "github.event.issue.state == 'closed' && "
+        "!github.event.issue.pull_request ) )"
+    )
+    assert job["permissions"] == {"contents": "write"}
+    assert len(job["steps"]) == 1
+    step = job["steps"][0]
+    assert step["uses"] == (
+        "JuliaRegistries/TagBot@6b7c22e7bc2b8f4d1c56b7199a63421cf2667ed1"
+    )
+    assert step["with"] == {
+        "token": "${{ secrets.GITHUB_TOKEN }}",
+        "ssh": "${{ secrets.DOCUMENTER_KEY }}",
+        "subdir": "bindings/julia",
+        "tag_prefix": "julia",
+    }
+
+
+@pytest.mark.parametrize(
+    ("event_name", "actor", "overrides", "allowed"),
+    [
+        ("issue_comment", "JuliaTagBot", {}, True),
+        ("issue_comment", "attacker", {}, False),
+        ("issue_comment", "JuliaTagBot", {"sender": 42}, False),
+        ("issue_comment", "JuliaTagBot", {"commenter": 42}, False),
+        ("issue_comment", "JuliaTagBot", {"owner": 42}, False),
+        ("issue_comment", "JuliaTagBot", {"state": "open"}, False),
+        ("issue_comment", "JuliaTagBot", {"is_pr": True}, False),
+        ("issue_comment", "JuliaTagBot", {"sender": None}, False),
+        ("issue_comment", "JuliaTagBot", {"action": "edited"}, False),
+        ("workflow_dispatch", "JuliaTagBot", {}, True),
+        ("workflow_dispatch", "maintainer", {}, False),
+    ],
+)
+def test_tagbot_guard_with_synthetic_events(
+    tmp_path: Path,
+    tagbot_act: str,
+    event_name: str,
+    actor: str,
+    overrides: dict[str, object],
+    allowed: bool,
+) -> None:
+    """Evaluate the real job condition with no secrets or TagBot execution."""
+    workflow = yaml.safe_load((ROOT / ".github/workflows/julia-tagbot.yml").read_text())
+    fixture = {
+        "name": "Synthetic TagBot guard",
+        "on": {"issue_comment": {"types": ["created"]}, "workflow_dispatch": {}},
+        "permissions": {},
+        "jobs": {
+            "guard": {
+                "if": workflow["jobs"]["tagbot"]["if"],
+                "runs-on": "ubuntu-latest",
+                "steps": [{"run": "printf synthetic"}],
+            }
+        },
+    }
+    issue: dict[str, object] = {
+        "user": {"id": overrides.get("owner", 50554310)},
+        "state": overrides.get("state", "closed"),
+    }
+    if overrides.get("is_pr"):
+        issue["pull_request"] = {"url": "https://example.invalid/pull"}
+    event: dict[str, object] = {"repository": {"full_name": "edithatogo/voiage"}}
+    if event_name == "issue_comment":
+        event.update(
+            {
+                "action": overrides.get("action", "created"),
+                "sender": {"id": overrides.get("sender", 50554310)},
+                "comment": {
+                    "user": {"id": overrides.get("commenter", 50554310)},
+                    "body": "synthetic",
+                },
+                "issue": issue,
+            }
+        )
+    else:
+        event["inputs"] = {}
+    fixture_path = tmp_path / "workflow.yml"
+    event_path = tmp_path / "event.json"
+    fixture_path.write_text(yaml.safe_dump(fixture, sort_keys=False))
+    event_path.write_text(json.dumps(event))
+    result = subprocess.run(
+        [
+            tagbot_act,
+            event_name,
+            "--dryrun",
+            "--workflows",
+            str(fixture_path),
+            "--eventpath",
+            str(event_path),
+            "--actor",
+            actor,
+            "--container-daemon-socket",
+            "-",
+            "--no-cache-server",
+            "--action-offline-mode",
+            "--pull=false",
+            "--secret-file",
+            os.devnull,
+            "--env-file",
+            os.devnull,
+            "--var-file",
+            os.devnull,
+            "--platform",
+            "ubuntu-latest=-self-hosted",
+            "--action-cache-path",
+            str(tmp_path / "action-cache"),
+        ],
+        cwd=tmp_path,
+        capture_output=True,
+        text=True,
+        timeout=30,
+        check=False,
+    )
+    assert result.returncode == 0, result.stderr
+    assert ("*DRYRUN*" in result.stdout + result.stderr) is allowed
 
 
 def test_julia_ci_covers_supported_runtimes_and_platforms() -> None:
