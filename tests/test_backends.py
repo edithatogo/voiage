@@ -1,5 +1,6 @@
 """Tests for the computational backends."""
 
+import builtins
 import importlib
 import pathlib
 import sys
@@ -691,6 +692,34 @@ def test_main_backends_imports_and_operates_without_jax(
         module.set_backend("jax")
 
 
+@pytest.mark.skipif(not main_backends.JAX_AVAILABLE, reason="JAX is not available")
+def test_jax_backend_remains_available_without_sklearn(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """An unavailable optional regression package must not disable JAX EVPI."""
+    spec = importlib.util.spec_from_file_location(
+        "voiage._test_main_backends_without_sklearn", main_backends.__file__
+    )
+    assert spec is not None
+    assert spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    original_import = builtins.__import__
+
+    def import_without_sklearn(name: str, *args: object, **kwargs: object) -> object:
+        if name == "sklearn" or name.startswith("sklearn."):
+            raise ImportError("scikit-learn is unavailable")
+        return original_import(name, *args, **kwargs)
+
+    monkeypatch.setattr(builtins, "__import__", import_without_sklearn)
+    spec.loader.exec_module(module)
+
+    assert module.JAX_AVAILABLE is True
+    assert module.SKLEARN_AVAILABLE is False
+    assert module.get_backend("jax").evpi(
+        np.array([[1.0, 2.0], [3.0, 1.5]])
+    ) == pytest.approx(0.5)
+
+
 def test_analysis_imports_and_operates_without_jax(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -702,6 +731,21 @@ def test_analysis_imports_and_operates_without_jax(
     assert module.JAX_AVAILABLE is False
     assert analysis.backend.__class__.__name__ == "NumpyBackend"
     assert analysis.evpi() == pytest.approx(0.5)
+
+
+@pytest.mark.skipif(not main_backends.JAX_AVAILABLE, reason="JAX is not available")
+def test_analysis_detects_available_jax() -> None:
+    """A fresh analysis import should recognize an installed JAX backend."""
+    original = importlib.import_module("voiage.analysis")
+    spec = importlib.util.spec_from_file_location(
+        "voiage._test_analysis_with_jax", original.__file__
+    )
+    assert spec is not None
+    assert spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    assert module.JAX_AVAILABLE is True
 
 
 def test_capability_descriptor_reports_free_threaded_runtime(

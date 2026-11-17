@@ -1,6 +1,6 @@
 """Tests for parallel processing utilities in Value of Information analysis."""
 
-from concurrent.futures import Future
+import concurrent.futures
 import sys
 import types
 
@@ -205,7 +205,6 @@ def test_parallel_bootstrap_sampling() -> None:
 
 def test_run_work_in_monte_carlo_executor(monkeypatch: pytest.MonkeyPatch) -> None:
     """Test the run_work inner function of parallel_monte_carlo_simulation directly."""
-    import concurrent.futures
     from unittest.mock import MagicMock
 
     # We will intercept the call to _execute_parallel_work
@@ -332,7 +331,6 @@ def test_parallel_monte_carlo_with_threads() -> None:
 
 def test_run_work_in_bootstrap_sampling(monkeypatch: pytest.MonkeyPatch) -> None:
     """Test the run_work inner function of parallel_bootstrap_sampling directly."""
-    import concurrent.futures
     from unittest.mock import MagicMock
 
     captured_run_work = []
@@ -635,7 +633,7 @@ def _install_fake_dask(monkeypatch: pytest.MonkeyPatch) -> list[object]:
             targets.append(target)
 
         def submit(self, fn, *args, **kwargs):
-            future: Future = Future()
+            future: concurrent.futures.Future = concurrent.futures.Future()
             future.set_result(fn(*args, **kwargs))
             return future
 

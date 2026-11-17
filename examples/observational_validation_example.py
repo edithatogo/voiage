@@ -10,8 +10,10 @@ import sys
 import os
 import numpy as np
 
-# Add the parent directory to the path to import voiage
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+# Allow direct execution from a checkout without changing import paths when
+# the example is imported by another program or the installed-wheel tests.
+if __name__ == "__main__":
+    sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from voiage.methods.observational import voi_observational
 from voiage.schema import ParameterSet, ValueArray
@@ -67,7 +69,8 @@ def sophisticated_observational_modeler(psa_samples, study_design, bias_models):
     """A sophisticated observational study modeler that demonstrates bias adjustment.
 
     This function simulates a more sophisticated approach where we attempt to
-    adjust for biases using statistical methods.
+    adjust for confounding and measurement error using statistical methods.
+    Selection bias is not modelled by this illustrative example.
     """
 
     n_samples = psa_samples.n_samples
@@ -81,6 +84,10 @@ def sophisticated_observational_modeler(psa_samples, study_design, bias_models):
     confounding_strength = bias_models.get("confounding", {}).get("strength", 0.0)
     selection_bias_prob = bias_models.get("selection_bias", {}).get("probability", 0.0)
     measurement_error = bias_models.get("measurement_error", {}).get("std_dev", 0.05)
+    if selection_bias_prob != 0:
+        raise ValueError(
+            "The sophisticated example does not model selection bias."
+        )
 
     # Simulate the observational study process
     # 1. Generate "observed" data with biases
@@ -241,11 +248,15 @@ def main():
     # Demonstrate the sophisticated observational modeler
     print("\n=== Using Sophisticated Observational Modeler ===")
 
+    # This model demonstrates confounding and measurement error only.
+    sophisticated_bias_models = {
+        key: value for key, value in bias_models.items() if key != "selection_bias"
+    }
     voi_sophisticated = voi_observational(
         obs_study_modeler=sophisticated_observational_modeler,
         psa_prior=parameter_set,
         observational_study_design=observational_study_design,
-        bias_models=bias_models,
+        bias_models=sophisticated_bias_models,
         n_outer_loops=20
     )
 

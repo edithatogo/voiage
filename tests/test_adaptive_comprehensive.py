@@ -5,6 +5,7 @@ import pytest
 
 from voiage.exceptions import InputError
 from voiage.methods.adaptive import (
+    _calculate_net_benefits,
     adaptive_evsi,
     bayesian_adaptive_trial_simulator,
     sophisticated_adaptive_trial_simulator,
@@ -503,6 +504,38 @@ class TestSophisticatedAdaptiveTrialSimulator:
 
 class TestBayesianAdaptiveTrialSimulator:
     """Test the bayesian_adaptive_trial_simulator function."""
+
+    @pytest.mark.xfail(
+        strict=True,
+        reason="CodeQL #864: updated beliefs do not affect the returned net benefits",
+    )
+    def test_updated_beliefs_affect_net_benefits(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """Changing posterior beliefs should affect the stated belief-based output."""
+
+        def zero_noise(_mean: float, _sd: float, size: tuple[int, ...]) -> np.ndarray:
+            return np.zeros(size)
+
+        monkeypatch.setattr(np.random, "normal", zero_noise)
+        common = {
+            "n_samples": 2,
+            "cost_per_patient": np.array([100.0, 100.0]),
+            "treatment_outcomes": 40,
+            "control_outcomes": 30,
+            "adjusted_sample_size": 200,
+        }
+        lower = _calculate_net_benefits(
+            updated_treatment_effect=np.array([0.05, 0.05]),
+            updated_control_rate=np.array([0.2, 0.2]),
+            **common,
+        )
+        higher = _calculate_net_benefits(
+            updated_treatment_effect=np.array([0.2, 0.2]),
+            updated_control_rate=np.array([0.3, 0.3]),
+            **common,
+        )
+        assert not np.array_equal(lower, higher)
 
     def test_bayesian_adaptive_trial_simulator_basic(self) -> None:
         """Test basic functionality of bayesian_adaptive_trial_simulator."""

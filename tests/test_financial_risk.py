@@ -66,9 +66,10 @@ def test_calculate_conditional_value_at_risk_returns_var_when_tail_empty(
     monkeypatch,
 ) -> None:
     """CVaR should fall back to VaR if no returns are in the tail."""
-    import voiage.financial.risk_analysis as risk
-
-    monkeypatch.setattr(risk, "calculate_value_at_risk", lambda *_args: 10.0)
+    monkeypatch.setattr(
+        "voiage.financial.risk_analysis.calculate_value_at_risk",
+        lambda *_args: 10.0,
+    )
 
     assert calculate_conditional_value_at_risk(np.array([1.0, 2.0]), 0.95) == 10.0
 
