@@ -319,7 +319,9 @@ def bayesian_adaptive_trial_simulator(
     Notes
     -----
     The implementation is a testing-oriented approximation of a Bayesian
-    adaptive design rather than a fully general trial simulator.
+    adaptive design rather than a fully general trial simulator. Its current
+    net-benefit calculation does not incorporate the updated belief values,
+    so the output should not be used as a belief-based decision analysis.
     """
     n_samples = psa_samples.n_samples
 

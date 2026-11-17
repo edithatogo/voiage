@@ -173,13 +173,12 @@ try:
     jax.config.update("jax_enable_x64", True)
 
     # Try to import optional dependencies
-    SKLEARN_AVAILABLE = False
     try:
         import sklearn  # noqa: F401
-
-        SKLEARN_AVAILABLE = True
     except ImportError:
-        pass
+        SKLEARN_AVAILABLE = False
+    else:
+        SKLEARN_AVAILABLE = True
 
     class _JaxBackendImpl(Backend):
         """JAX-based computational backend."""

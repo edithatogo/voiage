@@ -7,7 +7,9 @@ import pytest
 
 # Import the actual classes that exist
 from voiage.metamodels import (
+    FLAX_AVAILABLE,
     BARTMetamodel,
+    FlaxMetamodel,
     GAMMetamodel,
     RandomForestMetamodel,
     _safe_r2_score,
@@ -336,20 +338,12 @@ def test_cross_validate(sample_data) -> None:
     assert cv_results["cv_mae_mean"] >= 0
 
 
+@pytest.mark.skipif(not FLAX_AVAILABLE, reason="Flax dependencies are not available")
 def test_flax_metamodel(sample_data) -> None:
     """Test the FlaxMetamodel."""
-    try:
-        from voiage.metamodels import FlaxMetamodel
-    except ImportError:
-        pytest.skip("FlaxMetamodel not available")
-
     x, y = sample_data
 
-    # Try to create the model
-    try:
-        model = FlaxMetamodel(learning_rate=0.01, n_epochs=10)
-    except ImportError:
-        pytest.skip("FlaxMetamodel dependencies (flax/jax) not available")
+    model = FlaxMetamodel(learning_rate=0.01, n_epochs=10)
 
     # Test rmse on unfitted model
     with pytest.raises(RuntimeError, match="The model has not been fitted yet"):

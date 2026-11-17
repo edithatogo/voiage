@@ -1,5 +1,10 @@
 # Changelog
 
+- Make the observational validation example reject selection bias that its
+  illustrative model does not implement, and clarify optional-dependency tests.
+- Document that the testing-oriented Bayesian adaptive simulator does not yet
+  incorporate updated beliefs into its net-benefit calculation.
+
 - Validate Innovate decision-binding versions, labels, scaling metadata, and
   finite net benefits before evaluating paired draws.
 

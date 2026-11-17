@@ -8,7 +8,6 @@ import json
 import pathlib
 import sys
 from types import ModuleType
-from typing import TYPE_CHECKING
 
 import numpy as np
 import pytest
@@ -22,9 +21,6 @@ from voiage.schema import ValueArray
 pytestmark = pytest.mark.integration
 
 runner = CliRunner()
-
-if TYPE_CHECKING:
-    from pathlib import Path
 
 
 def _import_module_without_jax(
@@ -69,7 +65,7 @@ def _import_module_without_jax(
     return importlib.import_module(module_name)
 
 
-def _write_net_benefit_csv(path: Path) -> np.ndarray:
+def _write_net_benefit_csv(path: pathlib.Path) -> np.ndarray:
     values = np.array(
         [
             [10.0, 12.0, 11.0],
@@ -87,7 +83,7 @@ def _write_net_benefit_csv(path: Path) -> np.ndarray:
 
 
 def test_cli_evpi_matches_backend_and_jax_when_available(
-    tmp_path: Path,
+    tmp_path: pathlib.Path,
 ) -> None:
     """The CLI, NumPy backend, and JAX backend should agree on the same surface."""
     net_benefits_file = tmp_path / "net_benefits.csv"
@@ -116,7 +112,7 @@ def test_cli_evpi_matches_backend_and_jax_when_available(
 
 
 def test_cli_evpi_matches_numpy_backend_without_jax(
-    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    monkeypatch: pytest.MonkeyPatch, tmp_path: pathlib.Path
 ) -> None:
     """The NumPy CLI/backend path should keep working when JAX is absent."""
     analysis_module = _import_module_without_jax("voiage.analysis", monkeypatch)

@@ -1,6 +1,6 @@
 """Regression tests for the synthetic health example in the preprint."""
 
-from math import pi, sqrt
+from math import hypot, pi, sqrt
 from pathlib import Path
 
 import numpy as np
@@ -67,9 +67,7 @@ def test_normal_normal_evsi_uses_declared_equal_allocation_likelihood() -> None:
 def test_reported_values_agree_with_independent_analytical_references() -> None:
     """Known Normal-model expectations independently bound the simulation."""
     example = calculate_example()
-    expected_evpi = sqrt(
-        (REFERENCE_WTP * EFFECT_PRIOR_SD) ** 2 + COST_PRIOR_SD**2
-    ) / sqrt(2 * pi)
+    expected_evpi = hypot(REFERENCE_WTP * EFFECT_PRIOR_SD, COST_PRIOR_SD) / sqrt(2 * pi)
     expected_effect_evppi = REFERENCE_WTP * EFFECT_PRIOR_SD / sqrt(2 * pi)
     expected_cost_evppi = COST_PRIOR_SD / sqrt(2 * pi)
 

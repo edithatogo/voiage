@@ -25,13 +25,12 @@ if TYPE_CHECKING:
     from collections.abc import Callable, Generator, Mapping, Sequence
 
 # Check for JAX availability
-JAX_AVAILABLE = False
 try:
     import jax.numpy  # noqa: F401
-
-    JAX_AVAILABLE = True
 except ImportError:
-    pass
+    JAX_AVAILABLE = False
+else:
+    JAX_AVAILABLE = True
 
 SKLEARN_AVAILABLE = False
 LinearRegression = None
