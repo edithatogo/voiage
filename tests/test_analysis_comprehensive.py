@@ -1,10 +1,13 @@
 """Comprehensive tests for voiage.analysis module to improve coverage."""
 
+import builtins
+import importlib.util
 from unittest.mock import patch
 
 import numpy as np
 import pytest
 
+import voiage.analysis as analysis_module
 from voiage.analysis import DecisionAnalysis
 from voiage.exceptions import (
     DimensionMismatchError,
@@ -19,6 +22,39 @@ from voiage.schema import (
     TrialDesign,
     ValueArray,
 )
+
+
+def test_analysis_without_jax_uses_numpy_backend(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """The analysis facade remains usable when optional JAX is unavailable."""
+    real_import = builtins.__import__
+
+    def import_without_jax(
+        name: str,
+        globals_: object | None = None,
+        locals_: object | None = None,
+        fromlist: tuple[str, ...] | list[str] = (),
+        level: int = 0,
+    ) -> object:
+        if name == "jax.numpy":
+            raise ImportError("JAX is intentionally unavailable in this test")
+        return real_import(name, globals_, locals_, fromlist, level)
+
+    spec = importlib.util.spec_from_file_location(
+        "voiage._analysis_without_jax", analysis_module.__file__
+    )
+    assert spec is not None
+    assert spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    with monkeypatch.context() as scoped_patch:
+        scoped_patch.setattr(builtins, "__import__", import_without_jax)
+        spec.loader.exec_module(module)
+        analysis = module.DecisionAnalysis(np.array([[0.0, 2.0], [2.0, 0.0]]))
+
+        assert module.JAX_AVAILABLE is False
+        assert analysis.backend.backend_name == "numpy"
+        assert analysis.evpi() == pytest.approx(1.0)
 
 
 class TestDecisionAnalysisComprehensive:
