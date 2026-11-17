@@ -1,5 +1,8 @@
 # Changelog
 
+- Remove two obsolete security issue templates from the public issue chooser;
+  private vulnerability reporting remains linked from the chooser and SECURITY.md.
+
 - Restrict automatic Julia TagBot runs to the registry bot's closed-issue
   notifications, while documenting the scoped audit exception and release limits.
 
