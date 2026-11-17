@@ -2,12 +2,12 @@
 
 import builtins
 import importlib.util
+import inspect
 from unittest.mock import patch
 
 import numpy as np
 import pytest
 
-import voiage.analysis as analysis_module
 from voiage.analysis import DecisionAnalysis
 from voiage.exceptions import (
     DimensionMismatchError,
@@ -42,7 +42,7 @@ def test_analysis_without_jax_uses_numpy_backend(
         return real_import(name, globals_, locals_, fromlist, level)
 
     spec = importlib.util.spec_from_file_location(
-        "voiage._analysis_without_jax", analysis_module.__file__
+        "voiage._analysis_without_jax", inspect.getfile(DecisionAnalysis)
     )
     assert spec is not None
     assert spec.loader is not None
