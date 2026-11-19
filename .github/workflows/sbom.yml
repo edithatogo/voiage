@@ -408,6 +408,8 @@ jobs:
           .assurance/release-requirements.txt
           .assurance/reproducible-build.json
           .assurance/sbom.cdx.json
+          .assurance/resolved-grype.sbom.cdx.json
+          .assurance/grype-coverage.json
         include-hidden-files: true
         if-no-files-found: error
         retention-days: 90
