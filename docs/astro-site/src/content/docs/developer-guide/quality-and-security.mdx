@@ -83,6 +83,40 @@ stop another task's process or treat its pending result as a pass.
 
 ## Dependency and experimental-feature policy
 
+### Resolved vulnerability evidence
+
+The P0 Grype callers use the shared, immutable `repository-standards` action.
+Pull-request and monitoring findings are advisory. Candidate release gates use
+the Critical threshold; scanner, database, inventory and evidence errors fail
+both modes. Existing pip-audit, RustSec, privacy, version, scientific and native
+qualification checks remain required.
+
+The full `polyglot.sbom.cdx.json` remains the signed release inventory. Its R and
+Julia dependency declarations are not exact resolved package versions.
+`prepare_grype_sbom.py` therefore creates a separate
+`resolved-grype.sbom.cdx.json` containing exact Python and Cargo identities. The
+coverage receipt records every excluded R/Julia component and the original
+document's SHA-256. Unexpected ecosystems or unresolved Python/Cargo identities
+fail preparation. This scoped projection makes no complete R, Julia, operating
+system or platform-native dependency claim.
+
+Before TestPyPI or PyPI publication, the reviewed-payload job downloads the
+actual staged distributions and retained evidence. It verifies each distribution's
+SBOM attestation with the expected repository, signer workflow and signed-tag
+source commit, then checks the release manifest, subject hashes and exact full
+SBOM predicate. It recomputes and compares the resolved projection before scanning
+it. Candidate builds or post-publication scans alone cannot satisfy this gate.
+The reviewed distribution hashes remain checked by the existing publication jobs.
+
+The locked crates.io release route separately scans its resolved Cargo inventory
+before credentials and publication. Caller-owned binding evidence and shared
+scan evidence are retained separately, including failure outcomes. The weekly
+released-asset workflow resolves the latest published non-prerelease release
+once and checks the retained resolved SBOM's asset ID and GitHub-provided SHA-256.
+Missing assets fail explicitly; current-source rebuilding is not released-byte
+monitoring. The first qualified retained asset and hosted caller runs remain
+acceptance requirements after this configuration is merged.
+
 The supported Python 3.15.2 range tracks compatible stable dependencies and
 commits `uv.lock` for reproducibility. Before dependency or runtime changes,
 run `uv lock --upgrade` and `python scripts/dependency_frontier.py . --strict`.
