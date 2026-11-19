@@ -117,6 +117,21 @@ jobs:
           cargo package --locked --no-verify --package voiage-diagnostics
           cargo package --locked --no-verify --package voiage-numerics
           cargo package --locked --no-verify --package voiage-serialization
+      - name: Generate resolved crate dependency inventory
+        uses: edithatogo/repository-standards/.github/actions/cargo-lock-sbom@bc76f1fbe0fa87a1371eadc06b08f54b48c623f7
+        with:
+          lockfile: rust/Cargo.lock
+          output: .grype-inputs/rust.sbom.cdx.json
+          name: voiage-rust-release
+          source-sha: ${{ env.RELEASE_COMMIT }}
+      - name: Gate Rust publication dependencies with Grype
+        uses: edithatogo/repository-standards/.github/actions/grype-scan@06a7bd00074b402fe91b2e3ed7a8af806be945e7
+        with:
+          sbom: .grype-inputs/rust.sbom.cdx.json
+          mode: enforce
+          source-sha: ${{ env.RELEASE_COMMIT }}
+          artifact-name: grype-rust-publication
+          output-directory: .grype-rust-evidence
       - name: Obtain short-lived crates.io credential
         id: crates-io-auth
         uses: rust-lang/crates-io-auth-action@bbd81622f20ce9e2dd9622e3218b975523e45bbe

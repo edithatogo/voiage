@@ -1,5 +1,10 @@
 # Changelog
 
+- Gate reviewed Python release payloads and locked Cargo publication with the
+  shared Critical Grype policy. Retain the full attested polyglot SBOM, a
+  separately bound resolved Python/Cargo projection and its coverage receipt;
+  add advisory candidate and immutable released-asset monitoring.
+
 - Restrict automatic Julia TagBot runs to the registry bot's closed-issue
   notifications, while documenting the scoped audit exception and release limits.
 
