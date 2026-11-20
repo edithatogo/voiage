@@ -180,6 +180,21 @@ jobs:
           --expected-commit "${SOURCE_COMMIT}" \
           --expected-tag "${SOURCE_TAG}"
 
+    - name: Derive explicitly scoped vulnerability inventory
+      run: >-
+        uv run --no-sync python scripts/prepare_grype_sbom.py
+        .assurance/sbom.cdx.json .assurance/resolved-grype.sbom.cdx.json
+        --coverage .assurance/grype-coverage.json
+
+    - name: Report resolved dependency vulnerabilities with Grype
+      uses: edithatogo/repository-standards/.github/actions/grype-scan@06a7bd00074b402fe91b2e3ed7a8af806be945e7
+      with:
+        sbom: .assurance/resolved-grype.sbom.cdx.json
+        mode: advisory
+        source-sha: ${{ steps.source.outputs.commit }}
+        artifact-name: grype-source-${{ steps.source.outputs.artifact_suffix }}
+        output-directory: .grype-source-evidence
+
     - name: Validate CycloneDX 1.6 schema
       env:
         CYCLONEDX_CLI_SHA256: bfc8b2538da86fe239bc53658bbb63c1c8c510a293c1e6891aa5bea5d3c58746
@@ -393,6 +408,8 @@ jobs:
           .assurance/release-requirements.txt
           .assurance/reproducible-build.json
           .assurance/sbom.cdx.json
+          .assurance/resolved-grype.sbom.cdx.json
+          .assurance/grype-coverage.json
         include-hidden-files: true
         if-no-files-found: error
         retention-days: 90

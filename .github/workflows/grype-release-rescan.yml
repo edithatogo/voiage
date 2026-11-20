@@ -1,0 +1,16 @@
+name: Rescan retained release dependencies
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '53 5 * * 1'
+
+permissions:
+  contents: read
+
+jobs:
+  released-sbom:
+    uses: edithatogo/repository-standards/.github/workflows/grype-release-rescan.yml@32ff270618098ffa8f8162f58efabfdfe93de799
+    with:
+      sbom-asset: resolved-grype.sbom.cdx.json
+      artifact-name: grype-released-polyglot

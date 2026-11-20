@@ -461,11 +461,29 @@ jobs:
           --source-commit "$TAG_SHA"
           --source-tag "$RELEASE_TAG"
           --output polyglot.sbom.cdx.json
+      - name: Derive resolved Python and Cargo vulnerability inventory
+        run: >-
+          python scripts/prepare_grype_sbom.py
+          polyglot.sbom.cdx.json resolved-grype.sbom.cdx.json
+          --coverage grype-coverage.json
+      - name: Gate staged release dependencies with Grype
+        uses: edithatogo/repository-standards/.github/actions/grype-scan@06a7bd00074b402fe91b2e3ed7a8af806be945e7
+        with:
+          sbom: resolved-grype.sbom.cdx.json
+          mode: enforce
+          source-sha: ${{ needs.resolve-tag.outputs.tag_sha }}
+          artifact-name: grype-staged-release
+          output-directory: .grype-staged-evidence
+
       - name: Upload release-bound SBOM
+        if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: voiage-polyglot-sbom
-          path: polyglot.sbom.cdx.json
+          path: |
+            polyglot.sbom.cdx.json
+            resolved-grype.sbom.cdx.json
+            grype-coverage.json
           if-no-files-found: error
           retention-days: 7
 
@@ -539,7 +557,7 @@ jobs:
         shell: bash
         run: |
           cd dist
-          sha256sum -- *.whl *.tar.gz polyglot.sbom.cdx.json | LC_ALL=C sort > SHA256SUMS
+          sha256sum -- *.whl *.tar.gz polyglot.sbom.cdx.json resolved-grype.sbom.cdx.json | LC_ALL=C sort > SHA256SUMS
           python -c "import json, pathlib; rows=[line.split(maxsplit=1) for line in pathlib.Path('SHA256SUMS').read_text().splitlines()]; pathlib.Path('release-manifest.json').write_text(json.dumps({'schema_version':'1.0.0','source_commit':'${TAG_SHA}','artifacts':[{'sha256': digest, 'name': name.lstrip('*')} for digest, name in rows]}, sort_keys=True, indent=2)+'\n')"
       - name: Verify build-provenance subjects
         env:
@@ -560,6 +578,8 @@ jobs:
             dist/*.tar.gz
             dist/*.intoto.jsonl
             dist/polyglot.sbom.cdx.json
+            dist/resolved-grype.sbom.cdx.json
+            dist/grype-coverage.json
             dist/release-manifest.json
             dist/SHA256SUMS
           if-no-files-found: error
@@ -630,19 +650,29 @@ jobs:
     needs: [resolve-tag, stage]
     if: github.event_name == 'workflow_dispatch' && inputs.publish
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 25
     permissions:
       # Draft releases are visible only to tokens with push-level repository
       # access. Keep this elevation scoped to the digest-review job.
       contents: write
     env:
       RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
+      TAG_SHA: ${{ needs.resolve-tag.outputs.tag_sha }}
     steps:
       - name: Harden the runner (Audit all outbound calls)
         uses: step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a # v2.22.4
         with:
           egress-policy: audit
 
+      - name: Check out immutable release verification code
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          ref: ${{ needs.resolve-tag.outputs.tag_sha }}
+          persist-credentials: false
+      - name: Select qualified Python runtime
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.15.2"
       - name: Download reviewed private draft payload
         shell: bash
         env:
@@ -667,6 +697,63 @@ jobs:
           test "$actual_wheels" = "$EXPECTED_WHEEL_SHA256"
           test "$(sha256sum "${sdists[0]}" | cut -d ' ' -f1)" = "$EXPECTED_SDIST_SHA256"
           test "$(gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json isDraft --jq '.isDraft')" = true
+      - name: Download retained draft inventory and manifest
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p release-evidence
+          gh release download "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" \
+            --dir release-evidence --pattern polyglot.sbom.cdx.json \
+            --pattern release-manifest.json --pattern resolved-grype.sbom.cdx.json
+      - name: Verify SBOM attestations on the actual reviewed distributions
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          for artifact in dist/*.whl dist/*.tar.gz; do
+            gh attestation verify "$artifact" --repo "$GITHUB_REPOSITORY" \
+              --signer-workflow "$GITHUB_REPOSITORY/.github/workflows/release.yml" \
+              --source-digest "$TAG_SHA" --predicate-type https://cyclonedx.org/bom \
+              --format json > "release-evidence/$(basename "$artifact").attestation.json"
+          done
+      - name: Bind reviewed bytes to the retained SBOM
+        run: >-
+          python scripts/verify_grype_release_binding.py
+          --manifest release-evidence/release-manifest.json
+          --sbom release-evidence/polyglot.sbom.cdx.json
+          --resolved-sbom release-evidence/resolved-grype.sbom.cdx.json
+          --distributions dist --attestations release-evidence
+          --source-sha "$TAG_SHA" --release-tag "$RELEASE_TAG"
+      - name: Reproduce resolved projection from the attested full SBOM
+        run: |
+          python scripts/prepare_grype_sbom.py \
+            release-evidence/polyglot.sbom.cdx.json release-evidence/recomputed.sbom.cdx.json \
+            --coverage release-evidence/grype-coverage.json
+          cmp release-evidence/resolved-grype.sbom.cdx.json release-evidence/recomputed.sbom.cdx.json
+      - name: Gate actual reviewed publication dependencies with Grype
+        uses: edithatogo/repository-standards/.github/actions/grype-scan@06a7bd00074b402fe91b2e3ed7a8af806be945e7
+        with:
+          sbom: release-evidence/resolved-grype.sbom.cdx.json
+          mode: enforce
+          source-sha: ${{ needs.resolve-tag.outputs.tag_sha }}
+          artifact-name: grype-reviewed-release
+          output-directory: .grype-reviewed-evidence
+      - name: Retain reviewed release binding evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: grype-reviewed-release-inputs
+          path: release-evidence/
+          if-no-files-found: error
+          retention-days: 30
+      - name: Recheck reviewed bytes immediately before handoff
+        run: >-
+          python scripts/verify_grype_release_binding.py
+          --manifest release-evidence/release-manifest.json
+          --sbom release-evidence/polyglot.sbom.cdx.json
+          --resolved-sbom release-evidence/resolved-grype.sbom.cdx.json
+          --distributions dist --attestations release-evidence
+          --source-sha "$TAG_SHA" --release-tag "$RELEASE_TAG"
       - name: Upload reviewed release payload
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
