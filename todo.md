@@ -4,6 +4,12 @@ This document lists the actionable tasks for `voiage` development. Agents should
 
 ## To Do
 
+- [~] Qualify the P0 Grype caller rollout on its hosted revision and first
+  retained release asset. Local binding/projection rejection controls and the
+  repository harness cover the implementation; they do not establish release
+  acceptance. Resolved R/Julia and platform-native dependency coverage remain
+  separate work. Preserve all existing scientific and native acceptance gates.
+
 - [~] Maintain the default-branch privacy and secret scan. The full-history
   audit at `588b8dca` reported no blocking findings, with 502 advisory matches
   and 310 binary or submodule skips; coverage remains incomplete. Investigate
