@@ -1,5 +1,8 @@
 # Changelog
 
+- Evaluate sequential EVSI for finite observation channels in Rust. The kernel
+  supports adaptive acquisition, exact garbling and a bounded outcome search.
+
 - Solve bounded Rust credal decision problems with exact payoff ranges,
   E-admissibility witnesses, strict mixed-dominance certificates and an explicit
   search budget.

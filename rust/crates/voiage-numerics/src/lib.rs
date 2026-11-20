@@ -17,6 +17,7 @@ mod evsi_moment;
 mod evsi_normal_normal;
 mod evsi_regression;
 mod heterogeneity;
+mod sequential_evsi;
 mod structural;
 mod study_design;
 mod utility_information;
@@ -42,6 +43,7 @@ pub use evsi_moment::evsi_moment_based;
 pub use evsi_normal_normal::normal_normal_two_arm_evsi;
 pub use evsi_regression::{evsi_regression, EvsiRegressionResult};
 pub use heterogeneity::{heterogeneity, HeterogeneityKernelResult};
+pub use sequential_evsi::{sequential_evsi, ObservationChannel, SequentialEvsi};
 pub use structural::{structural_evpi, structural_evppi};
 pub use study_design::{
     coss, coss_selection_uncertainty, evsi_evpi_efficiency, information_efficiency_uncertainty,
