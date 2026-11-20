@@ -21,7 +21,10 @@ mod structural;
 mod study_design;
 mod utility_information;
 
-pub use credal::{verify_e_admissibility, verify_strict_credal_dominance};
+pub use credal::{
+    solve_credal, verify_e_admissibility, verify_strict_credal_dominance, CredalAnalysis,
+    CredalBenefitRange, CredalExtremum, CredalSolveResult,
+};
 pub use dominance::{dominance, DominanceKernelResult, DominanceStatus};
 pub use enbs::enbs;
 pub use error::NumericalInputError;

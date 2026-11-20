@@ -7,6 +7,12 @@ use voiage_domain::{
 
 use crate::NumericalInputError;
 
+mod solve;
+
+pub use solve::{
+    solve_credal, CredalAnalysis, CredalBenefitRange, CredalExtremum, CredalSolveResult,
+};
+
 /// Verifies that a feasible point makes the proposed strategy optimal.
 ///
 /// Comparisons use the exact affine objectives, including ties.
