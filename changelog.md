@@ -1,5 +1,9 @@
 # Changelog
 
+- Solve bounded Rust credal decision problems with exact payoff ranges,
+  E-admissibility witnesses, strict mixed-dominance certificates and an explicit
+  search budget.
+
 - Add Rust contracts for bounded credal sets, direct expected net benefit at a
   fixed point, and data for E-admissibility and strict dominance witnesses.
 
