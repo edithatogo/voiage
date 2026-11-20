@@ -3,7 +3,7 @@ use core::fmt;
 use std::collections::{BTreeMap, BTreeSet};
 
 use num_rational::BigRational;
-use num_traits::{ToPrimitive, Zero};
+use num_traits::{Signed, ToPrimitive, Zero};
 
 use crate::{Identifier, SampleVector, StrategyId, Threshold};
 
@@ -31,6 +31,8 @@ pub enum CredalContractError {
     InvalidRationalCoordinate,
     /// A certificate contained malformed or degenerate multipliers.
     InvalidMultipliers,
+    /// The stated normalized certificate margin was nonpositive or malformed.
+    InvalidMargin,
 }
 
 impl fmt::Display for CredalContractError {
@@ -85,11 +87,7 @@ impl CredalPoint {
         coordinates
             .into_iter()
             .map(|coordinate| {
-                let (numerator, denominator) = coordinate.into_raw();
-                if denominator.is_zero() {
-                    return Err(CredalContractError::InvalidRationalCoordinate);
-                }
-                Ok(BigRational::new(numerator, denominator))
+                canonical_rational(coordinate).ok_or(CredalContractError::InvalidRationalCoordinate)
             })
             .collect::<Result<_, _>>()
             .map(Self)
@@ -327,16 +325,16 @@ impl AffineNetBenefit {
 /// Numerical verification must bind these values to the objectives and support.
 /// The margin is the advantage of the alternative mixture after normalising
 /// its multipliers to sum to one.
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub struct DominanceWitness {
     strategy: StrategyId,
-    alternative_multipliers: BTreeMap<StrategyId, f64>,
-    support_multipliers: Vec<f64>,
-    margin: Threshold,
+    alternative_multipliers: BTreeMap<StrategyId, BigRational>,
+    support_multipliers: Vec<BigRational>,
+    margin: BigRational,
 }
 
 impl DominanceWitness {
-    /// Constructs the dimensions and sign-validated certificate data.
+    /// Constructs a certificate from the exact values of binary64 inputs.
     ///
     /// Support multipliers use declared halfspaces first, then two rows
     /// for each coordinate in order. For coordinate x, those rows are
@@ -354,15 +352,60 @@ impl DominanceWitness {
         margin: Threshold,
     ) -> Result<Self, CredalContractError> {
         check_length(polytope.support_row_count(), support_multipliers.len())?;
+        let weight =
+            |value| BigRational::from_float(value).ok_or(CredalContractError::InvalidMultipliers);
+        let alternatives = alternative_multipliers
+            .into_iter()
+            .map(|(id, value)| Ok((id, weight(value)?)))
+            .collect::<Result<_, _>>()?;
+        let support = support_multipliers
+            .into_iter()
+            .map(weight)
+            .collect::<Result<_, _>>()?;
+        Self::new_exact(
+            polytope,
+            strategy,
+            alternatives,
+            support,
+            rational(margin.get())?,
+        )
+    }
+
+    /// Constructs an exact certificate, including non-binary rational margins or weights.
+    /// Support rows follow the order documented by [`Self::new`].
+    ///
+    /// # Errors
+    /// Returns an error for inconsistent support dimensions, malformed or negative
+    /// weights, a zero alternative combination, or a malformed or nonpositive margin.
+    pub fn new_exact(
+        polytope: &CredalPolytope,
+        strategy: StrategyId,
+        alternative_multipliers: BTreeMap<StrategyId, BigRational>,
+        support_multipliers: Vec<BigRational>,
+        margin: BigRational,
+    ) -> Result<Self, CredalContractError> {
+        check_length(polytope.support_row_count(), support_multipliers.len())?;
+        let weight = |value| {
+            canonical_rational(value)
+                .filter(|weight| !weight.is_negative())
+                .ok_or(CredalContractError::InvalidMultipliers)
+        };
+        let alternative_multipliers: BTreeMap<_, _> = alternative_multipliers
+            .into_iter()
+            .map(|(id, value)| Ok((id, weight(value)?)))
+            .collect::<Result<_, _>>()?;
+        let support_multipliers = support_multipliers
+            .into_iter()
+            .map(weight)
+            .collect::<Result<_, _>>()?;
         if alternative_multipliers.contains_key(&strategy)
-            || !alternative_multipliers.values().any(|&weight| weight > 0.0)
-            || alternative_multipliers
-                .values()
-                .chain(&support_multipliers)
-                .any(|weight| !weight.is_finite() || *weight < 0.0)
+            || !alternative_multipliers.values().any(Signed::is_positive)
         {
             return Err(CredalContractError::InvalidMultipliers);
         }
+        let margin = canonical_rational(margin)
+            .filter(Signed::is_positive)
+            .ok_or(CredalContractError::InvalidMargin)?;
         Ok(Self {
             strategy,
             alternative_multipliers,
@@ -377,13 +420,19 @@ impl DominanceWitness {
         &self.strategy
     }
 
-    /// Returns the alternative multipliers, support multipliers and margin.
+    /// Borrows the exact alternative multipliers, support multipliers and margin.
     #[must_use]
-    pub fn certificate(&self) -> (&BTreeMap<StrategyId, f64>, &[f64], Threshold) {
+    pub fn certificate(
+        &self,
+    ) -> (
+        &BTreeMap<StrategyId, BigRational>,
+        &[BigRational],
+        &BigRational,
+    ) {
         (
             &self.alternative_multipliers,
             &self.support_multipliers,
-            self.margin,
+            &self.margin,
         )
     }
 }
@@ -439,6 +488,11 @@ fn finite(value: f64) -> Result<f64, CredalContractError> {
 
 fn rational(value: f64) -> Result<BigRational, CredalContractError> {
     BigRational::from_float(value).ok_or(CredalContractError::NonFinite)
+}
+
+fn canonical_rational(value: BigRational) -> Option<BigRational> {
+    let (numerator, denominator) = value.into_raw();
+    (!denominator.is_zero()).then(|| BigRational::new(numerator, denominator))
 }
 
 fn round_to_binary64(value: &BigRational) -> Result<f64, CredalContractError> {
