@@ -20,6 +20,7 @@ mod heterogeneity;
 mod sequential_evsi;
 mod structural;
 mod study_design;
+mod tobit;
 mod utility_information;
 
 pub use credal::{
@@ -50,6 +51,7 @@ pub use study_design::{
     CossKernelResult, CossSelectionUncertaintyKernelResult, InformationEfficiencyKernelResult,
     InformationEfficiencyUncertaintyKernelResult,
 };
+pub use tobit::{TobitModel, TobitObservation, TobitState};
 pub use utility_information::{
     expected_utility_information, AffineReduction, Comparability, DomainExclusion,
     ExpectedUtilityError, ExpectedUtilityInformationInput, ExpectedUtilityInformationResult,
