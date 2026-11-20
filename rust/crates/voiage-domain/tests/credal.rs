@@ -3,8 +3,9 @@
 use std::collections::BTreeMap;
 
 use voiage_domain::{
-    AffineNetBenefit, CredalContractError, CredalInterval, CredalPolytope, DominanceWitness,
-    EAdmissibilityResult, Identifier, LinearInequality, SampleVector, StrategyId, Threshold,
+    AffineNetBenefit, BigRational, CredalContractError, CredalInterval, CredalPoint,
+    CredalPolytope, DominanceWitness, EAdmissibilityResult, Identifier, LinearInequality,
+    SampleVector, StrategyId, Threshold,
 };
 
 fn id(value: &str) -> Identifier {
@@ -116,6 +117,35 @@ fn affine_net_benefit_preserves_small_terms_between_large_opposite_terms() {
     )
     .unwrap();
     assert_eq!(cancelling.evaluate(&[2.0, 2.0]), Ok(f64::from_bits(1)));
+}
+
+#[test]
+fn exact_witness_retains_a_non_binary64_boundary_and_benefit_tie() {
+    let support = CredalPolytope::new(
+        vec![id("x")],
+        vec![interval(0.0, 1.0)],
+        vec![
+            LinearInequality::new(row(&[3.0]), 1.0).unwrap(),
+            LinearInequality::new(row(&[-3.0]), -1.0).unwrap(),
+        ],
+    )
+    .unwrap();
+    let witness = CredalPoint::new(vec![BigRational::new_raw((-2).into(), (-6).into())]).unwrap();
+    assert_eq!(
+        witness.coordinates(),
+        &[BigRational::new(1.into(), 3.into())]
+    );
+    assert_eq!(support.contains_exact(&witness), Ok(true));
+    assert_eq!(support.contains(&[1.0 / 3.0]), Ok(false));
+    let benefit = AffineNetBenefit::new(strategy("A"), -1.0, row(&[3.0])).unwrap();
+    assert_eq!(
+        benefit.evaluate_exact(&witness),
+        Ok(BigRational::from_integer(0.into()))
+    );
+    assert_eq!(
+        CredalPoint::new(vec![BigRational::new_raw(1.into(), 0.into())]),
+        Err(CredalContractError::InvalidRationalCoordinate)
+    );
 }
 
 #[test]
