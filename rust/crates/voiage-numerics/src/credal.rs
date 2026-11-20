@@ -7,6 +7,12 @@ use voiage_domain::{
 
 use crate::NumericalInputError;
 
+mod solve;
+
+pub use solve::{
+    solve_credal, CredalAnalysis, CredalBenefitRange, CredalExtremum, CredalSolveResult,
+};
+
 /// Verifies that a feasible point makes the proposed strategy optimal.
 ///
 /// Comparisons use the exact affine objectives, including ties.
@@ -78,17 +84,16 @@ pub fn verify_strict_credal_dominance(
     let mut residual = vec![zero.clone(); bounds.len()];
     let mut lower = zero.clone();
     let mut total_weight = zero;
-    for (strategy, &multiplier) in alternatives {
+    for (strategy, weight) in alternatives {
         let alternative = objectives.get(strategy).ok_or_else(unknown_strategy)?;
         let (_, intercept, coefficients) = alternative.objective();
-        let weight = exact(multiplier)?;
-        lower += &weight * (exact(intercept)? - exact(target_intercept)?);
+        lower += weight * (exact(intercept)? - exact(target_intercept)?);
         for ((term, &alt), &target) in residual
             .iter_mut()
             .zip(coefficients)
             .zip(target_coefficients)
         {
-            *term += &weight * (exact(alt)? - exact(target)?);
+            *term += weight * (exact(alt)? - exact(target)?);
         }
         total_weight += weight;
     }
@@ -96,12 +101,11 @@ pub fn verify_strict_credal_dominance(
     // For a support row a*x <= b, adding its nonnegative weighted residual
     // a*x - b gives a lower bound for the original mixture advantage.
     let (halfspace_weights, box_weights) = support_weights.split_at(inequalities.len());
-    for (inequality, &multiplier) in inequalities.iter().zip(halfspace_weights) {
+    for (inequality, weight) in inequalities.iter().zip(halfspace_weights) {
         let (coefficients, upper) = inequality.row();
-        let weight = exact(multiplier)?;
-        lower -= &weight * exact(upper)?;
+        lower -= weight * exact(upper)?;
         for (term, &coefficient) in residual.iter_mut().zip(coefficients) {
-            *term += &weight * exact(coefficient)?;
+            *term += weight * exact(coefficient)?;
         }
     }
     for ((term, bound), weights) in residual
@@ -112,9 +116,9 @@ pub fn verify_strict_credal_dominance(
         let (lower_bound, upper_bound) = bound.endpoints();
         let lo = exact(lower_bound)?;
         let hi = exact(upper_bound)?;
-        let lower_weight = exact(weights[0])?;
-        let upper_weight = exact(weights[1])?;
-        lower += &lower_weight * &lo - &upper_weight * &hi;
+        let lower_weight = &weights[0];
+        let upper_weight = &weights[1];
+        lower += lower_weight * &lo - upper_weight * &hi;
         *term += upper_weight - lower_weight;
         lower += (&*term * lo).min(&*term * hi);
     }
@@ -122,7 +126,7 @@ pub fn verify_strict_credal_dominance(
     let is_nonempty = support
         .contains_exact(feasible_point)
         .map_err(|error| input_error("feasible_point", error))?;
-    Ok(is_nonempty && lower >= exact(margin.get())? * total_weight)
+    Ok(is_nonempty && lower >= margin * total_weight)
 }
 
 fn index_strategies<'a>(
