@@ -15,13 +15,15 @@ pub use core_contracts::{
     CeacResult, CoreContractError, ParameterSet, TrialArm, TrialDesign, ValueArray,
 };
 pub use credal::{
-    AffineNetBenefit, CredalContractError, CredalInterval, CredalPolytope, DominanceWitness,
-    EAdmissibilityResult, LinearInequality,
+    AffineNetBenefit, CredalContractError, CredalInterval, CredalPoint, CredalPolytope,
+    DominanceWitness, EAdmissibilityResult, LinearInequality,
 };
 pub use decision_problem::{
     AnalysisType, DecisionProblem, DecisionProblemError, ExecutionMode, Intervention, Provenance,
     ReproducibilityMetadata,
 };
+/// Exact numeric values used for credal witness coordinates and benefits.
+pub use num_rational::BigRational;
 
 /// Identifies this crate while the production domain contracts are introduced.
 pub const CRATE_NAME: &str = "voiage-domain";

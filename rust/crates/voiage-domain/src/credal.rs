@@ -27,6 +27,8 @@ pub enum CredalContractError {
     ReversedInterval,
     /// The single point in the bounding box violated a support inequality.
     InfeasibleSingleton,
+    /// A rational parameter coordinate had a zero denominator.
+    InvalidRationalCoordinate,
     /// A certificate contained malformed or degenerate multipliers.
     InvalidMultipliers,
 }
@@ -64,6 +66,55 @@ impl CredalInterval {
     #[must_use]
     pub const fn endpoints(self) -> (f64, f64) {
         (self.lower, self.upper)
+    }
+}
+
+/// A nonempty parameter vector with exact rational coordinates.
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct CredalPoint(Vec<BigRational>);
+
+impl CredalPoint {
+    /// Constructs a point with reduced rational coordinates.
+    ///
+    /// # Errors
+    /// Returns an error for an empty point or a zero denominator.
+    pub fn new(coordinates: Vec<BigRational>) -> Result<Self, CredalContractError> {
+        if coordinates.is_empty() {
+            return Err(CredalContractError::Empty);
+        }
+        coordinates
+            .into_iter()
+            .map(|coordinate| {
+                let (numerator, denominator) = coordinate.into_raw();
+                if denominator.is_zero() {
+                    return Err(CredalContractError::InvalidRationalCoordinate);
+                }
+                Ok(BigRational::new(numerator, denominator))
+            })
+            .collect::<Result<_, _>>()
+            .map(Self)
+    }
+
+    /// Converts the exact values of finite binary64 coordinates.
+    ///
+    /// # Errors
+    /// Returns an error for an empty point or nonfinite input.
+    pub fn from_binary64(coordinates: &[f64]) -> Result<Self, CredalContractError> {
+        if coordinates.is_empty() {
+            return Err(CredalContractError::Empty);
+        }
+        coordinates
+            .iter()
+            .copied()
+            .map(rational)
+            .collect::<Result<_, _>>()
+            .map(Self)
+    }
+
+    /// Borrows the coordinates in their declared order.
+    #[must_use]
+    pub fn coordinates(&self) -> &[BigRational] {
+        &self.0
     }
 }
 
@@ -151,16 +202,24 @@ impl CredalPolytope {
     /// Returns an error for a dimension mismatch or nonfinite input.
     pub fn contains(&self, point: &[f64]) -> Result<bool, CredalContractError> {
         check_length(self.parameters.len(), point.len())?;
-        if point.iter().any(|value| !value.is_finite()) {
-            return Err(CredalContractError::NonFinite);
-        }
-        for (bound, &value) in self.bounds.iter().zip(point) {
-            if value < bound.lower || value > bound.upper {
+        self.contains_exact(&CredalPoint::from_binary64(point)?)
+    }
+
+    /// Tests a rational witness against the box and halfspaces.
+    ///
+    /// # Errors
+    /// Returns an error if the point's dimension differs from that of the support.
+    pub fn contains_exact(&self, point: &CredalPoint) -> Result<bool, CredalContractError> {
+        let values = point.coordinates();
+        check_length(self.parameters.len(), values.len())?;
+        for (bound, value) in self.bounds.iter().zip(values) {
+            if value < &rational(bound.lower)? || value > &rational(bound.upper)? {
                 return Ok(false);
             }
         }
         for inequality in &self.inequalities {
-            if exact_dot(inequality.coefficients.as_slice(), point)? > rational(inequality.upper)? {
+            if exact_dot(inequality.coefficients.as_slice(), values)? > rational(inequality.upper)?
+            {
                 return Ok(false);
             }
         }
@@ -185,9 +244,13 @@ impl CredalPolytope {
         let Some(point) = self.fixed_point() else {
             return Ok(None);
         };
+        let point = CredalPoint::from_binary64(&point)?;
         let values = strategies
             .iter()
-            .map(|value| Ok((value.strategy.clone(), value.evaluate(&point)?)))
+            .map(|value| {
+                let benefit = value.evaluate_exact(&point)?;
+                Ok((value.strategy.clone(), round_to_binary64(&benefit)?))
+            })
             .collect::<Result<_, _>>()?;
         Ok(Some(values))
     }
@@ -244,8 +307,18 @@ impl AffineNetBenefit {
     /// Returns an error for a dimension mismatch, a nonfinite input or a
     /// result outside the finite binary64 range.
     pub fn evaluate(&self, point: &[f64]) -> Result<f64, CredalContractError> {
-        let value = rational(self.intercept)? + exact_dot(self.coefficients.as_slice(), point)?;
-        finite(value.to_f64().ok_or(CredalContractError::NonFinite)?)
+        check_length(self.coefficients.len(), point.len())?;
+        let value = self.evaluate_exact(&CredalPoint::from_binary64(point)?)?;
+        round_to_binary64(&value)
+    }
+
+    /// Returns the exact affine benefit at a rational witness.
+    ///
+    /// # Errors
+    /// Returns an error if the point's dimension differs from the coefficient length.
+    pub fn evaluate_exact(&self, point: &CredalPoint) -> Result<BigRational, CredalContractError> {
+        Ok(rational(self.intercept)?
+            + exact_dot(self.coefficients.as_slice(), point.coordinates())?)
     }
 }
 
@@ -323,7 +396,7 @@ pub enum EAdmissibilityResult {
         /// The strategy whose optimality is witnessed.
         strategy: StrategyId,
         /// The parameter vector in the polytope's coordinate order.
-        point: SampleVector,
+        point: CredalPoint,
     },
     /// A strict dominance certificate excludes the strategy.
     Dominated(DominanceWitness),
@@ -368,12 +441,19 @@ fn rational(value: f64) -> Result<BigRational, CredalContractError> {
     BigRational::from_float(value).ok_or(CredalContractError::NonFinite)
 }
 
-fn exact_dot(coefficients: &[f64], point: &[f64]) -> Result<BigRational, CredalContractError> {
+fn round_to_binary64(value: &BigRational) -> Result<f64, CredalContractError> {
+    finite(value.to_f64().ok_or(CredalContractError::NonFinite)?)
+}
+
+fn exact_dot(
+    coefficients: &[f64],
+    point: &[BigRational],
+) -> Result<BigRational, CredalContractError> {
     check_length(coefficients.len(), point.len())?;
     coefficients
         .iter()
         .zip(point)
-        .try_fold(BigRational::zero(), |sum, (&coefficient, &coordinate)| {
-            Ok(sum + rational(coefficient)? * rational(coordinate)?)
+        .try_fold(BigRational::zero(), |sum, (&coefficient, coordinate)| {
+            Ok(sum + rational(coefficient)? * coordinate)
         })
 }
