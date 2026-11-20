@@ -187,9 +187,14 @@ impl TobitModel {
         weights.push(bin_weight(log_detection + standard_normal_log_cdf(lower))?);
         for &cutpoint in cutpoints {
             let upper = state.standardize(cutpoint);
-            let width = difference_in_units(cutpoint, lower_endpoint, state.standard_deviation);
+            let difference = cutpoint - lower_endpoint;
+            let log_width = if difference.is_finite() {
+                difference.ln() - state.standard_deviation.ln()
+            } else {
+                difference_in_units(cutpoint, lower_endpoint, state.standard_deviation).ln()
+            };
             weights.push(bin_weight(
-                log_detection + standard_normal_log_interval(lower, upper, width),
+                log_detection + standard_normal_log_interval(lower, upper, log_width),
             )?);
             lower_endpoint = cutpoint;
             lower = upper;
@@ -234,13 +239,15 @@ fn standard_normal_log_cdf(value: f64) -> f64 {
     }
 }
 
-fn standard_normal_log_interval(lower: f64, upper: f64, width: f64) -> f64 {
+fn standard_normal_log_interval(lower: f64, upper: f64, log_width: f64) -> f64 {
     let midpoint = lower.midpoint(upper);
-    if width > 0.0 && width <= (0.25 * f64::EPSILON.sqrt()) / (1.0 + midpoint.abs()) {
-        // In a narrow bin the relative error of the midpoint integral is
-        // quadratic in the scaled width. Using the original cutpoint difference
-        // preserves mass when the two standardized endpoints round together.
-        return width.ln() + standard_normal_log_density(midpoint);
+    if midpoint.is_finite() && log_width + midpoint.abs().ln_1p() <= 1e-3_f64.ln() {
+        // Integrate the Gaussian density expansion at the midpoint. Keeping
+        // the quadratic term gives (midpoint² - 1) * width² / 24. The first
+        // omitted term is fourth order in width * (1 + |midpoint|).
+        let width = log_width.exp();
+        let quadratic = ((midpoint * width).powi(2) - width.powi(2)) / 24.0;
+        return log_width + standard_normal_log_density(midpoint) + quadratic.ln_1p();
     }
     let (large, small) = if lower >= 0.0 {
         (

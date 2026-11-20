@@ -161,6 +161,32 @@ fn narrow_measured_bins_keep_probability_when_both_cumulative_values_round_toget
 }
 
 #[test]
+fn a_subnormal_bin_can_round_to_positive_probability_after_standardization() {
+    let model = TobitModel::new(0.0, vec![state(0.0, 1.5, 1.0)]).unwrap();
+    let labels = ["unavailable", "below", "narrow", "upper"].map(id);
+    let channel = model
+        .finite_channel(id("assay"), &[f64::from_bits(2)], labels.to_vec())
+        .unwrap();
+    let unit = BigRational::from_float(f64::from_bits(1)).unwrap();
+    let total = BigRational::from_integer(1.into()) + &unit;
+    assert_eq!(channel.likelihoods()[0][2], unit / total);
+}
+
+#[test]
+fn narrow_tail_bins_avoid_cancellation_when_subtracting_log_survival_values() {
+    let model = TobitModel::new(36.5, vec![state(0.0, 1.0, 1.0)]).unwrap();
+    let labels = ["unavailable", "below", "narrow", "upper"].map(id);
+    let channel = model
+        .finite_channel(id("assay"), &[36.500_000_000_1], labels.to_vec())
+        .unwrap();
+    // Independent 80-digit Simpson integration on the exact binary64 endpoints.
+    let mass = 2.025_377_857_388_987_8e-300;
+    let error = &channel.likelihoods()[0][2] - BigRational::from_float(mass).unwrap();
+    let tolerance = BigRational::from_float(mass * 2e-13).unwrap();
+    assert!(error > -&tolerance && error < tolerance);
+}
+
+#[test]
 fn invalid_models_empty_bins_and_unrepresentable_weights_fail_closed() {
     for (mean, sigma, observed) in [(f64::NAN, 1.0, 1.0), (0.0, 0.0, 1.0), (0.0, 1.0, 1.1)] {
         assert!(TobitState::new(mean, sigma, observed).is_err());
