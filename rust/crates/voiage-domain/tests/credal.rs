@@ -213,10 +213,15 @@ fn dominance_certificate_data_preserves_order_and_rejects_invalid_multipliers() 
     )
     .unwrap();
     assert_eq!(witness.strategy(), &strategy("A"));
+    let (weights, rows, exact_margin) = witness.certificate();
+    for (id, weight) in &alternatives {
+        assert_eq!(weights[id], BigRational::from_float(*weight).unwrap());
+    }
     assert_eq!(
-        witness.certificate(),
-        (&alternatives, &[0.5, 0.0, 0.0][..], margin)
+        rows,
+        &[0.5, 0.0, 0.0].map(|weight| BigRational::from_float(weight).unwrap())
     );
+    assert_eq!(*exact_margin, BigRational::new(1.into(), 4.into()));
     assert!(matches!(
         EAdmissibilityResult::Dominated(witness),
         EAdmissibilityResult::Dominated(value) if value.strategy() == &strategy("A")
@@ -248,6 +253,56 @@ fn dominance_certificate_data_preserves_order_and_rejects_invalid_multipliers() 
     }
     assert_eq!(
         DominanceWitness::new(&support, strategy("B"), alternatives, vec![0.0; 3], margin,),
+        Err(CredalContractError::InvalidMultipliers)
+    );
+}
+
+#[test]
+fn exact_dominance_certificate_preserves_fractional_weights_and_positive_margins() {
+    let support = CredalPolytope::new(vec![id("x")], vec![interval(0.0, 1.0)], vec![]).unwrap();
+    let zero = BigRational::from_integer(0.into());
+    let third = BigRational::new(1.into(), 3.into());
+    let sixth = BigRational::new(1.into(), 6.into());
+    let alternatives = BTreeMap::from([(
+        strategy("B"),
+        BigRational::new_raw((-2).into(), (-6).into()),
+    )]);
+    let witness = DominanceWitness::new_exact(
+        &support,
+        strategy("A"),
+        alternatives.clone(),
+        vec![zero.clone(), third.clone()],
+        sixth.clone(),
+    )
+    .unwrap();
+    let (weights, rows, margin) = witness.certificate();
+    assert_eq!(weights[&strategy("B")], third);
+    assert_eq!(rows, &[zero.clone(), third]);
+    assert_eq!(*margin, sixth);
+    for invalid in [
+        zero.clone(),
+        -&sixth,
+        BigRational::new_raw(1.into(), 0.into()),
+    ] {
+        assert_eq!(
+            DominanceWitness::new_exact(
+                &support,
+                strategy("A"),
+                alternatives.clone(),
+                vec![zero.clone(); 2],
+                invalid,
+            ),
+            Err(CredalContractError::InvalidMargin)
+        );
+    }
+    assert_eq!(
+        DominanceWitness::new_exact(
+            &support,
+            strategy("A"),
+            alternatives,
+            vec![zero, BigRational::new_raw(1.into(), 0.into())],
+            sixth,
+        ),
         Err(CredalContractError::InvalidMultipliers)
     );
 }
