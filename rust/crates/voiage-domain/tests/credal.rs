@@ -89,6 +89,36 @@ fn pinned_intervals_return_the_direct_signed_net_benefits_with_ties() {
 }
 
 #[test]
+fn exact_constraints_reject_an_excluded_fixed_point_after_cancellation() {
+    let parameters = vec![id("first"), id("second"), id("third")];
+    let inequality = LinearInequality::new(row(&[1e16, 1.0, -1e16]), 0.0).unwrap();
+    let box_support = CredalPolytope::new(
+        parameters.clone(),
+        vec![interval(0.0, 1.0); 3],
+        vec![inequality.clone()],
+    )
+    .unwrap();
+    assert_eq!(box_support.contains(&[1.0; 3]), Ok(false));
+    assert_eq!(
+        CredalPolytope::new(parameters, vec![interval(1.0, 1.0); 3], vec![inequality]),
+        Err(CredalContractError::InfeasibleSingleton)
+    );
+}
+
+#[test]
+fn affine_net_benefit_preserves_small_terms_between_large_opposite_terms() {
+    let value = AffineNetBenefit::new(strategy("A"), -0.25, row(&[1e16, 1.0, -1e16])).unwrap();
+    assert_eq!(value.evaluate(&[1.0; 3]), Ok(0.75));
+    let cancelling = AffineNetBenefit::new(
+        strategy("B"),
+        f64::from_bits(1),
+        row(&[f64::MAX, -f64::MAX]),
+    )
+    .unwrap();
+    assert_eq!(cancelling.evaluate(&[2.0, 2.0]), Ok(f64::from_bits(1)));
+}
+
+#[test]
 fn rejects_inconsistent_contracts_without_inventing_point_results() {
     assert_eq!(
         CredalInterval::new(1.0, 0.0),

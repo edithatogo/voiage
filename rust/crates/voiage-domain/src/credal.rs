@@ -2,6 +2,9 @@ use core::cmp::Ordering;
 use core::fmt;
 use std::collections::{BTreeMap, BTreeSet};
 
+use num_rational::BigRational;
+use num_traits::{ToPrimitive, Zero};
+
 use crate::{Identifier, SampleVector, StrategyId, Threshold};
 
 /// Invalid inputs to a credal decision contract.
@@ -142,10 +145,10 @@ impl CredalPolytope {
         &self.inequalities
     }
 
-    /// Tests membership using finite arithmetic and the declared bounds.
+    /// Tests membership using exact comparisons of the binary64 inputs.
     ///
     /// # Errors
-    /// Returns an error for a dimension mismatch or nonfinite calculation.
+    /// Returns an error for a dimension mismatch or nonfinite input.
     pub fn contains(&self, point: &[f64]) -> Result<bool, CredalContractError> {
         check_length(self.parameters.len(), point.len())?;
         if point.iter().any(|value| !value.is_finite()) {
@@ -157,7 +160,7 @@ impl CredalPolytope {
             }
         }
         for inequality in &self.inequalities {
-            if dot(inequality.coefficients.as_slice(), point)? > inequality.upper {
+            if exact_dot(inequality.coefficients.as_slice(), point)? > rational(inequality.upper)? {
                 return Ok(false);
             }
         }
@@ -235,18 +238,22 @@ impl AffineNetBenefit {
         (&self.strategy, self.intercept, self.coefficients.as_slice())
     }
 
-    /// Evaluates the declared function at a parameter point.
+    /// Evaluates the affine function exactly before rounding the result to binary64.
     ///
     /// # Errors
-    /// Returns an error for a dimension mismatch or nonfinite calculation.
+    /// Returns an error for a dimension mismatch, a nonfinite input or a
+    /// result outside the finite binary64 range.
     pub fn evaluate(&self, point: &[f64]) -> Result<f64, CredalContractError> {
-        finite(self.intercept + dot(self.coefficients.as_slice(), point)?)
+        let value = rational(self.intercept)? + exact_dot(self.coefficients.as_slice(), point)?;
+        finite(value.to_f64().ok_or(CredalContractError::NonFinite)?)
     }
 }
 
 /// Farkas multipliers and the stated positive margin for a dominated strategy.
 ///
 /// Numerical verification must bind these values to the objectives and support.
+/// The margin is the advantage of the alternative mixture after normalising
+/// its multipliers to sum to one.
 #[derive(Clone, Debug, PartialEq)]
 pub struct DominanceWitness {
     strategy: StrategyId,
@@ -261,6 +268,7 @@ impl DominanceWitness {
     /// Support multipliers use declared halfspaces first, then two rows
     /// for each coordinate in order. For coordinate x, those rows are
     /// -x <= -lower and x <= upper.
+    /// An alternative multiplier refers to the row U(alternative) - U(strategy) <= 0.
     ///
     /// # Errors
     /// Returns an error for inconsistent support dimensions, nonfinite or
@@ -356,13 +364,16 @@ fn finite(value: f64) -> Result<f64, CredalContractError> {
     }
 }
 
-fn dot(coefficients: &[f64], point: &[f64]) -> Result<f64, CredalContractError> {
+fn rational(value: f64) -> Result<BigRational, CredalContractError> {
+    BigRational::from_float(value).ok_or(CredalContractError::NonFinite)
+}
+
+fn exact_dot(coefficients: &[f64], point: &[f64]) -> Result<BigRational, CredalContractError> {
     check_length(coefficients.len(), point.len())?;
-    finite(
-        coefficients
-            .iter()
-            .zip(point)
-            .map(|(coefficient, coordinate)| coefficient * coordinate)
-            .sum(),
-    )
+    coefficients
+        .iter()
+        .zip(point)
+        .try_fold(BigRational::zero(), |sum, (&coefficient, &coordinate)| {
+            Ok(sum + rational(coefficient)? * rational(coordinate)?)
+        })
 }
