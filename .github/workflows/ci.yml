@@ -127,7 +127,7 @@ jobs:
         python-version: "3.15.2"
 
     - name: Install dependencies
-      run: uv sync --frozen --extra ci --extra dev --group producer-tests
+      run: uv sync --frozen --extra jax --group focused-tests
 
     - name: Checkout pinned VOP governance source
       uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
@@ -138,26 +138,26 @@ jobs:
         persist-credentials: false
 
     - name: Validate frontier contracts
-      run: uv run python scripts/validate_frontier_contract.py
+      run: uv run --frozen --no-sync python scripts/validate_frontier_contract.py
 
     - name: Validate submission readiness contracts
       run: |
-        uv run python scripts/validate_submission_readiness.py
-        uv run pytest tests/test_submission_readiness_contract.py --no-cov -q
+        uv run --frozen --no-sync python scripts/validate_submission_readiness.py
+        uv run --frozen --no-sync python -m pytest -o addopts='' -ra -q tests/test_submission_readiness_contract.py
 
     - name: Verify generated v2 contracts
-      run: uv run python scripts/export_v2_contracts.py --check
+      run: uv run --frozen --no-sync python scripts/export_v2_contracts.py --check
 
     - name: Run focused v2 contract tests
       run: >-
-        uv run pytest tests/test_analysis_contracts.py
+        uv run --frozen --no-sync python -m pytest -o addopts='' -ra -q
+        tests/test_analysis_contracts.py
         tests/test_calculation_kernel.py
         tests/test_contract_method_adapters.py
         tests/test_contract_interchange.py
         tests/test_v2_contract_exports.py
         tests/test_vop_governance_mirror.py
         tests/test_contract_automation.py
-        --no-cov -q
       env:
         VOP_GOVERNANCE_SCHEMA_ROOT: .upstream/vop_poc_nz/schemas/governance
         VOP_GOVERNANCE_REPOSITORY_ROOT: .upstream/vop_poc_nz
@@ -190,11 +190,11 @@ jobs:
       with:
         python-version: "3.15.2"
 
-    - name: Install only locked verification tools
-      run: uv sync --frozen --only-group verification
+    - name: Install locked version-check dependencies
+      run: uv sync --frozen --only-group version-checks
 
     - name: Validate version synchronization
-      run: uv run --frozen --no-sync tox -e version-sync
+      run: uv run --frozen --no-sync python -I voiage/versioning.py --repo-root .
 
   # Fast linting job
   repository-harness:
