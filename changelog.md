@@ -1,5 +1,8 @@
 # Changelog
 
+- Evaluate censored sequential EVSI for one perspective and subgroup using
+  paired posterior draws, explicit weights, and acquisition parameters by draw.
+
 - Speed up Rust-backed EVPI with bulk float64 input transfer and avoid
   loading PyTorch on the CPU path.
 

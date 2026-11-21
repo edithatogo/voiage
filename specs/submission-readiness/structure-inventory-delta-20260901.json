@@ -204,6 +204,7 @@
     "voiage/_contract_root.py",
     "voiage/_tabular_io.py",
     "voiage/contracts/capability_report.py",
+    "voiage/experimental/censored_evsi.py",
     "voiage/experimental/paired_draws.py",
     "voiage/innovate_binding.py",
     "voiage/methods/perspective_diagnostics.py",
@@ -211,7 +212,7 @@
     "voiage/sampling_harm_agent_assurance.py"
   ],
   "removals": [],
-  "current_python_runtime_modules": 184,
+  "current_python_runtime_modules": 185,
   "classification": "Explicit per-module dispositions; no numerical execution authority added.",
   "scope": "Python module membership only; no new API, ABI, scientific, release or publication audit is claimed.",
   "t12_addition": {
@@ -223,6 +224,7 @@
     "voiage/_contract_root.py": "contracts: private packaged-contract location helper",
     "voiage/_tabular_io.py": "optional_extension: private Polars I/O compatibility adapter",
     "voiage/contracts/capability_report.py": "assurance: verification support only",
+    "voiage/experimental/censored_evsi.py": "experimental: scoped censored sequential EVSI",
     "voiage/experimental/paired_draws.py": "experimental: scoped paired-draw Arrow and Polars interchange",
     "voiage/innovate_binding.py": "optional_extension: Innovate decision-binding adapter",
     "voiage/sampling_harm_agent_assurance.py": "assurance: verification support only",
