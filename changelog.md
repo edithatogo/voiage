@@ -25,6 +25,9 @@
 - Require signed-information results to substantiate verified equilibrium
   selection with a receipt that matches the chosen and evaluated policies.
 
+- Reject unsupported solution concepts in verified signed-information receipts
+  on input and in portable results.
+
 - Evaluate censored sequential EVSI through the private Python extension.
   Observation parameters align with the declared payoff state IDs.
 

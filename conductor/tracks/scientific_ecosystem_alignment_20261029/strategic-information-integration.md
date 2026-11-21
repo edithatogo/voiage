@@ -93,6 +93,24 @@ Solver failures are neither economic zeroes nor observations to discard. Cache a
 warm-start identity includes game/information regime, solution concept, selection,
 valuation, algorithm and relevant tolerances; test path-dependent selection.
 
+### Field map for reimbursement T17.11
+
+| Boundary | Current source fields and handoff |
+| --- | --- |
+| Game and actor identity | Paignia's `GameSpecification.id` identifies the description. Its result identity record separately carries the specification, instance, solver run, and optional session, policy artifact, and solver trace. Map the declared player to `agents[].agent_id` and `policies[].decision_agent_id` explicitly. Preserve the original identifiers and their roles in the producer receipt. UOGTO uses full IRIs, while signed-information v1 uses local identifier strings with a restricted syntax. A provider adapter needs a versioned one-to-one mapping. |
+| Observations and disclosure | UOGTO declares the player and decision nodes in each information set. Paignia admits the complete partition, ordered legal actions, and that player's own recall. The application supplies `worlds[].signal`, `policies[].decisions[].observation`, topology and design recipients, and the purpose-bound rights receipts. Group equally observed worlds under one policy action. The sharing record determines which decision agents can use it. |
+| Execution and coverage | Carry the provider's declared representation, information structure, solution concept, algorithm version, status, tolerance, selection rule, and catalogue claim. Voiage separately declares `designs[].selection_mode`, `selector`, the chosen policy, and any `equilibrium_receipt`. The signed-information v1 receipt accepts `declared_finite_nash` and binds the selected policy to the evaluated catalog and the receipt. Use the provider's scope and completeness evidence to support a coverage claim. |
+| Joint draws and repetitions | Preserve producer draw namespace, scenario, strategy, parameter draw, replication, perspective, and subgroup where defined. The installed paired-draw helper binds `draw_id`, `strategy_id`, `perspective`, `subgroup_id` and `net_benefit` with explicit weights when supplied. Retain the wider scenario and replication keys in the application handoff. The application supplies the finite `world_id`, probability and signal law. Use the producer's declared coupling for the join. |
+| Payoffs and valuation | The application supplies `worlds[].action_utilities`, the value unit, welfare weights and cardinal comparability, perspective, and provenance. Retain the declared population, horizon, discounting, and currency or price year where applicable. Carry `designs[].transfers` and `costs` independently, with the declared welfare ledger stage. Voiage computes signed actor, role and welfare values. |
+| Trace and provenance | Preserve the native result artifact, source and version hashes, and independent evidence. Retain the solver diagnostic trace ID separately from optional execution session context and the application's realized trace. The signed-information input declares the world-law, utility, policy, and rights sources. |
+
+The provider evidence is tied to Paignia's result and information-set contracts
+and UOGTO's executable declaration. [Paignia result contract](https://github.com/edithatogo/paignia/blob/a09c3f8359363b228154c9e07af20a36bf0dcd4e/docs/architecture/game-result-contract-v1.md) · [Paignia information-set contract](https://github.com/edithatogo/paignia/blob/a09c3f8359363b228154c9e07af20a36bf0dcd4e/docs/architecture/game-information-contract-v1.md) · [UOGTO executable declaration](https://github.com/edithatogo/UOGTO/blob/3000c231b2c102e18bf7c3294bec498f00f1976c/docs/contracts/executable-information-set-profile-v1.md)
+
+The current Voiage inputs are the experimental finite-world schema and the
+experimental paired-draw helper. The simulation-outcome plan tracks the wider
+key contract. [Signed-information input](../../../specs/frontier/signed-social-information/v1/schemas/input.schema.json) · [Paired draws](../../../voiage/experimental/paired_draws.py) · [Simulation-outcome specification](../simulation_outcome_boundary_20261107/spec.md)
+
 ## Pending bounded work
 
 Each implementation slice first binds exact current types/tests/tolerances, writes
