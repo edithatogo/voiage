@@ -5,6 +5,7 @@ from __future__ import annotations
 from copy import deepcopy
 import json
 from pathlib import Path
+import sys
 from typing import Any
 
 import pytest
@@ -17,7 +18,7 @@ from voiage.contracts.signed_social_information import (
     validate_signed_social_information_result,
     validate_signed_social_information_semantics,
 )
-from voiage.exceptions import InputError
+from voiage.exceptions import BackendNotAvailableError, InputError
 from voiage.methods.signed_social_information import (
     SignedSocialInformationResult,
     signed_social_information_value,
@@ -78,6 +79,77 @@ def test_exported_normative_fixture_is_exact() -> None:
         (CONTRACT_ROOT / "fixtures/normative/expected.json").read_text(encoding="utf-8")
     )
     assert signed_social_information_value(specification).to_contract_dict() == expected
+
+
+@pytest.mark.parametrize(("p", "expected"), [(0.5, 50.0), (0.9, 10.0)])
+def test_perfect_information_matches_the_weighted_finite_reference(
+    p: float, expected: float
+) -> None:
+    specification = _specification()
+    specification["actions"] = ["A", "B"]
+    specification["worlds"] = [
+        {
+            "world_id": signal,
+            "signal": signal,
+            "probability": weight,
+            "action_utilities": {
+                action: {"alice": value, "board": 0.0, "public": 0.0}
+                for action, value in zip(specification["actions"], payoffs, strict=True)
+            },
+        }
+        for signal, weight, payoffs in (
+            ("first", p, (0.0, 100.0)),
+            ("second", 1.0 - p, (100.0, 0.0)),
+        )
+    ]
+    specification["policies"] = [
+        {
+            "policy_id": name,
+            "decision_agent_id": "alice",
+            "decisions": [
+                {"observation": observation, "action_id": action}
+                for observation, action in choices
+            ],
+        }
+        for name, choices in (
+            ("fixed_a", [("unobserved", "A")]),
+            ("fixed_b", [("unobserved", "B")]),
+            ("perfect", [("first", "B"), ("second", "A")]),
+        )
+    ]
+    baseline, informed = specification["designs"]
+    baseline["policy_ids"] = ["fixed_b", "fixed_a"]
+    informed["policy_ids"] = ["perfect", "fixed_b", "fixed_a"]
+    result = voiage.signed_social_information_value(specification).to_contract_dict()
+    assert result["baseline"]["selected_policy_id"] == (
+        "fixed_a" if p == 0.5 else "fixed_b"
+    )
+    value = result["designs"][1]
+    assert value["selected_policy_id"] == "perfect"
+    assert value["signed_values"]["by_agent"]["alice"] == expected
+    assert value["signed_values"]["social"] == expected
+
+
+def test_signed_information_requires_the_installed_rust_kernel(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    def missing_native() -> None:
+        raise ModuleNotFoundError("voiage._core")
+
+    monkeypatch.setattr("voiage._runtime._native", missing_native)
+    with pytest.raises(BackendNotAvailableError, match="Rust extension"):
+        signed_social_information_value(_specification())
+
+
+def test_signed_information_rejects_overflow_from_finite_welfare_inputs() -> None:
+    specification = _specification()
+    specification["welfare"]["weights"]["alice"] = 2.0
+    for world in specification["worlds"]:
+        world["action_utilities"]["safe"]["alice"] = sys.float_info.max
+
+    validate_signed_social_information_semantics(specification)
+    with pytest.raises(InputError, match="Arithmetic must be finite"):
+        signed_social_information_value(specification)
 
 
 def test_transfer_cost_and_declared_response_ledgers_are_signed() -> None:

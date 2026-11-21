@@ -3,7 +3,7 @@ use core::fmt;
 use std::collections::{BTreeMap, BTreeSet};
 
 use num_rational::BigRational;
-use num_traits::{Signed, ToPrimitive, Zero};
+use num_traits::{Signed, Zero};
 
 use crate::{Identifier, SampleVector, StrategyId, Threshold};
 
@@ -496,7 +496,7 @@ fn canonical_rational(value: BigRational) -> Option<BigRational> {
 }
 
 fn round_to_binary64(value: &BigRational) -> Result<f64, CredalContractError> {
-    finite(value.to_f64().ok_or(CredalContractError::NonFinite)?)
+    crate::round_to_binary64(value).map_err(|_| CredalContractError::NonFinite)
 }
 
 fn exact_dot(

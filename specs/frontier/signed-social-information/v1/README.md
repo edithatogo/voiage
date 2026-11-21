@@ -9,6 +9,10 @@ Portable results retain the declared agent-role map and the exact world,
 policy and design identifiers evaluated, allowing semantic validation to
 recompute role aggregates, ties, optima, diagnostics and assurance counts.
 
+The installed Rust extension evaluates the admitted policy payoffs, accounting
+ledgers and signed values. Python validates the v1 specification and emits
+the portable result through the Python API and CLI.
+
 The welfare aggregator is a declared weighted sum over cardinally comparable
 agent utilities. That declaration is an assumption, not an empirical finding.
 Each design names its comparator, recipient set, controller-facing rights and
@@ -28,6 +32,7 @@ model.
 
 Bayesian persuasion, mechanism design, rational inattention, general games,
 continuous worlds and incomplete probability laws remain adjacent or out of
-scope. Rust, R and Julia execution are not implemented; Mojo remains an
-external upstream boundary. Scientific review and stable promotion remain
-separate gates.
+scope. The standalone Rust kernel takes indexed numerical inputs. Full portable
+v1 execution is available through the Python API and CLI. The R and Julia
+contracts remain pending, and Mojo remains an external upstream boundary.
+Scientific review and stable promotion remain separate gates.

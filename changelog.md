@@ -1,5 +1,8 @@
 # Changelog
 
+- Evaluate finite signed-information payoff ledgers and welfare with the
+  installed Rust extension.
+
 - Evaluate named affine credal decision inputs from Arrow and Polars. Exact
   certificate multipliers retain their labelled support constraints.
 

@@ -166,6 +166,21 @@
           "sha256": "ce39cc4a085b836029613e2c4bc10ddf281b94ab3043f024e1fa999b3a4b4803"
         }
       }
+    },
+    {
+      "recorded_on": "2026-11-21",
+      "scope": "SI02 migrates finite signed payoff, ledger and welfare arithmetic to Rust while retaining the original portable result.",
+      "regression": "tests/test_signed_social_information.py::test_signed_information_requires_the_installed_rust_kernel",
+      "artifacts": {
+        "voiage/methods/signed_social_information.py": {
+          "previous_sha256": "9665e7a6ec1d1491aa5c75a86613f477406fab0328f14c850c50505770b09e95",
+          "sha256": "22fd3d19de5d253bb9a210d87f6383fa0fea672900719dadbe9840168decd761"
+        },
+        "tests/test_signed_social_information.py": {
+          "previous_sha256": "ce39cc4a085b836029613e2c4bc10ddf281b94ab3043f024e1fa999b3a4b4803",
+          "sha256": "c846692c448a6a747fa8ce16a9c26cf05ea7615913ca428d3f5a2210383f9374"
+        }
+      }
     }
   ]
 }
