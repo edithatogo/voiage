@@ -11,6 +11,7 @@ import numpy as np
 from pydantic import ValidationError
 import pytest
 
+from tests.wheel_consumer_env import wheel_consumer_environment
 from voiage.logging import validate_vop_pilot_contract
 from voiage.methods.basic import evpi
 from voiage.versioning import VersionSyncError
@@ -188,15 +189,21 @@ def test_ac2_negative_cases_fail_before_model_evaluation(
 
 @pytest.mark.integration
 def test_ac3_consumer_replays_from_installed_artifact_outside_source_tree(
-    tmp_path: Path,
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Validate the pilot through a wheel-installed consumer subprocess."""
     uv = shutil.which("uv")
     assert uv is not None, "the installed-artifact consumer requires uv"
+    host_cache = tmp_path / "host-uv-cache"
+    host_cache.touch()
+    monkeypatch.setenv("UV_CACHE_DIR", str(host_cache))
+    uv_environment = wheel_consumer_environment(tmp_path)
+
     distribution = tmp_path / "dist"
     subprocess.run(
         [uv, "build", "--wheel", "--out-dir", str(distribution)],
         cwd=ROOT,
+        env=uv_environment,
         check=True,
         capture_output=True,
         text=True,
@@ -206,6 +213,7 @@ def test_ac3_consumer_replays_from_installed_artifact_outside_source_tree(
     subprocess.run(
         [uv, "venv", "--python", sys.executable, str(environment)],
         cwd=tmp_path,
+        env=uv_environment,
         check=True,
         capture_output=True,
         text=True,
@@ -226,6 +234,7 @@ def test_ac3_consumer_replays_from_installed_artifact_outside_source_tree(
             f"{wheel}[ecosystem]",
         ],
         cwd=tmp_path,
+        env=uv_environment,
         check=True,
         capture_output=True,
         text=True,
