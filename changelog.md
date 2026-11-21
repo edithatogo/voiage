@@ -36,6 +36,12 @@
 - Validate Innovate decision-binding versions, labels, scaling metadata, and
   finite net benefits before evaluating paired draws.
 
+- Isolate the installed-wheel replay's package cache and honor explicit cache
+  reuse in local verification.
+
+- Use OpenSSF Scorecard 5.7.0 security fixes, surface rejected publications,
+  and retain SARIF when publication fails. Remove two unused OSV exceptions.
+
 - Update the OpenSSF Scorecard action to recognize pinned same-repository
   workflows and avoid false dependency alerts.
 
