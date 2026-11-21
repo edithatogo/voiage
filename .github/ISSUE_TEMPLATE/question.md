@@ -25,5 +25,5 @@ Describe the result you were aiming for.
 
 ## Checklist
 - [ ] I read the relevant documentation first
-- [ ] I searched for an existing issue or discussion
+- [ ] I searched for an existing issue
 - [ ] I included the smallest reproducible example I can provide
