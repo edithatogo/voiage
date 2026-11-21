@@ -9,9 +9,12 @@ from typing import TYPE_CHECKING, cast
 import pyarrow as pa
 import pytest
 
+from voiage.contracts.normalized_input import VOIBinding
 from voiage.exceptions import DimensionMismatchError
+from voiage.ingestion.dataframe import from_dataframe
 
 if TYPE_CHECKING:
+    from voiage.contracts.normalized_input import NormalizedInputBundle
     from voiage.experimental.censored_evsi import CensoredSequentialEvsiResult
 
 _STRATEGIES = ("keep", "switch")
@@ -33,18 +36,21 @@ def _data() -> pa.Table:
 def _calculate(
     *,
     table: pa.Table | None = None,
+    bundle: NormalizedInputBundle | None = None,
     weight_field: str | None = "draw_weight",
-    second_draw: int = 9,
+    second_draw: object = 9,
+    perspective: str = "payer",
     budget: int = 128,
 ) -> CensoredSequentialEvsiResult:
     experimental = import_module("voiage.experimental")
     evaluate = experimental.censored_sequential_evsi
-    bundle = experimental.paired_draw_bundle(
-        _data() if table is None else table,
-        dataset_id="censored-test",
-        strategy_ids=_STRATEGIES,
-        weight_field=weight_field,
-    )
+    if bundle is None:
+        bundle = experimental.paired_draw_bundle(
+            _data() if table is None else table,
+            dataset_id="censored-test",
+            strategy_ids=_STRATEGIES,
+            weight_field=weight_field,
+        )
     acquisitions = [
         [
             {
@@ -74,7 +80,7 @@ def _calculate(
         evaluate(
             bundle,
             stages=acquisitions,
-            perspective="payer",
+            perspective=perspective,
             subgroup_id="trial",
             max_branches=budget,
         ),
@@ -114,3 +120,46 @@ def test_censored_evsi_rejects_lossy_integer_value_conversion() -> None:
     )
     with pytest.raises(ValueError, match="exactly representable"):
         _calculate(table=table)
+
+
+@pytest.mark.parametrize("budget", [0, True])
+def test_censored_evsi_rejects_invalid_branch_budgets(budget: int) -> None:
+    with pytest.raises(ValueError, match="positive integer"):
+        _calculate(budget=budget)
+
+
+def test_censored_evsi_rejects_missing_scope_and_malformed_observation_id() -> None:
+    with pytest.raises(ValueError, match="No paired draws"):
+        _calculate(perspective="unlisted")
+    with pytest.raises(ValueError, match="integer or text draw ID"):
+        _calculate(second_draw=1.25)
+
+
+def test_censored_evsi_rejects_wide_payoff_binding() -> None:
+    bundle = from_dataframe(
+        _data(),
+        dataset_id="wide-censored-test",
+        bindings=(
+            VOIBinding(role="net_benefit", table_id="data", field_ids=("net_benefit",)),
+            VOIBinding(role="weight", table_id="data", field_ids=("draw_weight",)),
+        ),
+        allow_copy=False,
+    )
+    with pytest.raises(ValueError, match="aligned paired-draw"):
+        _calculate(bundle=bundle)
+
+
+def test_censored_evsi_rejects_incompatible_native_result(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    module = import_module("voiage.experimental.censored_evsi")
+    compute = module.compute_censored_sequential_evsi
+
+    def mismatched_states(experiment: str, *, max_branches: int) -> dict[str, object]:
+        result = compute(experiment, max_branches=max_branches)
+        result["state_ids"] = ["7", "9"]
+        return result
+
+    monkeypatch.setattr(module, "compute_censored_sequential_evsi", mismatched_states)
+    with pytest.raises(RuntimeError, match="incompatible contract"):
+        _calculate()
