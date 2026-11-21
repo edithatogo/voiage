@@ -312,6 +312,19 @@ def compute_evsi(
     return dict(result)
 
 
+def compute_censored_sequential_evsi(
+    experiment_json: str, *, max_branches: int
+) -> dict[str, object]:
+    """Evaluate the declared censored acquisition schedule in Rust."""
+    try:
+        result = _native().compute_censored_sequential_evsi(
+            experiment_json, max_branches
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
 def compute_evsi_variance(
     prior_target_samples: list[float],
     posterior_variances: list[float],
