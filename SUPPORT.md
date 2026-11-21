@@ -8,10 +8,12 @@ to start with the shipped documentation and the issue templates.
 1. Read the relevant docs in `README.md`, `docs/`, and the binding-specific
    walkthroughs.
 2. Check the existing issues and pull requests for the same problem.
-3. Use the matching issue template:
+3. Pick a template from the [GitHub issue chooser](https://github.com/edithatogo/voiage/issues/new/choose):
    - bug reports for reproducible failures
    - feature requests for new VOI methods, outputs, or workflows
    - support questions for usage help that does not fit a bug report
+   - accessibility reports for barriers to using or contributing to voiage.
+     See the [accessibility statement](ACCESSIBILITY.md).
 
 ## What to include
 

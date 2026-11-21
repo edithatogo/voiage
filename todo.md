@@ -799,6 +799,15 @@ as recorded in the active task above; earlier route decisions below are historic
 
 ## Done
 
+- [x] Review and archive the [MLX/Metal EVPI no-go](conductor/archive/mlx_metal_evpi_backend_20261121/index.md)
+  with the process-memory profile.
+
+- [x] Verify CodeQL coverage beyond Scorecard's first page of check suites and
+  replace unused optional-dependency imports with explicit import checks.
+
+- [x] Complete the [ML00 Apple Silicon EVPI benchmark](conductor/archive/mlx_metal_evpi_backend_20261121/evidence/ml00/README.md).
+  Both candidate workflows missed the common-offset fallback p95 limit.
+
 - [x] Constrain Julia TagBot's automatic notification path and document its
   scoped scanner exception; native registry-release qualification remains open.
 

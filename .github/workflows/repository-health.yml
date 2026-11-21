@@ -1,0 +1,57 @@
+name: Repository Health
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  merge_group:
+    types: [checks_requested]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  alint:
+    name: alint
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
+
+      - name: Lint repository structure
+        uses: asamarts/alint@5054852d00d47affc9ea71440240147d9999f4d3 # v0.22.1
+
+  repohealth:
+    name: RepoHealth report
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout repository with full history for activity checks
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Generate the repository health summary
+        shell: bash
+        env:
+          REPOHEALTH_VERSION: '0.5.3'
+          REPOHEALTH_SHA256: 68a2fee769ae8f3652d503d07508a91ec1cf73c8463b6846d030762f6d2459d2
+        run: |
+          tool_dir=$(mktemp -d "$RUNNER_TEMP/repohealth.XXXXXX")
+          archive="$tool_dir/repohealth.tar.gz"
+          curl --fail --silent --show-error --location --retry 3 --max-time 60 \
+            --output "$archive" \
+            "https://github.com/spbuilds/repohealth/releases/download/v${REPOHEALTH_VERSION}/repohealth_${REPOHEALTH_VERSION}_linux_amd64.tar.gz"
+          printf '%s  %s\n' "$REPOHEALTH_SHA256" "$archive" | sha256sum --check --strict
+          tar -xzf "$archive" -C "$tool_dir" repohealth
+          "$tool_dir/repohealth" . --format markdown | tee -a "$GITHUB_STEP_SUMMARY"

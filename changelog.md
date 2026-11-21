@@ -3,6 +3,12 @@
 - Prepare scoped paired-draw net benefits from Arrow or flat Polars columns,
   retaining draw keys, strategy order, and declared weights.
 
+- Archive the Apple Silicon EVPI qualification with the no-go decision
+  and PyTorch MPS memory profile.
+
+- Preserve optional JAX and scikit-learn fallback behavior while making their
+  import checks explicit for static analysis.
+
 - Evaluate censored sequential EVSI through the private Python extension.
   Observation parameters align with the declared payoff state IDs.
 
@@ -36,11 +42,26 @@
 - Document that the testing-oriented Bayesian adaptive simulator does not yet
   incorporate updated beliefs into its net-benefit calculation.
 
+- Publish an accessibility statement and add a template for reporting barriers.
+  Direct contributors to the support guide from the GitHub issue chooser.
+
 - Validate Innovate decision-binding versions, labels, scaling metadata, and
   finite net benefits before evaluating paired draws.
 
+- Isolate the installed-wheel replay's package cache and honor explicit cache
+  reuse in local verification.
+
+- Use OpenSSF Scorecard 5.7.0 security fixes, surface rejected publications,
+  and retain SARIF when publication fails. Remove two unused OSV exceptions.
+
 - Update the OpenSSF Scorecard action to recognize pinned same-repository
   workflows and avoid false dependency alerts.
+
+- Check repository structure with alint and publish a RepoHealth report in
+  the GitHub Actions run summary.
+
+- Ignore local key and credential files, publish RepoHealth reports in the
+  Actions job log, and normalize final newlines and stray spaces.
 
 - Preserve dated qualification observations from older branches with their
   provenance and outstanding acceptance boundaries.

@@ -137,7 +137,7 @@ Address these points thoroughly and resubmit for reconsideration.
 In response to the reviewers' comments, I have incorporated the following improvements to the paper:
 
 1. Added more detailed performance benchmarks and computational efficiency analysis
-2. Included comparisons with existing R packages 
+2. Included comparisons with existing R packages
 3. Expanded the real-world examples with Australian and New Zealand health data
 4. Added more rigorous statistical validation and methodological discussion
 5. Enhanced reproducibility with detailed replication materials

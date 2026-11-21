@@ -27,6 +27,18 @@ been filed.*
 
 ---
 
+## [x] Track: Optional MLX/Metal EVPI backend [completed: 2026-11-21]
+
+*Link: [Archived MLX/Metal record](./archive/mlx_metal_evpi_backend_20261121/index.md)*
+
+*Status: archived after the ML00 no-go. Both Metal candidates exceeded
+the fallback p95 limit. MPS also exceeded the process RSS budget.
+Follow-up profiling and the review fixes are retained in the archive.*
+
+*GitHub: [Issue #1369](https://github.com/edithatogo/voiage/issues/1369).*
+
+---
+
 ## [x] Track: Pre-Submission Comprehensive Hardening [completed: 2026-08-30]
 *Link: [./archive/pre_submission_comprehensive_hardening_20260829/index.md](./archive/pre_submission_comprehensive_hardening_20260829/index.md)*
 *GitHub: [issue #1033](https://github.com/edithatogo/voiage/issues/1033),
@@ -1137,6 +1149,7 @@ track at the top of this registry; completed repository slices stay closed.
   Stable Rust 1.99.1 candidate and cross-project adapters under qualification; full HPC acceptance remains open.
 
 ---
+
 - [ ] **Track: Optional simulation-outcome boundary for cross-domain VOI**
   *Link: [./tracks/simulation_outcome_boundary_20261107/index.md](./tracks/simulation_outcome_boundary_20261107/index.md)*
   Planning complete; eight implementation leaves pending. Existing scientific

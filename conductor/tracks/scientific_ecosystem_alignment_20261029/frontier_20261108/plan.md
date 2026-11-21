@@ -146,7 +146,10 @@ Maps to V12/F04/F05. Depends on Q02/Q03; qualification follows each accepted met
 - [ ] Profile `.tolist()` crossings, allocation/sorting and serialization. Test buffer ownership, lifetimes, shape/stride handling and copy counts before claiming zero-copy.
 - [ ] Benchmark deterministic block/streaming reductions against existing numerics. Record thread count, cancellation, checkpoint/restart and partial-result semantics.
 - [ ] Separate same-estimator implementation, matched-accuracy algorithm and same-workflow hardware comparisons. Include cold/warm execution, transfers, compilation and memory.
-- [ ] Preserve the HPC deferral. A bounded Metal/MLX experiment needs real-device accuracy, CPU fallback and end-to-end evidence; lack of hardware cannot block CPU acceptance.
+
+The [archived MLX/Metal EVPI track](../../../archive/mlx_metal_evpi_backend_20261121/index.md)
+records the Apple Silicon no-go. Preserve the HPC deferral and independent
+CPU acceptance.
 
 ### Q08 — Qualify one cross-library workflow at a time
 

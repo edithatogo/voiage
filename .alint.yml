@@ -1,0 +1,9 @@
+version: 1
+extends:
+  - alint://bundled/oss-baseline@v1
+  - alint://bundled/ci/github-actions@v1
+rules:
+  - id: oss-readme-exists
+    level: error
+  - id: oss-license-exists
+    level: error

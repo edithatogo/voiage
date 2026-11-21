@@ -102,6 +102,25 @@ For help requests, support questions, and security reporting, see
 [`SUPPORT.md`](SUPPORT.md), [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md), and
 [`SECURITY.md`](SECURITY.md).
 
+### Repository lint and health
+
+The **Repository Health** workflow runs on pull requests to `main`, pushes to
+`main`, and merge groups. It can also run on demand from the Actions tab.
+
+- [alint v0.22.1](https://github.com/asamarts/alint/releases/tag/v0.22.1) checks
+  repository structure and workflow conventions using `.alint.yml`. Errors
+  fail the job and warnings appear as annotations. This release flags
+  GitHub's same-repository `$/` workflow references as unpinned. Run
+  `alint check` locally.
+- [RepoHealth v0.5.3](https://github.com/spbuilds/repohealth/releases/tag/v0.5.3)
+  writes its score and recommendations to the workflow summary and job log.
+  The score is advisory. This release overlooks `uv.lock` and the lowercase
+  `changelog.md`. With a full Git checkout, run `repohealth . --format markdown`
+  locally.
+
+When upgrading RepoHealth, update the version and Linux amd64 archive SHA-256
+together in `.github/workflows/repository-health.yml`.
+
 ## Code Style and Conventions
 
 ### Formatting and Linting
