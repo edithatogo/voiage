@@ -51,6 +51,9 @@
 - Check repository structure with alint and publish a RepoHealth report in
   the GitHub Actions run summary.
 
+- Ignore local key and credential files, publish RepoHealth reports in the
+  Actions job log, and normalize final newlines and stray spaces.
+
 - Preserve dated qualification observations from older branches with their
   provenance and outstanding acceptance boundaries.
 

@@ -113,10 +113,10 @@ The **Repository Health** workflow runs on pull requests to `main`, pushes to
   GitHub's same-repository `$/` workflow references as unpinned. Run
   `alint check` locally.
 - [RepoHealth v0.5.3](https://github.com/spbuilds/repohealth/releases/tag/v0.5.3)
-  writes its score and recommendations to the workflow summary. The score has
-  no passing threshold. This release overlooks `uv.lock` and the lowercase
-  `changelog.md` on case-sensitive checkouts. With a full Git checkout, run
-  `repohealth . --format markdown` locally.
+  writes its score and recommendations to the workflow summary and job log.
+  The score is advisory. This release overlooks `uv.lock` and the lowercase
+  `changelog.md`. With a full Git checkout, run `repohealth . --format markdown`
+  locally.
 
 When upgrading RepoHealth, update the version and Linux amd64 archive SHA-256
 together in `.github/workflows/repository-health.yml`.

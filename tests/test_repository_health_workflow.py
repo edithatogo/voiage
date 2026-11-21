@@ -1,6 +1,8 @@
 """Contract test for the repository health workflow."""
 
 from pathlib import Path
+import shutil
+import subprocess
 
 import yaml
 
@@ -26,3 +28,25 @@ def test_repository_health_checkout_contract() -> None:
         assert checkout["persist-credentials"] is False
         if job == "repohealth":
             assert checkout["fetch-depth"] == 0
+
+
+def test_local_credentials_are_git_ignored() -> None:
+    """Local credential files and directories stay out of Git."""
+
+    credential_paths = (
+        ".env",
+        "local/certificate.pem",
+        "local/signing.key",
+        "credentials/session",
+    )
+    git = shutil.which("git")
+    assert git is not None
+    result = subprocess.run(
+        [git, "check-ignore", "--stdin"],
+        cwd=ROOT,
+        input="\n".join(credential_paths) + "\n",
+        capture_output=True,
+        check=True,
+        text=True,
+    )
+    assert tuple(result.stdout.splitlines()) == credential_paths
