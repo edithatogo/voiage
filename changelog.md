@@ -1,5 +1,8 @@
 # Changelog
 
+- Prepare scoped paired-draw net benefits from Arrow or flat Polars columns,
+  retaining draw keys, strategy order, and declared weights.
+
 - Evaluate censored sequential EVSI through the private Python extension.
   Observation parameters align with the declared payoff state IDs.
 

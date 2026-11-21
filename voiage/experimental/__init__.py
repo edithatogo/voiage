@@ -17,6 +17,7 @@ _EXPORTS = {
     "evsi_evpi_efficiency": ".experimental.study_design",
     "allocate_coss_portfolio": ".experimental.study_portfolio",
     "information_source_portfolio_value": ".methods.information_source_portfolio",
+    "paired_draw_bundle": ".experimental.paired_draws",
 }
 
 __all__ = list(_EXPORTS)
