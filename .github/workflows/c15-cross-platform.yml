@@ -50,7 +50,7 @@ jobs:
           python-version: "3.15.2"
       - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.13.6"
+          version: "0.13.7"
       - name: Test locked coverage identity dependencies
         run: |
           uv venv .venv --python 3.15.2
@@ -84,7 +84,7 @@ jobs:
           dotnet-version: "10.0.x"
       - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.13.6"
+          version: "0.13.7"
       - name: Prepare the selected Python environment
         run: |
           uv venv .venv --python 3.15.2
@@ -122,7 +122,7 @@ jobs:
           python-version: "3.15.2"
       - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.13.6"
+          version: "0.13.7"
           enable-cache: true
           cache-dependency-glob: uv.lock
           cache-suffix: c15-dist-${{ runner.os }}
@@ -163,7 +163,7 @@ jobs:
           python-version: "3.15.2"
       - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.13.6"
+          version: "0.13.7"
       - run: uv sync --frozen --extra ci --group producer-tests
       - name: Assert synchronized Python patch
         run: uv run --frozen python -c "import sys; print(sys.version); assert sys.version_info[:3] == (3, 15, 2), sys.version"
@@ -223,7 +223,7 @@ jobs:
           python-version: "3.15.2"
       - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.13.6"
+          version: "0.13.7"
           enable-cache: true
           cache-dependency-glob: uv.lock
           cache-suffix: c15-performance-${{ runner.os }}
@@ -265,7 +265,7 @@ jobs:
           python-version: "3.15.2"
       - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.13.6"
+          version: "0.13.7"
           enable-cache: true
           cache-dependency-glob: uv.lock
           cache-suffix: c15-telemetry-oracles
