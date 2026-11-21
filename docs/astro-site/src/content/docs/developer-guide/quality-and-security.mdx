@@ -185,6 +185,13 @@ immutable releases. Those deliberate exceptions should not be bypassed with
 bot approvals, alternate accounts, synthetic contributors, or placeholder
 releases.
 
+For a low SAST result, compare the associated pull-request heads with GitHub's
+`CodeQL Analysis (python)` check and read every page of their check suites.
+Scorecard 5.7.0 reads the first 30 suites in its GitHub GraphQL query, so it can
+miss a completed CodeQL suite on a later page. Use the native check statuses to
+confirm any coverage gap.
+[Scorecard GitHub check-suite query](https://github.com/ossf/scorecard/blob/d7552fb3cdc05e9f6426177d3328887304fce554/clients/githubrepo/checkruns.go)
+
 The Scorecard vulnerability check includes checked-in historical lockfiles and
 software bills of materials. Match advisory IDs to the inventory paths and
 package versions, then assess the supported locks and published artifacts

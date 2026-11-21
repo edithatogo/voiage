@@ -801,6 +801,9 @@ as recorded in the active task above; earlier route decisions below are historic
 
 ## Done
 
+- [x] Verify CodeQL coverage beyond Scorecard's first page of check suites and
+  replace unused optional-dependency imports with explicit import checks.
+
 - [x] Complete the [ML00 Apple Silicon EVPI benchmark](conductor/tracks/mlx_metal_evpi_backend_20261121/evidence/ml00/README.md).
   Both candidate workflows missed the common-offset fallback p95 limit.
 

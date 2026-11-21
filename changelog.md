@@ -1,5 +1,8 @@
 # Changelog
 
+- Preserve optional JAX and scikit-learn fallback behavior while making their
+  import checks explicit for static analysis.
+
 - Evaluate censored sequential EVSI through the private Python extension.
   Observation parameters align with the declared payoff state IDs.
 
