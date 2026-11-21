@@ -6,6 +6,8 @@ complete in this packet. Implementation is inapplicable.
 
 - [ML00 decision and benchmark evidence](./evidence/ml00/README.md)
 - [Follow-up memory profile](./evidence/ml00/memory-profile.md)
+- [Conductor review](./review.md)
+- [Decision recorded on #1369](https://github.com/edithatogo/voiage/issues/1369#issuecomment-7057775267)
 
 - [Specification](./spec.md)
 - [Implementation Plan](./plan.md)

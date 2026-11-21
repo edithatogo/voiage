@@ -12,7 +12,12 @@
   "github_cross_reference": {
     "issue": "https://github.com/edithatogo/voiage/issues/1369",
     "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1221",
-    "relationship_evidence": "GitHub issue parent readback confirms the native sub-issue relationship."
+    "relationship_evidence": "GitHub issue parent readback confirms the native sub-issue relationship.",
+    "pull_requests": [
+      "https://github.com/edithatogo/voiage/pull/1277",
+      "https://github.com/edithatogo/voiage/pull/1372",
+      "https://github.com/edithatogo/voiage/pull/1374"
+    ]
   },
   "leaf_count": 8,
   "max_files_per_leaf": 5,
@@ -34,6 +39,7 @@
       "ML04",
       "ML05",
       "ML06"
-    ]
+    ],
+    "mps_peak_device_memory": "unverified"
   }
 }
