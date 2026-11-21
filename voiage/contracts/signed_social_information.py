@@ -858,7 +858,7 @@ def validate_signed_social_information_semantics(
     if len(policy_ids) != len(set(policy_ids)):
         raise ValueError("policy identifiers must be unique")
     policy_set = set(policy_ids)
-    policy_observations: dict[str, set[str]] = {}
+    signal_conditioned_agents: dict[str, str] = {}
     for policy in policies:
         if policy["decision_agent_id"] not in agent_set:
             raise ValueError("policy decision_agent_id references an unknown agent")
@@ -873,7 +873,10 @@ def validate_signed_social_information_semantics(
             )
         if any(decision["action_id"] not in action_set for decision in decisions):
             raise ValueError("policy decision references an unknown action")
-        policy_observations[str(policy["policy_id"])] = observation_set
+        if observation_set != {"unobserved"}:
+            signal_conditioned_agents[str(policy["policy_id"])] = str(
+                policy["decision_agent_id"]
+            )
 
     receipts = cast("list[dict[str, typing.Any]]", data["receipts"])
     receipt_ids = [str(receipt["receipt_id"]) for receipt in receipts]
@@ -916,15 +919,16 @@ def validate_signed_social_information_semantics(
         catalog = set(cast("list[str]", design["policy_ids"]))
         if not catalog.issubset(policy_set):
             raise ValueError("design policy catalog references an unknown policy")
-        if not recipients and any(
-            policy_observations[policy_id] != {"unobserved"} for policy_id in catalog
-        ):
+        signal_policies = catalog & signal_conditioned_agents.keys()
+        if signal_policies and not recipients:
             raise ValueError("unshared designs may only use unobserved policies")
-        if recipients and any(  # pragma: no cover
-            policy_observations[policy_id] not in ({"unobserved"}, signals)
-            for policy_id in catalog
-        ):  # pragma: no cover - policy validation proves this
-            raise ValueError("shared policies violate nonanticipativity")
+        if any(
+            signal_conditioned_agents[policy_id] not in recipients
+            for policy_id in signal_policies
+        ):
+            raise ValueError(
+                "signal-contingent policy decision agent must be a design recipient"
+            )
         selector = str(design["selector"])
         if selector != "social_welfare" and (
             not selector.startswith("agent:") or selector[6:] not in agent_set

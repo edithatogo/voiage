@@ -12,10 +12,11 @@ recompute role aggregates, ties, optima, diagnostics and assurance counts.
 The welfare aggregator is a declared weighted sum over cardinally comparable
 agent utilities. That declaration is an assumption, not an empirical finding.
 Each design names its comparator, recipient set, controller-facing rights and
-purpose receipts, policy-selection mode and feasible finite catalog. Fixed and
-declared responses are evaluated as supplied. A verified finite-equilibrium
-entry requires a complete-catalog verification receipt; VOIAGE does not solve
-a general game.
+purpose receipts, policy-selection mode and feasible finite catalog. The
+design's recipient list determines which decision agents can condition their
+actions on the signal. Fixed and declared responses are evaluated as supplied.
+A verified finite-equilibrium entry requires a complete-catalog verification
+receipt. Voiage evaluates the supplied catalog.
 Infeasible designs and designs or comparators with transfer/cost accounting
 are explicitly outside the Blackwell nonnegativity check.
 

@@ -120,5 +120,22 @@
     "voiage/methods/outcome_conditional_sample_information.py": "fd2f403f07b30e1b39491c27ff79eaf12582ac7f92183c4fbca257806b2bf668",
     "voiage/contracts/outcome_conditional_sample_information.py": "1b83b2ebe62365556aee0818d45a2efde9f39d70146994f739cccbe6fdc9b2a0",
     "tests/test_outcome_conditional_sample_information.py": "a082e657ea7366f564798786a35ce5d9b5acd37d05f27f15ae028d76a1f33e8b"
-  }
+  },
+  "artifact_amendments": [
+    {
+      "recorded_on": "2026-11-21",
+      "scope": "SI01 requires each signal-contingent policy's decision agent to be a recipient of that design.",
+      "regression": "tests/test_signed_social_information.py::test_signal_contingent_policy_requires_the_decision_agent_to_receive_it",
+      "artifacts": {
+        "voiage/contracts/signed_social_information.py": {
+          "previous_sha256": "9c57111ac038d9c1f63da69457645afcb375732ebad48ec754a38a9828d562bd",
+          "sha256": "ce30a846c9a96e00c54e2179efa7cf77b5b4940941c652268a971237b050d434"
+        },
+        "tests/test_signed_social_information.py": {
+          "previous_sha256": "0490e2566e1c1b8594d8b3d6e4c5d846c559960cd6fceeaa457e4bb301f5fb62",
+          "sha256": "c78df8f68de1f2f181d3db80840568b5740c36e7df82b4a608508fba4afbbbc1"
+        }
+      }
+    }
+  ]
 }

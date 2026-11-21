@@ -27,7 +27,13 @@ def test_m27_m31_semantics_freeze_matches_artifacts() -> None:
         for family in payload["families"]
     )
     assert payload["panel_findings"]["blocking_implementation_findings"] == []
-    for relative, expected in payload["artifact_sha256"].items():
+    artifact_digests = payload["artifact_sha256"].copy()
+    for amendment in payload.get("artifact_amendments", []):
+        for relative, digests in amendment["artifacts"].items():
+            assert artifact_digests[relative] == digests["previous_sha256"], relative
+            artifact_digests[relative] = digests["sha256"]
+
+    for relative, expected in artifact_digests.items():
         path = ROOT / relative
         if not path.exists():
             path = ROOT / relative.replace("conductor/tracks/", "conductor/archive/", 1)

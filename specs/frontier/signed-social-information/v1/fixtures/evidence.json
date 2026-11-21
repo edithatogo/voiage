@@ -2,7 +2,7 @@
   "artifacts": [
     {
       "path": "specs/frontier/signed-social-information/v1/README.md",
-      "sha256": "7f41437ae95b2398c312ec8ce5cf4bf41bee7bbca8b2ba0e52b0ed355f13f7e1"
+      "sha256": "69dffe4f6b62c3c76a61f3b0f2a1133a05cff38310afa337fb60d9df890d911c"
     },
     {
       "path": "specs/frontier/signed-social-information/v1/capabilities.json",
