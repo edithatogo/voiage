@@ -1,0 +1,45 @@
+{
+  "analysis_id": "si03-static-observation",
+  "choices": [
+    {
+      "action_id": "reimburse",
+      "native_node_id": "favourable",
+      "observation": "clinical_positive",
+      "world_id": "favourable"
+    },
+    {
+      "action_id": "maintain",
+      "native_node_id": "adverse",
+      "observation": "clinical_negative",
+      "world_id": "adverse"
+    }
+  ],
+  "design_id": "qualified_response",
+  "game_sha256": "59f64eeb9d9816fbe2c6fcecb4b71fdb882bc05a7e494bccfa64cdfa71a9c774",
+  "native": {
+    "algorithm": "paignia/backward-induction",
+    "algorithm_version": "1.0.0",
+    "catalogue": "one_found",
+    "game_class": "finite_acyclic_extensive",
+    "identities": {
+      "game_instance_id": "urn:ndrg:si03:synthetic-instance",
+      "policy_artifact_id": null,
+      "session_id": null,
+      "solver_run_id": "urn:ndrg:si03:qualified-archive-run",
+      "solver_trace_id": null,
+      "specification_id": "urn:ndrg:si03:finite-observation-policy-v1"
+    },
+    "information_structure": "perfect_information",
+    "schema_version": "1.0.0",
+    "selection_rule": "input_order_pairwise_tolerance_then_lexicographic",
+    "semantic_profile": "paignia/static-finite-perfect-information-sparse-zero/1.0.0",
+    "solution_concept": "tolerance_aware_backward_induction_policy",
+    "status": "completed",
+    "tolerance": 1e-12
+  },
+  "native_player_id": "institution",
+  "package_receipt_sha256": "4dedd2b14aad9ffc12e0975202c82091ff678a372bd9312bafff2b97be4e7c01",
+  "policy_id": "native_policy",
+  "projection_version": "1.0.0",
+  "provider_revision": "bd880dd756d2ba56cc5f479bc078cea31b53c1d1"
+}
