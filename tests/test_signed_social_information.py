@@ -5,6 +5,7 @@ from __future__ import annotations
 from copy import deepcopy
 import json
 from pathlib import Path
+import sys
 from typing import Any
 
 import pytest
@@ -138,6 +139,17 @@ def test_signed_information_requires_the_installed_rust_kernel(
     monkeypatch.setattr("voiage._runtime._native", missing_native)
     with pytest.raises(BackendNotAvailableError, match="Rust extension"):
         signed_social_information_value(_specification())
+
+
+def test_signed_information_rejects_overflow_from_finite_welfare_inputs() -> None:
+    specification = _specification()
+    specification["welfare"]["weights"]["alice"] = 2.0
+    for world in specification["worlds"]:
+        world["action_utilities"]["safe"]["alice"] = sys.float_info.max
+
+    validate_signed_social_information_semantics(specification)
+    with pytest.raises(InputError, match="Arithmetic must be finite"):
+        signed_social_information_value(specification)
 
 
 def test_transfer_cost_and_declared_response_ledgers_are_signed() -> None:

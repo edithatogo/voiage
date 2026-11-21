@@ -178,7 +178,7 @@
         },
         "tests/test_signed_social_information.py": {
           "previous_sha256": "ce39cc4a085b836029613e2c4bc10ddf281b94ab3043f024e1fa999b3a4b4803",
-          "sha256": "afad6722a78ac9d98c0d28da2c2e43cdb8a7d5a70e830aca0ff7f4c19b22ce83"
+          "sha256": "c846692c448a6a747fa8ce16a9c26cf05ea7615913ca428d3f5a2210383f9374"
         }
       }
     }
