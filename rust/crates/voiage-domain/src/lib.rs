@@ -3,6 +3,7 @@
 #![forbid(unsafe_code)]
 
 use core::fmt;
+use num_traits::{ToPrimitive, Zero};
 use serde::{de, Deserialize, Deserializer, Serialize};
 
 mod collections;
@@ -22,8 +23,24 @@ pub use decision_problem::{
     AnalysisType, DecisionProblem, DecisionProblemError, ExecutionMode, Intervention, Provenance,
     ReproducibilityMetadata,
 };
-/// Exact numeric values used for credal witness coordinates and benefits.
+/// Exact rational values used in finite decision and welfare calculations.
 pub use num_rational::BigRational;
+
+/// Rounds an exact rational to a finite binary64 value.
+///
+/// # Errors
+///
+/// Returns [`ValidationError::NonFinite`] for a zero denominator or a
+/// non-finite rounded value.
+pub fn round_to_binary64(value: &BigRational) -> Result<f64, ValidationError> {
+    if value.denom().is_zero() {
+        return Err(ValidationError::NonFinite);
+    }
+    value
+        .to_f64()
+        .filter(|rounded| rounded.is_finite())
+        .ok_or(ValidationError::NonFinite)
+}
 
 /// Identifies this crate while the production domain contracts are introduced.
 pub const CRATE_NAME: &str = "voiage-domain";

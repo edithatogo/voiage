@@ -15,14 +15,18 @@ import json
 import math
 from typing import TYPE_CHECKING, Any, cast
 
+from voiage._runtime import compute_signed_social_information
 from voiage.contracts.signed_social_information import (
     validate_signed_social_information_result,
     validate_signed_social_information_semantics,
 )
-from voiage.exceptions import raise_input_error
+from voiage.exceptions import InputError, raise_input_error
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
+
+
+_ROLES = ("decision_maker", "recipient", "controller", "stakeholder")
 
 
 @dataclass(frozen=True)
@@ -41,90 +45,39 @@ def signed_social_information_value(
 ) -> SignedSocialInformationResult:
     """Evaluate bounded signed private, role and social information values.
 
-    Policies are enumerated exactly.  A centralized design selects the exact
-    best policy for its declared agent or welfare objective; other designs use
-    a fixed, declared-response, or independently verified finite-equilibrium
-    catalog entry.  Negative values are retained without clipping.
+    The installed Rust extension evaluates the finite payoff tables. A centralized
+    design selects the exact best policy for its declared agent or welfare objective.
+    Fixed, declared-response, and verified finite-equilibrium designs use their
+    declared catalog entry. Negative values are retained without clipping.
     """
     try:
         payload = cast("dict[str, Any]", json.loads(json.dumps(specification)))
         validate_signed_social_information_semantics(payload)
         result = _evaluate(payload)
         validate_signed_social_information_result(result)
+    except InputError:
+        raise
     except (ArithmeticError, KeyError, TypeError, ValueError) as error:
         raise_input_error(str(error))
     return SignedSocialInformationResult(result)
 
 
-def _policy_utilities(
+def _policy_payoffs(
     policy: Mapping[str, Any],
     worlds: list[dict[str, Any]],
     agent_ids: list[str],
-) -> dict[str, float]:
+) -> list[list[float]]:
     decisions = {
         str(item["observation"]): str(item["action_id"])
         for item in cast("list[dict[str, str]]", policy["decisions"])
     }
     unobserved = decisions.get("unobserved")
-    return {
-        agent_id: math.fsum(
-            float(world["probability"])
-            * float(
-                world["action_utilities"][
-                    unobserved if unobserved is not None else decisions[world["signal"]]
-                ][agent_id]
-            )
-            for world in worlds
-        )
-        for agent_id in agent_ids
-    }
-
-
-def _ledger(
-    utilities: Mapping[str, float],
-    design: Mapping[str, Any],
-    agent_ids: list[str],
-) -> dict[str, dict[str, float]]:
-    transfer = dict.fromkeys(agent_ids, 0.0)
-    for item in cast("list[dict[str, Any]]", design["transfers"]):
-        amount = float(item["amount"])
-        transfer[str(item["payer_agent_id"])] -= amount
-        transfer[str(item["recipient_agent_id"])] += amount
-    cost = dict.fromkeys(agent_ids, 0.0)
-    for item in cast("list[dict[str, Any]]", design["costs"]):
-        cost[str(item["agent_id"])] += float(item["amount"])
-    pre = {agent_id: float(utilities[agent_id]) for agent_id in agent_ids}
-    post = {
-        agent_id: pre[agent_id] + transfer[agent_id] - cost[agent_id]
-        for agent_id in agent_ids
-    }
-    return {
-        "pre_transfer": pre,
-        "transfer": transfer,
-        "cost": cost,
-        "post_transfer": post,
-    }
-
-
-def _social_value(
-    ledgers: Mapping[str, Mapping[str, float]], welfare: Mapping[str, Any]
-) -> float:
-    stage = str(welfare["ledger_stage"])
-    weights = cast("dict[str, float]", welfare["weights"])
-    return math.fsum(
-        float(weights[agent_id]) * float(value)
-        for agent_id, value in ledgers[stage].items()
-    )
-
-
-def _selector_value(
-    selector: str,
-    ledgers: Mapping[str, Mapping[str, float]],
-    welfare: Mapping[str, Any],
-) -> float:
-    if selector == "social_welfare":
-        return _social_value(ledgers, welfare)
-    return float(ledgers["post_transfer"][selector.removeprefix("agent:")])
+    payoffs: list[list[float]] = []
+    for world in worlds:
+        action = unobserved if unobserved is not None else decisions[world["signal"]]
+        utilities = world["action_utilities"][action]
+        payoffs.append([float(utilities[agent_id]) for agent_id in agent_ids])
+    return payoffs
 
 
 def _ties(values: Mapping[str, float], absolute: float, relative: float) -> list[str]:
@@ -149,20 +102,6 @@ def _infeasibility_reasons(
         for receipt_id in cast("list[str]", design["rights_receipt_ids"])
         if receipts[receipt_id]["consent_status"] == "denied"
     )
-
-
-def _role_values(
-    by_agent: Mapping[str, float], agents: list[dict[str, Any]]
-) -> dict[str, float]:
-    roles = ("decision_maker", "recipient", "controller", "stakeholder")
-    return {
-        role: math.fsum(
-            float(by_agent[str(agent["agent_id"])])
-            for agent in agents
-            if role in cast("list[str]", agent["roles"])
-        )
-        for role in roles
-    }
 
 
 def _blackwell_check(
@@ -215,56 +154,105 @@ def _blackwell_check(
     }
 
 
+def _numerical_designs(
+    designs: Mapping[str, dict[str, Any]],
+    agent_indices: Mapping[str, int],
+    policy_indices: Mapping[str, int],
+) -> list[dict[str, object]]:
+    design_indices = {design_id: i for i, design_id in enumerate(designs)}
+    numerical: list[dict[str, object]] = []
+    for design_id, design in designs.items():
+        selector = str(design["selector"])
+        selected = design["selected_policy_id"]
+        comparator = design["comparator_design_id"]
+        numerical.append(
+            {
+                "policies": [
+                    policy_indices[key] for key in sorted(design["policy_ids"])
+                ],
+                "selected_policy": None
+                if selected is None
+                else policy_indices[selected],
+                "selector_agent": (
+                    None
+                    if selector == "social_welfare"
+                    else agent_indices[selector.removeprefix("agent:")]
+                ),
+                "comparator": design_indices[
+                    design_id if comparator is None else comparator
+                ],
+                "transfers": [
+                    (
+                        agent_indices[item["payer_agent_id"]],
+                        agent_indices[item["recipient_agent_id"]],
+                        float(item["amount"]),
+                    )
+                    for item in design["transfers"]
+                ],
+                "costs": [
+                    (agent_indices[item["agent_id"]], float(item["amount"]))
+                    for item in design["costs"]
+                ],
+            }
+        )
+    return numerical
+
+
 def _evaluate(data: dict[str, Any]) -> dict[str, Any]:
     agents = cast("list[dict[str, Any]]", data["agents"])
     agent_ids = sorted(str(agent["agent_id"]) for agent in agents)
     worlds = cast("list[dict[str, Any]]", data["worlds"])
     policies = cast("list[dict[str, Any]]", data["policies"])
     policy_by_id = {str(policy["policy_id"]): policy for policy in policies}
-    policy_utilities = {
-        policy_id: _policy_utilities(policy, worlds, agent_ids)
-        for policy_id, policy in policy_by_id.items()
-    }
+    policy_ids = sorted(policy_by_id)
+    agent_indices = {agent_id: i for i, agent_id in enumerate(agent_ids)}
+    policy_indices = {policy_id: i for i, policy_id in enumerate(policy_ids)}
     welfare = cast("dict[str, Any]", data["welfare"])
     receipts = {
         str(receipt["receipt_id"]): receipt
         for receipt in cast("list[dict[str, Any]]", data["receipts"])
     }
     designs = cast("list[dict[str, Any]]", data["designs"])
-    design_by_id = {str(design["design_id"]): design for design in designs}
+    design_by_id = {
+        str(design["design_id"]): design
+        for design in sorted(designs, key=lambda item: str(item["design_id"]))
+    }
+    arithmetic = compute_signed_social_information(
+        {
+            "world_probabilities": [float(world["probability"]) for world in worlds],
+            "policy_payoffs": [
+                _policy_payoffs(policy_by_id[key], worlds, agent_ids)
+                for key in policy_ids
+            ],
+            "welfare_weights": [float(welfare["weights"][key]) for key in agent_ids],
+            "role_agents": [
+                [
+                    agent_indices[agent["agent_id"]]
+                    for agent in agents
+                    if role in agent["roles"]
+                ]
+                for role in _ROLES
+            ],
+            "post_transfer_welfare": welfare["ledger_stage"] == "post_transfer",
+            "designs": _numerical_designs(design_by_id, agent_indices, policy_indices),
+        }
+    )
     tie_policy = cast("dict[str, float]", data["tie_policy"])
     absolute = float(tie_policy["absolute_tolerance"])
     relative = float(tie_policy["relative_tolerance"])
 
     absolute_evaluations: dict[str, dict[str, Any]] = {}
-    for design_id in sorted(design_by_id):
+    for design_id, values in zip(design_by_id, arithmetic, strict=True):
         design = design_by_id[design_id]
-        candidate_ledgers = {
-            policy_id: _ledger(policy_utilities[policy_id], design, agent_ids)
-            for policy_id in cast("list[str]", design["policy_ids"])
-        }
-        selector_values = {
-            policy_id: _selector_value(str(design["selector"]), ledger, welfare)
-            for policy_id, ledger in candidate_ledgers.items()
-        }
+        numerical = cast("dict[str, Any]", values)
+        catalog = sorted(cast("list[str]", design["policy_ids"]))
+        selector_values = dict(zip(catalog, numerical["selector_values"], strict=True))
+        selected_policy_id = policy_ids[numerical["selected_policy"]]
         if design["selection_mode"] == "centralized":
-            selected_policy_id = _exact_best(selector_values)
             policy_tie = _ties(selector_values, absolute, relative)
         else:
-            selected_policy_id = str(design["selected_policy_id"])
             policy_tie = [selected_policy_id]
-        selected_ledger = candidate_ledgers[selected_policy_id]
         reasons = _infeasibility_reasons(design, receipts)
-        social_pre = math.fsum(
-            float(welfare["weights"][agent_id])
-            * float(selected_ledger["pre_transfer"][agent_id])
-            for agent_id in agent_ids
-        )
-        social_post = math.fsum(
-            float(welfare["weights"][agent_id])
-            * float(selected_ledger["post_transfer"][agent_id])
-            for agent_id in agent_ids
-        )
         absolute_evaluations[design_id] = {
             "design_id": design_id,
             "comparator_design_id": design["comparator_design_id"],
@@ -273,15 +261,27 @@ def _evaluate(data: dict[str, Any]) -> dict[str, Any]:
             "selector": design["selector"],
             "feasible": not reasons,
             "infeasibility_reasons": reasons,
-            "policies_evaluated": sorted(design["policy_ids"]),
-            "policy_selector_values": dict(sorted(selector_values.items())),
+            "policies_evaluated": catalog,
+            "policy_selector_values": selector_values,
             "policy_tie": policy_tie,
             "selected_policy_id": selected_policy_id,
-            "ledgers": selected_ledger,
-            "social_pre_transfer": social_pre,
-            "social_post_transfer": social_post,
+            "ledgers": {
+                stage: dict(zip(agent_ids, entries, strict=True))
+                for stage, entries in numerical["ledger"].items()
+            },
+            "social_pre_transfer": numerical["social_pre_transfer"],
+            "social_post_transfer": numerical["social_post_transfer"],
             "rights_receipts": sorted(design["rights_receipt_ids"]),
             "equilibrium_receipt": design["equilibrium_receipt"],
+            "signed_values": {
+                "by_agent": dict(
+                    zip(agent_ids, numerical["signed_by_agent"], strict=True)
+                ),
+                "by_role": dict(zip(_ROLES, numerical["signed_by_role"], strict=True)),
+                "social": numerical["signed_welfare"],
+                "comparator_design_id": design["comparator_design_id"],
+                "clipped_at_zero": False,
+            },
         }
 
     evaluated_designs: list[dict[str, Any]] = []
@@ -292,30 +292,9 @@ def _evaluate(data: dict[str, Any]) -> dict[str, Any]:
         comparator = (
             evaluated if comparator_id is None else absolute_evaluations[comparator_id]
         )
-        by_agent = {
-            agent_id: float(evaluated["ledgers"]["post_transfer"][agent_id])
-            - float(comparator["ledgers"]["post_transfer"][agent_id])
-            for agent_id in agent_ids
-        }
-        stage_key = str(welfare["ledger_stage"])
-        social_value = math.fsum(
-            float(welfare["weights"][agent_id])
-            * (
-                float(evaluated["ledgers"][stage_key][agent_id])
-                - float(comparator["ledgers"][stage_key][agent_id])
-            )
-            for agent_id in agent_ids
-        )
         evaluated_designs.append(
             {
                 **evaluated,
-                "signed_values": {
-                    "by_agent": by_agent,
-                    "by_role": _role_values(by_agent, agents),
-                    "social": social_value,
-                    "comparator_design_id": comparator_id,
-                    "clipped_at_zero": False,
-                },
                 "policy_switch": evaluated["selected_policy_id"]
                 != comparator["selected_policy_id"],
                 "blackwell_nonnegativity": _blackwell_check(

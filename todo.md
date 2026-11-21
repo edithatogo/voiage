@@ -370,6 +370,9 @@ destination registry and publication decisions remain separate external gates.
         response/verified-equilibrium catalogs, signed agent/role/social values,
         selective sharing, full transfer/cost ledgers, rights receipts and
         harm/avoidance/switch/winner-loser diagnostics without clipping.
+    *   SI02 adds the Rust numerical evaluator for the experimental Python and
+        CLI contract. Native controls cover nonuniform priors, signed values
+        and both welfare ledger stages.
     *   PR #808 exact head `4d121b29` completed all 42 terminal-allowed checks
         with 38 successes, three governed skips and one neutral CodeQL
         aggregation, including installed-wheel and full-suite assurance. All 10

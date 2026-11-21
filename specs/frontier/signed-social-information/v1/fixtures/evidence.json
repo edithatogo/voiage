@@ -2,7 +2,7 @@
   "artifacts": [
     {
       "path": "specs/frontier/signed-social-information/v1/README.md",
-      "sha256": "69dffe4f6b62c3c76a61f3b0f2a1133a05cff38310afa337fb60d9df890d911c"
+      "sha256": "29f65f022164e05fbd69f4a0f65866bbe6dd9f7380204bbff6a8f80de2999415"
     },
     {
       "path": "specs/frontier/signed-social-information/v1/capabilities.json",
@@ -30,7 +30,7 @@
     },
     {
       "path": "docs/astro-site/src/content/docs/examples/signed-social-information-value.mdx",
-      "sha256": "285cc01ec16c99cf3308ee7e9ea8c91d16444d1300eb52e7e0695fc16b309e14"
+      "sha256": "360d9a956c918734bee06c92859348ba5477eeeb00fb09058cddf3b6f22b8e68"
     }
   ],
   "schema_version": "signed-social-information-evidence-v1"

@@ -7,6 +7,7 @@
 
 mod censored_evsi;
 mod credal;
+mod signed_social_information;
 
 use pyo3::buffer::PyBuffer;
 use pyo3::create_exception;
@@ -1810,6 +1811,10 @@ fn core_module(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_function(wrap_pyfunction!(credal::compute_credal_decisions, module)?)?;
     module.add_function(wrap_pyfunction!(
         censored_evsi::compute_censored_sequential_evsi,
+        module
+    )?)?;
+    module.add_function(wrap_pyfunction!(
+        signed_social_information::compute_signed_social_information,
         module
     )?)?;
     module.add_function(wrap_pyfunction!(compute_ceaf, module)?)?;

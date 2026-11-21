@@ -9,6 +9,7 @@ from voiage.exceptions import (
     DimensionMismatchError,
     InputError,
     SerializationError,
+    raise_backend_not_available_error,
 )
 
 if TYPE_CHECKING:
@@ -323,6 +324,24 @@ def compute_censored_sequential_evsi(
     except Exception as error:
         _raise_native_error(error)
     return dict(result)
+
+
+def compute_signed_social_information(
+    request: dict[str, object],
+) -> list[dict[str, object]]:
+    """Evaluate admitted finite policy values and ledgers in Rust."""
+    try:
+        compute = _native().compute_signed_social_information
+    except ModuleNotFoundError, AttributeError:
+        raise_backend_not_available_error(
+            "Signed social information requires the installed Rust extension; "
+            "reinstall a supported platform wheel or build the native module."
+        )
+    try:
+        evaluations = compute(request)
+    except Exception as error:
+        _raise_native_error(error)
+    return [dict(value) for value in evaluations]
 
 
 def compute_credal_decisions(problem_json: str, *, max_bases: int) -> dict[str, object]:

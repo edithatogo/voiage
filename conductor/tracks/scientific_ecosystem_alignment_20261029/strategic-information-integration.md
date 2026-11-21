@@ -137,6 +137,18 @@ records a scoped review. The following are acceptance obligations, not executed 
 - [ ] Verify Rust-only execution and installed parity for each exposed binding;
   unsupported methods/bindings stay explicit. Historical Python compatibility is versioned.
 
+The finite v1 kernel evaluates admitted policy payoff tables, transfers, costs and
+comparator-relative signed values in Rust. The Python and CLI entry points use
+that kernel after admitting world laws, observations and rights receipts. The
+standalone Rust interface accepts indexed numerical inputs. The portable v1
+schema, normative result and binding dispositions apply to the full contract.
+
+SI-V01 checks values of 50 under equal weights and 10 under a 0.9/0.1 prior.
+SI-V05 checks agent values of −2, 0 and 4 and declared social value of 2, with
+separate controls for transfers, costs and welfare stages. The historical
+[Python evaluator](https://github.com/edithatogo/voiage/blob/eafe1d41a896aca630d7ba29aca980e1047f614a/voiage/methods/signed_social_information.py)
+records the previous execution path.
+
 ### SI03 — optional provider admission (Q08)
 
 - [ ] After SI01/SI02 and the paired-outcome contract, consume only the qualified
