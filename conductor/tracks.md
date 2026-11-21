@@ -27,6 +27,18 @@ been filed.*
 
 ---
 
+## [x] Track: Optional MLX/Metal EVPI backend [completed: 2026-11-21]
+
+*Link: [Archived MLX/Metal record](./archive/mlx_metal_evpi_backend_20261121/index.md)*
+
+*Status: archived after the ML00 no-go. Both Metal candidates exceeded
+the fallback p95 limit. MPS also exceeded the process RSS budget.
+Follow-up profiling and the review fixes are retained in the archive.*
+
+*GitHub: [Issue #1369](https://github.com/edithatogo/voiage/issues/1369).*
+
+---
+
 ## [x] Track: Pre-Submission Comprehensive Hardening [completed: 2026-08-30]
 *Link: [./archive/pre_submission_comprehensive_hardening_20260829/index.md](./archive/pre_submission_comprehensive_hardening_20260829/index.md)*
 *GitHub: [issue #1033](https://github.com/edithatogo/voiage/issues/1033),
@@ -1135,15 +1147,6 @@ track at the top of this registry; completed repository slices stay closed.
 - [~] **Track: Scientific ecosystem alignment (voiage)**
   *Link: [./tracks/scientific_ecosystem_alignment_20261029/index.md](./tracks/scientific_ecosystem_alignment_20261029/index.md)*
   Stable Rust 1.99.1 candidate and cross-project adapters under qualification; full HPC acceptance remains open.
-
----
-
-- [x] **Track: Optional MLX/Metal EVPI backend**
-  *Link: [./tracks/mlx_metal_evpi_backend_20261121/index.md](./tracks/mlx_metal_evpi_backend_20261121/index.md)*
-  ML00 recorded a no-go on the M1 Max. Both Metal candidates exceeded the
-  fallback p95 limit. MPS also exceeded the RSS budget. The decision is
-  integrated in PR #1374 and implementation is inapplicable.
-  GitHub: https://github.com/edithatogo/voiage/issues/1369
 
 ---
 

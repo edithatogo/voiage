@@ -21,12 +21,12 @@ eligible for implementation only after a go decision in ML00.
 - [`AppleMetalBackend`](../../../voiage/main_backends.py) already provides
   float32 EVPI and ENBS through PyTorch MPS. The MLX work merged in
   [PR #1277](https://github.com/edithatogo/voiage/pull/1277) covers scope and
-  probes. The [existing Metal evidence contract](../../archive/apple-metal-production-speedup-evidence_20260625/index.md)
+  probes. The [existing Metal evidence contract](../apple-metal-production-speedup-evidence_20260625/index.md)
   supplies the reporting baseline.
 
 ## Numerical acceptance
 
-Freeze the [G05 case register](../agent_safe_engineering_20260907/numerical-case-register.json),
+Freeze the [G05 case register](../../tracks/agent_safe_engineering_20260907/numerical-case-register.json),
 the current Rust reference revision, and independent analytic results.
 Retain the G05 relative tolerance of `1e-10` and absolute tolerance of
 `1e-12`. Exercise near-zero EVPI, near ties, common offsets, shuffled rows

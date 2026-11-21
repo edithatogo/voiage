@@ -41,7 +41,7 @@ first-reduction rise.
 
 ### Medium — Stale delivery trace
 
-The Conductor mapping still listed planning and exploratory work after
+The Conductor mapping still listed only exploratory work after
 the decision merged. The mapping and track metadata now record the merged
 planning and evidence PRs. The index links the issue comment that records
 the decision. Archive references retain access to the plan, source commits,

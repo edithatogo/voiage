@@ -84,7 +84,7 @@ magnitude reductions to bound the absolute sums and requires the combined
 error to fit the G05 tolerance before returning a GPU result. The CPU
 fallback handles uncertified inputs.
 
-The [G05 register](../../../agent_safe_engineering_20260907/numerical-case-register.json)
+The [G05 register](../../../../tracks/agent_safe_engineering_20260907/numerical-case-register.json)
 and exact rational witnesses covered ordinary, tied, near-tied, very small,
 extreme and affine-shifted cases. Both candidate reductions matched every
 admitted witness and the independent opportunity-loss reference on all

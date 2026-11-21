@@ -5871,8 +5871,8 @@
     {
       "track_id": "mlx_metal_evpi_backend_20261121",
       "metadata_track_id": "mlx_metal_evpi_backend_20261121",
-      "path": "conductor/tracks/mlx_metal_evpi_backend_20261121",
-      "lifecycle": "new",
+      "path": "conductor/archive/mlx_metal_evpi_backend_20261121",
+      "lifecycle": "archived",
       "issue": {
         "number": 1369,
         "url": "https://github.com/edithatogo/voiage/issues/1369",

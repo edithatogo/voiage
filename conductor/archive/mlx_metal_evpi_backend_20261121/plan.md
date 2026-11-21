@@ -54,3 +54,9 @@ ML04–ML06 are inapplicable to this outcome.
   and PyTorch-installed environments with the admitted MPS route. Retain
   the measurements separately from the preregistered ML00 gate.
   [Follow-up memory profile](./evidence/ml00/memory-profile.md)
+
+## Phase: Review Fixes
+
+- [x] Task: Apply review suggestions `b9d877c55`. Clarify the MPS device
+  memory observation and reconcile the merged delivery evidence.
+  [Conductor review](./review.md)

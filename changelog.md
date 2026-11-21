@@ -1,5 +1,8 @@
 # Changelog
 
+- Archive the Apple Silicon EVPI qualification with the no-go decision
+  and PyTorch MPS memory profile.
+
 - Preserve optional JAX and scikit-learn fallback behavior while making their
   import checks explicit for static analysis.
 
