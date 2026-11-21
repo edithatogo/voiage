@@ -83,26 +83,38 @@ class _FakeTorch:
 
 @contextmanager
 def _fake_apple_metal_backend() -> Iterator[None]:
-    original_torch = main_backends.torch
-    original_platform = main_backends.sys.platform
-    try:
-        main_backends.torch = _FakeTorch()
-        main_backends.sys.platform = "darwin"
+    with pytest.MonkeyPatch.context() as monkeypatch:
+        monkeypatch.setattr(main_backends, "_load_torch", _FakeTorch)
+        monkeypatch.setattr(main_backends.sys, "platform", "darwin")
         yield
-    finally:
-        main_backends.torch = original_torch
-        main_backends.sys.platform = original_platform
 
 
 def test_apple_metal_backend_requires_torch() -> None:
     """The backend should raise when PyTorch/MPS is unavailable."""
-    original_torch = main_backends.torch
-    try:
-        main_backends.torch = None
+    with pytest.MonkeyPatch.context() as monkeypatch:
+        monkeypatch.setattr(main_backends, "_load_torch", lambda: None)
         with pytest.raises(ImportError):
             main_backends.get_backend("apple_metal")
-    finally:
-        main_backends.torch = original_torch
+
+
+def test_non_macos_capability_probe_does_not_load_torch(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Keep the legacy availability and runtime attributes available lazily."""
+    torch = _FakeTorch()
+    loads = []
+
+    def load_torch() -> _FakeTorch:
+        loads.append(torch)
+        return torch
+
+    monkeypatch.setattr(main_backends, "sys", SimpleNamespace(platform="linux"))
+    monkeypatch.setattr(main_backends, "_load_torch", load_torch)
+
+    assert main_backends.APPLE_METAL_AVAILABLE is False
+    assert loads == []
+    assert main_backends.torch is torch
+    assert loads == [torch]
 
 
 def test_apple_metal_backend_evpi_and_enbs_simple() -> None:
@@ -111,6 +123,7 @@ def test_apple_metal_backend_evpi_and_enbs_simple() -> None:
         backend = main_backends.get_backend("apple_metal")
 
         assert isinstance(backend, main_backends.AppleMetalBackend)
+        assert main_backends.APPLE_METAL_AVAILABLE is True
         assert backend.device.type == "mps"
 
         net_benefit_array = np.array([[10.0, 1.0], [2.0, 8.0]])
@@ -277,9 +290,8 @@ def test_memory_benchmark_payload_includes_required_flat_fields() -> None:
 
 def test_benchmark_mps_vs_cpu_reports_unavailable_without_torch() -> None:
     """The workflow should remain CPU-only when Apple Metal cannot be constructed."""
-    original_torch = main_backends.torch
-    try:
-        main_backends.torch = None
+    with pytest.MonkeyPatch.context() as monkeypatch:
+        monkeypatch.setattr(main_backends, "_load_torch", lambda: None)
         payload = benchmark_mps_vs_cpu(
             np.array([[10.0, 1.0], [2.0, 8.0]]),
             repeats=10,
@@ -310,15 +322,12 @@ def test_benchmark_mps_vs_cpu_reports_unavailable_without_torch() -> None:
             "throughput_ops_per_sec",
         ]
         assert payload["runtime"]["backend"]["torch"] is None
-    finally:
-        main_backends.torch = original_torch
 
 
 def test_benchmark_mps_vs_cpu_reports_payload_checksum() -> None:
     """Workload hashing and runtime metadata must be present for handoff packets."""
-    original_torch = main_backends.torch
-    try:
-        main_backends.torch = None
+    with pytest.MonkeyPatch.context() as monkeypatch:
+        monkeypatch.setattr(main_backends, "_load_torch", lambda: None)
         payload = benchmark_mps_vs_cpu(
             np.array([[10.0, 1.0], [2.0, 8.0]], dtype=float),
             repeats=10,
@@ -340,15 +349,12 @@ def test_benchmark_mps_vs_cpu_reports_payload_checksum() -> None:
         runtime = payload["runtime"]
         assert "platform" in runtime
         assert isinstance(runtime["system"], str)
-    finally:
-        main_backends.torch = original_torch
 
 
 def test_benchmark_mps_vs_cpu_layout_invariant_signature() -> None:
     """The workload signature should be stable regardless of input memory layout."""
-    original_torch = main_backends.torch
-    try:
-        main_backends.torch = None
+    with pytest.MonkeyPatch.context() as monkeypatch:
+        monkeypatch.setattr(main_backends, "_load_torch", lambda: None)
         base = np.array([[10.0, 1.0], [2.0, 8.0]], dtype=np.float32, order="F")
         c_array = np.ascontiguousarray(base)
         f_array = np.array(base, order="F", copy=True)
@@ -363,8 +369,6 @@ def test_benchmark_mps_vs_cpu_layout_invariant_signature() -> None:
         assert c_payload["workload"]["sha256"] == f_payload["workload"]["sha256"]
         assert c_payload["workload"]["dtype"] == "float64"
         assert f_payload["workload"]["dtype"] == "float64"
-    finally:
-        main_backends.torch = original_torch
 
 
 def test_phase_3_handoff_compiles_scalar_and_memory_review_packets() -> None:

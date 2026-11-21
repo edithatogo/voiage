@@ -17,6 +17,7 @@ from voiage.exceptions import raise_import_error, raise_value_error
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Mapping, Sequence
+    from types import ModuleType
 
     from numpy.typing import ArrayLike
 
@@ -796,18 +797,30 @@ class JaxBackend(Backend):
         return frozenset(str(item.platform) for item in jax.devices())
 
 
-try:
-    import torch
+def _load_torch() -> ModuleType | None:
+    """Load the optional PyTorch runtime on demand."""
+    try:
+        return import_module("torch")
+    except ImportError:
+        return None
 
-    APPLE_METAL_AVAILABLE = (
-        sys.platform == "darwin"
-        and hasattr(torch.backends, "mps")
-        and bool(torch.backends.mps.is_built())
-        and bool(torch.backends.mps.is_available())
-    )
-except ImportError:
-    torch = None
-    APPLE_METAL_AVAILABLE = False
+
+def __getattr__(name: str) -> object:
+    """Resolve the legacy Metal capability and runtime attributes on access."""
+    if name == "torch":
+        return _load_torch()
+    if name == "APPLE_METAL_AVAILABLE":
+        if sys.platform != "darwin":
+            return False
+        torch = _load_torch()
+        return (
+            torch is not None
+            and hasattr(torch.backends, "mps")
+            and bool(torch.backends.mps.is_built())
+            and bool(torch.backends.mps.is_available())
+        )
+    msg = f"module {__name__!r} has no attribute {name!r}"
+    raise AttributeError(msg)
 
 
 class AppleMetalBackend(Backend):
@@ -819,6 +832,7 @@ class AppleMetalBackend(Backend):
     supported_devices = frozenset({"mps"})
 
     def __init__(self) -> None:
+        torch = _load_torch()
         if torch is None:
             raise_import_error("PyTorch is required for the Apple Metal backend")
         if sys.platform != "darwin":
@@ -939,6 +953,7 @@ def _array_signature(values: ArrayLike) -> dict[str, object]:
 
 def _runtime_manifest() -> dict[str, object]:
     """Return a compact runtime manifest for review packets."""
+    torch = _load_torch()
     mps_available = None
     if (
         torch is not None

@@ -151,6 +151,10 @@ The [archived MLX/Metal EVPI track](../../../archive/mlx_metal_evpi_backend_2026
 records the Apple Silicon no-go. Preserve the HPC deferral and independent
 CPU acceptance.
 
+The [CPU EVPI follow-up](../../../../docs/reviews/evpi-cpu-overhead-20261121.md)
+qualified the Python-to-Rust buffer transfer and deferred PyTorch loading
+on the M1 Max. The wider Q07 binding matrix remains open.
+
 ### Q08 — Qualify one cross-library workflow at a time
 
 Maps to F08/F06/F07. Depends on Q01/Q03 and the numerical packets used by each pilot.

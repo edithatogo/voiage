@@ -170,6 +170,33 @@ def test_private_native_extension_reports_runtime_provenance() -> None:
         )
 
 
+def test_evpi_accepts_contiguous_float64_without_boxing() -> None:
+    """The typed path reads the buffer directly and retains the list fallback."""
+
+    class NoListArray(np.ndarray):
+        def tolist(self) -> list[object]:
+            msg = "EVPI boxed a contiguous float64 matrix"
+            raise AssertionError(msg)
+
+    native = import_module("voiage._core")
+    values = np.array([[1.0, 3.0], [4.0, 2.0], [2.0, -1.0]], dtype=np.float64)
+    expected = native.compute_evpi(values.tolist())
+
+    assert native.compute_evpi(values.view(NoListArray)) == expected
+    assert native.compute_evpi(np.asfortranarray(values)) == expected
+    assert native.compute_evpi(values[::-1]) == expected
+    assert native.compute_evpi(values.astype(np.float32)) == expected
+    assert (
+        native.compute_evpi(values.astype(values.dtype.newbyteorder("S"))) == expected
+    )
+
+    values[1, 1] = np.nan
+    with pytest.raises(native.InputError, match="finite rectangular numeric matrix"):
+        native.compute_evpi(values.view(NoListArray))
+    with pytest.raises(native.InputError, match="finite rectangular numeric matrix"):
+        native.compute_evpi(np.empty((2, 0)))
+
+
 def test_python_adapter_is_a_private_leaf_crate() -> None:
     workspace = tomllib.loads((ROOT / "rust/Cargo.toml").read_text(encoding="utf-8"))
     assert "crates/voiage-python" in workspace["workspace"]["members"]

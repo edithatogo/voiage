@@ -3,13 +3,16 @@
 from __future__ import annotations
 
 from importlib import import_module
-from typing import Any, NoReturn
+from typing import TYPE_CHECKING, Any, NoReturn
 
 from voiage.exceptions import (
     DimensionMismatchError,
     InputError,
     SerializationError,
 )
+
+if TYPE_CHECKING:
+    import numpy as np
 
 _NATIVE_MODULE = "voiage._core"
 
@@ -68,7 +71,7 @@ def serialize_dominance_result(**payload: object) -> dict[str, object]:
     return dict(result)
 
 
-def compute_evpi(net_benefit: list[list[float]]) -> float:
+def compute_evpi(net_benefit: np.ndarray | list[list[float]]) -> float:
     """Compute the stable EVPI kernel in Rust."""
     try:
         result = _native().compute_evpi(net_benefit)

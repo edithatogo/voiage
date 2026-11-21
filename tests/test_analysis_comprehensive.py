@@ -160,7 +160,9 @@ class TestDecisionAnalysisComprehensive:
         """Test cache operations when caching is disabled."""
         # Create test data with caching disabled (default)
         nb_data = np.array([[100.0, 150.0], [90.0, 140.0]], dtype=np.float64)
-        analysis = DecisionAnalysis(nb_array=nb_data, enable_caching=False)
+        with patch.object(DecisionAnalysis, "_compute_data_hash") as compute_data_hash:
+            analysis = DecisionAnalysis(nb_array=nb_data, enable_caching=False)
+        compute_data_hash.assert_not_called()
 
         # Test cache operations with caching disabled should return None
         analysis._cache_set("test_key", "test_value")
@@ -186,7 +188,10 @@ class TestDecisionAnalysisComprehensive:
         with patch("voiage._runtime.compute_evpi", return_value=7.5) as compute:
             assert analysis.evpi() == 7.5
 
-        compute.assert_called_once_with([[1.0, 3.0], [4.0, 2.0]])
+        compute.assert_called_once()
+        values = compute.call_args.args[0]
+        assert isinstance(values, np.ndarray)
+        np.testing.assert_array_equal(values, nb_data)
 
     def test_evpi_empty_array(self) -> None:
         """Test EVPI calculation with empty array (should return 0)."""
