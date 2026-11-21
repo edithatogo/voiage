@@ -39,6 +39,9 @@
 - Update the OpenSSF Scorecard action to recognize pinned same-repository
   workflows and avoid false dependency alerts.
 
+- Check repository structure with alint and publish a RepoHealth report in
+  the GitHub Actions run summary.
+
 - Preserve dated qualification observations from older branches with their
   provenance and outstanding acceptance boundaries.
 
