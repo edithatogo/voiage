@@ -5,6 +5,8 @@
 
 #![forbid(unsafe_code)]
 
+mod credal;
+
 use pyo3::create_exception;
 use pyo3::exceptions::{PyException, PyRuntimeError, PyValueError};
 use pyo3::prelude::*;
@@ -1743,6 +1745,7 @@ fn core_module(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_function(wrap_pyfunction!(compute_structural_evpi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_structural_evppi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_dominance, module)?)?;
+    module.add_function(wrap_pyfunction!(credal::compute_credal_decisions, module)?)?;
     module.add_function(wrap_pyfunction!(compute_ceaf, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evppi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evppi_variance, module)?)?;
