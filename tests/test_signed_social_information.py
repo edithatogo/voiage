@@ -253,7 +253,8 @@ def test_blackwell_check_excludes_infeasible_and_transfer_cost_designs() -> None
     )
 
 
-def test_verified_equilibrium_is_a_catalog_not_a_general_solver() -> None:
+@pytest.fixture
+def verified_equilibrium_payload() -> dict[str, Any]:
     specification = _specification()
     specification["designs"][1].update(
         selection_mode="verified_finite_equilibrium",
@@ -266,9 +267,61 @@ def test_verified_equilibrium_is_a_catalog_not_a_general_solver() -> None:
         },
         blackwell_assurance=None,
     )
-    payload = signed_social_information_value(specification).to_contract_dict()
+    return signed_social_information_value(specification).to_contract_dict()
+
+
+def test_verified_equilibrium_is_a_catalog_not_a_general_solver(
+    verified_equilibrium_payload: dict[str, Any],
+) -> None:
+    payload = verified_equilibrium_payload
     assert payload["designs"][1]["selection_mode"] == "verified_finite_equilibrium"
     assert payload["assurance"]["general_game_solver_used"] is False
+
+
+@pytest.mark.parametrize(
+    ("mode", "verified_policy_ids", "message"),
+    [
+        pytest.param(
+            "verified_finite_equilibrium",
+            None,
+            "verified equilibrium requires a matching receipt",
+            id="missing-receipt",
+        ),
+        pytest.param(
+            "verified_finite_equilibrium",
+            ["safe_without_information"],
+            "verified equilibrium requires a matching receipt",
+            id="selected-policy-unverified",
+        ),
+        pytest.param(
+            "verified_finite_equilibrium",
+            ["signal_contingent_social_policy", "outside_catalog"],
+            "equilibrium receipt must reference catalog policies",
+            id="unevaluated-policy",
+        ),
+        pytest.param(
+            "fixed",
+            ["signal_contingent_social_policy"],
+            "equilibrium receipt is only valid for verified catalogs",
+            id="receipt-outside-verified-mode",
+        ),
+    ],
+)
+def test_portable_result_rejects_inconsistent_equilibrium_receipts(
+    verified_equilibrium_payload: dict[str, Any],
+    mode: str,
+    verified_policy_ids: list[str] | None,
+    message: str,
+) -> None:
+    design = verified_equilibrium_payload["designs"][1]
+    design["selection_mode"] = mode
+    if verified_policy_ids is None:
+        design["equilibrium_receipt"] = None
+    else:
+        design["equilibrium_receipt"]["verified_policy_ids"] = verified_policy_ids
+
+    with pytest.raises(ValueError, match=message):
+        validate_signed_social_information_result(verified_equilibrium_payload)
 
 
 def test_public_api_cli_and_input_semantics(tmp_path: Path) -> None:
