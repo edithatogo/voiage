@@ -1,19 +1,17 @@
 use std::collections::BTreeMap;
-use std::fmt::Display;
 use std::num::NonZeroUsize;
 
 use pyo3::prelude::*;
 use pyo3::types::PyDict;
 use serde::Deserialize;
 use serde_json::{json, Value};
-use voiage_diagnostics::ErrorCategory;
 use voiage_domain::{
-    AffineNetBenefit, BigRational, CredalContractError, CredalInterval, CredalPoint,
-    CredalPolytope, EAdmissibilityResult, Identifier, LinearInequality, SampleVector, StrategyId,
+    AffineNetBenefit, CredalContractError, CredalInterval, CredalPoint, CredalPolytope,
+    EAdmissibilityResult, Identifier, LinearInequality, SampleVector, StrategyId,
 };
-use voiage_numerics::{solve_credal, CredalExtremum, CredalSolveResult, NumericalInputError};
+use voiage_numerics::{solve_credal, CredalExtremum, CredalSolveResult};
 
-use super::{result_to_dict, BoundaryError};
+use super::{canonical_id, fraction, invalid, kernel_error, result_to_dict, BoundaryError};
 
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -91,37 +89,12 @@ pub(super) fn compute_credal_decisions<'py>(
     result_to_dict(py, &payload).map(|(result, _canonical)| result)
 }
 
-fn canonical_id(name: &str) -> PyResult<&str> {
-    if name.trim() != name {
-        return Err(invalid(
-            "Identifiers must preserve their supplied text without surrounding whitespace",
-        ));
-    }
-    Ok(name)
-}
-
-fn invalid(error: impl Display) -> PyErr {
-    BoundaryError::Input(error.to_string()).into_pyerr()
-}
-
 fn contract_error(error: CredalContractError) -> PyErr {
     if matches!(error, CredalContractError::DimensionMismatch { .. }) {
         BoundaryError::DimensionMismatch(error.to_string()).into_pyerr()
     } else {
         invalid(error)
     }
-}
-
-fn kernel_error(error: NumericalInputError) -> PyErr {
-    if error.category() == ErrorCategory::DimensionMismatch {
-        BoundaryError::DimensionMismatch(error.to_string()).into_pyerr()
-    } else {
-        invalid(error)
-    }
-}
-
-fn fraction(value: &BigRational) -> [String; 2] {
-    [value.numer().to_string(), value.denom().to_string()]
 }
 
 fn point_payload(point: &CredalPoint) -> Vec<[String; 2]> {

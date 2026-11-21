@@ -5,6 +5,7 @@
 
 #![forbid(unsafe_code)]
 
+mod censored_evsi;
 mod credal;
 
 use pyo3::create_exception;
@@ -14,13 +15,14 @@ use pyo3::types::{PyDict, PyModule};
 use serde::Deserialize;
 use serde_json::{Map, Value};
 use sha2::{Digest, Sha256};
+use std::fmt::Display;
 #[cfg(test)]
 use std::fmt::Write;
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Mutex;
 use voiage_diagnostics::telemetry::{emit as emit_diagnostic_event, Correlation};
 use voiage_diagnostics::{CancellationToken, CheckpointIdentity, CheckpointStore, ErrorCategory};
-use voiage_domain::{SampleCube, SampleMatrix, SampleVector};
+use voiage_domain::{BigRational, SampleCube, SampleMatrix, SampleVector};
 use voiage_numerics::{
     ceaf, coss, coss_selection_uncertainty, dominance, enbs, estimation_truth_assurance, evpi,
     evpi_resumable, evppi, evppi_variance, evppi_variance_with_assurance, evsi_efficient_linear,
@@ -28,8 +30,8 @@ use voiage_numerics::{
     evsi_variance_with_assurance, expected_utility_information, heterogeneity,
     information_efficiency_uncertainty, normal_normal_two_arm_evsi, structural_evpi,
     structural_evppi, DominanceStatus as KernelDominanceStatus, EstimationVarianceKernelResult,
-    ExpectedUtilityInformationInput, InformationStructure, ResumableEvpiOutcome, SolverSettings,
-    UtilityDescriptor,
+    ExpectedUtilityInformationInput, InformationStructure, NumericalInputError,
+    ResumableEvpiOutcome, SolverSettings, UtilityDescriptor,
 };
 use voiage_serialization::{
     CeafResultV1, CeafResultV1Input, DominanceResultV1, DominanceResultV1Input, DominanceStatus,
@@ -285,6 +287,31 @@ impl BoundaryError {
             }
         }
     }
+}
+
+fn canonical_id(name: &str) -> PyResult<&str> {
+    if name.trim() != name {
+        return Err(invalid(
+            "Identifiers must preserve their supplied text without surrounding whitespace",
+        ));
+    }
+    Ok(name)
+}
+
+fn invalid(error: impl Display) -> PyErr {
+    BoundaryError::Input(error.to_string()).into_pyerr()
+}
+
+fn kernel_error(error: NumericalInputError) -> PyErr {
+    if error.category() == ErrorCategory::DimensionMismatch {
+        BoundaryError::DimensionMismatch(error.to_string()).into_pyerr()
+    } else {
+        invalid(error)
+    }
+}
+
+fn fraction(value: &BigRational) -> [String; 2] {
+    [value.numer().to_string(), value.denom().to_string()]
 }
 
 fn validate_identifiers(analysis_id: &str, decision_problem_id: &str) -> Result<(), BoundaryError> {
@@ -1746,6 +1773,10 @@ fn core_module(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_function(wrap_pyfunction!(compute_structural_evppi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_dominance, module)?)?;
     module.add_function(wrap_pyfunction!(credal::compute_credal_decisions, module)?)?;
+    module.add_function(wrap_pyfunction!(
+        censored_evsi::compute_censored_sequential_evsi,
+        module
+    )?)?;
     module.add_function(wrap_pyfunction!(compute_ceaf, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evppi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evppi_variance, module)?)?;

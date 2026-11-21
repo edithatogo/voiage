@@ -1,5 +1,8 @@
 # Changelog
 
+- Evaluate censored sequential EVSI through the private Python extension.
+  Observation parameters align with the declared payoff state IDs.
+
 - Expose exact Rust credal decision certificates through the private Python
   extension, including witness fractions and incomplete-search diagnostics.
 
