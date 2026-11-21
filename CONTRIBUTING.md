@@ -108,15 +108,19 @@ The **Repository Health** workflow runs on pull requests to `main`, pushes to
 `main`, and merge groups. It can also run on demand from the Actions tab.
 
 - [alint v0.22.1](https://github.com/asamarts/alint/releases/tag/v0.22.1) checks
-  repository structure and workflow conventions using `.alint.yml`. Errors
-  fail the job and warnings appear as annotations. This release flags
-  GitHub's same-repository `$/` workflow references as unpinned. Run
-  `alint check` locally.
+  repository structure and workflow conventions using `.alint.yml`. The
+  Markdown rule allows two-space hard breaks, and two exact whitespace
+  exceptions preserve a hash-bound inventory and original solver output.
+  The baseline records the existing valid `$/` reference that this alint
+  release flags. Run `alint check --show-baselined` locally to inspect it.
 - [RepoHealth v0.5.3](https://github.com/spbuilds/repohealth/releases/tag/v0.5.3)
-  writes its score and recommendations to the workflow summary and job log.
-  The score is advisory. This release overlooks `uv.lock` and the lowercase
-  `changelog.md`. With a full Git checkout, run `repohealth . --format markdown`
-  locally.
+  writes its advisory score to the workflow summary and job log.
+  `.repohealthrc.yaml` omits the four checks whose filename lookup misses
+  `uv.lock`, the nested lockfiles, and `changelog.md`. The job verifies those
+  tracked files and lists their last change dates. RepoHealth scans exclude
+  the local `.conductor` workspace and the upstream Spack source snapshot.
+  Compare scores from runs using the same configuration. With a full Git
+  checkout, run `repohealth . --format markdown` locally.
 
 When upgrading RepoHealth, update the version and Linux amd64 archive SHA-256
 together in `.github/workflows/repository-health.yml`.

@@ -1,0 +1,2 @@
+{"schema_version":1,"alint_version":"0.22.1"}
+{"rule_id":"gha-pin-actions-to-sha","path":".github/workflows/native-build-capacity-observation.yml","fingerprint":"9013f49bf7512f539b838790454afcc8b369306c053e9424965584f8177e21bc","count":1,"message":"External action, workflow, or container is not pinned to an immutable commit or digest. Pin Actions with `@<full-commit-sha>` and images with `@sha256:<64-hex-digest>` so a compromised tag cannot silently change what runs. Local `./` references are allowed."}
