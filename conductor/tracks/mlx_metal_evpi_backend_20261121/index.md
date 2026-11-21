@@ -5,6 +5,7 @@ candidates missed the common-offset fallback p95 limit. Feasibility is
 complete in this packet. Implementation is inapplicable.
 
 - [ML00 decision and benchmark evidence](./evidence/ml00/README.md)
+- [Follow-up memory profile](./evidence/ml00/memory-profile.md)
 
 - [Specification](./spec.md)
 - [Implementation Plan](./plan.md)

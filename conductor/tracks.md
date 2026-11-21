@@ -1138,11 +1138,11 @@ track at the top of this registry; completed repository slices stay closed.
 
 ---
 
-- [~] **Track: Optional MLX/Metal EVPI backend**
+- [x] **Track: Optional MLX/Metal EVPI backend**
   *Link: [./tracks/mlx_metal_evpi_backend_20261121/index.md](./tracks/mlx_metal_evpi_backend_20261121/index.md)*
   ML00 recorded a no-go on the M1 Max. Both Metal candidates exceeded the
-  fallback p95 limit; MPS also exceeded the RSS budget. Decision integration
-  remains open, with implementation steps inapplicable.
+  fallback p95 limit. MPS also exceeded the RSS budget. The decision is
+  integrated in PR #1374 and implementation is inapplicable.
   GitHub: https://github.com/edithatogo/voiage/issues/1369
 
 ---

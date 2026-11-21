@@ -47,3 +47,10 @@ ML04–ML06 are inapplicable to this outcome.
   the integrated path and validate the device evidence. Run the focused
   tests and the repository's final local and hosted gates. Document the
   measured scope and update the changelog only for delivered behavior.
+
+## Feasibility follow-up
+
+- [x] Profile MPS process memory on the same Mac. Compare Rust in the base
+  and PyTorch-installed environments with the admitted MPS route. Retain
+  the measurements separately from the preregistered ML00 gate.
+  [Follow-up memory profile](./evidence/ml00/memory-profile.md)
