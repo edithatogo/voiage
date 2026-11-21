@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 import hashlib
+from importlib import import_module
 import json
 import platform
 import sys
@@ -174,7 +175,7 @@ try:
 
     # Try to import optional dependencies
     try:
-        import sklearn  # noqa: F401
+        import_module("sklearn")
     except ImportError:
         SKLEARN_AVAILABLE = False
     else:

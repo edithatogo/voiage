@@ -3,6 +3,7 @@
 """A module for the core decision analysis interface."""
 
 from collections import deque
+from importlib import import_module
 from typing import TYPE_CHECKING, Any, Protocol
 
 import numpy as np
@@ -26,7 +27,7 @@ if TYPE_CHECKING:
 
 # Check for JAX availability
 try:
-    import jax.numpy  # noqa: F401
+    import_module("jax.numpy")
 except ImportError:
     JAX_AVAILABLE = False
 else:

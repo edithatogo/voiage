@@ -1,6 +1,5 @@
 """Tests for the computational backends."""
 
-import builtins
 import importlib
 import pathlib
 import sys
@@ -703,14 +702,7 @@ def test_jax_backend_remains_available_without_sklearn(
     assert spec is not None
     assert spec.loader is not None
     module = importlib.util.module_from_spec(spec)
-    original_import = builtins.__import__
-
-    def import_without_sklearn(name: str, *args: object, **kwargs: object) -> object:
-        if name == "sklearn" or name.startswith("sklearn."):
-            raise ImportError("scikit-learn is unavailable")
-        return original_import(name, *args, **kwargs)
-
-    monkeypatch.setattr(builtins, "__import__", import_without_sklearn)
+    monkeypatch.setitem(sys.modules, "sklearn", None)
     spec.loader.exec_module(module)
 
     assert module.JAX_AVAILABLE is True
