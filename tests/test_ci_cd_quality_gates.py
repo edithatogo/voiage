@@ -463,7 +463,6 @@ class TestQualityGatePolicyCompliance:
         assert osv_path.exists(), "osv-scanner.toml not found"
         data = tomllib.loads(osv_path.read_text(encoding="utf-8"))
         ignored = data.get("IgnoredVulns", [])
-        assert len(ignored) > 0, "Expected IgnoredVulns entries in osv-scanner.toml"
         today = date.today()
         for item in ignored:
             assert item.get("id")

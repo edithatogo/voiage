@@ -185,6 +185,18 @@ immutable releases. Those deliberate exceptions should not be bypassed with
 bot approvals, alternate accounts, synthetic contributors, or placeholder
 releases.
 
+The Scorecard vulnerability check includes checked-in historical lockfiles and
+software bills of materials. Match advisory IDs to the inventory paths and
+package versions, then assess the supported locks and published artifacts
+against their own inventories. Preserve archived evidence and its digests.
+The release-specific Grype checks use the resolved Python and Cargo inventories
+described below.
+
+The Scorecard workflow records publication outcomes in the job summary. A
+rejected publication fails the analysis job and still attempts to upload the
+local SARIF and workflow artifact. Treat the public report's commit and
+timestamp as the publication receipt.
+
 GitHub immutable releases should be enabled in hosted repository settings so
 published release assets and their tag cannot be modified.
 
