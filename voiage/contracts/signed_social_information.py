@@ -819,6 +819,8 @@ def _validate_equilibrium_receipt(
             raise ValueError("verified equilibrium requires a matching receipt")
         if not verified_policy_ids.issubset(policy_ids):
             raise ValueError("equilibrium receipt must reference catalog policies")
+        if receipt["solution_concept"] != "declared_finite_nash":
+            raise ValueError("unsupported equilibrium solution concept")
     elif receipt is not None:
         raise ValueError("equilibrium receipt is only valid for verified catalogs")
 

@@ -254,7 +254,7 @@ def test_blackwell_check_excludes_infeasible_and_transfer_cost_designs() -> None
 
 
 @pytest.fixture
-def verified_equilibrium_payload() -> dict[str, Any]:
+def verified_equilibrium_specification() -> dict[str, Any]:
     specification = _specification()
     specification["designs"][1].update(
         selection_mode="verified_finite_equilibrium",
@@ -267,7 +267,16 @@ def verified_equilibrium_payload() -> dict[str, Any]:
         },
         blackwell_assurance=None,
     )
-    return signed_social_information_value(specification).to_contract_dict()
+    return specification
+
+
+@pytest.fixture
+def verified_equilibrium_payload(
+    verified_equilibrium_specification: dict[str, Any],
+) -> dict[str, Any]:
+    return signed_social_information_value(
+        verified_equilibrium_specification
+    ).to_contract_dict()
 
 
 def test_verified_equilibrium_is_a_catalog_not_a_general_solver(
@@ -276,6 +285,114 @@ def test_verified_equilibrium_is_a_catalog_not_a_general_solver(
     payload = verified_equilibrium_payload
     assert payload["designs"][1]["selection_mode"] == "verified_finite_equilibrium"
     assert payload["assurance"]["general_game_solver_used"] is False
+
+
+def test_coordination_respects_declared_selection_and_catalog_scope() -> None:
+    specification = _specification()
+    specification["actions"] = ["AA", "AB", "BA", "BB"]
+    specification["worlds"] = [
+        {
+            "world_id": "coordination",
+            "probability": 1.0,
+            "signal": "fixed",
+            "action_utilities": {
+                "AA": {"alice": 3.0, "board": 1.0, "public": 0.0},
+                "AB": {"alice": 0.0, "board": 0.0, "public": 0.0},
+                "BA": {"alice": 0.0, "board": 0.0, "public": 0.0},
+                "BB": {"alice": 1.0, "board": 3.0, "public": 0.0},
+            },
+        }
+    ]
+    specification["policies"] = [
+        {
+            "policy_id": policy_id,
+            "decision_agent_id": "alice",
+            "decisions": [{"observation": "unobserved", "action_id": action_id}],
+        }
+        for policy_id, action_id in (("aa", "AA"), ("bb", "BB"))
+    ]
+    baseline, coordination = specification["designs"]
+    baseline.update(policy_ids=["aa"], selection_mode="fixed", selected_policy_id="aa")
+    receipt = {
+        "solution_concept": "declared_finite_nash",
+        "verification_method": "complete_catalog_best_response_check",
+        "verified_policy_ids": ["aa", "bb"],
+    }
+    coordination.update(
+        recipients=[],
+        policy_ids=["aa", "bb"],
+        selection_mode="verified_finite_equilibrium",
+        selector="agent:alice",
+        selected_policy_id="bb",
+        rights_receipt_ids=[],
+        blackwell_assurance=None,
+        equilibrium_receipt=receipt,
+    )
+
+    payload = signed_social_information_value(specification).to_contract_dict()
+    design = payload["designs"][1]
+    assert design["policy_selector_values"] == {"aa": 3.0, "bb": 1.0}
+    assert design["selected_policy_id"] == "bb"
+    assert design["policy_switch"] is True
+    assert design["policies_evaluated"] == ["aa", "bb"]
+    assert design["equilibrium_receipt"] == receipt
+    assert design["ledgers"]["pre_transfer"] == {
+        "alice": 1.0,
+        "board": 3.0,
+        "public": 0.0,
+    }
+    assert payload["assurance"]["general_game_solver_used"] is False
+
+
+def test_shared_observation_binds_hidden_worlds_and_stays_private() -> None:
+    specification = _specification()
+    beneficial, adverse = specification["worlds"]
+    beneficial.update(probability=0.25, signal="private_reading_positive")
+    adverse["signal"] = "private_reading_negative"
+    second_beneficial = deepcopy(beneficial)
+    second_beneficial["world_id"] = "beneficial_variant"
+    second_beneficial["action_utilities"]["expand"]["public"] = 10.0
+    specification["worlds"].append(second_beneficial)
+    policy = specification["policies"][1]
+    for decision in policy["decisions"]:
+        decision["observation"] = f"private_reading_{decision['observation']}"
+
+    payload = signed_social_information_value(specification).to_contract_dict()
+    design = payload["designs"][1]
+    assert design["selected_policy_id"] == "signal_contingent_social_policy"
+    assert design["ledgers"]["pre_transfer"]["public"] == 5.0
+    exported = json.dumps(payload)
+    assert "private_reading_positive" not in exported
+    assert "private_reading_negative" not in exported
+
+    policy["decisions"].append(
+        {"observation": second_beneficial["world_id"], "action_id": "restrict"}
+    )
+    with pytest.raises(
+        InputError,
+        match="policy observations must be exactly unobserved or every signal",
+    ):
+        signed_social_information_value(specification)
+
+
+def test_public_input_rejects_unsupported_equilibrium_concept(
+    verified_equilibrium_specification: dict[str, Any],
+) -> None:
+    receipt = verified_equilibrium_specification["designs"][1]["equilibrium_receipt"]
+    receipt["solution_concept"] = "bayes_correlated_equilibrium"
+
+    with pytest.raises(InputError, match="unsupported equilibrium solution concept"):
+        signed_social_information_value(verified_equilibrium_specification)
+
+
+def test_portable_result_rejects_unsupported_equilibrium_concept(
+    verified_equilibrium_payload: dict[str, Any],
+) -> None:
+    receipt = verified_equilibrium_payload["designs"][1]["equilibrium_receipt"]
+    receipt["solution_concept"] = "bayes_correlated_equilibrium"
+
+    with pytest.raises(ValueError, match="unsupported equilibrium solution concept"):
+        validate_signed_social_information_result(verified_equilibrium_payload)
 
 
 @pytest.mark.parametrize(

@@ -151,6 +151,21 @@
           "sha256": "900a08be80d160a4133f19a3495bd4c15fff118fec787e46e31d0a7e97f14e9e"
         }
       }
+    },
+    {
+      "recorded_on": "2026-11-21",
+      "scope": "SI01 admits declared finite Nash receipts, rejects unsupported concepts, and records selection and private-observation controls.",
+      "regression": "tests/test_signed_social_information.py::test_portable_result_rejects_unsupported_equilibrium_concept",
+      "artifacts": {
+        "voiage/contracts/signed_social_information.py": {
+          "previous_sha256": "4323b7bbacaf14695997431b52cf9b8c56c9ce8044e8a35a5e35fbff04a972e6",
+          "sha256": "d225a0e9111efb8aea9815b7b1a958e4a284a73af95a3f1defabe7026c39ebdc"
+        },
+        "tests/test_signed_social_information.py": {
+          "previous_sha256": "900a08be80d160a4133f19a3495bd4c15fff118fec787e46e31d0a7e97f14e9e",
+          "sha256": "ce39cc4a085b836029613e2c4bc10ddf281b94ab3043f024e1fa999b3a4b4803"
+        }
+      }
     }
   ]
 }
