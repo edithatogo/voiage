@@ -19,6 +19,7 @@ _EXPORTS = {
     "information_source_portfolio_value": ".methods.information_source_portfolio",
     "paired_draw_bundle": ".experimental.paired_draws",
     "censored_sequential_evsi": ".experimental.censored_evsi",
+    "credal_decisions": ".experimental.credal",
 }
 
 __all__ = list(_EXPORTS)
