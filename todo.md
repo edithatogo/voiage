@@ -61,8 +61,6 @@ Completed prerequisite records remain linked for navigation:
 `conductor/tracks/translation_reference_20261026/`.
 
 - [ ] Existing active delivery tracks: `conductor/tracks/remaining_backlog_delivery_20260831/` and `conductor/tracks/v2_2_release_and_venue_submissions_20260830/`.
-- [~] Integrate the retained [MLX/Metal EVPI decision](conductor/tracks/mlx_metal_evpi_backend_20261121/index.md).
-  The Mac feasibility study recorded a no-go and closed the implementation branch of the plan.
 - [ ] Implement the [optional simulation-outcome boundary](conductor/tracks/simulation_outcome_boundary_20261107/index.md): paired draws, explicit value conventions, and optional installed use. The [VOP/VOH planning supplement](conductor/tracks/simulation_outcome_boundary_20261107/value-perspective-heterogeneity.md) remains under the existing #1286/VP03 owner. All eight leaves remain pending; scientific alignment and HPC deferral retain their owners.
 - [x] Qualify the non-HPC installed Innovate, MARS, tobac and published VOP
   reference cases against Voiage 3.1.0. The current tobac adapter default passes.
@@ -801,10 +799,13 @@ as recorded in the active task above; earlier route decisions below are historic
 
 ## Done
 
+- [x] Review and archive the [MLX/Metal EVPI no-go](conductor/archive/mlx_metal_evpi_backend_20261121/index.md)
+  with the process-memory profile.
+
 - [x] Verify CodeQL coverage beyond Scorecard's first page of check suites and
   replace unused optional-dependency imports with explicit import checks.
 
-- [x] Complete the [ML00 Apple Silicon EVPI benchmark](conductor/tracks/mlx_metal_evpi_backend_20261121/evidence/ml00/README.md).
+- [x] Complete the [ML00 Apple Silicon EVPI benchmark](conductor/archive/mlx_metal_evpi_backend_20261121/evidence/ml00/README.md).
   Both candidate workflows missed the common-offset fallback p95 limit.
 
 - [x] Constrain Julia TagBot's automatic notification path and document its

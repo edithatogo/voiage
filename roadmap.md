@@ -71,9 +71,8 @@ Prepared track records:
 
 - `conductor/tracks/hpc_source_build_qualification_20261029/` (execution deferred except MLX/Metal; baseline Rust/LLVM source builds and installed probes accepted; full HPC matrix unaccepted)
 - `conductor/tracks/scientific_ecosystem_alignment_20261029/` (HPC portion deferred except MLX/Metal; independent scientific delivery remains eligible)
-- [Optional MLX/Metal EVPI](conductor/tracks/mlx_metal_evpi_backend_20261121/index.md)
-  evaluates Apple Silicon against the Rust reference. ML00 determines whether
-  the tested workload justifies an opt-in backend at the current tolerance.
+- [Archived MLX/Metal EVPI qualification](conductor/archive/mlx_metal_evpi_backend_20261121/index.md)
+  records the ML00 no-go on the M1 Max and the follow-up memory profile.
 - [Optional simulation-outcome boundary](conductor/tracks/simulation_outcome_boundary_20261107/index.md)
   (eight implementation leaves pending: paired strategy/draw identity, explicit
   value conventions, and optional VOI inputs without required producer engines;

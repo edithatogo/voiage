@@ -1,9 +1,9 @@
 {
   "track_id": "mlx_metal_evpi_backend_20261121",
   "type": "feature",
-  "status": "in_progress",
+  "status": "completed",
   "created_at": "2026-11-21T00:00:00Z",
-  "updated_at": "2026-11-21T04:07:19Z",
+  "updated_at": "2026-11-21T08:10:38Z",
   "description": "Qualify Apple Silicon EVPI against Rust before considering an opt-in MLX/Metal route",
   "execution_status": "feasibility_complete_no_go",
   "dependencies": [
@@ -12,11 +12,16 @@
   "github_cross_reference": {
     "issue": "https://github.com/edithatogo/voiage/issues/1369",
     "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1221",
-    "relationship_evidence": "GitHub issue parent readback confirms the native sub-issue relationship."
+    "relationship_evidence": "GitHub issue parent readback confirms the native sub-issue relationship.",
+    "pull_requests": [
+      "https://github.com/edithatogo/voiage/pull/1277",
+      "https://github.com/edithatogo/voiage/pull/1372",
+      "https://github.com/edithatogo/voiage/pull/1374"
+    ]
   },
-  "leaf_count": 7,
+  "leaf_count": 9,
   "max_files_per_leaf": 5,
-  "execution_disposition": "ML00 complete with no-go. ML04–ML06 are inapplicable; decision integration remains open.",
+  "execution_disposition": "Archived after review of the ML00 no-go merged in PR #1374. ML04–ML06 are inapplicable. Follow-up process-memory profiling is complete.",
   "base_revision": "6d8d73276d71f93716988665e1c82648e126a89d",
   "ml00": {
     "decision": "no-go",
@@ -34,6 +39,7 @@
       "ML04",
       "ML05",
       "ML06"
-    ]
+    ],
+    "mps_peak_device_memory": "unverified"
   }
 }

@@ -5871,8 +5871,8 @@
     {
       "track_id": "mlx_metal_evpi_backend_20261121",
       "metadata_track_id": "mlx_metal_evpi_backend_20261121",
-      "path": "conductor/tracks/mlx_metal_evpi_backend_20261121",
-      "lifecycle": "new",
+      "path": "conductor/archive/mlx_metal_evpi_backend_20261121",
+      "lifecycle": "archived",
       "issue": {
         "number": 1369,
         "url": "https://github.com/edithatogo/voiage/issues/1369",
@@ -5890,9 +5890,28 @@
             "merge-commit:a5d87a736fa9f0f876e44872d946b2170d2a0898",
             "Exploratory MLX scope and timing probes."
           ]
+        },
+        {
+          "number": 1372,
+          "url": "https://github.com/edithatogo/voiage/pull/1372",
+          "status": "merged",
+          "evidence": [
+            "merge-commit:6a04f51c997369865665af85a11f2d732fb1f18a",
+            "Registered the conditional MLX/Metal EVPI track and feasibility gate."
+          ]
+        },
+        {
+          "number": 1374,
+          "url": "https://github.com/edithatogo/voiage/pull/1374",
+          "status": "merged",
+          "evidence": [
+            "merge-commit:8b76568b7313e30189bdb828563ca55374239af3",
+            "Both tested routes failed the frozen ML00 fallback p95 criterion.",
+            "https://github.com/edithatogo/voiage/issues/1369#issuecomment-7057775267"
+          ]
         }
       ],
-      "pull_request_evidence": "Prior scope and device probes only. Feasibility and implementation remain pending."
+      "pull_request_evidence": "Merged ML00 no-go decision. Conditional implementation was inapplicable."
     },
     {
       "track_id": "simulation_outcome_boundary_20261107",

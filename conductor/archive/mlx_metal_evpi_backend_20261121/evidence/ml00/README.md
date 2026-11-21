@@ -84,7 +84,7 @@ magnitude reductions to bound the absolute sums and requires the combined
 error to fit the G05 tolerance before returning a GPU result. The CPU
 fallback handles uncertified inputs.
 
-The [G05 register](../../../agent_safe_engineering_20260907/numerical-case-register.json)
+The [G05 register](../../../../tracks/agent_safe_engineering_20260907/numerical-case-register.json)
 and exact rational witnesses covered ordinary, tied, near-tied, very small,
 extreme and affine-shifted cases. Both candidate reductions matched every
 admitted witness and the independent opportunity-loss reference on all
@@ -128,10 +128,13 @@ setup, upload, first call, process elapsed and resident memory separately.
 | Maximum extra process peak RSS ≤ 128 MiB | 2.30 MiB | **310.19 MiB** |
 | Device allocation observation | 20.01 MiB allocator peak | 40.39 MiB retained driver allocation |
 
-All other fixtures met the warm p95 limit. The MPS driver counter is a
-retained-allocation observation and cannot establish peak device memory.
-MPS already fails the independently measured process RSS gate. The first
-sampled GPU-eligible shapes occur at 65,536 rows. No crossover within the
+All other fixtures met the warm p95 limit. For MPS, the frozen JSON
+`gates.device` flag compares the retained driver allocation with the
+budget. Peak device memory remains unverified. MPS independently failed
+the p95 and process RSS gates. The [follow-up process profile](./memory-profile.md)
+measured the PyTorch import and first-reduction contributions.
+
+The first sampled GPU-eligible shapes occur at 65,536 rows. No crossover within the
 untested gap from 4,096 to 65,536 rows was inferred. The cold numbers include
 imports, allocator and driver initialization, and are descriptive.
 [MLX peak memory API](https://ml-explore.github.io/mlx/build/html/python/_autosummary/mlx.core.get_peak_memory.html) ·
