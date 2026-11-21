@@ -97,6 +97,26 @@ def test_apple_metal_backend_requires_torch() -> None:
             main_backends.get_backend("apple_metal")
 
 
+def test_non_macos_capability_probe_does_not_load_torch(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Keep the legacy availability and runtime attributes available lazily."""
+    torch = _FakeTorch()
+    loads = []
+
+    def load_torch() -> _FakeTorch:
+        loads.append(torch)
+        return torch
+
+    monkeypatch.setattr(main_backends, "sys", SimpleNamespace(platform="linux"))
+    monkeypatch.setattr(main_backends, "_load_torch", load_torch)
+
+    assert main_backends.APPLE_METAL_AVAILABLE is False
+    assert loads == []
+    assert main_backends.torch is torch
+    assert loads == [torch]
+
+
 def test_apple_metal_backend_evpi_and_enbs_simple() -> None:
     """The backend should compute the same EVPI envelope on a fake MPS device."""
     with _fake_apple_metal_backend():
