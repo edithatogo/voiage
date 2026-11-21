@@ -108,7 +108,19 @@ def _arrow_table(frame: pa.Table | pl.DataFrame) -> pa.Table:
             raise ValueError(
                 "Polars zero-copy paired draws require flat primitive column types"
             )
-        return frame.to_arrow(compat_level=pl.CompatLevel.newest())
+        # Single-chunk exports retain their buffers when column boundaries differ.
+        compatibility = pl.CompatLevel.newest()
+        return pa.table(
+            {
+                column.name: pa.chunked_array(
+                    [
+                        chunk.to_arrow(compat_level=compatibility)
+                        for chunk in column.get_chunks()
+                    ]
+                )
+                for column in frame.get_columns()
+            }
+        )
     if isinstance(frame, pa.Table):
         return frame
     raise TypeError("Paired draws require a Polars DataFrame or Arrow Table")

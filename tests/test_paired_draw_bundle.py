@@ -87,6 +87,24 @@ def test_polars_bundle_retains_the_declared_flat_column_buffers() -> None:
         assert _addresses(produced[name]) == _addresses(arrow[name])
 
 
+def test_polars_bundle_preserves_uneven_column_chunk_buffers() -> None:
+    draws = pl.concat(
+        [pl.Series("draw_id", [9, 4]), pl.Series("draw_id", [9, 9, 4, 9])],
+        rechunk=False,
+    )
+    frame = _frame().with_columns(draws)
+    source = pa.chunked_array(
+        [
+            chunk.to_arrow(compat_level=pl.CompatLevel.newest())
+            for chunk in frame["draw_id"].get_chunks()
+        ]
+    )
+    assert source.num_chunks == 2
+    produced = _load(frame).table("net_benefits")["draw_id"]
+    assert produced.to_pylist() == [9, 4, 9, 9, 4, 9]
+    assert _addresses(produced) == _addresses(source)
+
+
 @pytest.mark.parametrize(
     ("indices", "message"),
     [([0, 0, 1, 2, 3, 4, 5], "duplicate"), ([0, 1, 3, 4, 5], "every strategy")],
