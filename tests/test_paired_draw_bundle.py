@@ -10,6 +10,7 @@ import pyarrow as pa
 import pytest
 
 from voiage.contracts.normalized_input import NormalizedInputBundle
+from voiage.contracts.preparation import prepare_analysis_inputs
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -203,3 +204,39 @@ def test_malformed_draw_rows_fail_before_constructing_bundle(
     )
     with pytest.raises(ValueError, match=message):
         _load(replaced)
+
+
+@pytest.mark.parametrize(
+    ("method_families", "reject"),
+    [((), True), (("evpi",), True), (("censored_sequential_evsi",), False)],
+)
+def test_unweighted_preparation_respects_the_declared_weight_scope(
+    method_families: tuple[str, ...], reject: bool
+) -> None:
+    table = pa.table(
+        {
+            "draw_id": [1, 1, 2, 2],
+            "strategy_id": [*_STRATEGIES, *_STRATEGIES],
+            "perspective": ["payer"] * 4,
+            "subgroup_id": ["trial"] * 4,
+            "net_benefit": [10.0, 0.0, 0.0, 10.0],
+            "draw_weight": [0.0, 0.0, 1.0, 1.0],
+        }
+    )
+    original = _load(table)
+    payoff, weight = original.manifest.bindings
+    scoped_weight = weight.model_copy(
+        update={"applicable_method_families": method_families}
+    )
+    bundle = NormalizedInputBundle(
+        manifest=original.manifest.model_copy(
+            update={"bindings": (payoff, scoped_weight)}
+        ),
+        tables=original.tables,
+    )
+    if reject:
+        with pytest.raises(ValueError, match="cannot apply declared input weights"):
+            prepare_analysis_inputs(bundle)
+    else:
+        prepared = prepare_analysis_inputs(bundle)
+        assert prepared.net_benefits.numpy_values.tolist() == [[10.0, 0.0], [0.0, 10.0]]

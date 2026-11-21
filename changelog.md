@@ -2,6 +2,7 @@
 
 - Prepare scoped paired-draw net benefits from Arrow or flat Polars columns,
   retaining draw keys, strategy order, and declared weights.
+  Generic analysis preparation rejects declared weights it cannot apply.
 
 - Archive the Apple Silicon EVPI qualification with the no-go decision
   and PyTorch MPS memory profile.

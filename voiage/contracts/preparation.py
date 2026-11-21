@@ -247,6 +247,17 @@ def prepare_analysis_inputs(
         if binding_profile is not None
         else bundle.manifest.bindings
     )
+    if any(
+        binding.role == "weight"
+        and (
+            not binding.applicable_method_families
+            or method_family in binding.applicable_method_families
+        )
+        for binding in declared_bindings
+    ):
+        raise ValueError(
+            "The selected analysis method cannot apply declared input weights"
+        )
     net_benefit_bindings = tuple(
         binding for binding in declared_bindings if binding.role == "net_benefit"
     )
