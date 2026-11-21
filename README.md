@@ -289,6 +289,7 @@ but no independent approval requirement. See:
 
 - [Contributing guide](CONTRIBUTING.md)
 - [Support](SUPPORT.md)
+- [Accessibility](ACCESSIBILITY.md)
 - [Code of conduct](CODE_OF_CONDUCT.md)
 - [Security policy](SECURITY.md)
 - [Changelog](changelog.md)

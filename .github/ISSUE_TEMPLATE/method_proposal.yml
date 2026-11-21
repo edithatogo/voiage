@@ -1,7 +1,7 @@
 name: "📐 VOI Method / Estimand Proposal"
 description: "Propose a new Value of Information or Perspective mathematical method"
 title: "[METHOD]: "
-labels: ["enhancement", "math"]
+labels: ["enhancement"]
 body:
   - type: markdown
     attributes:

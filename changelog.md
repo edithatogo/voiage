@@ -33,6 +33,9 @@
 - Document that the testing-oriented Bayesian adaptive simulator does not yet
   incorporate updated beliefs into its net-benefit calculation.
 
+- Publish an accessibility statement and add a template for reporting barriers.
+  Direct contributors to the support guide from the GitHub issue chooser.
+
 - Validate Innovate decision-binding versions, labels, scaling metadata, and
   finite net benefits before evaluating paired draws.
 
