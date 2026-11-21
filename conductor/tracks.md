@@ -1137,6 +1137,15 @@ track at the top of this registry; completed repository slices stay closed.
   Stable Rust 1.99.1 candidate and cross-project adapters under qualification; full HPC acceptance remains open.
 
 ---
+
+- [ ] **Track: Optional MLX/Metal EVPI backend**
+  *Link: [./tracks/mlx_metal_evpi_backend_20261121/index.md](./tracks/mlx_metal_evpi_backend_20261121/index.md)*
+  Apple Silicon feasibility is pending. ML00 gates optional implementation on
+  matched-accuracy speed, eligible workload and fallback evidence.
+  GitHub: https://github.com/edithatogo/voiage/issues/1369
+
+---
+
 - [ ] **Track: Optional simulation-outcome boundary for cross-domain VOI**
   *Link: [./tracks/simulation_outcome_boundary_20261107/index.md](./tracks/simulation_outcome_boundary_20261107/index.md)*
   Planning complete; eight implementation leaves pending. Existing scientific

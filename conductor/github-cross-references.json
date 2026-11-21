@@ -5869,6 +5869,32 @@
       "pull_request_evidence": "Track registration and native acceptance remain pending."
     },
     {
+      "track_id": "mlx_metal_evpi_backend_20261121",
+      "metadata_track_id": "mlx_metal_evpi_backend_20261121",
+      "path": "conductor/tracks/mlx_metal_evpi_backend_20261121",
+      "lifecycle": "new",
+      "issue": {
+        "number": 1369,
+        "url": "https://github.com/edithatogo/voiage/issues/1369",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1221",
+      "relationship_evidence": "GitHub issue parent readback confirms the native sub-issue relationship.",
+      "subissues": [],
+      "pull_requests": [
+        {
+          "number": 1277,
+          "url": "https://github.com/edithatogo/voiage/pull/1277",
+          "status": "merged",
+          "evidence": [
+            "merge-commit:a5d87a736fa9f0f876e44872d946b2170d2a0898",
+            "Exploratory MLX scope and timing probes."
+          ]
+        }
+      ],
+      "pull_request_evidence": "Prior scope and device probes only. Feasibility and implementation remain pending."
+    },
+    {
       "track_id": "simulation_outcome_boundary_20261107",
       "metadata_track_id": "simulation_outcome_boundary_20261107",
       "path": "conductor/tracks/simulation_outcome_boundary_20261107",
