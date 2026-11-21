@@ -804,6 +804,25 @@ def _ensure_finite(value: object, path: str = "<root>") -> None:
             _ensure_finite(item, f"{path}/{index}")
 
 
+def _validate_equilibrium_receipt(
+    selection_mode: str,
+    selected_policy_id: str | None,
+    policy_ids: set[str],
+    receipt: Mapping[str, object] | None,
+) -> None:
+    """Bind a verified catalog receipt to the applicable policy selection."""
+    if selection_mode == "verified_finite_equilibrium":
+        if receipt is None:
+            raise ValueError("verified equilibrium requires a matching receipt")
+        verified_policy_ids = set(cast("list[str]", receipt["verified_policy_ids"]))
+        if selected_policy_id not in verified_policy_ids:
+            raise ValueError("verified equilibrium requires a matching receipt")
+        if not verified_policy_ids.issubset(policy_ids):
+            raise ValueError("equilibrium receipt must reference catalog policies")
+    elif receipt is not None:
+        raise ValueError("equilibrium receipt is only valid for verified catalogs")
+
+
 def validate_signed_social_information_semantics(
     payload: Mapping[str, object],
 ) -> None:
@@ -940,17 +959,9 @@ def validate_signed_social_information_semantics(
             raise ValueError("centralized selection must derive its selected policy")
         if mode != "centralized" and selected not in catalog:
             raise ValueError("non-centralized selection requires a catalog policy")
-        equilibrium = design["equilibrium_receipt"]
-        if mode == "verified_finite_equilibrium":
-            if (
-                equilibrium is None
-                or selected not in equilibrium["verified_policy_ids"]
-            ):
-                raise ValueError("verified equilibrium requires a matching receipt")
-            if not set(equilibrium["verified_policy_ids"]).issubset(catalog):
-                raise ValueError("equilibrium receipt must reference catalog policies")
-        elif equilibrium is not None:
-            raise ValueError("equilibrium receipt is only valid for verified catalogs")
+        _validate_equilibrium_receipt(
+            mode, selected, catalog, design["equilibrium_receipt"]
+        )
         for transfer in cast("list[dict[str, typing.Any]]", design["transfers"]):
             if (
                 transfer["payer_agent_id"] not in agent_set
@@ -1026,14 +1037,21 @@ def validate_signed_social_information_result(
     if absolute < 0.0 or relative < 0.0:
         raise ValueError("result tie tolerances must be nonnegative")
     for design in designs:
-        policies_evaluated = cast("list[str]", design["policies_evaluated"])
+        evaluated_policy_ids = set(cast("list[str]", design["policies_evaluated"]))
         selector_values = cast("dict[str, float]", design["policy_selector_values"])
-        if set(selector_values) != set(policies_evaluated):
+        if set(selector_values) != evaluated_policy_ids:
             raise ValueError("policy selector values must cover evaluated policies")
         selected_policy_id = str(design["selected_policy_id"])
         if selected_policy_id not in selector_values:
             raise ValueError("selected policy must be an evaluated policy")
-        if design["selection_mode"] == "centralized":
+        selection_mode = str(design["selection_mode"])
+        _validate_equilibrium_receipt(
+            selection_mode,
+            selected_policy_id,
+            evaluated_policy_ids,
+            design["equilibrium_receipt"],
+        )
+        if selection_mode == "centralized":
             best = max(float(value) for value in selector_values.values())
             expected_selected = min(
                 policy_id

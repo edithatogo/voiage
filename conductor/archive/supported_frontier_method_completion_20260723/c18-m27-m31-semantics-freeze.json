@@ -136,6 +136,21 @@
           "sha256": "c78df8f68de1f2f181d3db80840568b5740c36e7df82b4a608508fba4afbbbc1"
         }
       }
+    },
+    {
+      "recorded_on": "2026-11-21",
+      "scope": "SI01 binds a portable equilibrium receipt to its declared selection and evaluated policy catalog.",
+      "regression": "tests/test_signed_social_information.py::test_portable_result_rejects_inconsistent_equilibrium_receipts",
+      "artifacts": {
+        "voiage/contracts/signed_social_information.py": {
+          "previous_sha256": "ce30a846c9a96e00c54e2179efa7cf77b5b4940941c652268a971237b050d434",
+          "sha256": "4323b7bbacaf14695997431b52cf9b8c56c9ce8044e8a35a5e35fbff04a972e6"
+        },
+        "tests/test_signed_social_information.py": {
+          "previous_sha256": "c78df8f68de1f2f181d3db80840568b5740c36e7df82b4a608508fba4afbbbc1",
+          "sha256": "900a08be80d160a4133f19a3495bd4c15fff118fec787e46e31d0a7e97f14e9e"
+        }
+      }
     }
   ]
 }
