@@ -1,5 +1,8 @@
 # Changelog
 
+- Expose exact Rust credal decision certificates through the private Python
+  extension, including witness fractions and incomplete-search diagnostics.
+
 - Model action-specific Gaussian observations with left censoring. The native
   Tobit likelihood distinguishes unavailable, below-limit and measured reports
   and builds declared finite channels for sequential EVSI.

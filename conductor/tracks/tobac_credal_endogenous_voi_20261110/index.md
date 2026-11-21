@@ -1,6 +1,6 @@
 # Credal LP dominance and endogenous censored EVSI for tobac
 
-Status: new; planning complete and implementation leaves pending.
+The track is in progress. The native decision and observation kernels are implemented.
 
 - [Specification](./spec.md)
 - [Implementation Plan](./plan.md)
@@ -10,4 +10,4 @@ Status: new; planning complete and implementation leaves pending.
 - [Optional simulation-outcome boundary](../simulation_outcome_boundary_20261107/index.md)
 - [Scientific ecosystem alignment owner](../scientific_ecosystem_alignment_20261029/index.md)
 
-GitHub issue [#1290](https://github.com/edithatogo/voiage/issues/1290) cites [#1193](https://github.com/edithatogo/voiage/issues/1193) and [#1221](https://github.com/edithatogo/voiage/issues/1221) as parent workstreams. This track defines credal-set / linear-programming dominance classifiers with Farkas/LP duality witnesses and action-dependent / Tobit-censored sequential EVSI for `edithatogo/tobac` (`BF1`, `BF2`, `F05`) without claiming runtime implementation or altering existing HPC deferrals.
+GitHub issue #1290 cites #1193 and #1221 as parent workstreams. The plan records the native results and remaining Python interchange and installed `tobac` checks for `BF1`, `BF2`, and `F05`. [Parent issue #1193](https://github.com/edithatogo/voiage/issues/1193) · [Parent issue #1221](https://github.com/edithatogo/voiage/issues/1221)

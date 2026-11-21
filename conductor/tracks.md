@@ -1144,7 +1144,7 @@ track at the top of this registry; completed repository slices stay closed.
   GitHub: https://github.com/edithatogo/voiage/issues/1283
 
 ---
-- [ ] **Track: Credal LP dominance and endogenous censored EVSI for tobac**
+- [~] **Track: Credal LP dominance and endogenous censored EVSI for tobac**
   *Link: [./tracks/tobac_credal_endogenous_voi_20261110/index.md](./tracks/tobac_credal_endogenous_voi_20261110/index.md)*
-  Planning complete; five implementation leaves pending for polyhedral credal dominance with Farkas duality witnesses and Tobit-censored / action-dependent sequential EVSI (`tobac` BF1/BF2/F05).
+  Native credal decisions and Tobit-censored sequential EVSI are implemented. Python interchange and installed `tobac` parity remain in progress.
   GitHub: https://github.com/edithatogo/voiage/issues/1290
