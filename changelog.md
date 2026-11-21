@@ -1,5 +1,8 @@
 # Changelog
 
+- Reduce setup for repository harness, version synchronization, and Frontier
+  contract checks by installing only the dependencies each check uses.
+
 - Archive the Apple Silicon EVPI qualification with the no-go decision
   and PyTorch MPS memory profile.
 

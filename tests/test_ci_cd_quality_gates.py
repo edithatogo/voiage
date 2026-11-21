@@ -276,7 +276,7 @@ class TestCICDQualityGatesConfiguration:
             "Benchmark regression job not found"
         )
 
-    def test_frontier_contract_validation_configured(self):
+    def test_frontier_contract_validation_configured(self) -> None:
         """Test that frontier contract validation is configured."""
         ci_workflow_path = GITHUB_WORKFLOWS_DIR / "ci.yml"
 
@@ -286,8 +286,26 @@ class TestCICDQualityGatesConfiguration:
         assert "frontier-contract" in ci_config["jobs"], (
             "Frontier contract validation job not found"
         )
+        commands = {
+            step["name"]: step["run"]
+            for step in ci_config["jobs"]["frontier-contract"]["steps"]
+            if "run" in step
+        }
+        assert commands["Install dependencies"] == (
+            "uv sync --frozen --extra jax --group focused-tests"
+        )
+        for step_name in (
+            "Validate frontier contracts",
+            "Validate submission readiness contracts",
+            "Verify generated v2 contracts",
+            "Run focused v2 contract tests",
+        ):
+            assert all(
+                line.startswith("uv run --frozen --no-sync ")
+                for line in commands[step_name].splitlines()
+            )
 
-    def test_version_sync_validation_configured(self):
+    def test_version_sync_validation_configured(self) -> None:
         """Test that version synchronization validation is configured."""
         ci_workflow_path = GITHUB_WORKFLOWS_DIR / "ci.yml"
 
@@ -306,6 +324,15 @@ class TestCICDQualityGatesConfiguration:
         assert checkout["with"]["fetch-depth"] == 0, (
             "Version sync requires release tags from a full checkout"
         )
+        commands = {step["name"]: step["run"] for step in steps if "run" in step}
+        assert commands == {
+            "Install locked version-check dependencies": (
+                "uv sync --frozen --only-group version-checks"
+            ),
+            "Validate version synchronization": (
+                "uv run --frozen --no-sync python -I voiage/versioning.py --repo-root ."
+            ),
+        }
 
 
 class TestQualityGatePolicyCompliance:

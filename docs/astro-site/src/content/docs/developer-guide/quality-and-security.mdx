@@ -46,9 +46,11 @@ a branch; repeated pushes restart hosted validation.
 
 The `harness` tox environment checks that workflows declare explicit
 permissions, external actions are pinned to immutable commits, required
-security workflows exist, and repository governance files are present. The
-full tox environment additionally runs linting, type checking, docs, contract
-validation, the supported Python matrix, and the coverage threshold.
+security workflows exist, and repository governance files are present. Run
+`tox run -e harness,version-sync` for focused feedback. The harness uses only
+pytest and its dependencies, and version synchronization uses the standalone
+validator with defusedxml. The full tox gate also runs linting, type checking,
+docs, contract validation, the supported Python matrix, and the coverage threshold.
 
 The pre-commit, local and hosted `ty` checks use the same rule policy. The earlier
 `unresolved-attribute` exclusion covered both missing attributes and missing
@@ -137,11 +139,17 @@ remote catalogues, or upstream parser performance.
 ## GitHub gates
 
 The prose check invokes Bash and Vale directly, and the repository harness uses
-only the pinned Python standard library. Tox-only jobs bootstrap from the locked
-`verification` group; tox still creates the installed-package test environments.
-After that bootstrap, `uv run --frozen --no-sync` keeps the outer environment
-limited to its tooling. C15 telemetry/oracles install the CI and producer-test
-dependencies and require JAX and Polars imports before running all oracle cases.
+only the pinned Python standard library. Version synchronization runs the
+standalone validator from the locked `version-checks` group. The Frontier
+contract job installs the project with JAX and the `focused-tests` group for
+pytest. It verifies the generated contracts and uses the pinned upstream VOP
+checkout to check the vendored governance schema bytes.
+
+Tox-only jobs use the locked `verification` group for setup. Tox then creates
+the installed-package test environments. After setup, `uv run --frozen --no-sync`
+keeps the outer environment limited to its tooling. C15 telemetry/oracles
+install the CI and producer-test dependencies and require JAX and Polars imports
+before running all oracle cases.
 The unrelated experimental database and serializers are not installed there.
 
 Dependency review and shard qualification cancel older revisions of the same
