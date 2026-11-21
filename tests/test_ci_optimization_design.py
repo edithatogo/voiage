@@ -212,8 +212,9 @@ def test_tox_compatibility_lanes_do_not_repeat_the_full_coverage_suite() -> None
         "tests/test_cli_expected_utility_information.py",
     )
 
+    default_command = config["testenv"]["commands"]
     for environment in ("testenv", "testenv:min_versions", "testenv:max_versions"):
-        command = config[environment]["commands"]
+        command = config[environment].get("commands", default_command)
         assert all(contract in command for contract in required_contracts)
     coverage_command = config["testenv:coverage_report"]["commands"]
     assert "run_installed_pytest.py tests/ -n 2 --dist=worksteal" in coverage_command
