@@ -16,6 +16,9 @@
 - Preserve optional JAX and scikit-learn fallback behavior while making their
   import checks explicit for static analysis.
 
+- Require the decision agent of a signal-contingent policy to be a declared
+  recipient in its signed-information design.
+
 - Evaluate censored sequential EVSI through the private Python extension.
   Observation parameters align with the declared payoff state IDs.
 
