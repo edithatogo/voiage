@@ -36,7 +36,7 @@ jobs:
       - name: Install pinned uv
         uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.13.6"
+          version: "0.13.7"
           enable-cache: true
           cache-dependency-glob: "uv.lock"
 
@@ -86,7 +86,7 @@ jobs:
       - name: Install pinned uv resolver
         uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.13.6"
+          version: "0.13.7"
           enable-cache: false
 
       - name: Set up Python
