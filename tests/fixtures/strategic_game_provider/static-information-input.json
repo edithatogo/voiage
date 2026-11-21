@@ -1,0 +1,185 @@
+{
+  "schema_version": "1.0.0",
+  "analysis_id": "si03-static-observation",
+  "analysis_type": "signed_social_information_value",
+  "method_maturity": "experimental",
+  "value_unit": "cardinal-welfare-unit",
+  "purpose": "public_health_planning",
+  "agents": [
+    {
+      "agent_id": "institution",
+      "roles": [
+        "decision_maker",
+        "recipient"
+      ]
+    },
+    {
+      "agent_id": "board",
+      "roles": [
+        "controller"
+      ]
+    },
+    {
+      "agent_id": "public",
+      "roles": [
+        "stakeholder"
+      ]
+    }
+  ],
+  "welfare": {
+    "aggregator": "weighted_sum",
+    "cardinal_comparability": "declared",
+    "ledger_stage": "post_transfer",
+    "weights": {
+      "institution": 1.0,
+      "board": 0.0,
+      "public": 1.0
+    },
+    "rationale": "Synthetic common-cardinal payoff data"
+  },
+  "topology": {
+    "signal_id": "clinical_signal",
+    "source_agent_id": "board",
+    "controller_agent_id": "board",
+    "information_scope": "private",
+    "eligible_recipients": [
+      "institution"
+    ],
+    "baseline_recipients": []
+  },
+  "actions": [
+    "maintain",
+    "reimburse"
+  ],
+  "worlds": [
+    {
+      "world_id": "favourable",
+      "signal": "clinical_positive",
+      "probability": 0.5,
+      "action_utilities": {
+        "maintain": {
+          "institution": 0.0,
+          "board": 0.0,
+          "public": 0.0
+        },
+        "reimburse": {
+          "institution": 2.0,
+          "board": 0.0,
+          "public": 4.0
+        }
+      }
+    },
+    {
+      "world_id": "adverse",
+      "signal": "clinical_negative",
+      "probability": 0.5,
+      "action_utilities": {
+        "maintain": {
+          "institution": 0.0,
+          "board": 0.0,
+          "public": 0.0
+        },
+        "reimburse": {
+          "institution": -4.0,
+          "board": 0.0,
+          "public": -8.0
+        }
+      }
+    }
+  ],
+  "policies": [
+    {
+      "policy_id": "status_quo",
+      "decision_agent_id": "institution",
+      "decisions": [
+        {
+          "observation": "unobserved",
+          "action_id": "maintain"
+        }
+      ]
+    },
+    {
+      "policy_id": "native_policy",
+      "decision_agent_id": "institution",
+      "decisions": [
+        {
+          "observation": "clinical_positive",
+          "action_id": "reimburse"
+        },
+        {
+          "observation": "clinical_negative",
+          "action_id": "maintain"
+        }
+      ]
+    }
+  ],
+  "receipts": [
+    {
+      "receipt_id": "institution-purpose-consent",
+      "subject_agent_id": "institution",
+      "consent_status": "granted",
+      "purpose": "public_health_planning",
+      "legal_basis": "explicit_consent",
+      "data_scope": "clinical_signal"
+    },
+    {
+      "receipt_id": "board-control-authority",
+      "subject_agent_id": "board",
+      "consent_status": "not_required",
+      "purpose": "public_health_planning",
+      "legal_basis": "declared_controller_authority",
+      "data_scope": "clinical_signal"
+    }
+  ],
+  "baseline_design_id": "withhold_signal",
+  "designs": [
+    {
+      "design_id": "withhold_signal",
+      "comparator_design_id": null,
+      "recipients": [],
+      "policy_ids": [
+        "status_quo"
+      ],
+      "selection_mode": "fixed",
+      "selector": "agent:institution",
+      "selected_policy_id": "status_quo",
+      "transfers": [],
+      "costs": [],
+      "rights_receipt_ids": [],
+      "blackwell_assurance": null,
+      "equilibrium_receipt": null
+    },
+    {
+      "design_id": "qualified_response",
+      "comparator_design_id": "withhold_signal",
+      "recipients": [
+        "institution"
+      ],
+      "policy_ids": [
+        "status_quo",
+        "native_policy"
+      ],
+      "selection_mode": "declared_response",
+      "selector": "agent:institution",
+      "selected_policy_id": "native_policy",
+      "transfers": [],
+      "costs": [],
+      "rights_receipt_ids": [
+        "institution-purpose-consent",
+        "board-control-authority"
+      ],
+      "blackwell_assurance": null,
+      "equilibrium_receipt": null
+    }
+  ],
+  "tie_policy": {
+    "absolute_tolerance": 1e-12,
+    "relative_tolerance": 0.0
+  },
+  "provenance": {
+    "world_law_source": "Two equally likely synthetic evidence states",
+    "utility_source": "Finite synthetic contract example using declared cardinal units",
+    "policy_source": "Qualified native Paignia static policy plus fixed status quo",
+    "rights_source": "Synthetic consent and control receipts"
+  }
+}

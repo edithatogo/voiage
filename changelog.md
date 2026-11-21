@@ -1,5 +1,8 @@
 # Changelog
 
+- Admit a qualified Paignia static policy as a declared response for
+  experimental signed-information comparisons.
+
 - Evaluate finite signed-information payoff ledgers and welfare with the
   installed Rust extension.
 

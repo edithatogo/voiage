@@ -1,0 +1,11 @@
+{
+  "provider_revision": "bd880dd756d2ba56cc5f479bc078cea31b53c1d1",
+  "package_receipt_sha256": "4dedd2b14aad9ffc12e0975202c82091ff678a372bd9312bafff2b97be4e7c01",
+  "game_sha256": "59f64eeb9d9816fbe2c6fcecb4b71fdb882bc05a7e494bccfa64cdfa71a9c774",
+  "specification_id": "urn:ndrg:si03:finite-observation-policy-v1",
+  "game_instance_id": "urn:ndrg:si03:synthetic-instance",
+  "solver_run_id": "urn:ndrg:si03:qualified-archive-run",
+  "native_player_id": "institution",
+  "comparison_sha256": "fe67c8e0e7a54610b05bb067037cc1d92722de9eee1efb0c4fc7f56ca61bb8f5",
+  "projection_sha256": "17a53f97c382ce63e7b8ef1ab5b3a39e170eb0cc38f1b8c9778542bd681350a6"
+}

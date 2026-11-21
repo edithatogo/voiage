@@ -164,6 +164,50 @@ records the previous execution path.
 - [ ] Test installed Rust consumers outside provider checkouts and resolved feature
   closures. No accidental default dependencies or silent host-language fallback.
 
+#### Paignia static-policy admission
+
+The experimental `voiage.experimental.paignia_static_policy.value_paignia_static_policy`
+entry point evaluates a signed-information v1 comparison with a bound policy
+from the qualified finite perfect-information backward-induction profile. The
+caller supplies the two exact file digests and expected provider, game and run
+identities in `PaigniaStaticPolicyBinding` from its accepted handoff. The
+projection uses the same player identity as the comparison. Each world supplies
+one decision consistent with the permitted observation and the declared action.
+The admitted design uses `declared_response` for Paignia's `one_found` selection.
+Welfare, transfers and costs use the existing installed SI02 evaluator.
+Mixed, correlated, information-set and dynamic claims retain the qualification
+requirements above. The comparative application pilot remains in SI04.
+
+The [synthetic fixture](../../../tests/fixtures/strategic_game_provider/)
+uses two equiprobable observed states. The Rust producer validates its native
+envelope and checks the institution's choices and both expected payoffs. The
+independent reference is ½ × (2, 4) in the favourable state plus ½ × (0, 0)
+in the adverse state. Against the fixed zero baseline, signed values are +1
+for the institution, +2 for the public and +3 under the declared welfare weights.
+
+The fixture producer compiled with Rust 1.75.0 from the `bd880dd` T17
+[qualified archive pair](https://github.com/edithatogo/paignia/actions/runs/44060831778/artifacts/14317508416).
+The archive ZIP SHA-256 is
+`a6251b5543793154eb2b5357d21d224f9b009ca6319b4a66154dc46d84cd6c99`.
+Verify both crate digests against the
+[provider handoff](https://github.com/edithatogo/paignia/blob/a09c3f8359363b228154c9e07af20a36bf0dcd4e/docs/validation/receipts/t17-bd880dd-handoff.json).
+To reproduce, copy `static_policy_reference.rs` to `src/main.rs` of a
+temporary Rust 2021 package. Use path dependencies for both extracted crates
+with default features disabled and patch `paignia-core` to the same extracted
+path under `patch.crates-io`. The fixture uses `serde_json = "=1.0.154"` to write
+its own projection. Prepare the registry cache and lock, deny network and
+provider-checkout reads including the Cargo Git cache, and use
+`cargo run --locked --offline -- "$fixture_source_sha256"`.
+The binding records the Rust fixture recipe hash and the emitted projection hash.
+The native dependency closure had neither Kairos nor Clarabel, and the installed
+Voiage wheel requires no Paignia dependency for the comparison.
+
+SI03 static scope belongs to chat `01a1f635-4bc4-73f0-b6f2-2d2541bb46a0`
+in `/Volumes/PortableSSD/GitHub/voiage-t18-credal-solver`. Its files are
+the experimental adapter and the provider contract fixtures and tests. The only
+native operation in this scope is the isolated fixture execution. The next
+consumer handoff is the SI04 pilot in the reimbursement application.
+
 ### SI04 — application and comparative evaluation (Q08; R01/R02/R03)
 
 - [ ] Begin with a tiny exactly solvable static case; then an application-owned
