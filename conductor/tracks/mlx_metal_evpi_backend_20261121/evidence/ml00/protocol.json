@@ -1,0 +1,43 @@
+{
+  "study": "voiage issue 1369 ML00",
+  "source_commit": "6a04f51c997369865665af85a11f2d732fb1f18a",
+  "source_tree": "7cdfe8da450240a12df4e00fee01092d647f89c2",
+  "scope": "Unweighted risk-neutral EVPI on the Apple M1 Max Mac, using synthetic public fixtures.",
+  "fixture_design": "Prior MLX receipt sizes and the Rust foundational 4096 x 8 case, together with wide, strided, minor-unit and common-offset stress cases. The eight cases have equal call weight. They represent tested shapes and value ranges, with no claim about their prevalence in user traffic.",
+  "numpy_generator": "NumPy Generator(PCG64(20261121)), initialized independently per case",
+  "fixtures": [
+    {"id": "normal-small", "rows": 1024, "strategies": 4, "kind": "normal"},
+    {"id": "rust-foundational", "rows": 4096, "strategies": 8, "kind": "foundational"},
+    {"id": "normal-medium", "rows": 65536, "strategies": 4, "kind": "normal"},
+    {"id": "normal-large", "rows": 262144, "strategies": 4, "kind": "normal"},
+    {"id": "normal-wide", "rows": 65536, "strategies": 12, "kind": "normal"},
+    {"id": "fixed-minor-units", "rows": 65536, "strategies": 4, "kind": "integers"},
+    {"id": "normal-strided", "rows": 65536, "strategies": 4, "kind": "strided"},
+    {"id": "common-offset", "rows": 65536, "strategies": 4, "kind": "offset"}
+  ],
+  "accuracy": {
+    "relative_tolerance": 1e-10,
+    "absolute_tolerance": 1e-12,
+    "references": "Prebuilt SampleMatrix in the release-built repository Rust kernel, the installed Python API, independent Fraction arithmetic for small witnesses, and math.fsum for performance fixtures.",
+    "routing": "Reject matrices with fewer than 16384 rows before conversion in workflow timings. Reject nonfinite, out-of-range, unsafe int64 sums or uncertified results. Use existing Python/Rust behavior for rejected inputs.",
+    "candidates": "MLX 0.32.4 int64 Metal reductions with NumPy host quantization and a conservative per-input certificate. Compare PyTorch MPS on the same route only if device int64 primitives pass a signed sentinel test. Check existing float32 paths for accuracy before timing."
+  },
+  "timing": {
+    "warmups": 2,
+    "repetitions": 21,
+    "cold": "One fresh process per fixture and workflow, with CPU-only, MLX-only and MPS environments. Record first call and process elapsed separately. Prepare the same input before timing the call.",
+    "kernel": "Rust on a prebuilt SampleMatrix. Metal on an already prepared and uploaded int64 device array. Measure the first synchronization in a fresh process and report Rust preparation and Metal conversion/upload separately.",
+    "memory": "Measure fresh-process peak resident memory. Record MLX allocator peak and PyTorch MPS driver allocation after synchronization, including cached blocks. Treat the latter as an observation of retained device memory rather than an allocator peak.",
+    "workflow": "Python public EVPI call versus experimental route sharing validation and normalization. Include eligibility, quantization, copies, synchronized reduction, scalar readback and Rust fallback.",
+    "variability": "Retain all samples. Use medians and nearest-rank p95. Alternate workflow order on warm repetitions. The mixed round is the sum of one call per fixture."
+  },
+  "go_thresholds": {
+    "minimum_eligible_fraction": 0.5,
+    "minimum_warm_mixed_median_speedup": 1.5,
+    "maximum_per_fixture_p95_slowdown_fraction": 0.1,
+    "per_fixture_p95_allowance_ms": 0.2,
+    "maximum_incremental_peak_workflow_rss_mib": 128,
+    "maximum_peak_device_allocation_mib": 128
+  },
+  "decision": "Go requires all eligible results to match both references, zero accepted-invalid witnesses, every threshold, and real device timing. Record no-go if a tested candidate fails any gate. Record blocked if required evidence for a surviving candidate is missing."
+}
