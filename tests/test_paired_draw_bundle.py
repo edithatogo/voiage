@@ -37,15 +37,20 @@ def _frame() -> pl.DataFrame:
     )
 
 
-def _load(frame: pl.DataFrame | pa.Table) -> NormalizedInputBundle:
+def _load(
+    frame: object,
+    *,
+    strategy_ids: tuple[str, ...] | str = _STRATEGIES,
+    weight_field: str | None = "draw_weight",
+) -> NormalizedInputBundle:
     experimental = import_module("voiage.experimental")
     return cast(
         "NormalizedInputBundle",
         experimental.paired_draw_bundle(
             frame,
             dataset_id="paired-test",
-            strategy_ids=_STRATEGIES,
-            weight_field="draw_weight",
+            strategy_ids=strategy_ids,
+            weight_field=weight_field,
         ),
     )
 
@@ -124,3 +129,77 @@ def test_paired_draws_reject_disagreement_in_weights_and_copying_polars_types() 
         _load(frame.with_columns(draw_weight=pl.Series([0.7, 0.6, 0.4, 1.0, 0.6, 1.0])))
     with pytest.raises(ValueError, match="zero-copy"):
         _load(frame.with_columns(pl.col("strategy_id").cast(pl.Categorical)))
+
+
+def test_text_draws_without_declared_weights_retain_their_scope_and_rows() -> None:
+    frame = _frame().with_columns(pl.col("draw_id").cast(pl.String))
+    bundle = _load(frame, weight_field=None)
+    assert tuple(binding.role for binding in bundle.manifest.bindings) == (
+        "net_benefit",
+    )
+    assert bundle.table("net_benefits").equals(
+        frame.to_arrow(compat_level=pl.CompatLevel.newest())
+    )
+
+
+@pytest.mark.parametrize(
+    "strategy_ids",
+    ["usual_care", (), (" usual_care",), ("usual_care", "usual_care")],
+)
+def test_invalid_strategy_declarations_fail_before_pairing(
+    strategy_ids: tuple[str, ...] | str,
+) -> None:
+    with pytest.raises(ValueError, match="unique identifiers"):
+        _load(_frame(), strategy_ids=strategy_ids)
+
+
+@pytest.mark.parametrize("weight_field", ["draw_id", " "])
+def test_weight_field_must_have_its_own_column(weight_field: str) -> None:
+    with pytest.raises(ValueError, match="separate column"):
+        _load(_frame(), weight_field=weight_field)
+
+
+@pytest.mark.parametrize("problem", ["empty", "missing", "duplicate"])
+def test_paired_draws_require_nonempty_unambiguous_schema(problem: str) -> None:
+    table = _frame().to_arrow()
+    if problem == "empty":
+        table = table.slice(0, 0)
+    elif problem == "missing":
+        table = table.drop_columns(["perspective"])
+    else:
+        table = table.append_column("draw_id", table["draw_id"])
+    with pytest.raises(ValueError, match="nonempty, uniquely named columns"):
+        _load(table)
+
+
+def test_record_batch_requires_explicit_table_assembly() -> None:
+    batch = _frame().to_arrow().to_batches()[0]
+    with pytest.raises(TypeError, match="DataFrame or Arrow Table"):
+        _load(batch)
+
+
+@pytest.mark.parametrize(
+    ("column", "value", "message"),
+    [
+        ("draw_id", 1.25, "valid draw, perspective, and subgroup IDs"),
+        ("perspective", "", "valid draw, perspective, and subgroup IDs"),
+        ("subgroup_id", " trial", "valid draw, perspective, and subgroup IDs"),
+        ("strategy_id", " ", "declared strategy ID"),
+        ("strategy_id", "unlisted", "declared strategy ID"),
+        ("net_benefit", float("inf"), "net benefits must be finite"),
+        ("net_benefit", True, "net benefits must be finite"),
+        ("draw_weight", float("nan"), "weights must be finite and nonnegative"),
+        ("draw_weight", -0.25, "weights must be finite and nonnegative"),
+    ],
+)
+def test_malformed_draw_rows_fail_before_constructing_bundle(
+    column: str, value: object, message: str
+) -> None:
+    table = _frame().to_arrow()
+    replaced = table.set_column(
+        table.schema.get_field_index(column),
+        column,
+        pa.array([value] * table.num_rows),
+    )
+    with pytest.raises(ValueError, match=message):
+        _load(replaced)
