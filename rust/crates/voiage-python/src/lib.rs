@@ -8,6 +8,7 @@
 mod censored_evsi;
 mod credal;
 
+use pyo3::buffer::PyBuffer;
 use pyo3::create_exception;
 use pyo3::exceptions::{PyException, PyRuntimeError, PyValueError};
 use pyo3::prelude::*;
@@ -358,12 +359,46 @@ fn matrix_from_python(values: &Bound<'_, PyAny>, field: &str) -> PyResult<Sample
             format!("{field} must be a finite rectangular numeric matrix: {error}"),
         ))
     })?;
+    matrix_from_rows(rows, field)
+}
+
+fn matrix_from_rows(rows: Vec<Vec<f64>>, field: &str) -> PyResult<SampleMatrix> {
     SampleMatrix::try_from(rows).map_err(|error| {
         InputError::new_err((
             "invalid_input",
             format!("{field} must be a finite rectangular numeric matrix: {error}"),
         ))
     })
+}
+
+fn evpi_matrix_from_python(values: &Bound<'_, PyAny>) -> PyResult<SampleMatrix> {
+    let field = "net_benefit";
+    let fallback = || matrix_from_python(values, field);
+    let Ok(buffer) = PyBuffer::<f64>::get(values) else {
+        return fallback();
+    };
+    // The unprefixed double format uses native byte order.
+    let strategies = match buffer.shape() {
+        [samples, strategies]
+            if *strategies > 0
+                && buffer.format().to_bytes() == b"d"
+                && buffer.is_c_contiguous()
+                && samples.checked_mul(*strategies) == Some(buffer.item_count()) =>
+        {
+            *strategies
+        }
+        _ => {
+            drop(buffer);
+            return fallback();
+        }
+    };
+
+    // Copy from the exporter before building the validated Rust matrix.
+    let data = buffer.to_vec(values.py())?;
+    matrix_from_rows(
+        data.chunks_exact(strategies).map(<[f64]>::to_vec).collect(),
+        field,
+    )
 }
 
 fn cube_from_python(values: &Bound<'_, PyAny>, field: &str) -> PyResult<SampleCube> {
@@ -530,7 +565,7 @@ fn runtime_info(py: Python<'_>) -> PyResult<Bound<'_, PyDict>> {
 /// Compute the stable EVPI kernel for Python callers.
 #[pyfunction]
 fn compute_evpi(net_benefit: &Bound<'_, PyAny>) -> PyResult<f64> {
-    let net_benefit = matrix_from_python(net_benefit, "net_benefit")?;
+    let net_benefit = evpi_matrix_from_python(net_benefit)?;
     evpi(&net_benefit).map_err(|error| match error.category() {
         ErrorCategory::DimensionMismatch => {
             DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))

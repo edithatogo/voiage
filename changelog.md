@@ -3,6 +3,9 @@
 - Evaluate censored sequential EVSI for one perspective and subgroup using
   paired posterior draws, explicit weights, and acquisition parameters by draw.
 
+- Speed up Rust-backed EVPI with bulk float64 input transfer and avoid
+  loading PyTorch on the CPU path.
+
 - Prepare scoped paired-draw net benefits from Arrow or flat Polars columns,
   retaining draw keys, strategy order, and declared weights.
   Generic analysis preparation rejects declared weights it cannot apply.
