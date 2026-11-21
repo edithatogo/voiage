@@ -1,5 +1,9 @@
 # Changelog
 
+- Model action-specific Gaussian observations with left censoring. The native
+  Tobit likelihood distinguishes unavailable, below-limit and measured reports
+  and builds declared finite channels for sequential EVSI.
+
 - Evaluate sequential EVSI for finite observation channels in Rust. The kernel
   supports adaptive acquisition, exact garbling and a bounded outcome search.
 
