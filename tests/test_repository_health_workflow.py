@@ -1,9 +1,11 @@
 """Contract test for the repository health workflow."""
 
 from pathlib import Path
+import re
 import shutil
 import subprocess
 
+import pytest
 import yaml
 
 ROOT = Path(__file__).parents[1]
@@ -50,3 +52,28 @@ def test_local_credentials_are_git_ignored() -> None:
         text=True,
     )
     assert tuple(result.stdout.splitlines()) == credential_paths
+
+
+@pytest.mark.parametrize(
+    ("text", "has_stray_whitespace"),
+    [
+        ("ordinary text\n", False),
+        ("hard break  \n", False),
+        ("hard break  \r\n", False),
+        ("single trailing space \n", True),
+        ("three trailing spaces   \n", True),
+        ("tab in trailing whitespace\t  \n", True),
+        ("whitespace-only line\n  \n", True),
+        ("single trailing space at EOF ", True),
+    ],
+)
+def test_alint_markdown_whitespace(text: str, has_stray_whitespace: bool) -> None:
+    """Intentional Markdown hard breaks preserve the trailing-space check."""
+
+    config = yaml.safe_load((ROOT / ".alint.yml").read_text(encoding="utf-8"))
+    rule = next(
+        rule
+        for rule in config["rules"]
+        if rule["id"] == "markdown-no-stray-trailing-whitespace"
+    )
+    assert bool(re.search(rule["pattern"], text)) is has_stray_whitespace

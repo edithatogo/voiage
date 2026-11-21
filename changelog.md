@@ -141,6 +141,9 @@
 - Ignore local key and credential files, publish RepoHealth reports in the
   Actions job log, and normalize final newlines and stray spaces.
 
+- Align alint and RepoHealth with Markdown hard breaks, frozen evidence,
+  and the repository's tracked lockfiles and changelog.
+
 - Preserve dated qualification observations from older branches with their
   provenance and outstanding acceptance boundaries.
 
