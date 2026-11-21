@@ -182,6 +182,14 @@ def test_strict_contract_rejects_incomplete_or_false_assurance(
         signed_social_information_value(specification)
 
 
+def test_signal_contingent_policy_requires_the_decision_agent_to_receive_it() -> None:
+    specification = _specification()
+    specification["policies"][1]["decision_agent_id"] = "public"
+
+    with pytest.raises(InputError, match="decision agent must be a design recipient"):
+        signed_social_information_value(specification)
+
+
 def test_denied_consent_marks_design_infeasible_without_hiding_it() -> None:
     specification = _specification()
     specification["receipts"][0]["consent_status"] = "denied"
