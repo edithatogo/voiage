@@ -54,4 +54,4 @@ jobs:
             "https://github.com/spbuilds/repohealth/releases/download/v${REPOHEALTH_VERSION}/repohealth_${REPOHEALTH_VERSION}_linux_amd64.tar.gz"
           printf '%s  %s\n' "$REPOHEALTH_SHA256" "$archive" | sha256sum --check --strict
           tar -xzf "$archive" -C "$tool_dir" repohealth
-          "$tool_dir/repohealth" . --format markdown >> "$GITHUB_STEP_SUMMARY"
+          "$tool_dir/repohealth" . --format markdown | tee -a "$GITHUB_STEP_SUMMARY"
