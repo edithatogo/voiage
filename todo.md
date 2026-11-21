@@ -799,6 +799,9 @@ as recorded in the active task above; earlier route decisions below are historic
 
 ## Done
 
+- [x] Reduce [CPU EVPI startup and bridge overhead](docs/reviews/evpi-cpu-overhead-20261121.md)
+  and verify the existing Metal path on the M1 Max.
+
 - [x] Review and archive the [MLX/Metal EVPI no-go](conductor/archive/mlx_metal_evpi_backend_20261121/index.md)
   with the process-memory profile.
 

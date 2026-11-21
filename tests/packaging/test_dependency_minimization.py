@@ -162,6 +162,34 @@ for name in ("health_economics", "multi_domain"):
     assert result.returncode == 0, result.stderr
 
 
+def test_rust_evpi_does_not_import_pytorch() -> None:
+    """A stable EVPI call needs no optional Metal capability probe."""
+    probe = r"""
+import importlib.abc
+from importlib.util import spec_from_loader
+import sys
+
+class BlockTorch(importlib.abc.MetaPathFinder, importlib.abc.Loader):
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.partition(".")[0] == "torch":
+            return spec_from_loader(fullname, self)
+        return None
+
+    def exec_module(self, module):
+        raise AssertionError("Rust EVPI attempted to import PyTorch")
+
+sys.meta_path.insert(0, BlockTorch())
+
+import numpy as np
+from voiage import evpi
+
+assert evpi(np.array([[1.0, 3.0], [4.0, 2.0]])) == 1.0
+assert "torch" not in sys.modules
+"""
+    result = _run_isolated_probe(probe)
+    assert result.returncode == 0, result.stderr
+
+
 def test_top_level_import_is_bounded_and_does_not_load_heavy_estimators() -> None:
     """Reviewer smoke imports must avoid eager JAX, SciPy, and scikit-learn."""
     probe = r"""

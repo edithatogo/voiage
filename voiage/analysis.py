@@ -163,8 +163,7 @@ class DecisionAnalysis:
         # Optional caller-provided decision scoring function used by higher-level wrappers.
         self.decision_function: Any | None = None
 
-        # Track data changes to invalidate cache
-        self._data_hash = self._compute_data_hash()
+        self._data_hash = self._compute_data_hash() if enable_caching else None
 
     def _auto_detect_backend(
         self,
@@ -686,7 +685,7 @@ class DecisionAnalysis:
 
             # chunk_size remains a source-compatible orchestration hint.
             # Stable numerical policy is always executed by the Rust kernel.
-            per_decision_evpi = _runtime.compute_evpi(nb_values.tolist())
+            per_decision_evpi = _runtime.compute_evpi(nb_values)
             per_decision_evpi = max(0.0, float(per_decision_evpi))
         except ModuleNotFoundError, AttributeError:
             raise_backend_not_available_error(

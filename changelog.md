@@ -1,5 +1,8 @@
 # Changelog
 
+- Speed up Rust-backed EVPI with bulk float64 input transfer and avoid
+  loading PyTorch on the CPU path.
+
 - Archive the Apple Silicon EVPI qualification with the no-go decision
   and PyTorch MPS memory profile.
 
