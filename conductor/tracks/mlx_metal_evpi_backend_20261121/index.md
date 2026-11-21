@@ -1,7 +1,10 @@
 # Optional MLX/Metal EVPI backend
 
-The track is in planning. A matched-accuracy Apple Silicon benchmark in ML00
-determines whether an experimental EVPI route proceeds.
+ML00 recorded a no-go for the tested Apple Silicon EVPI routes. Both
+candidates missed the common-offset fallback p95 limit. Feasibility is
+complete in this packet. Implementation is inapplicable.
+
+- [ML00 decision and benchmark evidence](./evidence/ml00/README.md)
 
 - [Specification](./spec.md)
 - [Implementation Plan](./plan.md)

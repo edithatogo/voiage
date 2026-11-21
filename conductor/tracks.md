@@ -1138,10 +1138,11 @@ track at the top of this registry; completed repository slices stay closed.
 
 ---
 
-- [ ] **Track: Optional MLX/Metal EVPI backend**
+- [~] **Track: Optional MLX/Metal EVPI backend**
   *Link: [./tracks/mlx_metal_evpi_backend_20261121/index.md](./tracks/mlx_metal_evpi_backend_20261121/index.md)*
-  Apple Silicon feasibility is pending. ML00 gates optional implementation on
-  matched-accuracy speed, eligible workload and fallback evidence.
+  ML00 recorded a no-go on the M1 Max. Both Metal candidates exceeded the
+  fallback p95 limit; MPS also exceeded the RSS budget. Decision integration
+  remains open, with implementation steps inapplicable.
   GitHub: https://github.com/edithatogo/voiage/issues/1369
 
 ---
