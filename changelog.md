@@ -1,5 +1,8 @@
 # Changelog
 
+- Evaluate named affine credal decision inputs from Arrow and Polars. Exact
+  certificate multipliers retain their labelled support constraints.
+
 - Evaluate censored sequential EVSI for one perspective and subgroup using
   paired posterior draws, explicit weights, and acquisition parameters by draw.
 

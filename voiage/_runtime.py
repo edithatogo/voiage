@@ -325,6 +325,15 @@ def compute_censored_sequential_evsi(
     return dict(result)
 
 
+def compute_credal_decisions(problem_json: str, *, max_bases: int) -> dict[str, object]:
+    """Evaluate native affine decisions and retain exact witness fractions."""
+    try:
+        result = _native().compute_credal_decisions(problem_json, max_bases)
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
 def compute_evsi_variance(
     prior_target_samples: list[float],
     posterior_variances: list[float],
