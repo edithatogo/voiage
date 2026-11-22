@@ -46,6 +46,30 @@ def test_astro_site_is_the_active_docs_build() -> None:
     assert "sphinx" not in workflow.lower()
 
 
+def test_pages_deploy_uses_the_completed_build_artifact() -> None:
+    jobs = yaml.safe_load((ROOT / ".github/workflows/docs.yml").read_text())["jobs"]
+    build, deploy = jobs["build"], jobs["deploy"]
+    upload = next(
+        step
+        for step in build["steps"]
+        if step.get("uses", "").startswith("actions/upload-pages-artifact@")
+    )
+    publish = next(
+        step
+        for step in deploy["steps"]
+        if step.get("uses", "").startswith("actions/deploy-pages@")
+    )
+
+    assert "${{ github.run_attempt }}" in build["env"]["PAGES_ARTIFACT_NAME"]
+    assert build["outputs"]["artifact_name"] == upload["with"]["name"]
+    assert upload["with"]["name"] == "${{ env.PAGES_ARTIFACT_NAME }}"
+    assert deploy["needs"] == "build"
+    assert deploy["environment"]["name"] == "github-pages"
+    assert (
+        publish["with"]["artifact_name"] == "${{ needs.build.outputs.artifact_name }}"
+    )
+
+
 def test_astro_site_uses_current_polyglot_stack() -> None:
     """The docs build pins the reviewed current stack and owner's plugin."""
     manifest = json.loads(
