@@ -10,9 +10,52 @@ from types import SimpleNamespace
 
 import pytest
 
-from scripts import spack_source_witness
+from scripts import easybuild_source_hooks, spack_source_witness
 from scripts.easybuild_source_hooks import post_fetch_hook, resolved_file
 from scripts.source_cache_manifest import inventory, validate_replay_cache
+
+
+@pytest.mark.parametrize(
+    ("exit_code", "fail_on_error", "hidden", "retained"),
+    [
+        (2, True, False, True),
+        (0, True, False, False),
+        (2, False, False, False),
+        (2, True, True, False),
+    ],
+)
+def test_easybuild_retains_fatal_command_output(
+    capsys: pytest.CaptureFixture[str],
+    exit_code: int,
+    fail_on_error: bool,
+    hidden: bool,
+    retained: bool,
+) -> None:
+    easybuild_source_hooks.post_run_shell_cmd_hook(
+        "make test_harness",
+        exit_code=exit_code,
+        fail_on_error=fail_on_error,
+        hidden=hidden,
+        output="truncated start" + "\n" * 20000 + "Test Summary Report",
+        stderr="make exited with status 2",
+        work_dir="/build/perl",
+    )
+    diagnostic = capsys.readouterr().err
+    if retained:
+        assert "Test Summary Report" in diagnostic
+        assert "make exited with status 2" in diagnostic
+        assert "truncated start" not in diagnostic
+    else:
+        assert diagnostic == ""
+
+
+def test_easybuild_legacy_command_hook_preserves_default_output(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    easybuild_source_hooks.post_run_shell_cmd_hook(
+        "old-tool --probe", exit_code=1, output="diagnostic", work_dir="/build"
+    )
+    assert capsys.readouterr().err == ""
 
 
 def test_resolved_source_binds_actual_bytes(tmp_path: Path) -> None:
