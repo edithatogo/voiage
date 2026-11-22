@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Assess fair-software.eu recommendations
         continue-on-error: true
-        uses: fair-software/howfairis-github-action@4c11146488125aa6e1531184eed51d781bcd5871 # v0.2.1
+        uses: fair-software/howfairis-github-action@4c11146488125aa6e1531184eed51d781bcd5871 # 0.2.1
         env:
           PYCHARM_HOSTED: "1"
         with:
