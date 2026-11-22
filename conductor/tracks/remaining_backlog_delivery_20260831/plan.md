@@ -62,6 +62,13 @@ The installed HPC matrix, remaining cleanup and whole-track review are open.
     default EasyBuild sanity check expected a `bin` directory. Both allocator
     recipes now check the installed header, shared and static libraries,
     and CMake package metadata directly.
+    Both generations then reached CPython's profile-guided build, where
+    `test_float_pow` raised `OverflowError` for a result that should underflow
+    to zero. Both Python recipes use EasyBuild's `precise` setting to preserve
+    libm errno. On GCC 13.3.0, the default flags reproduced the failure and
+    the precise flags completed the 43-file PGO workload and passed
+    `test_float` on the final LTO build.
+    [Guarded comparison](https://github.com/edithatogo/voiage/actions/runs/45015070842).
 - [x] B7: Complete remaining R, governance, identifier and venue preparation;
   retain external acceptance requirements (AC2, AC4).
 - [~] B8: Review all changes, run full tox and relevant language-native checks,

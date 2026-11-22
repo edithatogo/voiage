@@ -1,5 +1,7 @@
 # Changelog
 
+- Preserve floating-point underflow behavior in both EasyBuild Python builds.
+
 - Verify mimalloc's installed headers, libraries and CMake package in both
   EasyBuild generations.
 
