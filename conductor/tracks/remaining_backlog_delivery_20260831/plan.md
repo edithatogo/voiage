@@ -80,6 +80,13 @@ The installed HPC matrix, remaining cleanup and whole-track review are open.
     and the existing setuptools-scm pin before pluggy. All 13 sources
     in the corrected Python and Rust support sequence built offline and
     `pip check` passed.
+    The subsequent 2024a run installed Python and found that the older
+    Hatchling bundle could not build pathspec without Flit. Both generations
+    now use the existing Rust build-support bundle for Python and Arrow
+    support. A network-denied Python 3.15.2 replay reproduced the failure
+    and installed all 33 pinned sources from the shared and consumer bundles.
+    Both consumer prefixes passed `pip check`.
+    [2024a failure receipt](https://github.com/edithatogo/voiage/actions/runs/45034305228/job/137244514082).
 - [x] B7: Complete remaining R, governance, identifier and venue preparation;
   retain external acceptance requirements (AC2, AC4).
 - [~] B8: Review all changes, run full tox and relevant language-native checks,

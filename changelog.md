@@ -1,5 +1,8 @@
 # Changelog
 
+- Share one offline Python build backend bundle per EasyBuild generation
+  across the Rust, Python and Arrow support recipes.
+
 - Install the pinned setuptools source with Python in both EasyBuild
   generations and supply the Rust build tools' offline packaging backends.
 
