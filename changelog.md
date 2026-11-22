@@ -1,5 +1,7 @@
 # Changelog
 
+- Bind Python 3.15.2 to its verified source archive for Spack builds.
+
 - Record engineering verification, recovery-backed branch cleanup and the
   outstanding Julia registry and installed HPC acceptance gates.
 
