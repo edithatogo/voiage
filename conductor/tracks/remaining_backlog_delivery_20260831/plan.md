@@ -52,6 +52,12 @@ The installed HPC matrix, remaining cleanup and whole-track review are open.
     a digest. The Spack overlay now extends the pinned upstream Python
     recipe with the same checksum-bound CPython archive used by both
     EasyBuild generations. A targeted Spack fetch verified the archive.
+    EasyBuild 2024a's retained test output identifies the Perl 5.42.0
+    Pod::Simple corpus test failure. The test excluded every fixture under
+    the hosted runner's `_temp` directory. The shared Perl recipe pins the
+    [upstream filename-filter fix](https://github.com/perl-pod/pod-simple/commit/f6c4e5d7485d0c0c8230b2d2c3d6bfaada015488).
+    The original test exited 255 under `_temp`. After the patch, all 19
+    fixtures passed with the same results as the ordinary-path control.
 - [x] B7: Complete remaining R, governance, identifier and venue preparation;
   retain external acceptance requirements (AC2, AC4).
 - [~] B8: Review all changes, run full tox and relevant language-native checks,
