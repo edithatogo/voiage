@@ -3,7 +3,7 @@
   "type": "chore",
   "status": "in_progress",
   "created_at": "2026-08-31T12:11:38Z",
-  "updated_at": "2026-11-14T00:51:11Z",
+  "updated_at": "2026-11-22T01:57:13Z",
   "description": "Complete the authorized remaining backlog, protected PR delivery, issue reconciliation and verified cleanup.",
   "evidence_schema": "1.0",
   "authorization": {
@@ -14,8 +14,8 @@
   "github_cross_reference": {
     "issue": "https://github.com/edithatogo/voiage/issues/1053"
   },
-  "current_phase": "B8 and B13 — repository verification and inventory refresh",
-  "next_pending_task": "Verify repair delivery and re-query after remaining cleanup; retain deferred HPC acceptance",
+  "current_phase": "B8 and B12–B14 — repository verification, recovery and closeout",
+  "next_pending_task": "Resolve remaining owner-held cleanup and re-query final inventory when the deferred native acceptance is available",
   "gates": [
     {
       "id": "external-evidence",
@@ -33,13 +33,13 @@
     "scope_decision": "accepted_by_user_2026-10-29"
   },
   "current_review": "review-reconciliation-20261103.json",
-  "current_checkpoint": "b8-b13-checkpoint-20261114.md",
-  "current_inventory": "b13-inventory-20261114.json",
+  "current_checkpoint": "engineering-closeout-20261122.md",
+  "current_inventory": "b13-inventory-20261122.json",
   "local_verification": {
-    "status": "passed_with_scoped_failed_lane_reruns",
-    "candidate": "56f603e0ddba35adec6ec9d1b8adbf69b909fd85",
-    "evidence": "evidence/tox315-20261103/manifest.json.gz",
-    "hosted_delivery": "pending",
-    "full_installed_hpc_matrix": "pending"
+    "status": "passed",
+    "candidate": "2c1e30a92a67bd9f9b891a5f210f3f439109a3c2",
+    "evidence": "engineering-closeout-20261122.md",
+    "hosted_delivery": "merged",
+    "full_installed_hpc_matrix": "deferred"
   }
 }

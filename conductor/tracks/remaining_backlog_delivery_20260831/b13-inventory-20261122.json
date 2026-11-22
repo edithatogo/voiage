@@ -1,0 +1,135 @@
+{
+  "observed_at_utc": "2026-11-22T01:57:13Z",
+  "stage": "after_scoped_branch_retirement_before_closeout_delivery",
+  "final_closeout": false,
+  "hosted_main": "7d44e3d9b5ff86506d5a2edb4ba99a6a5b2836af",
+  "hosted_main_tree": "fa6454e2b4feb6d466bfcb4c1c6bb58b8850d138",
+  "open_pull_requests": [
+    {
+      "number": 1296,
+      "head": "8d4da082b59f9a391ebf75f1db20630196d8e847",
+      "draft": false
+    },
+    {
+      "number": 1350,
+      "head": "a38b2f06a3a77f6d0586a2559c88c6ddd8af94cc",
+      "draft": false
+    },
+    {
+      "number": 1351,
+      "head": "78b04c7ed3371c96b59e07cb3702f9b5b9fb2e13",
+      "draft": true
+    },
+    {
+      "number": 1352,
+      "head": "3ca7fadbf455ffab863ed6ba8404530f46cc4812",
+      "draft": false
+    },
+    {
+      "number": 1361,
+      "head": "f256ac1ab86d707c4ef2dab1f49940abe23bb993",
+      "draft": false
+    },
+    {
+      "number": 1362,
+      "head": "837b89cae9f449dd45530e151f5e7f4856af365a",
+      "draft": false
+    },
+    {
+      "number": 1363,
+      "head": "5f3efb0178ff7e040858c7db45c855a33693ff3f",
+      "draft": false
+    },
+    {
+      "number": 1364,
+      "head": "67dcbd6ab8ad2433ddf0c5f24607687d464ea2a1",
+      "draft": false
+    },
+    {
+      "number": 1365,
+      "head": "fef4f7d6d64a2fa0a0687d43e3e15507728ef843",
+      "draft": false
+    },
+    {
+      "number": 1376,
+      "head": "87399e5da1d0e505c5f91a81112734e0a546b00e",
+      "draft": false
+    },
+    {
+      "number": 1378,
+      "head": "9e2fdf0af5d3a77f6fa25a09801afb62ba9deaae",
+      "draft": false
+    }
+  ],
+  "open_issue_numbers": [
+    296,
+    298,
+    312,
+    471,
+    555,
+    620,
+    850,
+    853,
+    876,
+    1023,
+    1025,
+    1026,
+    1037,
+    1045,
+    1053,
+    1110,
+    1116,
+    1193,
+    1221,
+    1222,
+    1283,
+    1286,
+    1290,
+    1369
+  ],
+  "local_branch_count": 19,
+  "remote_branch_count": 14,
+  "remote_branch_sources_agreed": true,
+  "retained_worktrees": {
+    "dirty": 4,
+    "clean": 14
+  },
+  "recovery": {
+    "bundle_sha256": "f56bbc7c5cf03c2b7380d24e65adcfb7b9d46f4637a850e02ea4915bb9211a08",
+    "restored_refs": 239,
+    "restored_notes_refs": 11,
+    "restored_stash_entries": 11,
+    "independent_strict_full_fsck": "passed"
+  },
+  "retired_local_branches": [
+    {
+      "pr": 1372,
+      "branch": "codex/mlx-metal-evpi-plan-20261121",
+      "head": "ad55f740fdea5fe19f72348f9b43ee6777b47435",
+      "merge": "6a04f51c997369865665af85a11f2d732fb1f18a",
+      "tree": "7cdfe8da450240a12df4e00fee01092d647f89c2"
+    },
+    {
+      "pr": 1374,
+      "branch": "codex/mlx-evpi-qualification-20261121",
+      "head": "e3f4710ab8548c8b2789c3051a2fe6d45cb5f6f5",
+      "merge": "8b76568b7313e30189bdb828563ca55374239af3",
+      "tree": "7151e1163dd6193068e05dc2605fec85f9d6b797"
+    },
+    {
+      "pr": 1377,
+      "branch": "codex/mlx-track-closeout-20261121",
+      "head": "262b84d8e35ebed6ece02c866a3758a406bbfe41",
+      "merge": "e0fea6893a8298609b8abdb37b82733a393634d8",
+      "tree": "dbd229049c623bbcc6f780361dfffb0df5504b74"
+    },
+    {
+      "pr": 1379,
+      "branch": "codex/evpi-cpu-overhead-20261121",
+      "head": "f3049768df966529671c5d4b9a4ce7639933a9b7",
+      "merge": "3c38cb4b45fe5c5eb1f9f0e03cd2e67b2a3c654e",
+      "tree": "e629d1e86c837ae9b196a7ab1010bf3a5d5ba811"
+    }
+  ],
+  "remote_heads_for_retired_branches": "already_absent"
+}

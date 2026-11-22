@@ -3,6 +3,7 @@
 - [Specification](./spec.md)
 - [Implementation Plan](./plan.md)
 - [Metadata](./metadata.json)
+- [Engineering closeout checkpoint and recovery (22 November)](./engineering-closeout-20261122.md)
 - [B8 verification and B13 inventory refresh](./b8-b13-checkpoint-20261114.md)
 - [Evidence](./evidence.jsonl)
 - [Baseline and recovery receipt](./baseline-and-recovery-20260831.json)

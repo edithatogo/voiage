@@ -1,5 +1,8 @@
 # Changelog
 
+- Record engineering verification, recovery-backed branch cleanup and the
+  outstanding Julia registry and installed HPC acceptance gates.
+
 - Admit a qualified Paignia static policy as a declared response for
   experimental signed-information comparisons.
 

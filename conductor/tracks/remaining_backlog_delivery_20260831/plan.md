@@ -51,11 +51,12 @@ The installed HPC matrix, remaining cleanup and whole-track review are open.
   retain external acceptance requirements (AC2, AC4).
 - [~] B8: Review all changes, run full tox and relevant language-native checks,
   and record failures and subsequent verification without weakening gates (AC2).
-  The November checkpoint binds repository and language evidence to the
-  tested inputs and records the dependency automation and tooling repairs.
+  Repository and source-binding verification is recorded in the
+  [22 November checkpoint](engineering-closeout-20261122.md). The exact tree
+  merged in #1386 passed all 15 local tox environments and required hosted
+  checks. Installed HPC acceptance remains open under the deferral.
   The [3 November full-gate attempts](./evidence/local-gate-20261103/manifest.json)
   retain the interpreter-selection failure and subsequent free-space stop.
-  Neither is a passing full gate; installed HPC acceptance remains open.
 
 ## Phase 3 — Protected delivery and issue reconciliation
 
@@ -71,14 +72,18 @@ The installed HPC matrix, remaining cleanup and whole-track review are open.
 - [~] B12: Preserve and remove integrated local branches and clean worktrees;
   retain unique work, active branches and maintained release lines (AC5).
   The independently restored 14 November bundle covered two tree-identical
-  retired branch tips. Remaining scope includes owner-held worktrees and refs.
+  retired branch tips. The 22 November restore verified four more integrated
+  branch tips before retirement. Remaining scope includes owner-held worktrees
+  and refs.
 - [~] B13: Re-query final inventories and document all unfinished requirements
   before assessing the complete user goal (AC6).
-  The 14 November refresh binds the open PRs, issues and ref inventories
-  after the adapter merge and scoped branch retirement.
+  The [22 November inventory](b13-inventory-20261122.json) binds open PRs,
+  issues and refs after scoped branch retirement.
   Final closeout requires a snapshot after remaining delivery and cleanup.
-- [ ] B14: Review final receipts and run Conductor/cross-reference validation;
+- [~] B14: Review final receipts and run Conductor/cross-reference validation;
   archive only when this track's acceptance criteria are satisfied (AC6).
+  Registry and cross-reference validation passed for the current checkpoint.
+  The final receipt remains pending installed HPC acceptance and final inventory.
 
 ## Review fixes — current source qualification
 
