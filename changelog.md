@@ -1,5 +1,8 @@
 # Changelog
 
+- Deploy GitHub Pages from the artifact uploaded by the completed
+  documentation build. Distinct build attempts use distinct artifact names.
+
 - Rescan the owned Linux process tree after a transient monitor error and
   retain the traceback when supervision fails.
 
