@@ -98,10 +98,10 @@ def post_run_shell_cmd_hook(
     _command: str | list[str],
     *,
     exit_code: int,
-    fail_on_error: bool,
-    hidden: bool,
     output: str,
-    stderr: str | None,
+    fail_on_error: bool = False,
+    hidden: bool = False,
+    stderr: str | None = None,
     **_kwargs: object,
 ) -> None:
     """Keep the tail of fatal visible output in the observed build log."""

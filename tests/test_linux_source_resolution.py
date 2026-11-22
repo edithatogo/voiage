@@ -49,6 +49,15 @@ def test_easybuild_retains_fatal_command_output(
         assert diagnostic == ""
 
 
+def test_easybuild_legacy_command_hook_preserves_default_output(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    easybuild_source_hooks.post_run_shell_cmd_hook(
+        "old-tool --probe", exit_code=1, output="diagnostic", work_dir="/build"
+    )
+    assert capsys.readouterr().err == ""
+
+
 def test_resolved_source_binds_actual_bytes(tmp_path: Path) -> None:
     source = tmp_path / "archive.tar.gz"
     source.write_bytes(b"authenticated archive")
