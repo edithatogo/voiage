@@ -122,6 +122,25 @@ jobs:
           fi
           if [[ "$QUALIFICATION" == installed-controls ]]; then
             echo "Privileged aggregate cleanup controls passed"
+            if [[ "$CELL" == easybuild-2024a ]]; then
+              probe="$RUNNER_TEMP/voiage-fftw-quad-check"
+              mkdir "$probe"
+              curl -fsSLo "$probe/fftw-3.3.10.tar.gz" https://www.fftw.org/fftw-3.3.10.tar.gz
+              printf '%s  %s\n' 56c932549852cddcfafdab3820b0200c7742675be92179e59e6215b340e26467 "$probe/fftw-3.3.10.tar.gz" | sha256sum -c -
+              tar -xzf "$probe/fftw-3.3.10.tar.gz" -C "$probe"
+              sudo --preserve-env env "PATH=$PATH" .venv/bin/python -m scripts.observe_native_stage \
+                --evidence "$PWD/receipts/graph/fftw-check" --workspace "$probe" \
+                --cwd "$probe/fftw-3.3.10" --timeout 3800 --uid "$(id -u)" --gid "$(id -g)" -- \
+                bash -euo pipefail -c '
+                  gcc-13 --version
+                  printf "Visible CPUs: %s\n" "$(nproc)"
+                  CC=gcc-13 CFLAGS="-O2 -fPIC" ./configure --enable-quad-precision --with-pic --enable-openmp --enable-shared --enable-threads
+                  make -j4
+                  date -u +%FT%TZ
+                  script -q -e -c "make check" /dev/null
+                  date -u +%FT%TZ
+                '
+            fi
           elif [[ "$QUALIFICATION" == installed ]]; then
             aggregate_work="$RUNNER_TEMP/voiage-installed-$CELL"
             mkdir "$aggregate_work"
