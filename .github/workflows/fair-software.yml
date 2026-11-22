@@ -1,0 +1,24 @@
+name: FAIR research software assessment
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: '17 3 * * 1'
+
+permissions:
+  contents: read
+
+jobs:
+  fair-software:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Assess fair-software.eu recommendations
+        uses: fair-software/howfairis-github-action@0.2.1
+        env:
+          PYCHARM_HOSTED: "1"
+        with:
+          MY_REPO_URL: "https://github.com/${{ github.repository }}"
