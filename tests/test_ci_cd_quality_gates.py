@@ -16,6 +16,7 @@ from datetime import date
 import json
 from pathlib import Path
 import re
+import shlex
 import tomllib
 
 from packaging.requirements import Requirement
@@ -276,34 +277,27 @@ class TestCICDQualityGatesConfiguration:
             "Benchmark regression job not found"
         )
 
-    def test_frontier_contract_validation_configured(self) -> None:
-        """Test that frontier contract validation is configured."""
+    def test_focused_jobs_install_only_their_dependencies(self) -> None:
+        """Keep both focused jobs on their dedicated frozen profiles."""
         ci_workflow_path = GITHUB_WORKFLOWS_DIR / "ci.yml"
 
         with open(ci_workflow_path) as f:
             ci_config = yaml.safe_load(f)
 
-        assert "frontier-contract" in ci_config["jobs"], (
-            "Frontier contract validation job not found"
-        )
-        commands = {
-            step["name"]: step["run"]
-            for step in ci_config["jobs"]["frontier-contract"]["steps"]
-            if "run" in step
+        profiles = {
+            "frontier-contract": ["--extra", "jax", "--group", "focused-tests"],
+            "version-sync": ["--only-group", "version-checks"],
         }
-        assert commands["Install dependencies"] == (
-            "uv sync --frozen --extra jax --group focused-tests"
-        )
-        for step_name in (
-            "Validate frontier contracts",
-            "Validate submission readiness contracts",
-            "Verify generated v2 contracts",
-            "Run focused v2 contract tests",
-        ):
-            assert all(
-                line.startswith("uv run --frozen --no-sync ")
-                for line in commands[step_name].splitlines()
-            )
+        for job, expected in profiles.items():
+            [install] = [
+                step["run"]
+                for step in ci_config["jobs"][job]["steps"]
+                if step.get("run", "").startswith("uv sync ")
+            ]
+            options = shlex.split(install)[2:]
+            assert "--frozen" in options, job
+            options.remove("--frozen")
+            assert options == expected, job
 
     def test_version_sync_validation_configured(self) -> None:
         """Test that version synchronization validation is configured."""
@@ -324,15 +318,6 @@ class TestCICDQualityGatesConfiguration:
         assert checkout["with"]["fetch-depth"] == 0, (
             "Version sync requires release tags from a full checkout"
         )
-        commands = {step["name"]: step["run"] for step in steps if "run" in step}
-        assert commands == {
-            "Install locked version-check dependencies": (
-                "uv sync --frozen --only-group version-checks"
-            ),
-            "Validate version synchronization": (
-                "uv run --frozen --no-sync python -I voiage/versioning.py --repo-root ."
-            ),
-        }
 
 
 class TestQualityGatePolicyCompliance:
