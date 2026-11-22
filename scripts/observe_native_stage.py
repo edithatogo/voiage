@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import ctypes
+import errno
 import json
 import os
 from pathlib import Path
@@ -10,6 +11,7 @@ import signal
 import subprocess
 import sys
 import time
+import traceback
 from typing import Any
 
 import psutil
@@ -40,11 +42,28 @@ class StageObserver:
         self.usage: dict[tuple[int, float], dict[str, float]] = {}
         self.report: dict[str, Any] = {}
 
+    def _observe_descendants(self) -> tuple[set[int], int]:
+        """Refresh the process tree once when opening a pidfd races with exit."""
+        root_pid = os.getpid()
+        pids, tree_rss = descendant_usage(root_pid)
+        pids.discard(root_pid)
+        try:
+            self.tracker.observe(pids, root_pid)
+        except OSError as error:
+            if error.errno != errno.EINVAL:
+                raise
+            # Linux can return EINVAL when the enumerated process has just exited.
+            self.report["ownership_rescans"] = (
+                self.report.get("ownership_rescans", 0) + 1
+            )
+            pids, tree_rss = descendant_usage(root_pid)
+            pids.discard(root_pid)
+            self.tracker.observe(pids, root_pid)
+        return pids, tree_rss
+
     def sample(self, samples: Any) -> None:
         """Sample owned descendants and cumulative counters without PID reuse."""
-        pids, tree_rss = descendant_usage(os.getpid())
-        pids.discard(os.getpid())
-        self.tracker.observe(pids, os.getpid())
+        pids, tree_rss = self._observe_descendants()
         rss = max(0, tree_rss * 1024 - psutil.Process().memory_info().rss)
         for pid in pids:
             try:
@@ -203,7 +222,9 @@ class StageObserver:
                         )
         except (Exception, KeyboardInterrupt, SystemExit) as error:
             self.report.update(
-                reason="monitor_failed_or_interrupted", error=repr(error)
+                reason="monitor_failed_or_interrupted",
+                error=repr(error),
+                error_traceback=traceback.format_exc(),
             )
         finally:
             try:
@@ -211,9 +232,7 @@ class StageObserver:
                 # A controller can fork between the final sample and its stop.
                 # The subreaper owns those newly orphaned identities too.
                 for attempt in range(3):
-                    owned, _rss = descendant_usage(os.getpid())
-                    owned.discard(os.getpid())
-                    self.tracker.observe(owned, os.getpid())
+                    self._observe_descendants()
                     self.tracker.stop()
                     if process is not None:
                         process.wait(timeout=10)
@@ -231,7 +250,11 @@ class StageObserver:
                 if not self.report["cleanup_complete"]:
                     raise RuntimeError("Owned descendants remain")  # noqa: TRY301 - cleanup failure must be recorded
             except (Exception, KeyboardInterrupt, SystemExit) as error:
-                self.report.update(reason="cleanup_failed", cleanup_error=repr(error))
+                self.report.update(
+                    reason="cleanup_failed",
+                    cleanup_error=repr(error),
+                    cleanup_traceback=traceback.format_exc(),
+                )
             finally:
                 self.tracker.close()
                 signal.signal(signal.SIGTERM, previous)

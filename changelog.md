@@ -1,5 +1,8 @@
 # Changelog
 
+- Rescan the owned Linux process tree after a transient monitor error and
+  retain the traceback when supervision fails.
+
 - Share one offline Python build backend bundle per EasyBuild generation
   across the Rust, Python and Arrow support recipes.
 
