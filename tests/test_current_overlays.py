@@ -1,5 +1,6 @@
 """Current declarations and historical graphs have separate acceptance scopes."""
 
+import ast
 import hashlib
 import json
 from pathlib import Path
@@ -11,6 +12,35 @@ import pytest
 from scripts.check_current_overlays import spack_requirement, validate
 
 ROOT = Path(__file__).parents[1]
+
+
+def test_spack_pins_the_qualified_cpython_source() -> None:
+    current = ROOT / "packaging/current"
+    recipe = ast.parse((current / "spack/packages/python/package.py").read_text())
+    (release,) = (
+        node
+        for node in ast.walk(recipe)
+        if isinstance(node, ast.Call)
+        and isinstance(node.func, ast.Name)
+        and node.func.id == "version"
+    )
+    assert ast.literal_eval(release.args[0]) == "3.15.2"
+    source = {kw.arg: ast.literal_eval(kw.value) for kw in release.keywords}
+    assert source["url"] == (
+        "https://www.python.org/ftp/python/3.15.2/Python-3.15.2.tar.xz"
+    )
+    for generation in ("2023a", "2024a"):
+        (easyconfig,) = (current / "easybuild" / generation).glob(
+            "Python-3.15.2-GCCcore-*.eb"
+        )
+        checksum = next(
+            ast.literal_eval(node.value)[0]
+            for node in ast.parse(easyconfig.read_text()).body
+            if isinstance(node, ast.Assign)
+            and isinstance(node.targets[0], ast.Name)
+            and node.targets[0].id == "checksums"
+        )
+        assert source["sha256"] == checksum
 
 
 @pytest.mark.parametrize(

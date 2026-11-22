@@ -47,6 +47,11 @@ The installed HPC matrix, remaining cleanup and whole-track review are open.
     Compiler binaries were not retained. Effective package-manager settings
     and full installed/generation-isolation acceptance remain open; see
     [review reconciliation](./review-reconciliation-20261103.json).
+    The 22 November Colab run resolved the Spack graph and fetched 132
+    archives before the pinned catalogue rejected Python 3.15.2 without
+    a digest. The Spack overlay now extends the pinned upstream Python
+    recipe with the same checksum-bound CPython archive used by both
+    EasyBuild generations. A targeted Spack fetch verified the archive.
 - [x] B7: Complete remaining R, governance, identifier and venue preparation;
   retain external acceptance requirements (AC2, AC4).
 - [~] B8: Review all changes, run full tox and relevant language-native checks,
