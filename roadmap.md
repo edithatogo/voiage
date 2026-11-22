@@ -53,10 +53,11 @@ now directs readers to the consolidated plan.
 [Agent-safe engineering improvements](conductor/tracks/agent_safe_engineering_20260907/index.md)
 adds eight bounded workstreams for drift checks, dependency features, API/ABI
 compatibility, measured CI, adversarial numerics, bounded execution, capability
-reports and automation recovery. Bounded G01–G08 slices are delivered, while
-G03.4 provider acceptance, G04.4 measurement/replay evidence, G05.4 live-target
-witness and final review remain open; the
-worker guide specifies exact scopes, prerequisites, witnesses and escalation.
+reports and automation recovery. The bounded G01–G08 slices are delivered,
+including G04.4 hosted measurement and replay and G05.4 live-target evidence.
+G03.4 retains the Julia General/JLL acceptance gate. The
+[22 November closeout checkpoint](conductor/tracks/remaining_backlog_delivery_20260831/engineering-closeout-20261122.md)
+binds current verification, recovery and inventory evidence.
 [Repository allocations and integration order](conductor/tracks/agent_safe_engineering_20260907/repository-boundaries.md)
 keep generic engines and applications in their capability-owner repositories.
 Future Rust-first providers may expose distinct APIs; semantic interchange and
