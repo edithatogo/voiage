@@ -85,6 +85,37 @@ def test_easybuild_python_preserves_libm_errno(generation: str, compiler: str) -
     assert toolchainopts["precise"] is True
 
 
+@pytest.mark.parametrize(
+    ("generation", "compiler"), [("2023a", "12.3.0"), ("2024a", "13.3.0")]
+)
+def test_easybuild_setuptools_installs_with_python(
+    generation: str, compiler: str
+) -> None:
+    recipes = ROOT / "packaging/current/easybuild" / generation
+    extensions = {}
+    for name in ("Python-3.15.2", "Voiage-Rust-build-support-2.2.0"):
+        recipe = recipes / f"{name}-GCCcore-{compiler}.eb"
+        entries = next(
+            node.value.elts
+            for node in ast.parse(recipe.read_text()).body
+            if isinstance(node, ast.Assign)
+            and isinstance(node.targets[0], ast.Name)
+            and node.targets[0].id == "exts_list"
+            and isinstance(node.value, ast.List)
+        )
+        extensions[name] = {
+            ast.literal_eval(entry.elts[0]): ast.literal_eval(entry.elts[1])
+            for entry in entries
+            if isinstance(entry, ast.Tuple)
+        }
+    assert extensions["Python-3.15.2"]["setuptools"] == "84.0.0"
+    support = list(extensions["Voiage-Rust-build-support-2.2.0"])
+    assert "setuptools" not in support
+    assert support.index("flit_core") < support.index("packaging")
+    assert support.index("packaging") < support.index("setuptools-scm")
+    assert support.index("setuptools-scm") < support.index("pluggy")
+
+
 @pytest.mark.parametrize("provider", ["rust", "rust-polars"])
 def test_spack_compilers_bound_llvm_link_concurrency(provider: str) -> None:
     source = (

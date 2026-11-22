@@ -69,6 +69,17 @@ The installed HPC matrix, remaining cleanup and whole-track review are open.
     the precise flags completed the 43-file PGO workload and passed
     `test_float` on the final LTO build.
     [Guarded comparison](https://github.com/edithatogo/voiage/actions/runs/45015070842).
+    The next 2024a run completed the profile-guided build and reached the
+    installed Python sanity check. EasyBuild 5.4.2 imports setuptools there.
+    Python's `ensurepip` provides pip. Both recipes now install the already
+    pinned setuptools 84.0.0 source as a Python extension with pip offline.
+    The Rust build-support bundles consume it through their Python dependency.
+    [2024a receipt](https://github.com/edithatogo/voiage/actions/runs/45016568149/job/137190046465).
+    An isolated CPython 3.15.2 replay then exposed the missing Flit backend
+    for packaging. The bundles install pinned flit-core before packaging
+    and the existing setuptools-scm pin before pluggy. All 13 sources
+    in the corrected Python and Rust support sequence built offline and
+    `pip check` passed.
 - [x] B7: Complete remaining R, governance, identifier and venue preparation;
   retain external acceptance requirements (AC2, AC4).
 - [~] B8: Review all changes, run full tox and relevant language-native checks,

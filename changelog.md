@@ -1,5 +1,8 @@
 # Changelog
 
+- Install the pinned setuptools source with Python in both EasyBuild
+  generations and supply the Rust build tools' offline packaging backends.
+
 - Preserve floating-point underflow behavior in both EasyBuild Python builds.
 
 - Verify mimalloc's installed headers, libraries and CMake package in both
