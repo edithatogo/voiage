@@ -65,6 +65,26 @@ def test_easybuild_compiler_uses_explicit_bootstrap_and_one_llvm_link(
     )
 
 
+@pytest.mark.parametrize(
+    ("generation", "compiler"), [("2023a", "12.3.0"), ("2024a", "13.3.0")]
+)
+def test_easybuild_python_preserves_libm_errno(generation: str, compiler: str) -> None:
+    recipe = (
+        ROOT
+        / "packaging/current/easybuild"
+        / generation
+        / f"Python-3.15.2-GCCcore-{compiler}.eb"
+    )
+    toolchainopts = next(
+        ast.literal_eval(node.value)
+        for node in ast.parse(recipe.read_text()).body
+        if isinstance(node, ast.Assign)
+        and isinstance(node.targets[0], ast.Name)
+        and node.targets[0].id == "toolchainopts"
+    )
+    assert toolchainopts["precise"] is True
+
+
 @pytest.mark.parametrize("provider", ["rust", "rust-polars"])
 def test_spack_compilers_bound_llvm_link_concurrency(provider: str) -> None:
     source = (
