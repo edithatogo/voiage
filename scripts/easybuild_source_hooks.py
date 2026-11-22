@@ -1,4 +1,4 @@
-"""Record actual checked EasyBuild sources through its supported post-fetch hook."""
+"""Retain EasyBuild source, compiler and failure evidence."""
 
 from __future__ import annotations
 
@@ -7,6 +7,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import sys
 import tomllib
 from typing import Any
 
@@ -91,3 +92,20 @@ def post_configure_hook(app: Any) -> None:
     shutil.copy2(
         path, output / f"{app.name}-{app.version}-{app.toolchain.version}.toml"
     )
+
+
+def post_run_shell_cmd_hook(
+    _command: str | list[str],
+    *,
+    exit_code: int,
+    fail_on_error: bool,
+    hidden: bool,
+    output: str,
+    stderr: str | None,
+    **_kwargs: object,
+) -> None:
+    """Keep the tail of fatal visible output in the observed build log."""
+    if exit_code and fail_on_error and not hidden:
+        for stream in (output, stderr):
+            if stream:
+                sys.stderr.write(stream[-16_384:] + "\n")

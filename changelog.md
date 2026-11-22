@@ -1,5 +1,7 @@
 # Changelog
 
+- Retain fatal EasyBuild command output in the guarded build log.
+
 - Bind Python 3.15.2 to its verified source archive for Spack builds.
 
 - Record engineering verification, recovery-backed branch cleanup and the
