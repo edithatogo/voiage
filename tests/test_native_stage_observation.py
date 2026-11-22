@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import errno
 import json
 import sys
 lazy from pathlib import Path
@@ -72,6 +73,64 @@ def test_sampler_loss_stops_work_and_retains_failure(
     receipt = json.loads((tmp_path / "receipts/resource-report.json").read_text())
     assert receipt["reason"] == "monitor_failed_or_interrupted"
     assert receipt["cleanup_complete"]
+    assert "OSError: sampler lost" in receipt["error_traceback"]
+
+
+@pytest.mark.parametrize(
+    ("error_number", "child_departed", "scan_count"),
+    [
+        (errno.EINVAL, True, 2),
+        (errno.EINVAL, False, 2),
+        (errno.EPERM, True, 1),
+    ],
+)
+def test_pidfd_error_rechecks_ownership_once(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    error_number: int,
+    child_departed: bool,
+    scan_count: int,
+) -> None:
+    import io
+    import time
+
+    from scripts.observe_arrow_capacity import ObservedProcesses
+
+    observer = StageObserver(tmp_path / "receipts", tmp_path, min_free_mib=1)
+    observer.started = time.monotonic()
+    observer.report = {
+        "reason": "completed",
+        "peak_rss_kib": 0,
+        "minimum_free_bytes": 10**12,
+    }
+    observer.tracker = ObservedProcesses()
+    scans: list[int] = []
+
+    def scan(root_pid: int) -> tuple[set[int], int]:
+        scans.append(root_pid)
+        child = {42} if len(scans) == 1 or not child_departed else set()
+        return {root_pid} | child, 1
+
+    def open_handle(pid: int) -> int:
+        assert pid == 42
+        raise OSError(error_number, "pidfd open")
+
+    monkeypatch.setattr("scripts.observe_native_stage.descendant_usage", scan)
+    monkeypatch.setattr(
+        "scripts.observe_arrow_capacity.os.pidfd_open", open_handle, raising=False
+    )
+    samples = io.StringIO()
+    if error_number == errno.EINVAL and child_departed:
+        observer.sample(samples)
+        assert json.loads(samples.getvalue())["live_descendants"] == 0
+        assert observer.report["reason"] == "completed"
+    else:
+        with pytest.raises(OSError) as error:
+            observer.sample(samples)
+        assert error.value.errno == error_number
+        assert samples.getvalue() == ""
+    assert len(scans) == scan_count
+    assert observer.report.get("ownership_rescans", 0) == scan_count - 1
 
 
 @pytest.mark.parametrize("io_capability", ["denied", "unsupported"])
