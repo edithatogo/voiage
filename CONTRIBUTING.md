@@ -67,10 +67,10 @@ the required CI, security, coverage, documentation, and contract checks pass.
         Tox uses the virtualenv runner so named environments such as `py315`
         retain the explicit interpreter rather than uv resolving a newer patch.
     *   Fix any errors reported by `tox` before proceeding.
-    *   Run the repository-owned security and workflow harness directly when
-        changing CI or release automation:
+    *   For CI or release automation edits, run the repository harness and the
+        cross-package version check in their small tox environments:
         ```bash
-        uv run python scripts/repo_harness.py
+        .venv/bin/tox run -e harness,version-sync
         ```
     *   Frontier contract changes should also pass the dedicated registry check:
         ```bash

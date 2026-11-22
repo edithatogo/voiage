@@ -16,6 +16,7 @@ from datetime import date
 import json
 from pathlib import Path
 import re
+import shlex
 import tomllib
 
 from packaging.requirements import Requirement
@@ -276,18 +277,29 @@ class TestCICDQualityGatesConfiguration:
             "Benchmark regression job not found"
         )
 
-    def test_frontier_contract_validation_configured(self):
-        """Test that frontier contract validation is configured."""
+    def test_focused_jobs_install_only_their_dependencies(self) -> None:
+        """Keep both focused jobs on their dedicated frozen profiles."""
         ci_workflow_path = GITHUB_WORKFLOWS_DIR / "ci.yml"
 
         with open(ci_workflow_path) as f:
             ci_config = yaml.safe_load(f)
 
-        assert "frontier-contract" in ci_config["jobs"], (
-            "Frontier contract validation job not found"
-        )
+        profiles = {
+            "frontier-contract": ["--extra", "jax", "--group", "focused-tests"],
+            "version-sync": ["--only-group", "version-checks"],
+        }
+        for job, expected in profiles.items():
+            [install] = [
+                step["run"]
+                for step in ci_config["jobs"][job]["steps"]
+                if step.get("run", "").startswith("uv sync ")
+            ]
+            options = shlex.split(install)[2:]
+            assert "--frozen" in options, job
+            options.remove("--frozen")
+            assert options == expected, job
 
-    def test_version_sync_validation_configured(self):
+    def test_version_sync_validation_configured(self) -> None:
         """Test that version synchronization validation is configured."""
         ci_workflow_path = GITHUB_WORKFLOWS_DIR / "ci.yml"
 

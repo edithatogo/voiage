@@ -1,5 +1,18 @@
 # Changelog
 
+- Verify mimalloc's installed headers, libraries and CMake package in both
+  EasyBuild generations.
+
+- Reduce setup for repository harness, version synchronization, and Frontier
+  contract checks by installing only the dependencies each check uses.
+
+- Apply the upstream Perl corpus-test fix so EasyBuild can test Perl in CI's
+  temporary build directory.
+
+- Retain fatal EasyBuild command output in the guarded build log.
+
+- Bind Python 3.15.2 to its verified source archive for Spack builds.
+
 - Record engineering verification, recovery-backed branch cleanup and the
   outstanding Julia registry and installed HPC acceptance gates.
 
