@@ -122,6 +122,39 @@ jobs:
           fi
           if [[ "$QUALIFICATION" == installed-controls ]]; then
             echo "Privileged aggregate cleanup controls passed"
+            if [[ "$CELL" == easybuild-2024a ]]; then
+              probe="$RUNNER_TEMP/voiage-cpython-errno"
+              mkdir "$probe"
+              curl -fsSLo "$probe/Python-3.15.2.tar.xz" https://www.python.org/ftp/python/3.15.2/Python-3.15.2.tar.xz
+              printf '%s  %s\n' 8b5536d280142ecf6cdfe15d12a21ba1c65e300bbf7b28a8d0cdb849575797de "$probe/Python-3.15.2.tar.xz" | sha256sum -c -
+              tar -xJf "$probe/Python-3.15.2.tar.xz" -C "$probe"
+              sudo --preserve-env env "PATH=$PATH" .venv/bin/python -m scripts.observe_native_stage \
+                --evidence "$PWD/receipts/graph/cpython-errno" --workspace "$probe" \
+                --cwd "$probe" --timeout 4200 --uid "$(id -u)" --gid "$(id -g)" -- \
+                bash -euo pipefail -c '
+                  src="$PWD/Python-3.15.2"
+                  export CC=gcc-13
+                  test "$("$CC" -dumpfullversion)" = 13.3.0
+                  common="-O2 -ftree-vectorize -march=native"
+                  mkdir defaults precise
+                  (
+                    cd defaults
+                    CFLAGS="$common -fno-math-errno -fPIC" "$src/configure" --enable-shared --with-lto --enable-optimizations --with-ensurepip=upgrade --prefix="$PWD/prefix"
+                    make -j4 profile-gen-stamp
+                    set +e
+                    LD_LIBRARY_PATH="$PWD" ./python -E -m unittest test.test_float.GeneralFloatCases.test_float_pow
+                    status=$?
+                    set -e
+                    printf "Default precision float test exit %s\n" "$status"
+                  )
+                  (
+                    cd precise
+                    CFLAGS="$common -mno-recip -fPIC" "$src/configure" --enable-shared --with-lto --enable-optimizations --with-ensurepip=upgrade --prefix="$PWD/prefix"
+                    make -j4
+                    LD_LIBRARY_PATH="$PWD" ./python -E -m test test_float
+                  )
+                '
+            fi
           elif [[ "$QUALIFICATION" == installed ]]; then
             aggregate_work="$RUNNER_TEMP/voiage-installed-$CELL"
             mkdir "$aggregate_work"
