@@ -1,5 +1,8 @@
 # Changelog
 
+- Verify mimalloc's installed headers, libraries and CMake package in both
+  EasyBuild generations.
+
 - Reduce setup for repository harness, version synchronization, and Frontier
   contract checks by installing only the dependencies each check uses.
 

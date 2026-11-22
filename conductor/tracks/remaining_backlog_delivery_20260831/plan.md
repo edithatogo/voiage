@@ -58,6 +58,10 @@ The installed HPC matrix, remaining cleanup and whole-track review are open.
     [upstream filename-filter fix](https://github.com/perl-pod/pod-simple/commit/f6c4e5d7485d0c0c8230b2d2c3d6bfaada015488).
     The original test exited 255 under `_temp`. After the patch, all 19
     fixtures passed with the same results as the ordinary-path control.
+    The corrected 2023a job installed Perl and built mimalloc 3.4.1. Its
+    default EasyBuild sanity check expected a `bin` directory. Both allocator
+    recipes now check the installed header, shared and static libraries,
+    and CMake package metadata directly.
 - [x] B7: Complete remaining R, governance, identifier and venue preparation;
   retain external acceptance requirements (AC2, AC4).
 - [~] B8: Review all changes, run full tox and relevant language-native checks,

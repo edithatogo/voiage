@@ -8,4 +8,13 @@ sources = ["https://github.com/microsoft/mimalloc/archive/v3.4.1.tar.gz"]
 checksums = ["37107a52c16baa80c5f74861dddda7b27bb9949e41a6637691867a94c88ca446"]
 builddependencies = [("CMake", "3.29.3")]
 configopts = "-DMI_BUILD_SHARED=ON -DMI_BUILD_STATIC=ON -DMI_BUILD_TESTS=ON"
+sanity_check_paths = {
+    "files": [
+        "include/mimalloc-%(version_major_minor)s/mimalloc.h",
+        "lib/libmimalloc." + SHLIB_EXT,
+        "lib/mimalloc-%(version_major_minor)s/libmimalloc.a",
+        "lib/cmake/mimalloc-%(version_major_minor)s/mimalloc-config.cmake",
+    ],
+    "dirs": [],
+}
 moduleclass = "lib"
