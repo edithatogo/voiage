@@ -52,7 +52,7 @@ behavior and export semantics before admitting any dependency.
 | Dependency update policy | [renovate-config](https://github.com/edithatogo/renovate-config) | Already extended locally; no second dependency-update bot | Maintain existing |
 | Polyglot documentation | [astro-polyglot](https://github.com/edithatogo/astro-polyglot) | Already a local gitlink; extraction/rendering stays upstream | Maintain existing |
 | Citation evidence | [sourceright](https://github.com/edithatogo/sourceright) | Already a local gitlink; development/report tooling only | Maintain existing |
-| Research diagrams/checklists | [standardflow](https://github.com/edithatogo/standardflow) | Optional exported report consumer; no renderer inside VOI core | Defer |
+| Research diagrams/checklists | [StandardFlow in standards_check](https://github.com/edithatogo/standards_check) | Optional exported report consumer; no renderer inside VOI core | Defer |
 
 `NwauCore.jl` and `NationalWeightedActivityUnitWrapper.jl` describe themselves as
 thin MCHS CLI wrappers, not independent numerical cores. Do not add both as
