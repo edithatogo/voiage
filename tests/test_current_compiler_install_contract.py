@@ -116,6 +116,26 @@ def test_easybuild_setuptools_installs_with_python(
     assert support.index("setuptools-scm") < support.index("pluggy")
 
 
+@pytest.mark.parametrize(
+    ("generation", "compiler"), [("2023a", "12.3.0"), ("2024a", "13.3.0")]
+)
+def test_easybuild_support_recipes_share_bootstrapped_build_backends(
+    generation: str, compiler: str
+) -> None:
+    recipes = ROOT / "packaging/current/easybuild" / generation
+    for name in ("Voiage-Python-support-2.2.0", "Voiage-Arrow-build-support-26.0.0"):
+        recipe = recipes / f"{name}-GCCcore-{compiler}.eb"
+        build_dependencies = next(
+            ast.literal_eval(node.value)
+            for node in ast.parse(recipe.read_text()).body
+            if isinstance(node, ast.Assign)
+            and isinstance(node.targets[0], ast.Name)
+            and node.targets[0].id == "builddependencies"
+        )
+        assert ("Voiage-Rust-build-support", "2.2.0") in build_dependencies
+        assert all(package != "hatchling" for package, *_ in build_dependencies)
+
+
 @pytest.mark.parametrize("provider", ["rust", "rust-polars"])
 def test_spack_compilers_bound_llvm_link_concurrency(provider: str) -> None:
     source = (
