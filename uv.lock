@@ -3020,12 +3020,18 @@ web = [
 ]
 
 [package.dev-dependencies]
+focused-tests = [
+    { name = "pytest" },
+]
 producer-tests = [
     { name = "pandas" },
 ]
 verification = [
     { name = "tox" },
     { name = "tox-uv" },
+]
+version-checks = [
+    { name = "defusedxml" },
 ]
 
 [package.metadata]
@@ -3101,11 +3107,13 @@ requires-dist = [
 provides-extras = ["ci", "croissant", "deep-learning", "dev", "docs", "ecosystem", "excel", "experimental", "frictionless", "ingestion", "jax", "performance", "plotting", "test-acceleration", "web"]
 
 [package.metadata.requires-dev]
+focused-tests = [{ name = "pytest", specifier = ">=9.2,<9.3" }]
 producer-tests = [{ name = "pandas", specifier = ">=3.1.0,<4" }]
 verification = [
     { name = "tox", specifier = ">=4.67,<5" },
     { name = "tox-uv", specifier = ">=1.37,<2" },
 ]
+version-checks = [{ name = "defusedxml", specifier = ">=0.7.1,<1.0" }]
 
 [[package]]
 name = "vulture"

@@ -1,5 +1,8 @@
 # Changelog
 
+- Reduce setup for repository harness, version synchronization, and Frontier
+  contract checks by installing only the dependencies each check uses.
+
 - Apply the upstream Perl corpus-test fix so EasyBuild can test Perl in CI's
   temporary build directory.
 
