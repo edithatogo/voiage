@@ -35,5 +35,20 @@ dependencies = [
     ("OpenSSL", "3", "", SYSTEM),
 ]
 
+# ensurepip installs pip. The Python easyblock also checks setuptools.
+exts_default_options = {"pip_no_index": True, "download_dep_fail": True}
+exts_list = [
+    (
+        "setuptools",
+        "84.0.0",
+        {
+            "sources": ["setuptools-84.0.0.tar.gz"],
+            "source_urls": [PYPI_SOURCE],
+            "checksums": [
+                "f4695c21257f0d9b537ec2692c941d02ee143b7cc1276941349a546573b2ef73"
+            ],
+        },
+    ),
+]
 
 moduleclass = "lang"
