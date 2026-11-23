@@ -5,13 +5,12 @@
 - [Metadata](./metadata.json)
 - [Ownership and evidence handoff](./handoff.md)
 
-The Linux graph, source/vendor and baseline native compiler checkpoints have
-retained receipts. Full Spack/EasyBuild installed acceptance remains open.
+The Linux graph, source/vendor and native compiler checkpoints have retained
+receipts. The [installed Spack qualification](./installed-spack-colab-20261124.md)
+passed on Colab.
 
-The 23 November execution priority is the installed Spack qualification.
-EasyBuild foss/2023a and foss/2024a follow-up is deferred. The existing jobs
-can continue in the background. Final archival requires all three installed
-qualifications to pass.
+EasyBuild foss/2023a and foss/2024a follow-up remains deferred. Final archival
+requires their passing installed qualifications.
 
 - [GitHub issue](https://github.com/edithatogo/voiage/issues/1222)
 

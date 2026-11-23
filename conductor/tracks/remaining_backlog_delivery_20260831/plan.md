@@ -1,7 +1,7 @@
 # Implementation Plan: Remaining Backlog Delivery
 
 Current disposition: [5 November reconciliation](../../reconciliation-20261105.md).
-B6 native HPC and its capacity follow-ups are deferred except MLX/Metal.
+The Colab Spack qualification passed. EasyBuild follow-up remains deferred.
 See the [14 November checkpoint](b8-b13-checkpoint-20261114.md) for the
 current B8 repository verification, the B13 inventory and scoped B12 cleanup.
 The installed HPC matrix, remaining cleanup and whole-track review are open.
@@ -32,8 +32,8 @@ The installed HPC matrix, remaining cleanup and whole-track review are open.
     `7f0feacc`; reviewed and merged trees match. This does not close B6.
   - [~] B6.2: Bind current recipes to the qualified source; obtain actual native
     solver/build/installed-module evidence and the required compiler matrix.
-    The [native track](../hpc_source_build_qualification_20261029/index.md)
-    records the active Spack work and the deferred EasyBuild follow-up.
+    The [installed Spack receipt](../hpc_source_build_qualification_20261029/installed-spack-colab-20261124.md)
+    records the passing Spack cell. Both EasyBuild generations remain deferred.
     Polars frontend/runtime source declarations were delivered in PR #1214.
     Dated Rust source/bootstrap bindings and stable compiler-role separation
     were accepted in PR #1215 (`e336cd9f`); Arrow providers, native builds
@@ -96,7 +96,8 @@ The installed HPC matrix, remaining cleanup and whole-track review are open.
   Repository and source-binding verification is recorded in the
   [22 November checkpoint](engineering-closeout-20261122.md). The exact tree
   merged in #1386 passed all 15 local tox environments and required hosted
-  checks. Installed HPC acceptance remains open under the deferral.
+  checks. The Colab Spack cell passed installed qualification. Both installed
+  EasyBuild cells remain open under the deferral.
   The [3 November full-gate attempts](./evidence/local-gate-20261103/manifest.json)
   retain the interpreter-selection failure and subsequent free-space stop.
 
@@ -115,8 +116,9 @@ The installed HPC matrix, remaining cleanup and whole-track review are open.
   retain unique work, active branches and maintained release lines (AC5).
   The independently restored 14 November bundle covered two tree-identical
   retired branch tips. The 22 November restore verified four more integrated
-  branch tips before retirement. Remaining scope includes owner-held worktrees
-  and refs.
+  branch tips before retirement. The three Spack repair tips for #1400–#1402
+  were independently restored and retired. Remaining scope includes owner-held
+  worktrees and refs.
 - [~] B13: Re-query final inventories and document all unfinished requirements
   before assessing the complete user goal (AC6).
   The [22 November inventory](b13-inventory-20261122.json) binds open PRs,
@@ -125,7 +127,7 @@ The installed HPC matrix, remaining cleanup and whole-track review are open.
 - [~] B14: Review final receipts and run Conductor/cross-reference validation;
   archive only when this track's acceptance criteria are satisfied (AC6).
   Registry and cross-reference validation passed for the current checkpoint.
-  The final receipt remains pending installed HPC acceptance and final inventory.
+  The final receipt awaits both EasyBuild installed passes and final inventory.
 
 ## Review fixes — current source qualification
 
@@ -145,12 +147,12 @@ The installed HPC matrix, remaining cleanup and whole-track review are open.
 
 ## Arrow prerequisite source slices
 
-- [~] B6.2-LibCST: Freeze and challenge the Python 3.15 LibCST source, marker,
+- [x] B6.2-LibCST: Freeze and challenge the Python 3.15 LibCST source, marker,
   licence and compiler contract; implement the bounded readiness packet, then
   qualify the actual provider without inferring the full Arrow/native matrix.
   Source/declaration slice: `227f1583`; 32 affected tests, authenticated source
-  and actual private Spack class load pass. The full integrated Arrow candidate
-  gate remains pending.
+  and actual private Spack class load passed. PyArrow built with the installed
+  LibCST 1.9.0 provider in the passing Spack cell.
 
 ## Build capacity follow-up
 

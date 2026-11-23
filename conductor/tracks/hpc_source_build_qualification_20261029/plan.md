@@ -70,10 +70,11 @@ P5 -> P6. P2 source controls must pass before P3 fetch/build dispatch.
 - [ ] Task: Phase verification, agent review and checkpoint per workflow.md.
 
 ## P5 — Execute the full HPC matrix
-- [ ] Task: Qualify the current Linux Spack graph.
-  - [ ] Complete source build/install using the qualified compiler graph.
-  - [ ] Pass installed imports, numerical fixtures, Arrow/Polars interchange and
+- [x] Task: Qualify the current Linux Spack graph.
+  - [x] Complete source build/install using the qualified compiler graph.
+  - [x] Pass installed imports, numerical fixtures, Arrow/Polars interchange and
         actual dynamic-library linkage outside the source checkout.
+  - [Installed Colab receipt](./installed-spack-colab-20261124.md)
 - [ ] Task: Qualify EasyBuild foss/2023a.
   - [ ] Complete full source build/install and all installed-consumer checks.
 - [ ] Task: Qualify EasyBuild foss/2024a.
@@ -97,7 +98,7 @@ P5 -> P6. P2 source controls must pass before P3 fetch/build dispatch.
 
 ## Execution conventions
 
-Use the verified repo-local Python 3.15.1 and normal hooks. TDD applies to code
+Use the verified repo-local Python 3.15.2 and normal hooks. TDD applies to code
 changes, not mechanical document checks. Select affected tests during iteration;
 run the full local tox gate once per coherent candidate and invalidate evidence
 when relevant inputs change. Exact commands are resolved from installed tools

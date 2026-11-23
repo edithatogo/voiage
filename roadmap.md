@@ -70,8 +70,8 @@ current-revision hosted gates remain required.
 
 Prepared track records:
 
-- Spack installed qualification is active. EasyBuild foss/2023a and foss/2024a
-  follow-up is deferred, with existing runs continuing in the background.
+- The Colab Spack installed qualification passed. EasyBuild foss/2023a and
+  foss/2024a installed qualification remains deferred.
   [HPC qualification track](conductor/tracks/hpc_source_build_qualification_20261029/index.md)
 - `conductor/tracks/scientific_ecosystem_alignment_20261029/` (HPC portion deferred except MLX/Metal; independent scientific delivery remains eligible)
 - [Archived MLX/Metal EVPI qualification](conductor/archive/mlx_metal_evpi_backend_20261121/index.md)
