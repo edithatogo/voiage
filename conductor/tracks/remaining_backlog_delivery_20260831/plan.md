@@ -32,6 +32,8 @@ The installed HPC matrix, remaining cleanup and whole-track review are open.
     `7f0feacc`; reviewed and merged trees match. This does not close B6.
   - [~] B6.2: Bind current recipes to the qualified source; obtain actual native
     solver/build/installed-module evidence and the required compiler matrix.
+    The [native track](../hpc_source_build_qualification_20261029/index.md)
+    records the active Spack work and the deferred EasyBuild follow-up.
     Polars frontend/runtime source declarations were delivered in PR #1214.
     Dated Rust source/bootstrap bindings and stable compiler-role separation
     were accepted in PR #1215 (`e336cd9f`); Arrow providers, native builds

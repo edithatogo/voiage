@@ -40,8 +40,12 @@ implementation tracks are complete; parent review and optional telemetry are sep
 
 - [x] Qualify the bounded Linux Cargo/compiler-source and vendor checkpoint with authenticated inputs, offline replay and retained source/resource receipts. Full native HPC acceptance remains open.
 
-- [ ] **Deferred by maintainer, 5 November:** Finish native HPC acceptance in `conductor/tracks/hpc_source_build_qualification_20261029/` and `conductor/tracks/scientific_ecosystem_alignment_20261029/`; preserve all existing native gates.
-  - Isolation/profile and named sudo/Lmod/source-attempt repairs merged in
+- [~] Complete the installed Spack qualification. EasyBuild foss/2023a and
+  foss/2024a follow-up is deferred as of 23 November. Final archival requires
+  all three installed qualifications to pass.
+  [HPC qualification track](conductor/tracks/hpc_source_build_qualification_20261029/index.md)
+  - At the 5 November checkpoint, isolation/profile and named
+    sudo/Lmod/source-attempt repairs had merged in
     #1268 and #1269. Both backends passed fifteen admission controls. Both repaired
     EasyBuild source graphs now pass authenticated offline replay and full tox
     at `63030a42e`. Earlier failures remain retained; fresh Spack solves also pass.

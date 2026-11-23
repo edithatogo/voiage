@@ -8,6 +8,11 @@
 The Linux graph, source/vendor and baseline native compiler checkpoints have
 retained receipts. Full Spack/EasyBuild installed acceptance remains open.
 
+The 23 November execution priority is the installed Spack qualification.
+EasyBuild foss/2023a and foss/2024a follow-up is deferred. The existing jobs
+can continue in the background. Final archival requires all three installed
+qualifications to pass.
+
 - [GitHub issue](https://github.com/edithatogo/voiage/issues/1222)
 
 - [Source/vendor review](./review-source-vendor-20261102.md)

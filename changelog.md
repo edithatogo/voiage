@@ -1,5 +1,8 @@
 # Changelog
 
+- Record Spack as the active installed qualification and defer EasyBuild
+  follow-up in the Conductor plan.
+
 - Deploy GitHub Pages from the artifact uploaded by the completed
   documentation build. Distinct build attempts use distinct artifact names.
 
