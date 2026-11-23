@@ -1,5 +1,9 @@
 # Changelog
 
+- Run the Spack Voiage import test with the installed runtime dependencies
+  available through the package's normal load environment. Link the Rust
+  extension through Spack's C compiler so it uses the selected GCC runtime.
+
 - Build the Spack Polars runtime with a GNU Make version that supports
   Cargo's FIFO jobserver.
 

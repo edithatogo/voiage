@@ -2,6 +2,7 @@
 
 from spack.package import EnvironmentModifications, depends_on, version
 from spack.package import license as spack_license
+from spack.user_environment import environment_modifications_for_specs
 from spack.util.environment import preserve_environment
 from spack_repo.builtin.build_systems.python import PythonPackage
 
@@ -14,6 +15,7 @@ class PyVoiage(PythonPackage):
     spack_license("Apache-2.0")
     version("develop", commit="0a961dafd2e68a480c668b30600430d9ac71be38")
     depends_on("python@3.15.2", type=("build", "run"))
+    depends_on("c", type="build")
     depends_on("rust@=1.99.1", type="build")
     depends_on("py-maturin@1.9:1", type="build")
     depends_on("py-click@8.3.3:8", type="run")
@@ -38,10 +40,8 @@ class PyVoiage(PythonPackage):
 
     def test_imports(self) -> None:
         """Run Spack's import test against the completed installation."""
-        # The build environment is assembled before pip creates site-packages.
-        # Refresh the installed package's paths for Spack's normal import test.
-        env = EnvironmentModifications()
-        self.spec["python"].package.setup_dependent_run_environment(env, self.spec)
-        with preserve_environment("PATH", "PYTHONPATH"):
+        # The build environment omits the package's run-only dependencies.
+        env = environment_modifications_for_specs(self.spec, set_package_py_globals=False)
+        with preserve_environment(*env.group_by_name()):
             env.apply_modifications()
             super().test_imports()
