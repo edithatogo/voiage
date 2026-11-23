@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.0",
+  "scope": "Authenticated Polars source and GNU Make declarations. Unchanged Arrow and build provider reports retain their exact inputs.",
+  "python": "3.15.2",
+  "packaging_version": "26.3",
+  "input_files_sha256": {
+    "scripts/check_current_arrow_providers.py": "07e606993772d340aecf2c12f8130dd95eb3b4dba2fb2b7817326525d9021419",
+    "scripts/check_current_build_providers.py": "ba5be237cb3df8c2b969fe7922afd602d4fcea575acc153a7666605531b0288b",
+    "scripts/check_current_spack_providers.py": "518e8840ed1604d39277b82f9348f95a6935a26b4fd581067b48b49ae3807b51",
+    "packaging/current/arrow-provider-sources.json": "5262e9bb7d45f69aa91b3c7e867f03ae49d2836bd635a6600f26efca957a8e4a",
+    "packaging/current/runtime-build-provider-sources.json": "0cfb5ed0c3fde68a5922d56618dd0335d2b91624f08ec92edd1bf7ce78cd2b4e",
+    "packaging/current/polars-provider-sources.json": "c85dd9ec8e193635bfa7cc59f93c9e51bfde3a5145b73477f2186efd00a30243",
+    "packaging/current/spack/packages/arrow/package.py": "ace4e659b9e335426756d13ee0cfd4e5ab74c211e0e1d8eb3cd196c3a861642b",
+    "packaging/current/spack/packages/py-libcst/package.py": "62ac6c6b00b9bc6fb123bf663ee8a07190da1b745bcac7017780105454b184b5",
+    "packaging/current/spack/packages/py-pyarrow/package.py": "00cf29fd8aec0dc8ac6222a07e7a6fd4da251c292df8b4d45662554993999721",
+    "packaging/current/spack/packages/py-cython/package.py": "c12a689a9ada091d81780a2fa70acdd3e8b724591f3c8b228f8d8abd4f5ae2e3",
+    "packaging/current/spack/packages/py-pydantic-core/package.py": "b61321e236c0154872eeeeef657f0a959ba0b255cbdbbfe9a4f67568a9f0dd11",
+    "packaging/current/spack/packages/py-polars/package.py": "6d875a7b7d43879ca0f62d48442d248936ce1f42bbf83ad31b1a7b087cae38f6",
+    "packaging/current/spack/packages/py-polars-runtime-32/package.py": "d0c8502424bfc81d4b1edcab9e1fb49b5c0c4c704a06d12eb2deceb0e135d4cc"
+  },
+  "source_artifacts": [
+    {
+      "filename": "apache-arrow-26.0.0-commit.tar.gz",
+      "bytes": 17790501,
+      "sha256": "764adbb5601a4d0d9d67a10cf04892d33cfac9fd43012f08a2d7c9956a7a90d2"
+    },
+    {
+      "filename": "cython-3.3.0.tar.gz",
+      "bytes": 3727515,
+      "sha256": "eed0d93fbca7087f143b42c34b05a825849bdf17f101572c2105acfa49aa88b8"
+    },
+    {
+      "filename": "libcst-1.9.0.tar.gz",
+      "bytes": 914739,
+      "sha256": "087b58a9afe076bb08e2d726478e1f16cb928d67ffa9092817e033c335de522a"
+    },
+    {
+      "filename": "mimalloc-v3.4.1.tar.gz",
+      "bytes": 1414101,
+      "sha256": "37107a52c16baa80c5f74861dddda7b27bb9949e41a6637691867a94c88ca446"
+    },
+    {
+      "filename": "polars-2.1.0.tar.gz",
+      "bytes": 811508,
+      "sha256": "9eee488d6e10773c028753dfc8dac647fd60a708108dcb818a733e85d33df253"
+    },
+    {
+      "filename": "polars_runtime_32-2.1.0.tar.gz",
+      "bytes": 3878004,
+      "sha256": "c575f5f3cdb8a5f9be65477b9b4202b062593687fe62a0082add87fbd4571067"
+    },
+    {
+      "filename": "pyarrow-26.0.0.tar.gz",
+      "bytes": 1239433,
+      "sha256": "0cccd36e00ea3afeb52ded61f2721ce71f604853d70c45365c58324eb773d6ae"
+    },
+    {
+      "filename": "pydantic_core-2.46.4.tar.gz",
+      "bytes": 471464,
+      "sha256": "62f875393d7f270851f20523dd2e29f082bcc82292d66db2b64ea71f64b6e1c1"
+    },
+    {
+      "filename": "simdjson-v4.6.4.tar.gz",
+      "bytes": 6679509,
+      "sha256": "b091107844fe928158c5c2265c20360fff312889ddf7ebc4528a0f0f8f2ff9cd"
+    },
+    {
+      "filename": "spack-builtin-arrow-package.py",
+      "bytes": 12824,
+      "sha256": "21f76d45d06f2927dcf537a553a4fc5558ed2b1aee79f52bb72aa903116c3d91"
+    },
+    {
+      "filename": "uriparser-1.0.2.tar.bz2",
+      "bytes": 222489,
+      "sha256": "dd2e4843f43de6f5aedf430e530f1e2d159eba8ca4d64c2787af1c20f707a9e4"
+    }
+  ],
+  "reports": {
+    "arrow": {
+      "source_declarations_qualified": true,
+      "providers_checked": 3,
+      "qualification_scope": "Authenticated source/declarations only",
+      "full_native_solver_executed": false,
+      "native_build_executed": false,
+      "installed_module_acceptance": false,
+      "profiles": [
+        {
+          "libcst_source_declaration_qualified": true,
+          "python_profile": "3.15.2",
+          "source_archive_sha256": "087b58a9afe076bb08e2d726478e1f16cb928d67ffa9092817e033c335de522a",
+          "licenses_checked": 4,
+          "spack_build_executed": false,
+          "linux_build_executed": false,
+          "full_arrow_profile_qualified": false
+        },
+        {
+          "cpp_source_declaration_qualified": true,
+          "source_archive_sha256": "764adbb5601a4d0d9d67a10cf04892d33cfac9fd43012f08a2d7c9956a7a90d2",
+          "allocator_default_preserved": true,
+          "allocator_archive_verified": false,
+          "native_build_executed": false,
+          "full_arrow_profile_qualified": false
+        },
+        {
+          "pyarrow_source_declaration_qualified": true,
+          "source_archive_sha256": "0cccd36e00ea3afeb52ded61f2721ce71f604853d70c45365c58324eb773d6ae",
+          "native_build_executed": false,
+          "installed_module_acceptance": false
+        }
+      ]
+    },
+    "build": {
+      "source_declarations_qualified": true,
+      "providers_checked": 2,
+      "native_build_executed": false,
+      "full_hpc_matrix_qualified": false
+    },
+    "polars": {
+      "source_declarations_qualified": true,
+      "providers_checked": 2,
+      "native_solver_executed": false,
+      "native_build_executed": false,
+      "installed_module_acceptance": false
+    }
+  },
+  "guard_report_sha256": "cde30b9e17f1baf4534220a994714c8c518e742ac271e667ef1884b7f3270f8a",
+  "peak_rss_kib": 3792
+}

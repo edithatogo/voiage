@@ -19,6 +19,8 @@ class PyPolarsRuntime32(PythonPackage):
     depends_on("python@3.15.2", type=("build", "run"))
     depends_on("c", type="build")
     depends_on("cxx", type="build")
+    # jemalloc's make must accept the FIFO jobserver inherited from Cargo.
+    depends_on("gmake@4.4:", type="build")
     depends_on("py-maturin@1.9:1", type="build")
     depends_on("rust-polars@=nightly-2026-09-01", type="build")
     patch("../../../polars-runtime-32-2.1.0-lock.patch", when="@2.1.0")

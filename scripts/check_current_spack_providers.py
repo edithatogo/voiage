@@ -170,9 +170,10 @@ def validate(root: Path, sources: Path) -> dict[str, object]:
                 or cargo["package"]["version"] != row["version"]
                 or cargo["features"]["default"] != row["default_features"]
                 or recipe["dependencies"].get("rust-polars@=" + channel) != ["build"]
+                or recipe["dependencies"].get("gmake@4.4:") != ["build"]
                 or recipe["environment"] != expected_environment
             ):
-                raise ValueError("Provider compiler or default features drift")
+                raise ValueError("Provider build tool or default features drift")
         elif (
             project["version"] != row["version"]
             or recipe["dependencies"].get("py-polars-runtime-32@=" + row["version"])
