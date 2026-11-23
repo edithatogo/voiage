@@ -3,6 +3,8 @@
 - Build Arrow's checksum-pinned URI parser in the Spack package to keep
   native library resolution within the qualified installation.
 
+- Check Voiage's installed Python and Rust imports during the Spack build.
+
 - Build Arrow's checksum-pinned simdjson source in Spack and locate LZ4
   in its selected installation prefix.
 
