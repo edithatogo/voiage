@@ -27,7 +27,7 @@ LICENSES = {
 # Reviewed AST digests of the two Arrow hooks (Python 3.15 ``ast.dump``); a changed
 # body must be re-reviewed because it controls allocator and inherited CMake flags.
 _ARROW_HOOK_AST_SHA256 = {
-    "cmake_args": "901fc186b6bd0193f1f9fbab8f9c4093732ed33b9ca2a0d90187c36f77319c28",
+    "cmake_args": "d816be13922ea50ded21ded57b659025c338a75cab624522ce780252d0106751",
     "setup_build_environment": "99dc4ee74c5d5036c5ca45ca35a98749d3f48ba98d0f9e79821992dbbf91d374",
 }
 

@@ -46,6 +46,8 @@ class Arrow(BuiltinArrow):
                     self.define("simdjson_SOURCE", "BUNDLED"),
                 ]
             )
+            if self.spec.satisfies("+lz4"):
+                args.append(self.define("LZ4_ROOT", self.spec["lz4"].prefix))
         return args
 
     def setup_build_environment(self, env: EnvironmentModifications) -> None:
