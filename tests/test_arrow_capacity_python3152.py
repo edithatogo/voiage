@@ -11,6 +11,10 @@ from scripts import observe_arrow_capacity as observer
 ROOT = Path(__file__).resolve().parents[1]
 OLD_INPUT = ROOT / "docs/reviews/arrow-capacity-inputs-20261029.json"
 NEW_INPUT = ROOT / "docs/reviews/arrow-capacity-inputs-20261115-python3152.json"
+PROVIDER_SNAPSHOT = (
+    ROOT / "conductor/tracks/remaining_backlog_delivery_20260831/historical/"
+    "arrow-provider-sources-20261115-python3152.json"
+)
 OLD_TOOL = (
     ROOT / "conductor/tracks/remaining_backlog_delivery_20260831/historical/"
     "observe-arrow-capacity-python3151-20261115.py.txt"
@@ -24,13 +28,13 @@ def test_new_capacity_profile_preserves_the_previous_source_evidence() -> None:
     )
     original = json.loads(original_bytes)
     current = json.loads(NEW_INPUT.read_text())
-    manifest_path = ROOT / "packaging/current/arrow-provider-sources.json"
-    manifest = json.loads(manifest_path.read_text())
+    manifest_bytes = PROVIDER_SNAPSHOT.read_bytes()
+    manifest = json.loads(manifest_bytes)
     expected = dict(original)
     expected.update(
         python_profile="3.15.2",
         provider_snapshot_commit="b0d6bc662bf1206f489fd4506b856783e6cb98d4",
-        provider_manifest_sha256=hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
+        provider_manifest_sha256=hashlib.sha256(manifest_bytes).hexdigest(),
         previous_inputs={
             "path": "docs/reviews/arrow-capacity-inputs-20261029.json",
             "sha256": hashlib.sha256(original_bytes).hexdigest(),

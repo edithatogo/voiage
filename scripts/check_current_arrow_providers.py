@@ -27,8 +27,8 @@ LICENSES = {
 # Reviewed AST digests of the two Arrow hooks (Python 3.15 ``ast.dump``); a changed
 # body must be re-reviewed because it controls allocator and inherited CMake flags.
 _ARROW_HOOK_AST_SHA256 = {
-    "cmake_args": "d41c5b38fbe77665023fd05cbc38b4a2847763e929cbd544b209d59cabdd3ad5",
-    "setup_build_environment": "7a60febc28d637618699caea868be7de95be41c99b7451793ab580582afa71e9",
+    "cmake_args": "d816be13922ea50ded21ded57b659025c338a75cab624522ce780252d0106751",
+    "setup_build_environment": "99dc4ee74c5d5036c5ca45ca35a98749d3f48ba98d0f9e79821992dbbf91d374",
 }
 
 
@@ -139,7 +139,7 @@ def validate_libcst(root: Path, sources: Path) -> dict[str, object]:
 def validate_arrow_cpp(
     root: Path, sources: Path, builtin_recipe: Path
 ) -> dict[str, object]:
-    """Check immutable C++ source and the upstream allocator resource contract."""
+    """Check immutable C++ source and the two upstream resource declarations."""
     packet = json.loads(
         (root / "packaging/current/arrow-provider-sources.json").read_text()
     )
@@ -205,6 +205,7 @@ def validate_arrow_cpp(
     ):
         raise ValueError("Arrow C++ immutable source identity drift")
     allocator = row["mimalloc"]
+    simdjson = row["simdjson"]
     resources = [
         {item.arg: ast.literal_eval(item.value) for item in node.keywords}
         for name, node in calls
@@ -219,9 +220,18 @@ def validate_arrow_cpp(
             "destination": "spack-vendor",
             "placement": {"v3.4.1.tar.gz": "mimalloc-v3.4.1.tar.gz"},
             "when": "@=26.0.0+mimalloc",
-        }
+        },
+        {
+            "name": "simdjson-4.6.4",
+            "url": simdjson["url"],
+            "sha256": simdjson["sha256"],
+            "expand": False,
+            "destination": "spack-vendor",
+            "placement": {"v4.6.4.tar.gz": "simdjson-v4.6.4.tar.gz"},
+            "when": "@=26.0.0",
+        },
     ]:
-        raise ValueError("Arrow allocator source resource drift")
+        raise ValueError("Arrow native source resource drift")
     archive = sources / row["source"]["filename"]
     with archive.open("rb") as stream:
         checksum = hashlib.file_digest(stream, "sha256").hexdigest()
@@ -262,12 +272,14 @@ def validate_arrow_cpp(
         or f"cmake_minimum_required(VERSION {row['minimum_cmake']})" not in cmake
         or f"ARROW_MIMALLOC_BUILD_VERSION={allocator['version']}" not in versions
         or f"ARROW_MIMALLOC_BUILD_SHA256_CHECKSUM={allocator['sha256']}" not in versions
+        or f"ARROW_SIMDJSON_BUILD_VERSION={simdjson['version']}" not in versions
+        or f"ARROW_SIMDJSON_BUILD_SHA256_CHECKSUM={simdjson['sha256']}" not in versions
         or not re.search(
             r'define_option\(ARROW_MIMALLOC\s+"[^"]*"\s+ON\)',
             contents["cpp/cmake_modules/DefineOptions.cmake"].decode(),
         )
     ):
-        raise ValueError("Arrow source version or default allocator contract drift")
+        raise ValueError("Arrow version, native resources or allocator contract drift")
     return {
         "cpp_source_declaration_qualified": True,
         "source_archive_sha256": checksum,

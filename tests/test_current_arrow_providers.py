@@ -161,7 +161,12 @@ def cpp_candidate(tmp_path: Path) -> tuple[Path, Path, Path]:
         "NOTICE.txt": b"Apache fixture notice",
         "cpp/CMakeLists.txt": b'cmake_minimum_required(VERSION 3.25)\nset(ARROW_VERSION "26.0.0")\n',
         "cpp/cmake_modules/DefineOptions.cmake": b'define_option(ARROW_MIMALLOC "Build the Arrow mimalloc-based allocator" ON)\n',
-        "cpp/thirdparty/versions.txt": b"ARROW_MIMALLOC_BUILD_VERSION=v3.4.1\nARROW_MIMALLOC_BUILD_SHA256_CHECKSUM=37107a52c16baa80c5f74861dddda7b27bb9949e41a6637691867a94c88ca446\n",
+        "cpp/thirdparty/versions.txt": (
+            b"ARROW_MIMALLOC_BUILD_VERSION=v3.4.1\n"
+            b"ARROW_MIMALLOC_BUILD_SHA256_CHECKSUM=37107a52c16baa80c5f74861dddda7b27bb9949e41a6637691867a94c88ca446\n"
+            b"ARROW_SIMDJSON_BUILD_VERSION=v4.6.4\n"
+            b"ARROW_SIMDJSON_BUILD_SHA256_CHECKSUM=b091107844fe928158c5c2265c20360fff312889ddf7ebc4528a0f0f8f2ff9cd\n"
+        ),
     }
     row["licenses"] = {
         name: hashlib.sha256(files[name]).hexdigest() for name in row["licenses"]
@@ -199,6 +204,7 @@ def test_cpp_source_and_allocator_are_bound_without_native_claims(
     "damage",
     [
         "resource",
+        "simdjson-resource",
         "url",
         "builtin",
         "source",
@@ -218,6 +224,13 @@ def test_cpp_profile_rejects_source_and_allocator_drift(
         recipe.write_text(
             recipe.read_text().replace(
                 "37107a52c16baa80c5f74861dddda7b27bb9949e41a6637691867a94c88ca446",
+                "0" * 64,
+            )
+        )
+    elif damage == "simdjson-resource":
+        recipe.write_text(
+            recipe.read_text().replace(
+                "b091107844fe928158c5c2265c20360fff312889ddf7ebc4528a0f0f8f2ff9cd",
                 "0" * 64,
             )
         )
@@ -248,7 +261,10 @@ def test_cpp_profile_rejects_source_and_allocator_drift(
         validate_arrow_cpp(root, sources, builtin)
 
 
-def test_allocator_hook_works_without_a_parent_package_hook(tmp_path: Path) -> None:
+@pytest.mark.parametrize("enable_mimalloc", [True, False])
+def test_arrow_resource_urls_are_available_before_staging(
+    tmp_path: Path, enable_mimalloc: bool
+) -> None:
     import ast
     from types import SimpleNamespace
 
@@ -274,19 +290,16 @@ def test_allocator_hook_works_without_a_parent_package_hook(tmp_path: Path) -> N
         namespace,
     )
     package = namespace["Arrow"]()
-    package.spec = SimpleNamespace(
-        satisfies=lambda constraint: constraint == "@=26.0.0+mimalloc"
-    )
+    compatible = {"@=26.0.0", "+mimalloc"} if enable_mimalloc else {"@=26.0.0"}
+    package.spec = SimpleNamespace(satisfies=compatible.__contains__)
     package.stage = SimpleNamespace(source_path=str(tmp_path))
-    archive = tmp_path / "spack-vendor/mimalloc-v3.4.1.tar.gz"
-    archive.parent.mkdir()
-    archive.write_bytes(b"source fixture")
+    vendor = tmp_path / "spack-vendor"
     values = {}
     package.setup_build_environment(SimpleNamespace(set=values.__setitem__))
-    assert values == {"ARROW_MIMALLOC_URL": archive.as_uri()}
-    archive.unlink()
-    with pytest.raises(RuntimeError, match="not staged"):
-        package.setup_build_environment(SimpleNamespace(set=values.__setitem__))
+    expected = {"ARROW_SIMDJSON_URL": (vendor / "simdjson-v4.6.4.tar.gz").as_uri()}
+    if enable_mimalloc:
+        expected["ARROW_MIMALLOC_URL"] = (vendor / "mimalloc-v3.4.1.tar.gz").as_uri()
+    assert values == expected
 
 
 @pytest.fixture

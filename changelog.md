@@ -1,5 +1,8 @@
 # Changelog
 
+- Build Arrow's checksum-pinned simdjson source in Spack and locate LZ4
+  in its selected installation prefix.
+
 - Record Spack as the active installed qualification and defer EasyBuild
   follow-up in the Conductor plan.
 
