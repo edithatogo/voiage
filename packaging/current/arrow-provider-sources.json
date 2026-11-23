@@ -82,6 +82,11 @@
         "version": "v4.6.4",
         "sha256": "b091107844fe928158c5c2265c20360fff312889ddf7ebc4528a0f0f8f2ff9cd",
         "url": "https://github.com/simdjson/simdjson/archive/refs/tags/v4.6.4.tar.gz"
+      },
+      "uriparser": {
+        "version": "1.0.2",
+        "sha256": "dd2e4843f43de6f5aedf430e530f1e2d159eba8ca4d64c2787af1c20f707a9e4",
+        "url": "https://github.com/uriparser/uriparser/releases/download/uriparser-1.0.2/uriparser-1.0.2.tar.bz2"
       }
     },
     "py-pyarrow": {

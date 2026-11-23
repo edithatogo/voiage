@@ -7,7 +7,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 RECEIPT = (
     ROOT / "conductor/tracks/remaining_backlog_delivery_20260831/"
-    "provider-declarations-20261123-python3152.json"
+    "provider-declarations-20261124-python3152.json"
 )
 INPUTS = {
     "scripts/check_current_arrow_providers.py",
@@ -52,6 +52,10 @@ def test_provider_receipt_authenticates_current_inputs_and_source_identities() -
                 source = arrow[resource_name]
                 filename = f"{resource_name}-{source['version']}.tar.gz"
                 expected_sources[filename] = source["sha256"]
+            uriparser = arrow["uriparser"]
+            expected_sources[f"uriparser-{uriparser['version']}.tar.bz2"] = uriparser[
+                "sha256"
+            ]
     observed_sources = {
         row["filename"]: row["sha256"] for row in receipt["source_artifacts"]
     }

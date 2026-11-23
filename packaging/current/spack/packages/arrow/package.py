@@ -34,6 +34,15 @@ class Arrow(BuiltinArrow):
         placement={"v4.6.4.tar.gz": "simdjson-v4.6.4.tar.gz"},
         when="@=26.0.0",
     )
+    resource(
+        name="uriparser-1.0.2",
+        url="https://github.com/uriparser/uriparser/releases/download/uriparser-1.0.2/uriparser-1.0.2.tar.bz2",
+        sha256="dd2e4843f43de6f5aedf430e530f1e2d159eba8ca4d64c2787af1c20f707a9e4",
+        expand=False,
+        destination="spack-vendor",
+        placement={"uriparser-1.0.2.tar.bz2": "uriparser-1.0.2.tar.bz2"},
+        when="@=26.0.0",
+    )
 
     def cmake_args(self):
         """Translate the shared variant to Arrow 26's actual CMake switches."""
@@ -44,6 +53,7 @@ class Arrow(BuiltinArrow):
                     self.define_from_variant("ARROW_BUILD_SHARED", "shared"),
                     self.define("ARROW_BUILD_STATIC", "ON"),
                     self.define("simdjson_SOURCE", "BUNDLED"),
+                    self.define("uriparser_SOURCE", "BUNDLED"),
                 ]
             )
             if self.spec.satisfies("+lz4"):
@@ -57,5 +67,6 @@ class Arrow(BuiltinArrow):
         # Spack sets up the build environment before it stages resources.
         vendor = Path(self.stage.source_path) / "spack-vendor"
         env.set("ARROW_SIMDJSON_URL", (vendor / "simdjson-v4.6.4.tar.gz").as_uri())
+        env.set("ARROW_URIPARSER_URL", (vendor / "uriparser-1.0.2.tar.bz2").as_uri())
         if self.spec.satisfies("+mimalloc"):
             env.set("ARROW_MIMALLOC_URL", (vendor / "mimalloc-v3.4.1.tar.gz").as_uri())

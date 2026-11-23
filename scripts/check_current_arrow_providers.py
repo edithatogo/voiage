@@ -27,8 +27,8 @@ LICENSES = {
 # Reviewed AST digests of the two Arrow hooks (Python 3.15 ``ast.dump``); a changed
 # body must be re-reviewed because it controls allocator and inherited CMake flags.
 _ARROW_HOOK_AST_SHA256 = {
-    "cmake_args": "d816be13922ea50ded21ded57b659025c338a75cab624522ce780252d0106751",
-    "setup_build_environment": "99dc4ee74c5d5036c5ca45ca35a98749d3f48ba98d0f9e79821992dbbf91d374",
+    "cmake_args": "1aadd23d0cc825e2e3ca424f10447517f016ddad90ec983b51de1cb4bf615b7b",
+    "setup_build_environment": "d0c915abc975c7ac7b55a09dbab5a823b35726ae9b8f1c295b8f1c44fcd882c4",
 }
 
 
@@ -139,7 +139,7 @@ def validate_libcst(root: Path, sources: Path) -> dict[str, object]:
 def validate_arrow_cpp(
     root: Path, sources: Path, builtin_recipe: Path
 ) -> dict[str, object]:
-    """Check immutable C++ source and the two upstream resource declarations."""
+    """Check immutable C++ source and the upstream resource declarations."""
     packet = json.loads(
         (root / "packaging/current/arrow-provider-sources.json").read_text()
     )
@@ -206,6 +206,7 @@ def validate_arrow_cpp(
         raise ValueError("Arrow C++ immutable source identity drift")
     allocator = row["mimalloc"]
     simdjson = row["simdjson"]
+    uriparser = row["uriparser"]
     resources = [
         {item.arg: ast.literal_eval(item.value) for item in node.keywords}
         for name, node in calls
@@ -228,6 +229,15 @@ def validate_arrow_cpp(
             "expand": False,
             "destination": "spack-vendor",
             "placement": {"v4.6.4.tar.gz": "simdjson-v4.6.4.tar.gz"},
+            "when": "@=26.0.0",
+        },
+        {
+            "name": "uriparser-1.0.2",
+            "url": uriparser["url"],
+            "sha256": uriparser["sha256"],
+            "expand": False,
+            "destination": "spack-vendor",
+            "placement": {"uriparser-1.0.2.tar.bz2": "uriparser-1.0.2.tar.bz2"},
             "when": "@=26.0.0",
         },
     ]:
@@ -274,6 +284,8 @@ def validate_arrow_cpp(
         or f"ARROW_MIMALLOC_BUILD_SHA256_CHECKSUM={allocator['sha256']}" not in versions
         or f"ARROW_SIMDJSON_BUILD_VERSION={simdjson['version']}" not in versions
         or f"ARROW_SIMDJSON_BUILD_SHA256_CHECKSUM={simdjson['sha256']}" not in versions
+        or f"ARROW_URIPARSER_BUILD_VERSION={uriparser['version']}" not in versions
+        or f"ARROW_URIPARSER_BUILD_SHA256_CHECKSUM={uriparser['sha256']}" not in versions
         or not re.search(
             r'define_option\(ARROW_MIMALLOC\s+"[^"]*"\s+ON\)',
             contents["cpp/cmake_modules/DefineOptions.cmake"].decode(),
