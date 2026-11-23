@@ -166,6 +166,8 @@ def cpp_candidate(tmp_path: Path) -> tuple[Path, Path, Path]:
             b"ARROW_MIMALLOC_BUILD_SHA256_CHECKSUM=37107a52c16baa80c5f74861dddda7b27bb9949e41a6637691867a94c88ca446\n"
             b"ARROW_SIMDJSON_BUILD_VERSION=v4.6.4\n"
             b"ARROW_SIMDJSON_BUILD_SHA256_CHECKSUM=b091107844fe928158c5c2265c20360fff312889ddf7ebc4528a0f0f8f2ff9cd\n"
+            b"ARROW_URIPARSER_BUILD_VERSION=1.0.2\n"
+            b"ARROW_URIPARSER_BUILD_SHA256_CHECKSUM=dd2e4843f43de6f5aedf430e530f1e2d159eba8ca4d64c2787af1c20f707a9e4\n"
         ),
     }
     row["licenses"] = {
@@ -296,7 +298,10 @@ def test_arrow_resource_urls_are_available_before_staging(
     vendor = tmp_path / "spack-vendor"
     values = {}
     package.setup_build_environment(SimpleNamespace(set=values.__setitem__))
-    expected = {"ARROW_SIMDJSON_URL": (vendor / "simdjson-v4.6.4.tar.gz").as_uri()}
+    expected = {
+        "ARROW_SIMDJSON_URL": (vendor / "simdjson-v4.6.4.tar.gz").as_uri(),
+        "ARROW_URIPARSER_URL": (vendor / "uriparser-1.0.2.tar.bz2").as_uri(),
+    }
     if enable_mimalloc:
         expected["ARROW_MIMALLOC_URL"] = (vendor / "mimalloc-v3.4.1.tar.gz").as_uri()
     assert values == expected

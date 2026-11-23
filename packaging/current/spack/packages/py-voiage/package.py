@@ -1,7 +1,9 @@
 """Current-runtime candidate recipe; native resolution/build remains gated."""
 
+from spack.package import EnvironmentModifications, depends_on, version
+from spack.package import license as spack_license
+from spack.util.environment import preserve_environment
 from spack_repo.builtin.build_systems.python import PythonPackage
-from spack.package import EnvironmentModifications, depends_on, license, version
 
 
 class PyVoiage(PythonPackage):
@@ -9,7 +11,7 @@ class PyVoiage(PythonPackage):
 
     homepage = "https://github.com/edithatogo/voiage"
     git = "https://github.com/edithatogo/voiage.git"
-    license("Apache-2.0")
+    spack_license("Apache-2.0")
     version("develop", commit="0a961dafd2e68a480c668b30600430d9ac71be38")
     depends_on("python@3.15.2", type=("build", "run"))
     depends_on("rust@=1.99.1", type="build")
@@ -24,11 +26,22 @@ class PyVoiage(PythonPackage):
     depends_on("py-jsonschema@4.26.0:4", type="run")
     depends_on("py-typing-extensions@4.16.0:", type="run")
     depends_on("py-typer@0.9:0", type="run")
-    import_modules = ["voiage", "voiage._core"]
+    import_modules = ("voiage", "voiage._core")
 
     def setup_build_environment(self, env: EnvironmentModifications) -> None:
+        """Set the qualified source identity for the Rust build."""
         # VCS mirrors can omit .git. Retain the qualified immutable source
         # identity; the Rust builder still rejects a conflicting Git identity.
         env.set("VOIAGE_SOURCE_REVISION", "0a961dafd2e68a480c668b30600430d9ac71be38")
         env.set("VOIAGE_SOURCE_TREE_GIT_OID", "6561ac4d928fa2bf75ff15ca19981c6e1b416018")
         env.set("VOIAGE_SOURCE_CLEAN", "true")
+
+    def test_imports(self) -> None:
+        """Run Spack's import test against the completed installation."""
+        # The build environment is assembled before pip creates site-packages.
+        # Refresh the installed package's paths for Spack's normal import test.
+        env = EnvironmentModifications()
+        self.spec["python"].package.setup_dependent_run_environment(env, self.spec)
+        with preserve_environment("PATH", "PYTHONPATH"):
+            env.apply_modifications()
+            super().test_imports()

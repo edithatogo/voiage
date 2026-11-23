@@ -206,3 +206,45 @@ def test_spack_root_keeps_qualified_identity_without_git_metadata() -> None:
     )
     assert values["VOIAGE_SOURCE_TREE_GIT_OID"] == receipt["source_tree"]
     assert values["VOIAGE_SOURCE_CLEAN"] == "true"
+
+
+def test_spack_root_runs_installed_imports_with_refreshed_paths() -> None:
+    tree = ast.parse(
+        (ROOT / "packaging/current/spack/packages/py-voiage/package.py").read_text()
+    )
+    recipe = next(node for node in tree.body if isinstance(node, ast.ClassDef))
+    imports = next(
+        node
+        for node in recipe.body
+        if isinstance(node, ast.Assign)
+        and any(
+            isinstance(target, ast.Name) and target.id == "import_modules"
+            for target in node.targets
+        )
+    )
+    assert ast.literal_eval(imports.value) == ("voiage", "voiage._core")
+
+    callback = next(
+        node
+        for node in recipe.body
+        if isinstance(node, ast.FunctionDef) and node.name == "test_imports"
+    )
+    calls = {
+        ast.unparse(node.func)
+        for node in ast.walk(callback)
+        if isinstance(node, ast.Call)
+    }
+    assert "self.spec['python'].package.setup_dependent_run_environment" in calls
+    scoped_environment = next(
+        node for node in callback.body if isinstance(node, ast.With)
+    )
+    scoped_calls = {
+        ast.unparse(node.func)
+        for node in ast.walk(scoped_environment)
+        if isinstance(node, ast.Call)
+    }
+    assert {
+        "preserve_environment",
+        "env.apply_modifications",
+        "super().test_imports",
+    } <= scoped_calls
