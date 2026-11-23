@@ -77,6 +77,11 @@
         "version": "v3.4.1",
         "sha256": "37107a52c16baa80c5f74861dddda7b27bb9949e41a6637691867a94c88ca446",
         "url": "https://github.com/microsoft/mimalloc/archive/v3.4.1.tar.gz"
+      },
+      "simdjson": {
+        "version": "v4.6.4",
+        "sha256": "b091107844fe928158c5c2265c20360fff312889ddf7ebc4528a0f0f8f2ff9cd",
+        "url": "https://github.com/simdjson/simdjson/archive/refs/tags/v4.6.4.tar.gz"
       }
     },
     "py-pyarrow": {

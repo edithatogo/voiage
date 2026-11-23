@@ -1,5 +1,8 @@
 # Changelog
 
+- Use Arrow's checksum-pinned simdjson source in the Spack build and make
+  local resource URLs available before staging.
+
 - Record Spack as the active installed qualification and defer EasyBuild
   follow-up in the Conductor plan.
 

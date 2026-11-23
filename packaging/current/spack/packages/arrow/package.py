@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
-"""Current Arrow source with the pinned upstream builder and allocator."""
+"""Current Arrow source with the pinned upstream builder and resources."""
 
 from pathlib import Path
 
@@ -25,6 +25,15 @@ class Arrow(BuiltinArrow):
         placement={"v3.4.1.tar.gz": "mimalloc-v3.4.1.tar.gz"},
         when="@=26.0.0+mimalloc",
     )
+    resource(
+        name="simdjson-4.6.4",
+        url="https://github.com/simdjson/simdjson/archive/refs/tags/v4.6.4.tar.gz",
+        sha256="b091107844fe928158c5c2265c20360fff312889ddf7ebc4528a0f0f8f2ff9cd",
+        expand=False,
+        destination="spack-vendor",
+        placement={"v4.6.4.tar.gz": "simdjson-v4.6.4.tar.gz"},
+        when="@=26.0.0",
+    )
 
     def cmake_args(self):
         """Translate the shared variant to Arrow 26's actual CMake switches."""
@@ -34,17 +43,17 @@ class Arrow(BuiltinArrow):
                 [
                     self.define_from_variant("ARROW_BUILD_SHARED", "shared"),
                     self.define("ARROW_BUILD_STATIC", "ON"),
+                    self.define("simdjson_SOURCE", "BUNDLED"),
                 ]
             )
         return args
 
     def setup_build_environment(self, env: EnvironmentModifications) -> None:
-        """Use the staged allocator archive without changing upstream defaults."""
-        # The pinned upstream package has no package environment hook.
-        if self.spec.satisfies("@=26.0.0+mimalloc"):
-            archive = (
-                Path(self.stage.source_path) / "spack-vendor/mimalloc-v3.4.1.tar.gz"
-            )
-            if not archive.is_file():
-                raise RuntimeError("The checksum-bound mimalloc source was not staged")
-            env.set("ARROW_MIMALLOC_URL", archive.as_uri())
+        """Point Arrow at the local archives Spack stages before configure."""
+        if not self.spec.satisfies("@=26.0.0"):
+            return
+        # Spack sets up the build environment before it stages resources.
+        vendor = Path(self.stage.source_path) / "spack-vendor"
+        env.set("ARROW_SIMDJSON_URL", (vendor / "simdjson-v4.6.4.tar.gz").as_uri())
+        if self.spec.satisfies("+mimalloc"):
+            env.set("ARROW_MIMALLOC_URL", (vendor / "mimalloc-v3.4.1.tar.gz").as_uri())
