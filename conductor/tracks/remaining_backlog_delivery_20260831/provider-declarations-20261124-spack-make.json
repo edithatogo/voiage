@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0",
-  "scope": "Authenticated Polars source and GNU Make declarations. Unchanged Arrow and build provider reports retain their exact inputs.",
+  "scope": "Authenticated provider declarations for the Spack GNU Make and PyArrow LZ4 build bindings.",
   "python": "3.15.2",
   "packaging_version": "26.3",
   "input_files_sha256": {
-    "scripts/check_current_arrow_providers.py": "07e606993772d340aecf2c12f8130dd95eb3b4dba2fb2b7817326525d9021419",
+    "scripts/check_current_arrow_providers.py": "1d6c062e9d2dc3b7d2efe1fd365f7f335b2d832a7f314adc9282970e870dee2e",
     "scripts/check_current_build_providers.py": "ba5be237cb3df8c2b969fe7922afd602d4fcea575acc153a7666605531b0288b",
     "scripts/check_current_spack_providers.py": "518e8840ed1604d39277b82f9348f95a6935a26b4fd581067b48b49ae3807b51",
     "packaging/current/arrow-provider-sources.json": "5262e9bb7d45f69aa91b3c7e867f03ae49d2836bd635a6600f26efca957a8e4a",
@@ -12,7 +12,7 @@
     "packaging/current/polars-provider-sources.json": "c85dd9ec8e193635bfa7cc59f93c9e51bfde3a5145b73477f2186efd00a30243",
     "packaging/current/spack/packages/arrow/package.py": "ace4e659b9e335426756d13ee0cfd4e5ab74c211e0e1d8eb3cd196c3a861642b",
     "packaging/current/spack/packages/py-libcst/package.py": "62ac6c6b00b9bc6fb123bf663ee8a07190da1b745bcac7017780105454b184b5",
-    "packaging/current/spack/packages/py-pyarrow/package.py": "00cf29fd8aec0dc8ac6222a07e7a6fd4da251c292df8b4d45662554993999721",
+    "packaging/current/spack/packages/py-pyarrow/package.py": "2f499a215c102891732c12b761bb579f60d95181e46cd1ccaddfda7a0d35b4d7",
     "packaging/current/spack/packages/py-cython/package.py": "c12a689a9ada091d81780a2fa70acdd3e8b724591f3c8b228f8d8abd4f5ae2e3",
     "packaging/current/spack/packages/py-pydantic-core/package.py": "b61321e236c0154872eeeeef657f0a959ba0b255cbdbbfe9a4f67568a9f0dd11",
     "packaging/current/spack/packages/py-polars/package.py": "6d875a7b7d43879ca0f62d48442d248936ce1f42bbf83ad31b1a7b087cae38f6",

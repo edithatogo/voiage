@@ -368,6 +368,7 @@ def test_pyarrow_source_keeps_required_components_and_native_boundary(
         "pair",
         "backend-floor",
         "libcst-floor",
+        "lz4-prefix",
         "default-override",
         "source",
     ],
@@ -394,6 +395,10 @@ def test_pyarrow_profile_rejects_capability_and_build_drift(
     elif damage == "libcst-floor":
         recipe.write_text(
             recipe.read_text().replace("py-libcst@1.9:", "py-libcst@1.8:")
+        )
+    elif damage == "lz4-prefix":
+        recipe.write_text(
+            recipe.read_text().replace('str(spec["lz4"].prefix)', '"/usr"')
         )
     elif damage == "default-override":
         recipe.write_text(
