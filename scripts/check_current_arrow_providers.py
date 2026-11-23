@@ -303,6 +303,7 @@ def validate_arrow_cpp(
 
 
 ARROW_CORE_PROFILE = "arrow@=26.0.0+brotli+bz2+compute+csv+dataset+filesystem+ipc+lz4+mimalloc+parquet+python+shared+snappy+zlib+zstd"
+_PYARROW_HOOK_AST_SHA256 = "f0333ad3041a5012481016210fb425f09c716ccecb0c32e4d00a901e3d32873d"
 
 
 def validate_pyarrow(root: Path, sources: Path) -> dict[str, object]:
@@ -345,6 +346,11 @@ def validate_pyarrow(root: Path, sources: Path) -> dict[str, object]:
     }
     tree = ast.parse(recipe_path.read_text())
     cls = next(node for node in tree.body if isinstance(node, ast.ClassDef))
+    hooks = [
+        (node.name, hashlib.sha256(ast.dump(node).encode()).hexdigest())
+        for node in cls.body
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+    ]
     modules = [
         ast.literal_eval(node.value)
         for node in cls.body
@@ -357,7 +363,7 @@ def validate_pyarrow(root: Path, sources: Path) -> dict[str, object]:
         row["native_profile"] != ARROW_CORE_PROFILE
         or recipe["dependencies"] != expected
         or recipe["environment"]
-        or any(isinstance(node, ast.FunctionDef) for node in cls.body)
+        or hooks != [("config_settings", _PYARROW_HOOK_AST_SHA256)]
         or modules
         != [
             [

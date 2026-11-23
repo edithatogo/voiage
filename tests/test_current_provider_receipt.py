@@ -7,7 +7,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 RECEIPT = (
     ROOT / "conductor/tracks/remaining_backlog_delivery_20260831/"
-    "provider-declarations-20261124-python3152.json"
+    "provider-declarations-20261124-spack-make.json"
 )
 INPUTS = {
     "scripts/check_current_arrow_providers.py",

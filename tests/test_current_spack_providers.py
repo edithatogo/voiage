@@ -96,6 +96,7 @@ def test_source_checked_providers_do_not_claim_native_acceptance(
         "pair",
         "binding",
         "sdk-contract",
+        "jobserver",
         "conditional",
     ],
 )
@@ -148,6 +149,10 @@ def test_recipe_and_source_drift_is_rejected(
                 "rust-polars@=nightly-2026-09-01", "rust@nightly"
             )
         )
+    elif damage == "jobserver":
+        manifest = root / "packaging/current/polars-provider-sources.json"
+        manifest.write_text(manifest.read_text().replace("gmake@4.4:", "gmake@4.3:"))
+        recipe.write_text(recipe.read_text().replace("gmake@4.4:", "gmake@4.3:"))
     elif damage == "conditional":
         recipe.write_text(
             recipe.read_text().replace(

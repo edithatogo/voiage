@@ -1,5 +1,10 @@
 # Changelog
 
+- Build the Spack Polars runtime with a GNU Make version that supports
+  Cargo's FIFO jobserver.
+
+- Use Arrow's selected Spack LZ4 installation when configuring PyArrow.
+
 - Build Arrow's checksum-pinned URI parser in the Spack package to keep
   native library resolution within the qualified installation.
 

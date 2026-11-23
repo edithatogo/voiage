@@ -3,6 +3,8 @@
 
 from spack_repo.builtin.build_systems.python import PythonPackage
 from spack.package import depends_on, license, version
+from spack.spec import Spec
+from spack.util.prefix import Prefix
 
 
 class PyPyarrow(PythonPackage):
@@ -38,3 +40,7 @@ class PyPyarrow(PythonPackage):
         "pyarrow.ipc",
         "pyarrow.parquet",
     ]
+
+    def config_settings(self, spec: Spec, _prefix: Prefix) -> dict[str, object]:
+        """Resolve the installed Arrow SDK against its selected LZ4 prefix."""
+        return {"cmake.define.LZ4_ROOT": str(spec["lz4"].prefix)}
