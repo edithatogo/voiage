@@ -57,3 +57,20 @@ remain valid. An accepted JLL, clean-depot tests using it, and General
 registration remain necessary for G03.4. [Yggdrasil PR #14292](https://github.com/JuliaPackaging/Yggdrasil/pull/14292)
 · [General registry snapshot](https://github.com/JuliaRegistries/General/blob/43b2e6fdfbfaaba589f32a0c200879137c05538f/Registry.toml)
 · [Voiage #1023](https://github.com/edithatogo/voiage/issues/1023)
+
+## 23 November repository verification and recovery
+
+The signed tree `3f2e7df7b3d37c5bf3b20c19dec5c993d69de73c` passed all 15 tox
+environments and 17 required hosted checks. Its squash merge
+`69a60cbf678d62f0bfb308059fc8408d35017331` has the same tree. GitHub Pages
+deployed from the completed build artifact on the first attempt.
+[PR #1398](https://github.com/edithatogo/voiage/pull/1398)
+· [Full tox](https://github.com/edithatogo/voiage/actions/runs/45079435732)
+· [Pages deployment](https://github.com/edithatogo/voiage/actions/runs/45080827061)
+
+The three local branch tips for PRs #1396, #1397 and #1398 were recovered
+in an independent Git restore before retirement. Each tree matched its
+signed merge. The SHA-256 of the private bundle is
+`6df60d59e405b1bede17583f688589932c3f67df27869c2121f929973e9bdfa6`.
+All three remote heads were already absent. The current worktrees were
+retained.

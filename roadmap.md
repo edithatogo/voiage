@@ -70,7 +70,9 @@ current-revision hosted gates remain required.
 
 Prepared track records:
 
-- `conductor/tracks/hpc_source_build_qualification_20261029/` (execution deferred except MLX/Metal; baseline Rust/LLVM source builds and installed probes accepted; full HPC matrix unaccepted)
+- Spack installed qualification is active. EasyBuild foss/2023a and foss/2024a
+  follow-up is deferred, with existing runs continuing in the background.
+  [HPC qualification track](conductor/tracks/hpc_source_build_qualification_20261029/index.md)
 - `conductor/tracks/scientific_ecosystem_alignment_20261029/` (HPC portion deferred except MLX/Metal; independent scientific delivery remains eligible)
 - [Archived MLX/Metal EVPI qualification](conductor/archive/mlx_metal_evpi_backend_20261121/index.md)
   records the ML00 no-go on the M1 Max and the follow-up memory profile.

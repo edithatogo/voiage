@@ -1141,7 +1141,7 @@ track at the top of this registry; completed repository slices stay closed.
 ---
 - [~] **Track: Rust/LLVM source builds and full HPC qualification**
   *Link: [./tracks/hpc_source_build_qualification_20261029/index.md](./tracks/hpc_source_build_qualification_20261029/index.md)*
-  Execution deferred except MLX/Metal. Compiler requirements, Linux graphs, vendor closure and baseline Rust/LLVM probes have retained evidence; full package-manager installs and downstream compiler consumption remain unaccepted.
+  Spack installed qualification is active. EasyBuild follow-up is deferred. The track retains the qualified Linux graphs, source replay and baseline compiler probes.
 
 ---
 - [~] **Track: Scientific ecosystem alignment (voiage)**
