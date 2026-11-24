@@ -1,5 +1,8 @@
 # Changelog
 
+- Qualify the optional Voiage backend against tobac's frozen M2 retail case
+  with both packages installed on Python 3.15.2.
+
 - Archive the repository closeout track with the verified recovery and final
   inventory. Further native qualification remains on the HPC roadmap.
 

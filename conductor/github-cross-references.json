@@ -5873,7 +5873,7 @@
       "track_id": "tobac_consumer_qualification_20261025",
       "metadata_track_id": "tobac_consumer_qualification_20261025",
       "path": "conductor/tracks/tobac_consumer_qualification_20261025",
-      "lifecycle": "new",
+      "lifecycle": "active",
       "issue": {
         "number": 1193,
         "url": "https://github.com/edithatogo/voiage/issues/1193",
@@ -5881,8 +5881,45 @@
       },
       "parent_issue_url": "https://github.com/edithatogo/tobac/issues/22",
       "subissues": [],
-      "pull_requests": [],
-      "pull_request_evidence": "Planning registration; publication reference will be recorded separately."
+      "pull_requests": [
+        {
+          "number": 1194,
+          "url": "https://github.com/edithatogo/voiage/pull/1194",
+          "status": "merged",
+          "evidence": [
+            "merge-commit:1f103a1a169d1e7c90c9d3c4b9a6b60c8e6b9223",
+            "Registered the named consumer qualification track."
+          ]
+        },
+        {
+          "number": 1237,
+          "url": "https://github.com/edithatogo/voiage/pull/1237",
+          "status": "merged",
+          "evidence": [
+            "merge-commit:1d3c0b69fc867f0d38f3deeeb51a7afe85130d9e",
+            "Delivered the first installed consumer evidence."
+          ]
+        },
+        {
+          "number": 1252,
+          "url": "https://github.com/edithatogo/voiage/pull/1252",
+          "status": "merged",
+          "evidence": [
+            "merge-commit:11528ca371f0ab8494c90e7cd37aa328134b2857",
+            "Qualified the installed weighted EVPI candidate and near-tie cases."
+          ]
+        },
+        {
+          "number": 1301,
+          "url": "https://github.com/edithatogo/voiage/pull/1301",
+          "status": "merged",
+          "evidence": [
+            "merge-commit:9f53fcb33bc4e40c5a84f3b3fc31f3287f1f1a3b",
+            "Verified the default tobac adapter with published Voiage 3.1.0."
+          ]
+        }
+      ],
+      "pull_request_evidence": "Registration and installed candidate deliveries are merged. The plan links the installed M2 workflow receipt."
     },
     {
       "track_id": "hpc_source_build_qualification_20261029",

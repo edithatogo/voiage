@@ -26,7 +26,7 @@ compatibility. tobac owns domain-specific decisions and scientific applicability
 2. Write consumer and independent-oracle tests before semantic changes. State permutation, normalisation, structure grouping, dependent reports, shared-cost accounting, near-tie decisions, independent exact oracles and explicit float64 backend parity.
 3. Exercise real installed artifacts outside the checkout/sibling editable sources; record
    command, exit status, imported paths, revisions, input/output hashes and schema versions.
-4. Qualify explicitly selected repo-local Python 3.15.1 before future Python implementation,
+4. Verify the explicitly selected repo-local Python 3.15.2 for current Python implementation,
    retaining native binding ownership and honest dependency blockers. No downgrade/build bypass.
 5. Preserve canonical reference/evidence hashes, precision contracts, schema migration and
    rollback. Stochastic agreement is not established by matching backend seeds alone.

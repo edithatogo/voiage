@@ -3,13 +3,13 @@
   "type": "refactor",
   "status": "in_progress",
   "created_at": "2026-10-25T12:25:29Z",
-  "updated_at": "2026-11-01T08:11:00Z",
+  "updated_at": "2026-11-24T08:19:52Z",
   "description": "tobac weighted VOI consumer qualification",
   "base_commit": "ca3f05cc8adcc74b99fe236152327d0cd3679553",
   "implementation_authorized": true,
-  "implementation_state": "installed_candidate_qualified_for_documented_cases",
+  "implementation_state": "installed_m2_retail_workflow_qualified",
   "approval_scope": "User authorised implementation, review and archival on 29 October 2026; publication and external messages remain outside scope",
-  "master_track": "https://github.com/edithatogo/tobac/tree/5ff282d06d9b04477266b26907fe039572e11877/conductor/tracks/scientific_ecosystem_20261025",
+  "master_track": "https://github.com/edithatogo/tobac/tree/fe06ef5958ba0f218317a738fe8de95973300a12/conductor/archive/scientific_ecosystem_20261025",
   "github_issue": "https://github.com/edithatogo/voiage/issues/1193",
   "existing_work": [
     "conductor/archive/remaining_backlog_delivery_20260831/index.md",
@@ -19,5 +19,6 @@
   "github_cross_reference": {
     "issue": "https://github.com/edithatogo/voiage/issues/1193"
   },
-  "master_issue": "https://github.com/edithatogo/tobac/issues/22"
+  "master_issue": "https://github.com/edithatogo/tobac/issues/22",
+  "current_qualification": "evidence/installed-m2-retail-20261124/README.md"
 }
