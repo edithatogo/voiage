@@ -107,7 +107,9 @@ def _track_text(track_id: str) -> str:
 def test_registry_exactly_matches_active_track_directories() -> None:
     """Every active directory is registered and every active link resolves."""
     registry = _read("conductor/tracks.md")
-    local_ids = {path.name for path in Path("conductor/tracks").iterdir() if path.is_dir()}
+    local_ids = {
+        path.name for path in Path("conductor/tracks").iterdir() if path.is_dir()
+    }
     cross_references = json.loads(_read("conductor/github-cross-references.json"))
     deferred_ids = {
         track["track_id"]
