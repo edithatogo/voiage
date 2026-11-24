@@ -1,12 +1,17 @@
 # Implementation plan — tobac consumer qualification
 
 The original planning-only hold was superseded by the user's 29 October
-direction to implement, review and archive this track. Current candidate results are in the [November qualification packet](evidence/installed-20261101/README.md).
+direction to implement, review and archive this track. The [installed M2 retail
+workflow](evidence/installed-m2-retail-20261124/README.md) passed on 24 November.
+Earlier candidate results are in the [November qualification packet](evidence/installed-20261101/README.md).
 [Specification](spec.md). [Repository workflow](../../workflow.md).
 
 ## Phase 1 — Consumer reconciliation
 
-- [ ] Task P1.1: Refresh producer/master revisions, ownership and current contracts.
+- [x] Task P1.1: Refresh producer/master revisions, ownership and current contracts.
+  The [current master record](https://github.com/edithatogo/tobac/tree/fe06ef5958ba0f218317a738fe8de95973300a12/conductor/archive/scientific_ecosystem_20261025)
+  retains tobac ownership of the domain model. Its first Voiage use is the
+  frozen M2 retail case through the published 3.1.0 optional backend.
 - [x] Task P1.2: Map consumer requirements to existing behavior and evidenced gaps.
 - [ ] Task P1.3: Write failing consumer and independent-oracle tests before changes.
   - [ ] Map master R11.1–R11.5 to existing parameter/model/execution contracts; write round-trip, invalid-input, scenario-isolation, input-mutation and I/O-independent calculation cases.
@@ -23,7 +28,9 @@ direction to implement, review and archive this track. Current candidate results
 ## Phase 3 — Installed consumer and evidence
 
 - [x] Task P3.1: Build and install independent artifacts; verify actual import/artifact identities.
-- [ ] Task P3.2: Execute consumer contracts, negative cases, precision and scientific invariants.
+- [~] Task P3.2: Execute consumer contracts, negative cases, precision and scientific invariants.
+  - [x] Qualify the [installed frozen M2 retail EVPI workflow](evidence/installed-m2-retail-20261124/README.md)
+    with both wheels, the frozen reference, reversed state order and error controls.
   - [ ] Prove a bounded extension preserves reference scenarios and record resolved parameters, provenance, model/schema identity and execution settings separately (R11.1–R11.5).
 - [ ] Task P3.3: Review existing engineering/context/security controls; add only justified gaps.
 - [ ] Task P3.4: Phase verification and checkpoint under the repository workflow.

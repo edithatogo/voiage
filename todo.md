@@ -758,6 +758,9 @@ as recorded in the active task above; earlier route decisions below are historic
 
 ## Done
 
+- [x] Qualify the [installed tobac M2 retail EVPI workflow](conductor/tracks/tobac_consumer_qualification_20261025/evidence/installed-m2-retail-20261124/README.md)
+  against the frozen case through published Voiage 3.1.0.
+
 *   [x] Finish B12–B14 and archive [Remaining Backlog Delivery](conductor/archive/remaining_backlog_delivery_20260831/index.md)
     (#1053). The track covers dependency delivery and Codecov controls (#656),
     measured opt-in testing (#1028), HPC recipes (#1025), issue reconciliation,

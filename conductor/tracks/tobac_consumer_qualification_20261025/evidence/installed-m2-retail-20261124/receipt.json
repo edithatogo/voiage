@@ -1,0 +1,115 @@
+{
+  "observed_at_utc": "2026-11-24T08:19:52Z",
+  "status": "passed",
+  "consumer_repository": "https://github.com/edithatogo/tobac",
+  "consumer_source": {
+    "sha": "fe06ef5958ba0f218317a738fe8de95973300a12",
+    "tree": "40892de77d11b0c62d6769709ccbfec3a6c16459",
+    "verified": true
+  },
+  "provider_release": "https://github.com/edithatogo/voiage/releases/tag/v3.1.0",
+  "provider_wheel_registry": "https://pypi.org/project/voiage/3.1.0/#files",
+  "voiage_repository_base": "dbd5880836204adfbe28a4fe663b9a85a8d933b5",
+  "runtime": {
+    "python": "3.15.2",
+    "platform": "macOS-27.2.1-arm64-arm-64bit-Mach-O",
+    "dependencies": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "polars": "2.1.0",
+      "pyarrow": "26.0.1",
+      "pytest": "9.2.0"
+    }
+  },
+  "artifacts": {
+    "tobac-regulatory-research": {
+      "version": "0.2.0",
+      "wheel": "tobac_regulatory_research-0.2.0-py3-none-any.whl",
+      "wheel_sha256": "ffbb0d91d6d4c9487f8302bf1ba9be1d017ca070e9f6543c2f5a1fc04f089449",
+      "installed_wheel_members_verified": 45,
+      "installed_module": "tobac/retail_case.py",
+      "installed_module_sha256": "248ec4ed391440ce8277f4e31dc30ace0586cc30ab1ac8ced524b1dae8558ff5"
+    },
+    "voiage": {
+      "version": "3.1.0",
+      "wheel": "voiage-3.1.0-cp315-abi3-macosx_11_0_arm64.whl",
+      "wheel_sha256": "ca1a625ea2e0f6c63ffd306f19cb62c1c69242643164553d5ca633e94146eb5b",
+      "installed_wheel_members_verified": 198,
+      "installed_module": "voiage/_core.abi3.so",
+      "installed_module_sha256": "281903924effb5d54ff3dda03f285aa2e287d16bbb25daec9ee82326ae6ba31a"
+    }
+  },
+  "scenario": {
+    "schema": "tobac.m2.retail.v1",
+    "case": "source_shape_partial_replacement",
+    "crime_weight": 1.0,
+    "quit_nodes": 4,
+    "transport": 1.0,
+    "null_weight": 0.2,
+    "lawful_replacement": 0.5,
+    "states": 20480,
+    "action_names": [
+      "reference",
+      "retail_restriction",
+      "restriction_plus_support",
+      "expanded_cessation"
+    ],
+    "value_unit": "normalised decision units; not NZD or QALYs",
+    "prior": "equal weights",
+    "problem_sha256": "654e67e043f5db4aefbfa9d966a0717a5ba5a5788adcc9a23851e5814cba8f8f",
+    "source_files_sha256": {
+      "results/milestone2/summary.csv": "cb0d1372173bc3d4a2dfa30a7fd07d8d5e15ad0391cb32a7cc1a5e8c4c67c5da",
+      "configs/m2_retail.json": "925746a584e0f986e22b7848bd8fac50ae7fb6ae5e06a1cd8d4bad2742192b3f",
+      "configs/regulatory.json": "8fff72e501726af284d5b07bf61a40e803bb6fc41da767f49f77ecc7ec4eaaa7",
+      "tests/engineering/test_voiage_installed.py": "49734823f41c2cbdf48e1d1f024fef628837270395d444bd3b79e534c912a830"
+    }
+  },
+  "result": {
+    "frozen_evpi": 0.06181538352544022,
+    "tobac_reference_evpi": 0.06181538352544015,
+    "installed_voiage_evpi": 0.06181538352543689,
+    "installed_voiage_evpi_reversed_states": 0.06181538352543689,
+    "installed_absolute_difference": 3.3306690738754696e-15,
+    "rtol": 1e-10,
+    "atol": 1e-10,
+    "unchanged_inputs": true,
+    "negative_controls": [
+      "nonuniform prior rejected by the M2 route",
+      "mismatched producer version rejected"
+    ]
+  },
+  "result_sha256": "ea5c65192144879e29730c596092d5e9a8216f31e56cb4b7f533e83c947853bf",
+  "source_lock_sha256": {
+    "voiage-published-requirements.txt": "6492ec2879c02165957484c34c6b1c32329b42f89a1ac9b9d3e71c45e1699eee",
+    "requirements.lock": "25d97048035b6643d0f4a0ed0550bfabe62364261b63b02466e2d5f92c793ab1"
+  },
+  "build": {
+    "source_date_epoch": 1795358010,
+    "setuptools": "84.2.1"
+  },
+  "installation": {
+    "editable": false,
+    "hash_checked": true,
+    "dependency_check": "passed",
+    "imports_verified_in_installed_environment": true
+  },
+  "replay": {
+    "test": "tests/engineering/test_voiage_installed.py::test_installed_release_matches_frozen_m2_retail_evpi",
+    "passed": 1,
+    "failures": 0,
+    "skips": 0,
+    "exit_status": 0,
+    "resource_guard": {
+      "install": {
+        "returncode": 0,
+        "elapsed_seconds": 6.208,
+        "peak_rss_kib": 148080
+      },
+      "replay": {
+        "returncode": 0,
+        "elapsed_seconds": 30.447,
+        "peak_rss_kib": 200720
+      }
+    }
+  }
+}
