@@ -5824,7 +5824,7 @@
       "track_id": "hpc_source_build_qualification_20261029",
       "metadata_track_id": "hpc_source_build_qualification_20261029",
       "path": "conductor/tracks/hpc_source_build_qualification_20261029",
-      "lifecycle": "active",
+      "lifecycle": "deferred",
       "issue": {
         "number": 1222,
         "url": "https://github.com/edithatogo/voiage/issues/1222",
@@ -5836,13 +5836,23 @@
         {
           "number": 1218,
           "url": "https://github.com/edithatogo/voiage/pull/1218",
-          "status": "open",
+          "status": "merged",
           "evidence": [
-            "planning packet; hosted checks pending"
+            "merge-commit:961b982a40c303588d2bcb7d8c5eca2b07ba9be2",
+            "Registered the native qualification plan."
+          ]
+        },
+        {
+          "number": 1403,
+          "url": "https://github.com/edithatogo/voiage/pull/1403",
+          "status": "merged",
+          "evidence": [
+            "merge-commit:9a304c95704dc9a6872137b6d34cb4d8e9d9c1d6",
+            "Passing Colab Spack installed qualification."
           ]
         }
       ],
-      "pull_request_evidence": "Track registration and native acceptance remain pending."
+      "pull_request_evidence": "The plan and installed Spack receipt are merged. Remaining HPC acceptance is deferred to the roadmap."
     },
     {
       "track_id": "scientific_ecosystem_alignment_20261029",
@@ -5876,7 +5886,7 @@
       "issue": {
         "number": 1369,
         "url": "https://github.com/edithatogo/voiage/issues/1369",
-        "state": "open"
+        "state": "closed"
       },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1221",
       "relationship_evidence": "GitHub issue parent readback confirms the native sub-issue relationship.",
@@ -5908,6 +5918,15 @@
             "merge-commit:8b76568b7313e30189bdb828563ca55374239af3",
             "Both tested routes failed the frozen ML00 fallback p95 criterion.",
             "https://github.com/edithatogo/voiage/issues/1369#issuecomment-7057775267"
+          ]
+        },
+        {
+          "number": 1377,
+          "url": "https://github.com/edithatogo/voiage/pull/1377",
+          "status": "merged",
+          "evidence": [
+            "merge-commit:e0fea6893a8298609b8abdb37b82733a393634d8",
+            "Archived feasibility and the follow-up memory profile."
           ]
         }
       ],

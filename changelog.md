@@ -1,5 +1,8 @@
 # Changelog
 
+- Move remaining HPC qualification to the roadmap and let repository closeout
+  proceed with the completed Colab Spack and MLX feasibility evidence retained.
+
 - Run the Spack Voiage import test with the installed runtime dependencies
   available through the package's normal load environment. Link the Rust
   extension through Spack's C compiler so it uses the selected GCC runtime.

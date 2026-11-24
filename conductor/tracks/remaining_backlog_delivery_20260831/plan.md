@@ -1,10 +1,8 @@
 # Implementation Plan: Remaining Backlog Delivery
 
-Current disposition: [5 November reconciliation](../../reconciliation-20261105.md).
-The Colab Spack qualification passed. EasyBuild follow-up remains deferred.
-See the [14 November checkpoint](b8-b13-checkpoint-20261114.md) for the
-current B8 repository verification, the B13 inventory and scoped B12 cleanup.
-The installed HPC matrix, remaining cleanup and whole-track review are open.
+Current disposition: [24 November reconciliation](../../reconciliation-20261124.md).
+Spack passed on Colab. The [HPC roadmap](../../../roadmap.md#deferred-hpc-qualification)
+owns the remaining native matrix. Repository closeout proceeds with B12–B14.
 
 ## Phase 1 — Audit and recovery
 
@@ -24,20 +22,20 @@ The installed HPC matrix, remaining cleanup and whole-track review are open.
   measure opt-in serial test acceleration for #1028 (AC2).
   Later evidence: PR #1059 (79072731), closed #1028, and
   [delivery checkpoint](./delivery-checkpoint-20260901.md).
-- [~] B6: Test recipe and installed-source behavior, then complete current
-  Spack/EasyBuild packages and unsubmitted upstream packets for #1025 (AC2).
+- [x] B6: Deliver and validate the current repository source and recipes for
+  #1025, and retain the passing installed Colab Spack evidence (AC2).
   - [x] B6.1: Qualify an immutable current source archive with provenance,
     runtime/dependency and actual runtime-file integrity witnesses; see the
     2026-10-28 continuation audit and handoff. Accepted in PR #1212 at
-    `7f0feacc`; reviewed and merged trees match. This does not close B6.
-  - [~] B6.2: Bind current recipes to the qualified source; obtain actual native
-    solver/build/installed-module evidence and the required compiler matrix.
+    `7f0feacc`; reviewed and merged trees match.
+  - [x] B6.2: Bind current recipes to the qualified source and retain the
+    delivered Linux graph, source/vendor, compiler and installed Spack receipts.
     The [installed Spack receipt](../hpc_source_build_qualification_20261029/installed-spack-colab-20261124.md)
-    records the passing Spack cell. Both EasyBuild generations remain deferred.
+    records the passing Spack cell. The remaining compiler, capacity,
+    EasyBuild and upstream work is tracked on the HPC roadmap.
     Polars frontend/runtime source declarations were delivered in PR #1214.
     Dated Rust source/bootstrap bindings and stable compiler-role separation
-    were accepted in PR #1215 (`e336cd9f`); Arrow providers, native builds
-    and the full matrix remain open.
+    were accepted in PR #1215 (`e336cd9f`), ahead of the later graph and build work.
     Source slices: stable compiler roles `07c556ec`, dated source/bootstrap
     binding `1d9be54d`; upstream licensing retained separately. See the dated
     compiler receipt and review. All 15 local tox environments pass; protected
@@ -46,9 +44,9 @@ The installed HPC matrix, remaining cleanup and whole-track review are open.
     PR #1261 qualifies the bounded source/vendor closure; PR #1262 builds
     and probes both baseline source Rust/LLVM roles. The 3 November review
     verified 953 retained file bindings, including declared decompressed bytes.
-    Compiler binaries were not retained. Effective package-manager settings
-    and full installed/generation-isolation acceptance remain open; see
-    [review reconciliation](./review-reconciliation-20261103.json).
+    Compiler binaries were not retained. See the
+    [3 November review](./review-reconciliation-20261103.json) for that checkpoint's
+    open effective settings and installed acceptance requirements.
     The 22 November Colab run resolved the Spack graph and fetched 132
     archives before the pinned catalogue rejected Python 3.15.2 without
     a digest. The Spack overlay now extends the pinned upstream Python
@@ -91,13 +89,14 @@ The installed HPC matrix, remaining cleanup and whole-track review are open.
     [2024a failure receipt](https://github.com/edithatogo/voiage/actions/runs/45034305228/job/137244514082).
 - [x] B7: Complete remaining R, governance, identifier and venue preparation;
   retain external acceptance requirements (AC2, AC4).
-- [~] B8: Review all changes, run full tox and relevant language-native checks,
+- [x] B8: Review repository changes, run full tox and relevant language-native checks,
   and record failures and subsequent verification without weakening gates (AC2).
   Repository and source-binding verification is recorded in the
   [22 November checkpoint](engineering-closeout-20261122.md). The exact tree
   merged in #1386 passed all 15 local tox environments and required hosted
-  checks. The Colab Spack cell passed installed qualification. Both installed
-  EasyBuild cells remain open under the deferral.
+  checks. The Spack evidence in #1403 also passed all
+  [15 tox environments](https://github.com/edithatogo/voiage/actions/runs/45270206429)
+  and all 17 required checks. Each later PR retains its normal verification gates.
   The [3 November full-gate attempts](./evidence/local-gate-20261103/manifest.json)
   retain the interpreter-selection failure and subsequent free-space stop.
 
@@ -117,17 +116,20 @@ The installed HPC matrix, remaining cleanup and whole-track review are open.
   The independently restored 14 November bundle covered two tree-identical
   retired branch tips. The 22 November restore verified four more integrated
   branch tips before retirement. The three Spack repair tips for #1400–#1402
-  were independently restored and retired. Remaining scope includes owner-held
-  worktrees and refs.
+  were independently restored and retired. Settle the disposition of remaining
+  refs and worktrees. Retain active or owner-held work with its ownership recorded.
 - [~] B13: Re-query final inventories and document all unfinished requirements
   before assessing the complete user goal (AC6).
   The [22 November inventory](b13-inventory-20261122.json) binds open PRs,
   issues and refs after scoped branch retirement.
-  Final closeout requires a snapshot after remaining delivery and cleanup.
+  The [24 November reconciliation](../../reconciliation-20261124.md) records
+  the latest status review. Capture the terminal inventory after the remaining
+  repository delivery and eligible cleanup.
 - [~] B14: Review final receipts and run Conductor/cross-reference validation;
   archive only when this track's acceptance criteria are satisfied (AC6).
   Registry and cross-reference validation passed for the current checkpoint.
-  The final receipt awaits both EasyBuild installed passes and final inventory.
+  The final receipt awaits the repository inventory and B12 dispositions.
+  The deferred HPC track retains its own native acceptance and archival gate.
 
 ## Review fixes — current source qualification
 
@@ -156,23 +158,12 @@ The installed HPC matrix, remaining cleanup and whole-track review are open.
 
 ## Build capacity follow-up
 
-The [capacity plan](./capacity-plan.md) retains both EasyBuild generations and
-source-built compiler qualification. The integrator has brought the measurement
-guard, budget validator and retained pilot evidence into the local candidate.
+The [capacity plan](./capacity-plan.md) retains the B6-CAP1–B6-CAP4 support
+decision and pilot evidence. The [HPC roadmap](../../../roadmap.md#deferred-hpc-qualification)
+owns the remaining terminal capacity packet, source staging and measured build
+budgets. B12 retains preservation-backed repository cleanup.
 
-- [~] B6-CAP1: Reconcile the accepted support scope and corrected admission
-  requirement with the terminal capacity packet.
-- [~] B6-CAP2: Retain the Polars and Arrow pilot observations; source compiler
-  and full native graph measurements remain pending.
-- [ ] B6-CAP3: Qualify immutable source staging, cleanup and cache reuse on
-  matched inputs without sharing mutable build roots.
-- [ ] B6-CAP4: Publish workload-specific budgets only after representative
-  successful measurements and explicit headroom are established.
-
-B8 consumes capacity receipts alongside behavioural checks; B12 retains
-preservation-backed cleanup ownership. These tasks do not close native acceptance.
-
-## Current B8 verification — 3 November 2026
+## B8 verification checkpoint — 3 November 2026
 
 The interpreter-selection fix uses `[testenv] runner = virtualenv` and the
 explicit `VOIAGE_TOX_PYTHON` repo-local executable. All 15 environments verified
@@ -187,8 +178,8 @@ The first failing full run remains retained; it is not retrospectively a pass.
 resource receipts bind both sources, configurations, commands and raw artifact
 hashes. Verification used a standard Git worktree on the external SSD; the
 8 GiB reserve was preserved, with over 15 GiB minimum free on the final rerun.
-No system or shared artifacts were deleted. Full installed HPC matrix, hosted
-delivery and final cleanup/audit requirements remain open; B8 stays in progress.
+At that checkpoint the installed matrix, hosted delivery and final audit were
+open. The current status is recorded in the B8 task above.
 
 ## Native continuation — 5 November 2026
 

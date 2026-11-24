@@ -1,5 +1,7 @@
 # Delivery reconciliation — 5 November 2026
 
+See the [24 November reconciliation](./reconciliation-20261124.md) for current priorities.
+
 ## Current direction
 
 The maintainer deferred HPC work on 5 November, except MLX/Metal extensions.

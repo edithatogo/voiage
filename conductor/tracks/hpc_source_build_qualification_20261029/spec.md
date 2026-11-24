@@ -7,11 +7,11 @@ qualification path for the complete current Voiage HPC graph, with measured
 capacity and retained native acceptance evidence. Planning was requested on
 29 October 2026; this document does not claim implementation or build success.
 
-This is the execution breakdown for the remaining HPC gate in
-[remaining backlog delivery](../remaining_backlog_delivery_20260831/index.md),
-including issue #1025. It does not supersede unrelated backlog work or duplicate
-completed component pilots. Parent closure must consume this track's acceptance
-receipt; neither record may declare the native gate complete independently.
+This is the execution breakdown for the remaining HPC work in #1222 and #1025.
+The [24 November reconciliation](../../reconciliation-20261124.md) deferred it
+to the roadmap. [Remaining Backlog Delivery](../remaining_backlog_delivery_20260831/index.md)
+retains completed repository and Spack evidence and can close independently.
+This track retains all native acceptance criteria and completed component pilots.
 
 ## Requirements
 
@@ -84,7 +84,7 @@ recorded scope decision, never an omitted test or inferred exception.
 - AC6: Correctness and security/automation agent reviews are complete, fixes and
   affected checks pass, required local/hosted gates pass for the integrated tree,
   and durable sanitized receipts survive hosted artifact expiration. The
-  integrator reconciles the parent gate, merges and only then archives.
+  integrator records the native result, merges and only then archives this track.
 
 ## Evidence and operational constraints
 

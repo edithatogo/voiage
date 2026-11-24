@@ -27,8 +27,8 @@ This document lists the actionable tasks for `voiage` development. Agents should
   [CI efficiency changes](conductor/tracks/agent_safe_engineering_20260907/ci-efficiency-20261115/index.md).
   PR #1332 passed its local and hosted gates; an end-to-end speedup is not yet claimed.
 
-Current priority: [5 November reconciliation](conductor/reconciliation-20261105.md).
-HPC is deferred except MLX/Metal; retain unsatisfied native acceptance gates.
+Current priority: [24 November reconciliation](conductor/reconciliation-20261124.md).
+Further HPC work is deferred to the [roadmap](roadmap.md#deferred-hpc-qualification).
 The ordered engineering list below is historical navigation: its first five
 implementation tracks are complete; parent review and optional telemetry are separate.
 
@@ -40,18 +40,9 @@ implementation tracks are complete; parent review and optional telemetry are sep
 
 - [x] Qualify the bounded Linux Cargo/compiler-source and vendor checkpoint with authenticated inputs, offline replay and retained source/resource receipts. Full native HPC acceptance remains open.
 
-- [~] Complete the installed HPC matrix before final archival. The Colab Spack
-  cell passed. EasyBuild foss/2023a and foss/2024a remain deferred.
-  [HPC qualification track](conductor/tracks/hpc_source_build_qualification_20261029/index.md)
-  - At the 5 November checkpoint, isolation/profile and named
-    sudo/Lmod/source-attempt repairs had merged in
-    #1268 and #1269. Both backends passed fifteen admission controls. Both repaired
-    EasyBuild source graphs now pass authenticated offline replay and full tox
-    at `63030a42e`. Earlier failures remain retained; fresh Spack solves also pass.
-    Spack also passes offline replay, then stops at Boost b2 SIGSEGV on WSL;
-    Colab was stopped on deferral and Pleiades became unreachable; no completed
-    WSL cleanup is claimed. Final docs/runtime selection checks and installed
-    acceptance remain open.
+- [~] Finish B12–B14 of [Remaining Backlog Delivery](conductor/tracks/remaining_backlog_delivery_20260831/plan.md).
+  Resolve the remaining repository PR dispositions, verify eligible cleanup
+  and the final inventory, then validate and archive the repository track.
 
 - [x] Add local verification resource limits and termination receipts before
   continuing Python 3.15.1 acceptance testing.
@@ -1516,5 +1507,5 @@ Release and base installed-package qualification are complete. See
 
 - [x] Qualify all three Linux dependency graphs with source-bound and resource-bound
   receipts (PR #1260). Native source/build/install acceptance remains open.
-- [ ] Next HPC step: qualify complete source/vendor fetching for the current
-  compiler and Cargo provider candidates before dispatching bounded native builds.
+- [x] Qualify the bounded Linux compiler and Cargo provider source/vendor
+  replay. [Source/vendor receipt](conductor/tracks/hpc_source_build_qualification_20261029/review-source-vendor-20261102.md)

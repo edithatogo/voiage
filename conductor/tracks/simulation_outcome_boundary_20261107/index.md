@@ -9,7 +9,7 @@ Status: new; all implementation leaves are pending.
 - [GitHub issue #1283](https://github.com/edithatogo/voiage/issues/1283)
 - [Innovation/VOP handoff #1286](https://github.com/edithatogo/voiage/issues/1286)
 - [Scientific ecosystem alignment owner](../scientific_ecosystem_alignment_20261029/index.md)
-- [Existing execution disposition](../../reconciliation-20261105.md)
+- [Current execution priorities](../../reconciliation-20261124.md)
 
 The issue cites [#1221](https://github.com/edithatogo/voiage/issues/1221) as its
 parent workstream; this records an issue-body cross-reference, not a verified

@@ -1,7 +1,8 @@
 # Project Tracks
 
-The Colab Spack installed qualification passed. EasyBuild follow-up remains deferred.
-[5 November reconciliation](./reconciliation-20261105.md)
+See the [24 November reconciliation](./reconciliation-20261124.md) for the
+remaining repository closeout. Further HPC qualification is on the
+[roadmap](../roadmap.md#deferred-hpc-qualification), with the Colab Spack pass retained.
 
 The pre-submission comprehensive hardening programme completed on 2026-08-30.
 Historical and superseded tracks retain their evidenced lifecycle and
@@ -12,9 +13,9 @@ were not active Conductor implementation tasks.
 ## [~] Track: Remaining Backlog Delivery
 *Link: [./tracks/remaining_backlog_delivery_20260831/index.md](./tracks/remaining_backlog_delivery_20260831/index.md)*
 *GitHub: [issue #1053](https://github.com/edithatogo/voiage/issues/1053).*
-*Status: in progress — authorized remaining technical repairs, protected PR
-delivery, issue reconciliation and recovery-backed cleanup. Historical tracks
-and unsatisfied scientific, venue and registry gates retain their evidence.*
+*Status: in progress — finish protected repository delivery, issue reconciliation,
+recovery-backed cleanup and the final inventory. The HPC roadmap owns outstanding
+native qualification.*
 
 ---
 
@@ -1140,21 +1141,16 @@ track at the top of this registry; completed repository slices stay closed.
   GitHub: https://github.com/edithatogo/voiage/issues/1193
 
 ---
-- [~] **Track: Rust/LLVM source builds and full HPC qualification**
-  *Link: [./tracks/hpc_source_build_qualification_20261029/index.md](./tracks/hpc_source_build_qualification_20261029/index.md)*
-  The Colab Spack installed qualification passed. Both EasyBuild generations remain deferred.
-
----
 - [~] **Track: Scientific ecosystem alignment (voiage)**
   *Link: [./tracks/scientific_ecosystem_alignment_20261029/index.md](./tracks/scientific_ecosystem_alignment_20261029/index.md)*
-  Stable Rust 1.99.1 candidate and cross-project adapters under qualification; full HPC acceptance remains open.
+  Repository and cross-project consumer qualification continues independently of the HPC roadmap.
 
 ---
 
 - [ ] **Track: Optional simulation-outcome boundary for cross-domain VOI**
   *Link: [./tracks/simulation_outcome_boundary_20261107/index.md](./tracks/simulation_outcome_boundary_20261107/index.md)*
   Planning complete; eight implementation leaves pending. Existing scientific
-  alignment retains provider/pin ownership; HPC deferral except MLX/Metal stays.
+  alignment retains provider and pin ownership.
   GitHub: https://github.com/edithatogo/voiage/issues/1283
 
 ---

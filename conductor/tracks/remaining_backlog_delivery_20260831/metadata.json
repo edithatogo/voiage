@@ -3,7 +3,7 @@
   "type": "chore",
   "status": "in_progress",
   "created_at": "2026-08-31T12:11:38Z",
-  "updated_at": "2026-11-22T01:57:13Z",
+  "updated_at": "2026-11-24T02:08:21Z",
   "description": "Complete the authorized remaining backlog, protected PR delivery, issue reconciliation and verified cleanup.",
   "evidence_schema": "1.0",
   "authorization": {
@@ -14,8 +14,8 @@
   "github_cross_reference": {
     "issue": "https://github.com/edithatogo/voiage/issues/1053"
   },
-  "current_phase": "B8 and B12–B14 — repository verification, recovery and closeout",
-  "next_pending_task": "Resolve remaining owner-held cleanup and re-query final inventory when the deferred native acceptance is available",
+  "current_phase": "B12–B14 — repository recovery, inventory and closeout",
+  "next_pending_task": "Settle outstanding repository PR and cleanup dispositions, then verify the final inventory",
   "gates": [
     {
       "id": "external-evidence",
@@ -28,7 +28,7 @@
   "capacity_followup": {
     "plan": "capacity-plan.md",
     "owner_branch": "codex/build-capacity-conductor-20261028",
-    "status": "in_progress",
+    "status": "deferred",
     "native_acceptance": "pending",
     "scope_decision": "accepted_by_user_2026-10-29"
   },
