@@ -57,8 +57,8 @@ subject to the evaluated extra and committed lock, not a promotion claim.
 - **Scalene**: >=2.3,<3 - CPU and memory profiling evidence
 
 ## Documentation (Current)
-- **Astro**: 7.4.11 — Sole documentation build platform
-- **@astrojs/starlight**: 0.42.11 — Docs framework with built-in search,
+- **Astro**: 7.4.13 — Sole documentation build platform
+- **@astrojs/starlight**: 0.43.1 — Docs framework with built-in search,
   navigation and MDX support; replaces Sphinx
 - **astro-polyglot**: source-pinned 0.1.0 at commit `054d11e` — generates
   Starlight-native API documentation from language-native source extraction;

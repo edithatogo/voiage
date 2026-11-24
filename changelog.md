@@ -1,5 +1,7 @@
 # Changelog
 
+- Upgrade the documentation site to Astro 7.4.13 and Starlight 0.43.1.
+
 - Remove two obsolete public security-report templates. The issue chooser
   links to private vulnerability reporting.
 
