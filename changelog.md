@@ -1,5 +1,8 @@
 # Changelog
 
+- Update `url` to 2.5.9 in both Rust lockfiles to address
+  [RUSTSEC-2026-0592](https://rustsec.org/advisories/RUSTSEC-2026-0592.html).
+
 - Move remaining HPC qualification to the roadmap and let repository closeout
   proceed with the completed Colab Spack and MLX feasibility evidence retained.
 
