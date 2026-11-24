@@ -5733,17 +5733,81 @@
     {
       "track_id": "remaining_backlog_delivery_20260831",
       "metadata_track_id": "remaining_backlog_delivery_20260831",
-      "path": "conductor/tracks/remaining_backlog_delivery_20260831",
-      "lifecycle": "active",
+      "path": "conductor/archive/remaining_backlog_delivery_20260831",
+      "lifecycle": "archived",
       "issue": {
         "number": 1053,
         "url": "https://github.com/edithatogo/voiage/issues/1053",
-        "state": "open"
+        "state": "closed"
       },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/296",
       "subissues": [],
-      "pull_requests": [],
-      "pull_request_evidence": "none_found"
+      "pull_requests": [
+        {
+          "number": 1404,
+          "url": "https://github.com/edithatogo/voiage/pull/1404",
+          "status": "merged",
+          "evidence": [
+            "merge-commit:f88734e3464c25541d6e3198c041a3cbf5303048",
+            "Accepted the repository closeout scope and deferred the remaining HPC work."
+          ]
+        },
+        {
+          "number": 1376,
+          "url": "https://github.com/edithatogo/voiage/pull/1376",
+          "status": "merged",
+          "evidence": [
+            "merge-commit:6a1c26fe9153db3701a7ddc7ac839992107efd8a",
+            "Delivered the repository health review."
+          ]
+        },
+        {
+          "number": 1352,
+          "url": "https://github.com/edithatogo/voiage/pull/1352",
+          "status": "merged",
+          "evidence": [
+            "merge-commit:9594b08bf825bde92e94c18589149e51e0e12690",
+            "Delivered the serialization specification addendum."
+          ]
+        },
+        {
+          "number": 1405,
+          "url": "https://github.com/edithatogo/voiage/pull/1405",
+          "status": "merged",
+          "evidence": [
+            "merge-commit:238d9ad81aa29c4b76d5536a89e3521162ef2062",
+            "Addressed the tracked RustSec URL advisory in both lockfiles."
+          ]
+        },
+        {
+          "number": 1351,
+          "url": "https://github.com/edithatogo/voiage/pull/1351",
+          "status": "merged",
+          "evidence": [
+            "merge-commit:36df5f799c2d60dc8bac2d9e7e974c8cadc1794d",
+            "Retired obsolete security templates."
+          ]
+        },
+        {
+          "number": 1363,
+          "url": "https://github.com/edithatogo/voiage/pull/1363",
+          "status": "merged",
+          "evidence": [
+            "merge-commit:7eb30f2baa5dbd3ac7e073c6a56ddd180a6ab899",
+            "Qualified paper submission-tool dependencies."
+          ]
+        },
+        {
+          "number": 1406,
+          "url": "https://github.com/edithatogo/voiage/pull/1406",
+          "status": "merged",
+          "evidence": [
+            "merge-commit:f1ab6688eb0543e8f6daab8e353a01d38ba2c906",
+            "Qualified the Astro and Starlight updates together."
+          ]
+        }
+      ],
+      "pull_request_evidence": "Protected delivery and the recovery-backed inventory are recorded in the archive. Issue #1053 records the archive merge and post-merge inventory."
     },
     {
       "track_id": "tabular_contract_v3_20261026",

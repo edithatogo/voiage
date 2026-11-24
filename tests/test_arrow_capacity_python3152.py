@@ -12,11 +12,11 @@ ROOT = Path(__file__).resolve().parents[1]
 OLD_INPUT = ROOT / "docs/reviews/arrow-capacity-inputs-20261029.json"
 NEW_INPUT = ROOT / "docs/reviews/arrow-capacity-inputs-20261115-python3152.json"
 PROVIDER_SNAPSHOT = (
-    ROOT / "conductor/tracks/remaining_backlog_delivery_20260831/historical/"
+    ROOT / "conductor/archive/remaining_backlog_delivery_20260831/historical/"
     "arrow-provider-sources-20261115-python3152.json"
 )
 OLD_TOOL = (
-    ROOT / "conductor/tracks/remaining_backlog_delivery_20260831/historical/"
+    ROOT / "conductor/archive/remaining_backlog_delivery_20260831/historical/"
     "observe-arrow-capacity-python3151-20261115.py.txt"
 )
 

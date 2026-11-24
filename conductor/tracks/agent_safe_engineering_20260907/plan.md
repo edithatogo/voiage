@@ -55,7 +55,7 @@ Prerequisites: G01.
   Linux and Windows passed. Julia General/JLL remains an external
   gate under issue #1023. See the
   [acceptance reconciliation](./acceptance-20261113.md#g034--provider-and-binding-compatibility).
-  The [22 November readback](../remaining_backlog_delivery_20260831/engineering-closeout-20261122.md#g034-julia-registry-gate)
+  The [22 November readback](../../archive/remaining_backlog_delivery_20260831/engineering-closeout-20261122.md#g034-julia-registry-gate)
   confirmed that Yggdrasil #14292 remains open. The generated JLL is needed
   for clean-depot tests and General registration.
 

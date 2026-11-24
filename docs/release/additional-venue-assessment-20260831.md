@@ -58,5 +58,5 @@ PDF and HTML manual checks enabled. It returned zero errors, zero warnings
 and the same two NOTEs: new submission and unavailable current-time
 verification. No check was suppressed and no source was edited. The manual
 verification gap is resolved; the strict zero-NOTE criterion remains unmet.
-See `conductor/tracks/remaining_backlog_delivery_20260831/r-manual-check-20260901.json`
+See `conductor/archive/remaining_backlog_delivery_20260831/r-manual-check-20260901.json`
 for the command, archive, log and manual hashes. No CRAN submission occurred.

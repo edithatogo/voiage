@@ -1,7 +1,7 @@
 # voiage Project Roadmap (v3)
 
 Current execution status: [24 November reconciliation](conductor/reconciliation-20261124.md).
-Finish repository closeout while [further HPC qualification](#deferred-hpc-qualification)
+Repository closeout is complete. [Further HPC qualification](#deferred-hpc-qualification)
 is deferred. The Colab Spack pass and MLX/Metal EVPI no-go are retained.
 
 ## Vision
@@ -56,7 +56,7 @@ compatibility, measured CI, adversarial numerics, bounded execution, capability
 reports and automation recovery. The bounded G01–G08 slices are delivered,
 including G04.4 hosted measurement and replay and G05.4 live-target evidence.
 G03.4 retains the Julia General/JLL acceptance gate. The
-[22 November closeout checkpoint](conductor/tracks/remaining_backlog_delivery_20260831/engineering-closeout-20261122.md)
+[22 November closeout checkpoint](conductor/archive/remaining_backlog_delivery_20260831/engineering-closeout-20261122.md)
 binds current verification, recovery and inventory evidence.
 [Repository allocations and integration order](conductor/tracks/agent_safe_engineering_20260907/repository-boundaries.md)
 keep generic engines and applications in their capability-owner repositories.
@@ -107,7 +107,7 @@ passed on Colab. The existing MLX/Metal feasibility track closed with a no-go.
 
 - Finish installed EasyBuild foss/2023a and foss/2024a, including generation
   isolation, compiler configurations and measured capacity for the remaining cells.
-- Use the [capacity plan](conductor/tracks/remaining_backlog_delivery_20260831/capacity-plan.md)
+- Use the [capacity plan](conductor/archive/remaining_backlog_delivery_20260831/capacity-plan.md)
   for the remaining source-staging, cleanup, cache-reuse and resource-budget work.
 - Keep upstream recipe packaging and delivery under
   [#1025](https://github.com/edithatogo/voiage/issues/1025). Cluster, scheduler,
@@ -207,11 +207,11 @@ requests on 31 August 2026. The private survey was submitted on 13 November.
 R14 still requires the maintainer's own submission text and assessment of the
 current disclosures. Journal submission precedes the deferred arXiv lane.
 
-The remaining delivery queue is governed by issue #1053 and
-`conductor/tracks/remaining_backlog_delivery_20260831/`. It covers dependency
-controls, measured test acceleration, delivered packaging candidates, issue
-evidence, protected PR delivery and recovery-backed cleanup. Native HPC and
-scientific, registry, funding and venue outcomes retain their own tracks.
+The [Remaining Backlog Delivery archive](conductor/archive/remaining_backlog_delivery_20260831/index.md) records the
+repository work governed by issue #1053. It covers dependency controls,
+measured test acceleration, delivered packaging candidates, issue evidence,
+protected PR delivery and recovery-backed cleanup. Native HPC and scientific,
+registry, funding and venue outcomes retain their own tracks.
 
 ### Tabular contract v3 and Polars migration
 

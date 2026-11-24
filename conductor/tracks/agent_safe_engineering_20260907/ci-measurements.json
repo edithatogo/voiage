@@ -64,7 +64,7 @@
       "outcome": "failed_gate",
       "cache_state": "mixed",
       "elapsed_seconds": 1093.385,
-      "resource_receipt": "../remaining_backlog_delivery_20260831/capacity-evidence/ordinary-full-tox-resource.json",
+      "resource_receipt": "../../archive/remaining_backlog_delivery_20260831/capacity-evidence/ordinary-full-tox-resource.json",
       "resource_receipt_sha256": "b2acba0d803b12dd58e8ef2db635381aa5e4c0f7f3e6464a11894675ceebd354",
       "note": "Initial docs bootstrap failure and one metadata serialization assertion. These are retained first failures; later focused repairs do not turn this into a successful sizing run. No full ordinary capacity budget is qualified."
     },

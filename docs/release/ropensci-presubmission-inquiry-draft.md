@@ -46,7 +46,7 @@ whether that contribution and repository layout fit rOpenSci review scope.
   CRAN incoming feasibility executed and produced the expected new-submission
   NOTE. No clock or incoming check was suppressed, and the literal zero-NOTE
   criterion is not claimed. Exact evidence is in
-  `conductor/tracks/remaining_backlog_delivery_20260831/r-manual-check-20260901.json`.
+  `conductor/archive/remaining_backlog_delivery_20260831/r-manual-check-20260901.json`.
 - The pinned `srr` pre-submit check accepts all applicable standards; the
   repository maps 68 general and 14 probability-distribution standards with
   item-level compliance or justified non-applicability tags.

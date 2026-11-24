@@ -1,5 +1,8 @@
 # Changelog
 
+- Archive the repository closeout track with the verified recovery and final
+  inventory. Further native qualification remains on the HPC roadmap.
+
 - Upgrade the documentation site to Astro 7.4.13 and Starlight 0.43.1.
 
 - Remove two obsolete public security-report templates. The issue chooser

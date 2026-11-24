@@ -61,7 +61,7 @@ def test_source_claim_requires_exact_receipt(tmp_path: Path, damage: str) -> Non
     original = json.loads(
         (
             ROOT
-            / "conductor/tracks/remaining_backlog_delivery_20260831/source-qualification-20261115-python3152.json"
+            / "conductor/archive/remaining_backlog_delivery_20260831/source-qualification-20261115-python3152.json"
         ).read_text()
     )
     runtime_path = tmp_path / "packaging/current/runtime.json"
@@ -107,7 +107,7 @@ def test_current_declarations_and_frozen_graphs_validate() -> None:
 
 
 def test_python3151_overlay_snapshot_retains_every_recorded_file() -> None:
-    base = ROOT / "conductor/tracks/remaining_backlog_delivery_20260831/historical"
+    base = ROOT / "conductor/archive/remaining_backlog_delivery_20260831/historical"
     archive = base / "python3151-current-overlay-20261115.tar.gz"
     manifest = json.loads(
         (base / "python3151-current-overlay-20261115.json").read_text()

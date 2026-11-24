@@ -655,7 +655,7 @@ def main() -> int:
         type=Path,
         nargs="?",
         default=Path(
-            "conductor/tracks/remaining_backlog_delivery_20260831/pre-closeout-20260903.json"
+            "conductor/archive/remaining_backlog_delivery_20260831/pre-closeout-20260903.json"
         ),
     )
     parser.add_argument("--root", type=Path, default=Path("."))

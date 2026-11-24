@@ -1,8 +1,12 @@
 # Delivery reconciliation — 24 November 2026
 
+The [backlog archive](./archive/remaining_backlog_delivery_20260831/index.md) records completed
+repository closeout. Its inventory retains the scope of every remaining gate.
+The review below records the earlier delivery snapshot.
+
 ## Repository closeout
 
-Complete the repository-owned scope of [Remaining Backlog Delivery](./tracks/remaining_backlog_delivery_20260831/index.md)
+Complete the repository-owned scope of [Remaining Backlog Delivery](./archive/remaining_backlog_delivery_20260831/index.md)
 with the existing verification and recovery workflow. The audited `main` was
 `9a304c95704dc9a6872137b6d34cb4d8e9d9c1d6`. On that revision, 66 checks succeeded
 and four were skipped. The Spack evidence PR passed all 15 tox environments
@@ -34,7 +38,7 @@ no-go is archived and its tracking issue is closed as complete.
    only verified integrated refs and worktrees eligible for removal, and record
    the retained work with its owner or gate. Validate Conductor and capture
    the post-merge PR, issue, branch and worktree inventory to close #1053.
-   [Backlog plan](./tracks/remaining_backlog_delivery_20260831/plan.md)
+   [Backlog plan](./archive/remaining_backlog_delivery_20260831/plan.md)
    · [#1053](https://github.com/edithatogo/voiage/issues/1053)
 
 ## Deferred HPC

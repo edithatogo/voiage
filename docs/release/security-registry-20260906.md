@@ -8,7 +8,7 @@ Live GitHub API observations on 2026-09-06:
 
 | Surface | Result | Disposition |
 | --- | --- | --- |
-| Dependabot | 2 open alerts, both high severity, for `nltk` model-artifact APIs bypassing path restrictions (alerts 74 and 75) | Existing bounded disposition is recorded in `conductor/tracks/remaining_backlog_delivery_20260831/nltk-residual-advisory-20260902.json`; no patched upstream release exists, so retain the pin and monitor for the first patched release |
+| Dependabot | 2 open alerts, both high severity, for `nltk` model-artifact APIs bypassing path restrictions (alerts 74 and 75) | Existing bounded disposition is recorded in `conductor/archive/remaining_backlog_delivery_20260831/nltk-residual-advisory-20260902.json`; no patched upstream release exists, so retain the pin and monitor for the first patched release |
 | Dependabot | Earlier alerts 1–73 are fixed | Preserve the alert history; do not infer that the two open alerts are fixed |
 | Code scanning | Open alerts include `py/import-and-import-from`, `py/empty-except`, `py/polluting-import`, `py/mixed-returns`, `py/ineffectual-statement` | Agent panel may triage and propose patches; each alert needs a current SARIF disposition and maintainer decision |
 | Secret scanning | No alert records returned by the live API | This is an observation at packet time, not a perpetual guarantee |

@@ -16,7 +16,7 @@ from scripts.validate_remaining_backlog_closeout import (
 ROOT = Path(__file__).resolve().parents[1]
 RECEIPT = (
     ROOT
-    / "conductor/tracks/remaining_backlog_delivery_20260831/pre-closeout-20260903.json"
+    / "conductor/archive/remaining_backlog_delivery_20260831/pre-closeout-20260903.json"
 )
 
 

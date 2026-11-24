@@ -40,10 +40,6 @@ implementation tracks are complete; parent review and optional telemetry are sep
 
 - [x] Qualify the bounded Linux Cargo/compiler-source and vendor checkpoint with authenticated inputs, offline replay and retained source/resource receipts. Full native HPC acceptance remains open.
 
-- [~] Finish B12–B14 of [Remaining Backlog Delivery](conductor/tracks/remaining_backlog_delivery_20260831/plan.md).
-  Resolve the remaining repository PR dispositions, verify eligible cleanup
-  and the final inventory, then validate and archive the repository track.
-
 - [x] Add local verification resource limits and termination receipts before
   continuing Python 3.15.1 acceptance testing.
 
@@ -54,7 +50,7 @@ Completed prerequisite records remain linked for navigation:
 `conductor/tracks/pandas_free_io_20261026/` and
 `conductor/tracks/translation_reference_20261026/`.
 
-- [ ] Existing active delivery tracks: `conductor/tracks/remaining_backlog_delivery_20260831/` and `conductor/tracks/v2_2_release_and_venue_submissions_20260830/`.
+- [~] Continue the existing [v2.2 release and venue track](conductor/tracks/v2_2_release_and_venue_submissions_20260830/index.md) from its maintainer gate.
 - [ ] Implement the [optional simulation-outcome boundary](conductor/tracks/simulation_outcome_boundary_20261107/index.md): paired draws, explicit value conventions, and optional installed use. The [VOP/VOH planning supplement](conductor/tracks/simulation_outcome_boundary_20261107/value-perspective-heterogeneity.md) remains under the existing #1286/VP03 owner. All eight leaves remain pending; scientific alignment and HPC deferral retain their owners.
 - [x] Qualify the non-HPC installed Innovate, MARS, tobac and published VOP
   reference cases against Voiage 3.1.0. The current tobac adapter default passes.
@@ -77,43 +73,6 @@ Completed prerequisite records remain linked for navigation:
         source build exposed Spack's ambiguous derived PyPI URL.
     *   Restored ignored solver evidence, verifying historical logs byte-for-byte
         against the original Git revision and the URL log against its manifest.
-
-*   [~] Complete the authorized remaining backlog through
-    `conductor/tracks/remaining_backlog_delivery_20260831/` (#1053): dependency
-    delivery and Codecov controls (#656), measured opt-in testing (#1028), HPC
-    recipes (#1025), remaining issue evidence, protected PR merges and verified
-    cleanup. Keep unsatisfied human and external outcomes open.
-    *   [x] Re-run the B8 affected checks, repair dependency tooling, and refresh
-        B13's live inventory after bounded recovery-backed cleanup.
-        See the [14 November checkpoint](conductor/tracks/remaining_backlog_delivery_20260831/b8-b13-checkpoint-20261114.md).
-    *   [x] Bind B8 repository verification to the tested tree, retire four
-        integrated MLX/EVPI branches with verified recovery, and refresh B13.
-        See the [22 November checkpoint](conductor/tracks/remaining_backlog_delivery_20260831/engineering-closeout-20261122.md).
-    *   [~] Repair and validate the September Actions dependency update (#1092),
-        preserving MSRV qualification and the historical R evidence boundary.
-    *   [x] Add the stable Rust, Pydantic 2.13.4 and JSON Schema 4.26.0 provider layer for EasyBuild 2024a; native module qualification remains pending.
-    *   [x] Add the Polars 1.42.1 provider layers for EasyBuild 2023a and 2024a with distinct dated-nightly Rust compilers; native module qualification remains pending.
-    *   [x] Reconcile the EasyBuild 2024a root dependency with the provider's
-        lowercase `polars` module name; native full-graph qualification remains
-        pending.
-    *   [x] Integrate the Arrow and PyArrow 25.0.1 EasyBuild 2024a provider overlay into the parent provider contract; native module qualification remains pending.
-    *   [x] Add checksum-bound xarray 2024.11.0 and scikit-learn 1.7.2 provider recipes for both EasyBuild generations; native module qualification remains pending.
-    *   [x] Add the checksum-bound Arrow and PyArrow 25.0.1 provider layer for EasyBuild 2023a; native module qualification remains pending.
-    *   [x] Make the Spack validation harness load the full overlay before the root recipe; Linux solver conflicts remain explicitly pending for dependency-contract repair.
-    *   [x] Apply the overlay concretizer policy in the validation harness; native Linux build and install evidence remain pending.
-    *   [x] Pass all checked-in EasyBuild generation overlays through the validator's robot search path; native builds and installed module qualification remain pending.
-    *   [x] Reconcile both EasyBuild root graphs with all provider overlays and
-        retain generation-bound robot receipts; native builds and installed
-        module qualification remain pending.
-    *   [x] Add a guarded sequential native EasyBuild driver and fail-closed
-        terminal receipt contract; actual 2023a and 2024a builds remain pending.
-    *   [x] Enforce the NLTK 3.10.3 manuscript-tool security floor and retain a
-        bounded disposition for the unpatched model-persistence advisory.
-    *   [x] Refresh the cross-venue evidence contract after the final EasyBuild
-        root-graph PR merge, binding PR #1087's exact tree-equal merge and
-        terminal checks while retaining native, upstream, and venue gates (#614).
-    *   [x] Repair the bounded Ruff 0.16 dependency-preview findings without
-        promoting the preview dependency or widening Python support.
 
 *   [~] Deliver the hardened v2.2.0 release through
     `conductor/tracks/v2_2_release_and_venue_submissions_20260830/` (#1037).
@@ -798,6 +757,42 @@ as recorded in the active task above; earlier route decisions below are historic
         signed publication, and explicit closeout of external indexing gates.
 
 ## Done
+
+*   [x] Finish B12–B14 and archive [Remaining Backlog Delivery](conductor/archive/remaining_backlog_delivery_20260831/index.md)
+    (#1053). The track covers dependency delivery and Codecov controls (#656),
+    measured opt-in testing (#1028), HPC recipes (#1025), issue reconciliation,
+    protected PR delivery and verified cleanup.
+    *   [x] Re-run the B8 affected checks, repair dependency tooling, and refresh
+        B13's live inventory after bounded recovery-backed cleanup.
+        See the [14 November checkpoint](conductor/archive/remaining_backlog_delivery_20260831/b8-b13-checkpoint-20261114.md).
+    *   [x] Bind B8 repository verification to the tested tree, retire four
+        integrated MLX/EVPI branches with verified recovery, and refresh B13.
+        See the [22 November checkpoint](conductor/archive/remaining_backlog_delivery_20260831/engineering-closeout-20261122.md).
+    *   [x] Repair and validate the September Actions dependency update (merged PR #1092),
+        preserving MSRV qualification and the historical R evidence boundary.
+    *   [x] Add the stable Rust, Pydantic 2.13.4 and JSON Schema 4.26.0 provider layer for EasyBuild 2024a; native module qualification remains pending.
+    *   [x] Add the Polars 1.42.1 provider layers for EasyBuild 2023a and 2024a with distinct dated-nightly Rust compilers; native module qualification remains pending.
+    *   [x] Reconcile the EasyBuild 2024a root dependency with the provider's
+        lowercase `polars` module name; native full-graph qualification remains
+        pending.
+    *   [x] Integrate the Arrow and PyArrow 25.0.1 EasyBuild 2024a provider overlay into the parent provider contract; native module qualification remains pending.
+    *   [x] Add checksum-bound xarray 2024.11.0 and scikit-learn 1.7.2 provider recipes for both EasyBuild generations; native module qualification remains pending.
+    *   [x] Add the checksum-bound Arrow and PyArrow 25.0.1 provider layer for EasyBuild 2023a; native module qualification remains pending.
+    *   [x] Make the Spack validation harness load the full overlay before the root recipe; Linux solver conflicts remain explicitly pending for dependency-contract repair.
+    *   [x] Apply the overlay concretizer policy in the validation harness; native Linux build and install evidence remain pending.
+    *   [x] Pass all checked-in EasyBuild generation overlays through the validator's robot search path; native builds and installed module qualification remain pending.
+    *   [x] Reconcile both EasyBuild root graphs with all provider overlays and
+        retain generation-bound robot receipts; native builds and installed
+        module qualification remain pending.
+    *   [x] Add a guarded sequential native EasyBuild driver and fail-closed
+        terminal receipt contract; actual 2023a and 2024a builds remain pending.
+    *   [x] Enforce the NLTK 3.10.3 manuscript-tool security floor and retain a
+        bounded disposition for the unpatched model-persistence advisory.
+    *   [x] Refresh the cross-venue evidence contract after the final EasyBuild
+        root-graph PR merge, binding PR #1087's exact tree-equal merge and
+        terminal checks while retaining native, upstream, and venue gates (#614).
+    *   [x] Repair the bounded Ruff 0.16 dependency-preview findings without
+        promoting the preview dependency or widening Python support.
 
 - [x] Retire the obsolete security-report templates and verify the private
   advisory link in the issue chooser and `SECURITY.md`.

@@ -19,7 +19,7 @@
   "native_build_executed": false,
   "installed_module_acceptance": false,
   "source_archive_qualified": true,
-  "source_qualification_receipt": "conductor/tracks/remaining_backlog_delivery_20260831/source-qualification-20261115-python3152.json",
+  "source_qualification_receipt": "conductor/archive/remaining_backlog_delivery_20260831/source-qualification-20261115-python3152.json",
   "source_qualification_receipt_sha256": "b2d98da169357309def4a31f8e7dbc24c595d01adc613341384bc8f5314ded9b",
   "source_archive_sha256": "d7f49503baeb2f7ecf8d164c3e12f28dace36d8f2b6be7ed0132aa57df4b5244"
 }

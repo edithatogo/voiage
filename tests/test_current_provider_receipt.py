@@ -6,7 +6,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RECEIPT = (
-    ROOT / "conductor/tracks/remaining_backlog_delivery_20260831/"
+    ROOT / "conductor/archive/remaining_backlog_delivery_20260831/"
     "provider-declarations-20261124-spack-make.json"
 )
 INPUTS = {
