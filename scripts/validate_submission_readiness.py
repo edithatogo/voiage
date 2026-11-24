@@ -111,6 +111,10 @@ R_MANUAL_RECEIPT = {
     "path": "conductor/tracks/remaining_backlog_delivery_20260831/r-manual-check-20260901.json",
     "sha256": "520af27e4d3463d9e9404c06e64e86d5a38a9db66bb3cb77e8338ac014fdf3a7",
 }
+# Locate the moved file without changing the path in the historical receipt.
+R_MANUAL_RECEIPT_PATH = Path(
+    "conductor/archive/remaining_backlog_delivery_20260831/r-manual-check-20260901.json"
+)
 R_ARCHIVE_SHA256 = "af485e1cfba6dc9c1f149ce074640c8ef63bb3f42c649f71fccbe0e5d114c8e4"
 
 
@@ -228,7 +232,7 @@ def validate_r_distribution_evidence(
         or binding != R_MANUAL_RECEIPT
     ):
         raise ValueError("R source archive or manual receipt binding is invalid")
-    manual_path = root / R_MANUAL_RECEIPT["path"]
+    manual_path = root / R_MANUAL_RECEIPT_PATH
     if not manual_path.is_file() or _sha256(manual_path) != R_MANUAL_RECEIPT["sha256"]:
         raise ValueError("R manual-check receipt bytes do not match")
     manual: Any = json.loads(manual_path.read_text(encoding="utf-8"))

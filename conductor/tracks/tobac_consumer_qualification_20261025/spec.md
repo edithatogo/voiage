@@ -15,7 +15,7 @@ compatibility. tobac owns domain-specific decisions and scientific applicability
 
 ## Reuse
 
-- [Existing owner 1](../../../conductor/tracks/remaining_backlog_delivery_20260831/index.md)
+- [Existing owner 1](../../../conductor/archive/remaining_backlog_delivery_20260831/index.md)
 - [Existing owner 2](../../../conductor/tracks/agent_safe_engineering_20260907/index.md)
 - [Existing owner 3](../../../conductor/archive/information_source_portfolio_voi_20260801/index.md)
 

@@ -1,0 +1,611 @@
+{
+  "observed_at_utc": "2026-11-24T07:52:52Z",
+  "stage": "before-archive",
+  "hosted_main": "f1ab6688eb0543e8f6daab8e353a01d38ba2c906",
+  "hosted_main_tree": "34f2140ab7deff54f254c50dba2a7f52f0797ea4",
+  "remote_branch_sources_agreed": true,
+  "open_pull_requests": [
+    {
+      "number": 1296,
+      "head": "8d4da082b59f9a391ebf75f1db20630196d8e847",
+      "draft": true,
+      "auto_merge": false,
+      "disposition": "Draft. Requires a dedicated runner, qualified scanner assets and upstream repository-standards #126."
+    }
+  ],
+  "open_issues": [
+    {
+      "number": 296,
+      "title": "track: Research software registry readiness",
+      "disposition": "Registry readiness umbrella. Each destination owns its outcome."
+    },
+    {
+      "number": 298,
+      "title": "Registry: track SciCrunch RRID assignment and resolution",
+      "disposition": "SciCrunch RRID assignment and resolution are external."
+    },
+    {
+      "number": 312,
+      "title": "Paper: complete arXiv preprint readiness and author review",
+      "disposition": "Maintainer preprint approval, submission and indexing remain open."
+    },
+    {
+      "number": 471,
+      "title": "JOSS: document research use and validation evidence",
+      "disposition": "Genuine research-use evidence and journal review remain open."
+    },
+    {
+      "number": 555,
+      "title": "Registry: publish Julia binding through BinaryBuilder and General",
+      "disposition": "Upstream BinaryBuilder/Yggdrasil and General Registry acceptance remain open."
+    },
+    {
+      "number": 620,
+      "title": "Track externally gated OpenSSF Scorecard improvements",
+      "disposition": "The externally gated Scorecard outcomes remain open."
+    },
+    {
+      "number": 850,
+      "title": "#570: Scope value of information with stochastic sampling-acquisition harm",
+      "disposition": "Sampling-harm scope, support and scientific acceptance remain open."
+    },
+    {
+      "number": 853,
+      "title": "#850: Bind sampling-harm candidate review and accountable disposition",
+      "disposition": "The accountable reviewer owns sampling-harm disposition."
+    },
+    {
+      "number": 876,
+      "title": "Review sampling-harm generic-kernel exclusion and findings",
+      "disposition": "Mechanism and kernel findings require scientific review."
+    },
+    {
+      "number": 1023,
+      "title": "Julia: publish Voiage.jl to General Registry and JuliaHealth ecosystem",
+      "disposition": "The Julia JLL, package registry and ecosystem outcomes remain open."
+    },
+    {
+      "number": 1025,
+      "title": "HPC: publish Spack py-voiage recipe and EasyBuild easyconfigs",
+      "disposition": "Upstream Spack and EasyBuild recipe delivery is deferred."
+    },
+    {
+      "number": 1026,
+      "title": "Sustainability: complete OpenSSF badge and identifier follow-up",
+      "disposition": "OpenSSF badge and persistent-identifier outcomes remain open."
+    },
+    {
+      "number": 1037,
+      "title": "Complete pyOpenSci-first and subsequent venue submissions",
+      "disposition": "The maintainer owns submission text, disclosures and venue action."
+    },
+    {
+      "number": 1045,
+      "title": "Dependency Dashboard",
+      "disposition": "Renovate owns the ongoing dependency dashboard."
+    },
+    {
+      "number": 1053,
+      "title": "Complete remaining backlog delivery and verified repository cleanup",
+      "disposition": "Close after protected archive delivery and post-merge inventory readback."
+    },
+    {
+      "number": 1110,
+      "title": "Agent-safe engineering improvements",
+      "disposition": "G03.4 awaits the upstream Julia registry/JLL outcome."
+    },
+    {
+      "number": 1116,
+      "title": "Optional native telemetry qualification",
+      "disposition": "Optional telemetry awaits a consumer need and its qualification."
+    },
+    {
+      "number": 1193,
+      "title": "Qualify tobac weighted and structure-only VOI consumer",
+      "disposition": "Installed tobac consumer qualification retains its own acceptance."
+    },
+    {
+      "number": 1221,
+      "title": "Qualify Voiage for scientific ecosystem alignment",
+      "disposition": "Scientific ecosystem alignment retains its own installed and scientific gates."
+    },
+    {
+      "number": 1222,
+      "title": "Qualify Rust and LLVM source builds for the full HPC matrix",
+      "disposition": "Further HPC work is deferred. Retain the completed Colab Spack cell."
+    },
+    {
+      "number": 1283,
+      "title": "[Conductor] Optional simulation-outcome boundary for cross-domain VOI",
+      "disposition": "The optional simulation-outcome boundary awaits implementation and qualification."
+    },
+    {
+      "number": 1286,
+      "title": "Qualify VOP promotion and optional Innovate/Paignia outcome integration",
+      "disposition": "VOP promotion and optional producer integration retain their own acceptance."
+    },
+    {
+      "number": 1290,
+      "title": "Track: Credal LP dominance and endogenous censored EVSI for tobac",
+      "disposition": "Credal and endogenous censored EVSI for tobac retain their own qualification."
+    }
+  ],
+  "local_branches": [
+    {
+      "name": "codex/codeql-quality-20261116",
+      "head": "cdf9bc1427ded76df7e106f97148e60a8131a870",
+      "disposition": "separate_checkout_owner"
+    },
+    {
+      "name": "codex/codeql-quality-20261117",
+      "head": "5f771e3feab7f57efff6760c9c782fe1197e186c",
+      "disposition": "separate_checkout_owner"
+    },
+    {
+      "name": "codex/codeql-quality-main-20261116",
+      "head": "860f2b15d4cd078fa922dfd3aaf654ecc77380bb",
+      "disposition": "separate_checkout_owner"
+    },
+    {
+      "name": "codex/community-standards-20261121",
+      "head": "cf83d0fc4eca09875dba024141040916177bb0ed",
+      "disposition": "separate_checkout_owner"
+    },
+    {
+      "name": "codex/cpython-errno-probe-20261122",
+      "head": "ceed7ab43ccc6d7a198fea4ce864a62ae05f7b6c",
+      "disposition": "unique_or_unverified_source"
+    },
+    {
+      "name": "codex/fftw-quad-check-probe-20261122",
+      "head": "6eeef7db9500c82b40359c711b6ef4f10fff7ac7",
+      "disposition": "unique_or_unverified_source"
+    },
+    {
+      "name": "codex/repo-simplifications-20261122",
+      "head": "b4da1572cb2c9db8c58a87dc172e8abf624cfc81",
+      "disposition": "separate_checkout_owner"
+    },
+    {
+      "name": "codex/repository-health-report-accuracy-20261121",
+      "head": "87399e5da1d0e505c5f91a81112734e0a546b00e",
+      "disposition": "unique_or_unverified_source"
+    },
+    {
+      "name": "codex/scorecard-image-pin-20261117",
+      "head": "20ce911a8ad459e97b64f223c0b4ee93e44b20bc",
+      "disposition": "separate_checkout_owner"
+    },
+    {
+      "name": "codex/voiage-actions-privacy-20261116",
+      "head": "5d34f7149e36fd42a0272fd63c3dc20f32dff698",
+      "disposition": "unique_or_unverified_source"
+    },
+    {
+      "name": "codex/voiage-e02-schema-version-20261117",
+      "head": "3be50601acb77ecea95600a57acaf7bb1467618f",
+      "disposition": "separate_checkout_owner"
+    },
+    {
+      "name": "codex/voiage-paper-contract-guidance",
+      "head": "ce9ea7da53ed302cc57664068a53a1ede72b9e5e",
+      "disposition": "separate_checkout_owner"
+    },
+    {
+      "name": "codex/voiage-privacy-python3152-20261115",
+      "head": "c0d9b6ad5c4b7c9ae75658f2a4d967ff83d93d52",
+      "disposition": "separate_checkout_owner"
+    },
+    {
+      "name": "main",
+      "head": "3fdac2faa762afd24c09d1b0842e47651bf2f057",
+      "disposition": "in_use_or_maintained"
+    }
+  ],
+  "remote_branches": [
+    {
+      "name": "2.0.x",
+      "head": "73c92eebdf581c763f1afb5b5196f687a6d33575",
+      "disposition": "Maintained release branch."
+    },
+    {
+      "name": "chore/GHA-171137-stepsecurity-remediation",
+      "head": "a38b2f06a3a77f6d0586a2559c88c6ddd8af94cc",
+      "disposition": "Separate StepSecurity proposal head. PR #1350 closed on policy findings."
+    },
+    {
+      "name": "codex/cpython-errno-probe-20261122",
+      "head": "ceed7ab43ccc6d7a198fea4ce864a62ae05f7b6c",
+      "disposition": "Native compiler diagnostic source."
+    },
+    {
+      "name": "codex/fftw-quad-check-probe-20261122",
+      "head": "6eeef7db9500c82b40359c711b6ef4f10fff7ac7",
+      "disposition": "Native compiler diagnostic source."
+    },
+    {
+      "name": "codex/standardflow-link-refresh-20261123",
+      "head": "50dc13395a9dccd27c6015036941558d85235411",
+      "disposition": "Separate integration branch."
+    },
+    {
+      "name": "codex/standardflow-web-link-20261123",
+      "head": "bc2b7836b2ffbff72d2f10fd2471d3198ec378b7",
+      "disposition": "Separate integration branch."
+    },
+    {
+      "name": "main",
+      "head": "f1ab6688eb0543e8f6daab8e353a01d38ba2c906",
+      "disposition": "Protected default branch."
+    },
+    {
+      "name": "renovate/github-actions",
+      "head": "60e99e4289e55e9b73bc59753b6276da45cdaad1",
+      "disposition": "Renovate-managed reference."
+    },
+    {
+      "name": "renovate/lock-file-maintenance",
+      "head": "f4b3b73f5e23af31e2a88cef33d5e2a73cc69dbc",
+      "disposition": "Renovate-managed reference."
+    },
+    {
+      "name": "security/grype-signing-base-20261120",
+      "head": "e01b3f14d6f51c5839d29196ea40a34bde57eae8",
+      "disposition": "Separate security coordination reference."
+    },
+    {
+      "name": "security/offline-ai-security-rollout-20261111",
+      "head": "8d4da082b59f9a391ebf75f1db20630196d8e847",
+      "disposition": "Open draft #1296."
+    }
+  ],
+  "retained_worktrees": [
+    {
+      "id": "voiage",
+      "head": "3fdac2faa762afd24c09d1b0842e47651bf2f057",
+      "branch": "main",
+      "status": "modified",
+      "disposition": "preserved for existing checkout owner"
+    },
+    {
+      "id": "voiage-community-standards-20261121",
+      "head": "cf83d0fc4eca09875dba024141040916177bb0ed",
+      "branch": "codex/community-standards-20261121",
+      "status": "clean",
+      "disposition": "preserved for existing checkout owner"
+    },
+    {
+      "id": "voiage-e02-schema-version",
+      "head": "3be50601acb77ecea95600a57acaf7bb1467618f",
+      "branch": "codex/voiage-e02-schema-version-20261117",
+      "status": "clean",
+      "disposition": "preserved for existing checkout owner"
+    },
+    {
+      "id": "voiage-mlx-track-closeout-20261121",
+      "head": "f1ab6688eb0543e8f6daab8e353a01d38ba2c906",
+      "branch": null,
+      "status": "clean",
+      "disposition": "closeout checkout"
+    },
+    {
+      "id": "voiage-pr1340-repair",
+      "head": "3fdac2faa762afd24c09d1b0842e47651bf2f057",
+      "branch": null,
+      "status": "clean",
+      "disposition": "preserved for existing checkout owner"
+    },
+    {
+      "id": "voiage-scorecard-20261121",
+      "head": "b4da1572cb2c9db8c58a87dc172e8abf624cfc81",
+      "branch": "codex/repo-simplifications-20261122",
+      "status": "clean",
+      "disposition": "preserved for existing checkout owner"
+    },
+    {
+      "id": "voiage-scorecard-alerts",
+      "head": "20ce911a8ad459e97b64f223c0b4ee93e44b20bc",
+      "branch": "codex/scorecard-image-pin-20261117",
+      "status": "clean",
+      "disposition": "preserved for existing checkout owner"
+    },
+    {
+      "id": "voiage-codeql-quality-20261116",
+      "head": "cdf9bc1427ded76df7e106f97148e60a8131a870",
+      "branch": "codex/codeql-quality-20261116",
+      "status": "modified",
+      "disposition": "preserved for existing checkout owner"
+    },
+    {
+      "id": "voiage-codeql-quality-20261117",
+      "head": "5f771e3feab7f57efff6760c9c782fe1197e186c",
+      "branch": "codex/codeql-quality-20261117",
+      "status": "clean",
+      "disposition": "preserved for existing checkout owner"
+    },
+    {
+      "id": "voiage-codeql-quality-main-20261116",
+      "head": "860f2b15d4cd078fa922dfd3aaf654ecc77380bb",
+      "branch": "codex/codeql-quality-main-20261116",
+      "status": "modified",
+      "disposition": "preserved for existing checkout owner"
+    },
+    {
+      "id": "voiage-community-verify-20261121",
+      "head": "0f9b84f693a5a1da6f84abae5fdb323e0557564a",
+      "branch": null,
+      "status": "clean",
+      "disposition": "preserved for existing checkout owner"
+    },
+    {
+      "id": "voiage-manuscript-verify-20261114",
+      "head": "c0d9b6ad5c4b7c9ae75658f2a4d967ff83d93d52",
+      "branch": "codex/voiage-privacy-python3152-20261115",
+      "status": "clean",
+      "disposition": "preserved for existing checkout owner"
+    },
+    {
+      "id": "voiage-scorecard-validation-20261116",
+      "head": "d10b8b5cc77dd9302fa3487436c47e2002362f3c",
+      "branch": null,
+      "status": "clean",
+      "disposition": "preserved for existing checkout owner"
+    },
+    {
+      "id": "voiage-paper-contract-guidance",
+      "head": "ce9ea7da53ed302cc57664068a53a1ede72b9e5e",
+      "branch": "codex/voiage-paper-contract-guidance",
+      "status": "modified",
+      "disposition": "preserved for existing checkout owner"
+    }
+  ],
+  "retirement": {
+    "retired_at_utc": "2026-11-24T07:51:53+00:00",
+    "local_branches": {
+      "codex/conductor-hpc-deferral-20261124": {
+        "commit": "d08c9f2f5804569270bfb27e868c0894d026b9d5",
+        "tree": "a7464f68bb67b4d3f216e7f0c5ca28e37172c37c",
+        "reason": "merge_tree_match",
+        "merged_commit": "f88734e3464c25541d6e3198c041a3cbf5303048",
+        "merge_subject": "Separate repository closeout from deferred HPC qualification (#1404)"
+      },
+      "codex/easybuild-cpython-errno-20261122": {
+        "commit": "6211db21f59b613d283638be3144bc4338f50669",
+        "tree": "9cf771209f507282c47edafdfb4ba38eab16d728",
+        "reason": "merge_tree_match",
+        "merged_commit": "f6d80e0d7adc500e2d356627469225d1b7ae557f",
+        "merge_subject": "Preserve libm errno in EasyBuild Python builds (#1393)"
+      },
+      "codex/easybuild-failure-output-20261122": {
+        "commit": "bbc23f7fbb66153ee0100c5cf442d6d0cff649e5",
+        "tree": "90420553caf7c57962fe96960a0adffde4933698",
+        "reason": "merge_tree_match",
+        "merged_commit": "b4fb9b62afcb6570a6b4c590d0e67c2a5cadcd09",
+        "merge_subject": "Fix Perl corpus testing in EasyBuild qualification (#1390)"
+      },
+      "codex/easybuild-mimalloc-install-20261122": {
+        "commit": "8c871ed18728f2d88e8ffb3185030dd519003428",
+        "tree": "f587d68b425674cbbc402056c3e309e8da154915",
+        "reason": "merge_tree_match",
+        "merged_commit": "11a2bc8685f71c2ff351def742d439c28373cd46",
+        "merge_subject": "Verify EasyBuild mimalloc installation artifacts (#1391)"
+      },
+      "codex/easybuild-python-setuptools-20261123": {
+        "commit": "30265fdecfd1f245864eef62b9b6896cf71c4852",
+        "tree": "244f13fb11a3af08147dbd5b8d276e7f4b1d5bd5",
+        "reason": "merge_tree_match",
+        "merged_commit": "a5a398b0c9ca3a836e3d276fffe4e79c6e3e5dfa",
+        "merge_subject": "Complete EasyBuild Python packaging bootstrap (#1395)"
+      },
+      "codex/repository-health-20261121": {
+        "commit": "44d1d47348bd640d9fda4769872e983285cec43b",
+        "tree": "f1643fbe2f7a9d1e01c30cb0f55c83d5a3f672f0",
+        "reason": "merge_tree_match",
+        "merged_commit": "1b774e3a1c4d69305507728013d1f022430e671d",
+        "merge_subject": "Add alint and RepoHealth checks (#1371)"
+      },
+      "codex/repository-health-findings-20261121": {
+        "commit": "af302f53783dd5a38d1c02ae7fba60102a79fa2e",
+        "tree": "ddd03fe86455c8c63f70bf42bf3a48fb0aec80b9",
+        "reason": "merge_tree_match",
+        "merged_commit": "36c555913d7c9d42998accc37ec00d241d530b89",
+        "merge_subject": "Fix repository health findings (#1373)"
+      },
+      "codex/repository-quality-20261121": {
+        "commit": "6d8d73276d71f93716988665e1c82648e126a89d",
+        "tree": "6fe90a3d1c62553ceb6975fe2d4e4f6fa5e47167",
+        "reason": "reachable_from_main",
+        "merged_commit": "6d8d73276d71f93716988665e1c82648e126a89d"
+      },
+      "codex/scorecard-actionable-findings-20261121": {
+        "commit": "d1a042ecb40073966accd3ed45407c67bffa8f88",
+        "tree": "fd774643087500b75ab29634ec1af0f4462313dd",
+        "reason": "merge_tree_match",
+        "merged_commit": "1a9d2416406a857c441492e21d3857421211f9a4",
+        "merge_subject": "Fix optional backend import warnings and clarify Scorecard SAST evidence (#1375)"
+      },
+      "codex/scorecard-alerts-20261116": {
+        "commit": "dacaefe5bb8c3538abd13285bfbc6975c20d106d",
+        "tree": "2dc04a9d24cb8203eca293bfc323e937819039a9",
+        "reason": "merge_tree_match",
+        "merged_commit": "93aa494f7f460370b69cbd5ab1ba27369caa6628",
+        "merge_subject": "ci: Update Scorecard for same-repository workflows (#1342)"
+      },
+      "codex/scorecard-reconciliation-20261121": {
+        "commit": "7bfbbb8e514f4c31d260b3e7705dd704a05fb2ae",
+        "tree": "89c6ce29ceaff44f9f5983ab78aaea2cccf61de6",
+        "reason": "merge_tree_match",
+        "merged_commit": "235fe6456b9b84eef4e42e1db2fc74cadefbe300",
+        "merge_subject": "Fix Scorecard publication reporting and remove stale OSV exceptions (#1360)"
+      },
+      "codex/settle-1351-20261124": {
+        "commit": "cf62e0c9b4be5e6e037af511d59ed215a97d6870",
+        "tree": "a6bc4f59f50fa2fb84075f9cec32bdf9a6cef1ee",
+        "reason": "merge_tree_match",
+        "merged_commit": "36df5f799c2d60dc8bac2d9e7e974c8cadc1794d",
+        "merge_subject": "chore(issues): retire obsolete public security report templates (#1351)"
+      },
+      "codex/settle-1352-20261124": {
+        "commit": "e46e501eb48f32af4fc7b4efb2b6956cb05e10af",
+        "tree": "470cf25f0567b872ec87eba81eb1adede9110565",
+        "reason": "merge_tree_match",
+        "merged_commit": "9594b08bf825bde92e94c18589149e51e0e12690",
+        "merge_subject": "Conductor: retain Voiage serialization boundary and tighten parity gates (#1352)"
+      },
+      "codex/settle-1365-20261124": {
+        "commit": "55cb7a21c4eddf47f334051d501757387edaed9e",
+        "tree": "cbb097bf25f1f027c5071da91020aa5b54c97efb",
+        "reason": "merge_tree_match",
+        "merged_commit": "238d9ad81aa29c4b76d5536a89e3521162ef2062",
+        "merge_subject": "Patch url in both Rust lockfiles (#1405)"
+      },
+      "codex/settle-1376-20261124": {
+        "commit": "57f1879614f0e363bb07f135f539bf254dd2172c",
+        "tree": "528b174711db33c2127be65f92de2c22e612c071",
+        "reason": "merge_tree_match",
+        "merged_commit": "6a1c26fe9153db3701a7ddc7ac839992107efd8a",
+        "merge_subject": "Align repository health reports with Voiage conventions (#1376)"
+      },
+      "codex/settle-docs-deps-20261124": {
+        "commit": "0b8d7a3943db36a2f0f18963449c1db85a99f284",
+        "tree": "34f2140ab7deff54f254c50dba2a7f52f0797ea4",
+        "reason": "merge_tree_match",
+        "merged_commit": "f1ab6688eb0543e8f6daab8e353a01d38ba2c906",
+        "merge_subject": "Qualify the Astro and Starlight updates together (#1406)"
+      },
+      "codex/spack-closeout-scope-20261123": {
+        "commit": "728d111d3de97c623506220b56f8c0f8c68f5f84",
+        "tree": "380de3e1fa0a433e3cf64733799575bfe2f2c385",
+        "reason": "merge_tree_match",
+        "merged_commit": "d4e31ee7c318400d98a3811ed08de27b6d45ec28",
+        "merge_subject": "Prioritize the installed Spack qualification (#1399)"
+      },
+      "codex/spack-installed-evidence-20261124": {
+        "commit": "9a304c95704dc9a6872137b6d34cb4d8e9d9c1d6",
+        "tree": "6963477314ad29302777462e39544254b91a5da9",
+        "reason": "reachable_from_main",
+        "merged_commit": "9a304c95704dc9a6872137b6d34cb4d8e9d9c1d6"
+      },
+      "codex/spack-python-source-20261122": {
+        "commit": "307143d1e5450fb3488f867d64c8e3dc653d8946",
+        "tree": "ea2bfbf6f3aa7df8cc04bd51f998d967ef10f9a3",
+        "reason": "merge_tree_match",
+        "merged_commit": "fd6ce68711c281c349118c64c4a7f8eec8a91069",
+        "merge_subject": "fix(packaging): Pin the Python 3.15.2 Spack source (#1389)"
+      },
+      "codex/test-dependency-efficiency-20261121": {
+        "commit": "b223f5755baec73bc93c30e28d9ddc11ee0296e8",
+        "tree": "8dbe993a547f6079b6c5cb0f7c205fdc10b24241",
+        "reason": "merge_tree_match",
+        "merged_commit": "d5fa7d37d7c2cf68e9da7af7a948f018774fe2a2",
+        "merge_subject": "Reduce test setup dependencies (#1378)"
+      }
+    },
+    "removed_owned_worktrees": {
+      "docs-preflight": "0b8d7a3943db36a2f0f18963449c1db85a99f284",
+      "url-preflight": "f88734e3464c25541d6e3198c041a3cbf5303048"
+    },
+    "pruned_absent_registrations": {
+      "voiage-t18-credal-domain": "eafe1d41a896aca630d7ba29aca980e1047f614a",
+      "voiage-t18-credal-solver": "7d44e3d9b5ff86506d5a2edb4ba99a6a5b2836af"
+    },
+    "preserved_note_and_backup_refs": 13,
+    "preserved_stash_entries": 11,
+    "compare_and_delete_passed": true
+  },
+  "recovery": {
+    "base": "f1ab6688eb0543e8f6daab8e353a01d38ba2c906",
+    "durable_refs": 245,
+    "notes_refs": 11,
+    "hosted_heads": 11,
+    "restored_refs": 285,
+    "stash_entries": 11,
+    "bundle_sha256": "808bbb059ff806a2a071e7e125ad64d9eff3b4386daef5ea0b539e0e3c9c27b3",
+    "stash_reflog_sha256": "54ff42752e5cee54e935afafb3775a84ef12af83a47aa3d886662415999fa03a",
+    "independent_restore": "passed",
+    "git_fsck_full_strict": "passed",
+    "retirement_history_commits": 157,
+    "supplemental_reflog_commits": 91,
+    "supplemental_reflog_bundle_sha256": "d96a8bf919ff3341de53d9465fc85a8aee1561a607fadf1de527b6f63ae5ddd8",
+    "worktrees": {
+      "verified_at_utc": "2026-11-24T07:50:51+00:00",
+      "restore": "passed",
+      "archives": [
+        {
+          "worktree": "docs-preflight",
+          "kind": "source",
+          "entries": 71803,
+          "archive": "worktrees/docs-preflight/source/docs-preflight.tar.gz",
+          "sha256": "271153b7917a5a19fc6865701f6a7d0749a20688697861f3ee8ccf67e8266eca",
+          "manifest_sha256": "9113ecb332ba250a4bdc7e90a19119823a804e4485b4c92e1a09b1e84b6a0950"
+        },
+        {
+          "worktree": "url-preflight",
+          "kind": "source",
+          "entries": 6396,
+          "archive": "worktrees/url-preflight/source/url-preflight.tar.gz",
+          "sha256": "9c84007d20faa427fb31d7c23b37117b626d8e157f44c4a3abac9e837fea5066",
+          "manifest_sha256": "a2ce61897eaaaa8767561fb929b1a81bee44a550f6052b9a2bce430322cd02a8"
+        },
+        {
+          "worktree": "docs-preflight",
+          "kind": "git-admin",
+          "entries": 204,
+          "archive": "worktrees/docs-preflight/git-admin/docs-preflight.tar.gz",
+          "sha256": "ca3fc0670a5b49f485883a7c341a250d284c6b24cafa3ea723c5cce6f749b66e",
+          "manifest_sha256": "ffe4fad74cc7272fbb7d753ec3610bd87a6cd37143df824df75919fc2c16e2c8"
+        },
+        {
+          "worktree": "url-preflight",
+          "kind": "git-admin",
+          "entries": 12,
+          "archive": "worktrees/url-preflight/git-admin/url-preflight.tar.gz",
+          "sha256": "084ab2d2243b025895da832f21744daa4a57a7d9e11bba2de92d195e9866a6d6",
+          "manifest_sha256": "4dd2e6a6faa4a73eff53d04ea0ebbbd6612ba8b1135786a91fcb08bd4bab7b37",
+          "excluded_inactive_ipc_socket": "fsmonitor--daemon.ipc"
+        },
+        {
+          "worktree": "voiage-t18-credal-domain",
+          "kind": "git-admin",
+          "entries": 204,
+          "archive": "worktrees/voiage-t18-credal-domain/git-admin/voiage-t18-credal-domain.tar.gz",
+          "sha256": "1f1b1582266cdc670a96e2a3260289f352a45bc8f8564ebae09d9252fe9cdf9a",
+          "manifest_sha256": "dde4128f102cb5c37591fa411bfe66881bbca364cf51158dce83f79ceb35b041",
+          "excluded_inactive_ipc_socket": "fsmonitor--daemon.ipc"
+        },
+        {
+          "worktree": "voiage-t18-credal-solver",
+          "kind": "git-admin",
+          "entries": 204,
+          "archive": "worktrees/voiage-t18-credal-solver/git-admin/voiage-t18-credal-solver.tar.gz",
+          "sha256": "dcd45d0ae93088dd498730c4631591feebbbebc7786f4ac3c9eeea41d0ac0fb6",
+          "manifest_sha256": "7cbc819a80c613ac14625755a2fe81e44f3ae9db4376f0d9b700686f2fbf7265",
+          "excluded_inactive_ipc_socket": "fsmonitor--daemon.ipc"
+        }
+      ],
+      "submodules": [
+        {
+          "worktree": "docs-preflight",
+          "path": ".repo-tools/astro-polyglot",
+          "head": "054d11e08d8b28fd50821ede8a97f8be3ad50447",
+          "fsck": "passed",
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "worktree": "voiage-t18-credal-domain",
+          "path": ".repo-tools/astro-polyglot",
+          "head": "054d11e08d8b28fd50821ede8a97f8be3ad50447",
+          "fsck": "passed",
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "worktree": "voiage-t18-credal-solver",
+          "path": ".repo-tools/astro-polyglot",
+          "head": "054d11e08d8b28fd50821ede8a97f8be3ad50447",
+          "fsck": "passed",
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    }
+  }
+}

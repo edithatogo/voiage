@@ -46,7 +46,7 @@ def test_arxiv_template_tools_are_pinned_and_registered() -> None:
     disposition = json.loads(
         (
             root
-            / "conductor/tracks/remaining_backlog_delivery_20260831"
+            / "conductor/archive/remaining_backlog_delivery_20260831"
             / "nltk-security-update-20261114.json"
         ).read_text()
     )
@@ -82,7 +82,7 @@ def test_readability_nltk_residual_advisory_is_bounded() -> None:
     disposition = json.loads(
         (
             root
-            / "conductor/tracks/remaining_backlog_delivery_20260831"
+            / "conductor/archive/remaining_backlog_delivery_20260831"
             / "nltk-residual-advisory-20260902.json"
         ).read_text()
     )

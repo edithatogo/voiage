@@ -32,7 +32,7 @@ the same immutable source revision. Full Linux builds and the required foss
 compiler generations remain separate acceptance gates.
 
 The previous Python 3.15.1 current overlay is retained byte-for-byte in the
-[historical snapshot](../../conductor/tracks/remaining_backlog_delivery_20260831/historical/python3151-current-overlay-20261115.json);
+[historical snapshot](../../conductor/archive/remaining_backlog_delivery_20260831/historical/python3151-current-overlay-20261115.json);
 its original source receipt remains unchanged. The new receipt qualifies the
 source archive only, and all native acceptance gates remain open.
 

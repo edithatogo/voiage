@@ -185,7 +185,7 @@ def test_spack_root_keeps_qualified_identity_without_git_metadata() -> None:
     receipt = json.loads(
         (
             ROOT
-            / "conductor/tracks/remaining_backlog_delivery_20260831/source-qualification-20261115-python3152.json"
+            / "conductor/archive/remaining_backlog_delivery_20260831/source-qualification-20261115-python3152.json"
         ).read_text()
     )
     tree = ast.parse(

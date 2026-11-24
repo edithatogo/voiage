@@ -2,7 +2,7 @@
 
 Further execution is [deferred](../../../roadmap.md#deferred-hpc-qualification).
 Resume from the existing receipts and pending tasks when HPC is prioritized.
-The [capacity plan](../remaining_backlog_delivery_20260831/capacity-plan.md)
+The [capacity plan](../../archive/remaining_backlog_delivery_20260831/capacity-plan.md)
 retains the remaining source staging, cache reuse and resource-budget work.
 See the compiler requirement review in [the handoff](handoff.md). P2 source
 controls must pass before P3 fetch and build dispatch.

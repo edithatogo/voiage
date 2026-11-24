@@ -7,7 +7,7 @@ import re
 ROOT = Path(__file__).resolve().parents[1]
 RECEIPT = (
     ROOT
-    / "conductor/tracks/remaining_backlog_delivery_20260831"
+    / "conductor/archive/remaining_backlog_delivery_20260831"
     / "recovery-archive-verification-20261101.json"
 )
 SHA256 = re.compile(r"^[0-9a-f]{64}$")

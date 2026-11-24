@@ -10,8 +10,8 @@ external-gate boundaries. The maintainer authorized the v2.2.0 release and
 pyOpenSci-first venue sequence on 2026-08-30; before that authorization these
 were not active Conductor implementation tasks.
 
-## [~] Track: Remaining Backlog Delivery
-*Link: [./tracks/remaining_backlog_delivery_20260831/index.md](./tracks/remaining_backlog_delivery_20260831/index.md)*
+## [x] Track: Remaining Backlog Delivery [completed: 2026-11-24]
+*Link: [./archive/remaining_backlog_delivery_20260831/index.md](./archive/remaining_backlog_delivery_20260831/index.md)*
 *GitHub: [issue #1053](https://github.com/edithatogo/voiage/issues/1053).*
 *Status: in progress — finish protected repository delivery, issue reconciliation,
 recovery-backed cleanup and the final inventory. The HPC roadmap owns outstanding

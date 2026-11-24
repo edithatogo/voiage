@@ -67,7 +67,7 @@ def test_historical_cli_rejects_current_unqualified_interpreter(tmp_path: Path) 
             sys.executable,
             str(
                 ROOT
-                / "conductor/tracks/remaining_backlog_delivery_20260831/historical/qualify-hpc-source-python3151-20261115.py.txt"
+                / "conductor/archive/remaining_backlog_delivery_20260831/historical/qualify-hpc-source-python3151-20261115.py.txt"
             ),
             str(tmp_path / "missing.tar.gz"),
             "--revision",
@@ -87,7 +87,7 @@ def test_historical_cli_rejects_current_unqualified_interpreter(tmp_path: Path) 
 
 def test_current_qualifier_preserves_the_exact_previous_script() -> None:
     historical = (
-        ROOT / "conductor/tracks/remaining_backlog_delivery_20260831/historical/"
+        ROOT / "conductor/archive/remaining_backlog_delivery_20260831/historical/"
         "qualify-hpc-source-python3151-20261115.py.txt"
     )
     original = historical.read_bytes()

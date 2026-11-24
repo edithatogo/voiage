@@ -2,7 +2,7 @@
 
 Current disposition: [24 November reconciliation](../../reconciliation-20261124.md).
 Spack passed on Colab. The [HPC roadmap](../../../roadmap.md#deferred-hpc-qualification)
-owns the remaining native matrix. Repository closeout proceeds with B12–B14.
+owns the remaining native matrix. Repository closeout is complete.
 
 ## Phase 1 — Audit and recovery
 
@@ -30,7 +30,7 @@ owns the remaining native matrix. Repository closeout proceeds with B12–B14.
     `7f0feacc`; reviewed and merged trees match.
   - [x] B6.2: Bind current recipes to the qualified source and retain the
     delivered Linux graph, source/vendor, compiler and installed Spack receipts.
-    The [installed Spack receipt](../hpc_source_build_qualification_20261029/installed-spack-colab-20261124.md)
+    The [installed Spack receipt](../../tracks/hpc_source_build_qualification_20261029/installed-spack-colab-20261124.md)
     records the passing Spack cell. The remaining compiler, capacity,
     EasyBuild and upstream work is tracked on the HPC roadmap.
     Polars frontend/runtime source declarations were delivered in PR #1214.
@@ -111,25 +111,24 @@ owns the remaining native matrix. Repository closeout proceeds with B12–B14.
 
 ## Phase 4 — Final cleanup and audit
 
-- [~] B12: Preserve and remove integrated local branches and clean worktrees;
-  retain unique work, active branches and maintained release lines (AC5).
-  The independently restored 14 November bundle covered two tree-identical
-  retired branch tips. The 22 November restore verified four more integrated
-  branch tips before retirement. The three Spack repair tips for #1400–#1402
-  were independently restored and retired. Settle the disposition of remaining
-  refs and worktrees. Retain active or owner-held work with its ownership recorded.
-- [~] B13: Re-query final inventories and document all unfinished requirements
-  before assessing the complete user goal (AC6).
-  The [22 November inventory](b13-inventory-20261122.json) binds open PRs,
-  issues and refs after scoped branch retirement.
-  The [24 November reconciliation](../../reconciliation-20261124.md) records
-  the latest status review. Capture the terminal inventory after the remaining
-  repository delivery and eligible cleanup.
-- [~] B14: Review final receipts and run Conductor/cross-reference validation;
-  archive only when this track's acceptance criteria are satisfied (AC6).
-  Registry and cross-reference validation passed for the current checkpoint.
-  The final receipt awaits the repository inventory and B12 dispositions.
-  The deferred HPC track retains its own native acceptance and archival gate.
+- [x] B12. Independently restore and verify recovery before retiring eligible
+  integrated branches and worktrees (AC5). The final restore verified 285 refs,
+  11 notes refs, all 11 stash entries, and 91 additional reflog commits. The
+  two scratch worktrees and all three affected submodule stores passed
+  independent restoration. Then 20 local branch refs were retired with
+  exact-SHA leases, two scratch worktrees removed, and two stale registrations
+  pruned. The [inventory](./b13-inventory-20261124.json) records each disposition
+  and recovery digest.
+- [x] B13. Capture the final repository inventory after cleanup (AC6).
+  [24 November inventory](./b13-inventory-20261124.json) records one gated
+  draft PR, 23 open issues including #1053, 14 local branches, 11 remote
+  branches, and 14 retained worktrees. Git transport and GitHub agreed on all
+  remote heads. The #1053 receipt records the post-merge inventory.
+- [x] B14. Review the recovery, inventories, and protected delivery receipts
+  and validate the Conductor registry and cross-references (AC6). Preserve
+  the dated evidence in the archive and close [#1053](https://github.com/edithatogo/voiage/issues/1053)
+  after the signed archive merge and its inventory readback. Further native
+  qualification stays deferred under #1222 and upstream recipe work under #1025.
 
 ## Review fixes — current source qualification
 

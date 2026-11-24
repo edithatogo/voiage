@@ -9,7 +9,7 @@ capacity and retained native acceptance evidence. Planning was requested on
 
 This is the execution breakdown for the remaining HPC work in #1222 and #1025.
 The [24 November reconciliation](../../reconciliation-20261124.md) deferred it
-to the roadmap. [Remaining Backlog Delivery](../remaining_backlog_delivery_20260831/index.md)
+to the roadmap. [Remaining Backlog Delivery](../../archive/remaining_backlog_delivery_20260831/index.md)
 retains completed repository and Spack evidence and can close independently.
 This track retains all native acceptance criteria and completed component pilots.
 

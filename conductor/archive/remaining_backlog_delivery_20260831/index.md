@@ -3,6 +3,7 @@
 - [Specification](./spec.md)
 - [Implementation Plan](./plan.md)
 - [Metadata](./metadata.json)
+- [Final recovery and repository inventory (24 November)](./b13-inventory-20261124.json)
 - [Engineering closeout checkpoint and recovery (22 November)](./engineering-closeout-20261122.md)
 - [B8 verification and B13 inventory refresh](./b8-b13-checkpoint-20261114.md)
 - [Evidence](./evidence.jsonl)
@@ -21,11 +22,12 @@
 - [GitHub issue #1053](https://github.com/edithatogo/voiage/issues/1053)
 - [Related roadmap #296](https://github.com/edithatogo/voiage/issues/296)
 
-Status: repository closeout in progress. The
-[24 November reconciliation](../../reconciliation-20261124.md) records the
-remaining PR dispositions, cleanup and inventory. The
-[HPC roadmap](../../../roadmap.md#deferred-hpc-qualification) retains open native
-acceptance. Scientific, venue, registry and human gates remain with their owners.
+Repository closeout completed on 24 November 2026. The final inventory records
+the recovery verification, retired refs and worktrees, and every retained item.
+Issue #1053 records the signed archive delivery and post-merge readback.
+See the [HPC roadmap](../../../roadmap.md#deferred-hpc-qualification) for
+deferred native acceptance. Scientific, venue, registry and maintainer gates
+remain with their owners.
 
 - [Delivery checkpoint (2026-09-01)](./delivery-checkpoint-20260901.md)
 - [Delivery and cleanup observations (2026-09-01)](./delivery-checkpoint-20260901.json)
