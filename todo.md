@@ -799,6 +799,9 @@ as recorded in the active task above; earlier route decisions below are historic
 
 ## Done
 
+- [x] Retire the obsolete security-report templates and verify the private
+  advisory link in the issue chooser and `SECURITY.md`.
+
 - [x] Complete the [installed Spack qualification on Colab](conductor/tracks/hpc_source_build_qualification_20261029/installed-spack-colab-20261124.md)
   with Python 3.15.2, the Rust extension, Arrow and Polars.
 
