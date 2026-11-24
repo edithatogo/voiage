@@ -5,13 +5,13 @@ arxiv-latex-cleaner==1.0.11
 absl-py==2.5.1
 pillow==13.0.0
 pyyaml==6.0.3
-regex==2026.9.29
+regex==2026.11.9
 textstat==0.7.13
 # Keep readability tools and their transitive dependencies exact for uv pip sync.
 nltk==3.10.4
 pyphen==0.18.1
 # uv pip sync treats this file as an exact environment, so pin NLTK's runtime set.
-click==8.5.0
+click==8.5.1
 cloudpickle==3.1.2
 defusedxml==0.7.1
 joblib==1.6.0
