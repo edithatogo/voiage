@@ -122,6 +122,7 @@ def validate(root: Path) -> list[str]:
     }
     expected = {spack_requirement(text) for text in canonical["runtime"]} | {
         "python@3.15.2",
+        "c",
         "rust@=1.99.1",
         "py-maturin@1.9:1",
     }

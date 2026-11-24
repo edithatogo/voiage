@@ -40,9 +40,8 @@ implementation tracks are complete; parent review and optional telemetry are sep
 
 - [x] Qualify the bounded Linux Cargo/compiler-source and vendor checkpoint with authenticated inputs, offline replay and retained source/resource receipts. Full native HPC acceptance remains open.
 
-- [~] Complete the installed Spack qualification. EasyBuild foss/2023a and
-  foss/2024a follow-up is deferred as of 23 November. Final archival requires
-  all three installed qualifications to pass.
+- [~] Complete the installed HPC matrix before final archival. The Colab Spack
+  cell passed. EasyBuild foss/2023a and foss/2024a remain deferred.
   [HPC qualification track](conductor/tracks/hpc_source_build_qualification_20261029/index.md)
   - At the 5 November checkpoint, isolation/profile and named
     sudo/Lmod/source-attempt repairs had merged in
@@ -808,6 +807,9 @@ as recorded in the active task above; earlier route decisions below are historic
         signed publication, and explicit closeout of external indexing gates.
 
 ## Done
+
+- [x] Complete the [installed Spack qualification on Colab](conductor/tracks/hpc_source_build_qualification_20261029/installed-spack-colab-20261124.md)
+  with Python 3.15.2, the Rust extension, Arrow and Polars.
 
 - [x] Reduce [CPU EVPI startup and bridge overhead](docs/reviews/evpi-cpu-overhead-20261121.md)
   and verify the existing Metal path on the M1 Max.

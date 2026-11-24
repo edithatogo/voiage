@@ -1,6 +1,7 @@
 # Project Tracks
 
-Current execution priorities and reconciled evidence: [5 November reconciliation](./reconciliation-20261105.md). HPC is deferred except MLX/Metal; deferred acceptance remains open.
+The Colab Spack installed qualification passed. EasyBuild follow-up remains deferred.
+[5 November reconciliation](./reconciliation-20261105.md)
 
 The pre-submission comprehensive hardening programme completed on 2026-08-30.
 Historical and superseded tracks retain their evidenced lifecycle and
@@ -1141,7 +1142,7 @@ track at the top of this registry; completed repository slices stay closed.
 ---
 - [~] **Track: Rust/LLVM source builds and full HPC qualification**
   *Link: [./tracks/hpc_source_build_qualification_20261029/index.md](./tracks/hpc_source_build_qualification_20261029/index.md)*
-  Spack installed qualification is active. EasyBuild follow-up is deferred. The track retains the qualified Linux graphs, source replay and baseline compiler probes.
+  The Colab Spack installed qualification passed. Both EasyBuild generations remain deferred.
 
 ---
 - [~] **Track: Scientific ecosystem alignment (voiage)**

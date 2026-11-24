@@ -208,7 +208,14 @@ def test_spack_root_keeps_qualified_identity_without_git_metadata() -> None:
     assert values["VOIAGE_SOURCE_CLEAN"] == "true"
 
 
-def test_spack_root_runs_installed_imports_with_refreshed_paths() -> None:
+def test_spack_root_declares_the_c_linker_dependency() -> None:
+    recipe = (
+        ROOT / "packaging/current/spack/packages/py-voiage/package.py"
+    ).read_text()
+    assert 'depends_on("c", type="build")' in recipe
+
+
+def test_spack_root_runs_installed_imports_with_the_stock_load_environment() -> None:
     tree = ast.parse(
         (ROOT / "packaging/current/spack/packages/py-voiage/package.py").read_text()
     )
@@ -234,7 +241,7 @@ def test_spack_root_runs_installed_imports_with_refreshed_paths() -> None:
         for node in ast.walk(callback)
         if isinstance(node, ast.Call)
     }
-    assert "self.spec['python'].package.setup_dependent_run_environment" in calls
+    assert "environment_modifications_for_specs" in calls
     scoped_environment = next(
         node for node in callback.body if isinstance(node, ast.With)
     )
@@ -245,6 +252,7 @@ def test_spack_root_runs_installed_imports_with_refreshed_paths() -> None:
     }
     assert {
         "preserve_environment",
+        "env.group_by_name",
         "env.apply_modifications",
         "super().test_imports",
     } <= scoped_calls
