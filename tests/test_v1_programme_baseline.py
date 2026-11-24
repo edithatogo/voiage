@@ -140,13 +140,25 @@ def test_roadmap_and_backlog_distinguish_archived_v1_from_current_queue() -> Non
         for record in collect_track_records(Path.cwd())
         if record.track_dir.parent == Path.cwd() / "conductor/tracks"
     }
-    assert set(current_metadata) == set(registered_current)
+    manifest = json.loads(Path("conductor/github-cross-references.json").read_text())
+    deferred = {
+        track["track_id"]: track
+        for track in manifest["tracks"]
+        if track["lifecycle"] == "deferred"
+    }
+    assert set(current_metadata) - registered_current.keys() == deferred.keys()
+    assert registered_current.keys() <= current_metadata.keys()
+    for track_id, track in deferred.items():
+        assert current_metadata[track_id]["status"] == "deferred"
+        assert track["issue"]["state"] == "open"
+        assert f"conductor/tracks/{track_id}/" in roadmap
     assert current_track_id in current_metadata
     assert current_metadata[current_track_id]["status"] == "in_progress"
     current_todo = todo.split("## To Do\n", maxsplit=1)[1].split("\n## ", maxsplit=1)[0]
-    for track_id, metadata in current_metadata.items():
+    for track_id, record in registered_current.items():
+        metadata = current_metadata[track_id]
         assert metadata["status"] in {"new", "in_progress", "completed"}
-        assert metadata["status"] == registered_current[track_id].expected_status
+        assert metadata["status"] == record.expected_status
         current_link = f"./tracks/{track_id}/index.md"
         assert f"]({current_link})" in registry
         assert f"conductor/tracks/{track_id}/" in roadmap

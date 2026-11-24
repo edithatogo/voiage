@@ -1,10 +1,10 @@
 # Logging and versioning delivery orchestration
 
 The first five implementation tracks record completed delivery. Optional native
-telemetry remains separately gated by demonstrated need. The parent programme's
-G03.4 provider acceptance, G04.4 measurement/replay evidence, G05.4 live-target
-witness and final review remain open. See the
-[5 November reconciliation](../../reconciliation-20261105.md). Root AGENTS.md
+telemetry remains separately gated by demonstrated need. G04.4 measurement and
+replay and the G05.4 live-target witness are complete. G03.4 Julia General/JLL
+acceptance and final programme acceptance remain open. See the
+[24 November reconciliation](../../reconciliation-20261124.md). Root AGENTS.md
 continues to govern implementation and verification.
 
 ## Canonical sequence

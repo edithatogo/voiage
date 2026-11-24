@@ -1,5 +1,9 @@
 # Build capacity: implementation and scope decision
 
+The [HPC roadmap](../../../roadmap.md#deferred-hpc-qualification) owns further
+native capacity work. This plan retains the existing scope decision, remaining
+measurements and pilot receipts for resumption.
+
 Status: instrumentation locally verified and pilot evidence retained; full HPC capacity qualification remains open. The obsolete fixed admission floor has been removed from the current replay candidate.
 
 ## Ownership and evidence

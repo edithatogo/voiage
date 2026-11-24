@@ -9,8 +9,11 @@ The Linux graph, source/vendor and native compiler checkpoints have retained
 receipts. The [installed Spack qualification](./installed-spack-colab-20261124.md)
 passed on Colab.
 
-EasyBuild foss/2023a and foss/2024a follow-up remains deferred. Final archival
-requires their passing installed qualifications.
+Status: [deferred to the roadmap](../../../roadmap.md#deferred-hpc-qualification).
+Both EasyBuild generations, remaining compiler and capacity work, and
+generation isolation stay open. This track's archival requires the successful
+native matrix and remaining acceptance criteria. The repository backlog can
+close independently.
 
 - [GitHub issue](https://github.com/edithatogo/voiage/issues/1222)
 

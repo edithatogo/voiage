@@ -1,8 +1,11 @@
 # Implementation plan
 
-Status: in progress; user-authorized scientific ecosystem delivery includes this
-linked track. See the compiler requirement review in [the handoff](handoff.md). Sequential dependencies are P1 -> P2 -> P3 -> P4 ->
-P5 -> P6. P2 source controls must pass before P3 fetch/build dispatch.
+Further execution is [deferred](../../../roadmap.md#deferred-hpc-qualification).
+Resume from the existing receipts and pending tasks when HPC is prioritized.
+The [capacity plan](../remaining_backlog_delivery_20260831/capacity-plan.md)
+retains the remaining source staging, cache reuse and resource-budget work.
+See the compiler requirement review in [the handoff](handoff.md). P2 source
+controls must pass before P3 fetch and build dispatch.
 
 ## P1 — Reconcile ownership and freeze the graph
 - [x] Task: Review the packaging requirement for every source-built compiler.

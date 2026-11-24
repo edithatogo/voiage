@@ -1,8 +1,8 @@
 # voiage Project Roadmap (v3)
 
-Current execution status: [5 November reconciliation](conductor/reconciliation-20261105.md).
-HPC execution is deferred except MLX/Metal; historical setup/completion labels
-do not claim installed package acceptance or device speedup.
+Current execution status: [24 November reconciliation](conductor/reconciliation-20261124.md).
+Finish repository closeout while [further HPC qualification](#deferred-hpc-qualification)
+is deferred. The Colab Spack pass and MLX/Metal EVPI no-go are retained.
 
 ## Vision
 
@@ -70,10 +70,8 @@ current-revision hosted gates remain required.
 
 Prepared track records:
 
-- The Colab Spack installed qualification passed. EasyBuild foss/2023a and
-  foss/2024a installed qualification remains deferred.
-  [HPC qualification track](conductor/tracks/hpc_source_build_qualification_20261029/index.md)
-- `conductor/tracks/scientific_ecosystem_alignment_20261029/` (HPC portion deferred except MLX/Metal; independent scientific delivery remains eligible)
+- [Scientific ecosystem alignment](conductor/tracks/scientific_ecosystem_alignment_20261029/index.md)
+  retains repository and installed-consumer work.
 - [Archived MLX/Metal EVPI qualification](conductor/archive/mlx_metal_evpi_backend_20261121/index.md)
   records the ML00 no-go on the M1 Max and the follow-up memory profile.
 - [Optional simulation-outcome boundary](conductor/tracks/simulation_outcome_boundary_20261107/index.md)
@@ -98,6 +96,25 @@ The ordered implementation tracks are individually registered under issues
 [#1111](https://github.com/edithatogo/voiage/issues/1111) through
 [#1116](https://github.com/edithatogo/voiage/issues/1116), with execution
 guard delivery proceeding first and dependent tracks held until its merge.
+
+## Deferred HPC qualification
+
+Resume under [the existing HPC plan](conductor/tracks/hpc_source_build_qualification_20261029/index.md)
+and [#1222](https://github.com/edithatogo/voiage/issues/1222) when further HPC
+work is prioritized. The Linux graph, source/vendor and baseline Rust/LLVM
+compiler receipts are retained. The [installed Spack qualification](conductor/tracks/hpc_source_build_qualification_20261029/installed-spack-colab-20261124.md)
+passed on Colab. The existing MLX/Metal feasibility track closed with a no-go.
+
+- Finish installed EasyBuild foss/2023a and foss/2024a, including generation
+  isolation, compiler configurations and measured capacity for the remaining cells.
+- Use the [capacity plan](conductor/tracks/remaining_backlog_delivery_20260831/capacity-plan.md)
+  for the remaining source-staging, cleanup, cache-reuse and resource-budget work.
+- Keep upstream recipe packaging and delivery under
+  [#1025](https://github.com/edithatogo/voiage/issues/1025). Cluster, scheduler,
+  other-platform and accelerator work can be selected independently later.
+
+The HPC track archives after its native acceptance criteria pass. Repository
+closeout proceeds under [#1053](https://github.com/edithatogo/voiage/issues/1053).
 
 ## Comprehensive Rust-First Polyglot Programme
 
@@ -192,10 +209,9 @@ current disclosures. Journal submission precedes the deferred arXiv lane.
 
 The remaining delivery queue is governed by issue #1053 and
 `conductor/tracks/remaining_backlog_delivery_20260831/`. It covers dependency
-controls, measured test acceleration, current HPC and Julia packaging
-candidates, issue evidence, protected PR delivery and recovery-backed cleanup.
-This work does not reopen the archived hardening programme or establish
-outstanding scientific, registry, funding or venue outcomes.
+controls, measured test acceleration, delivered packaging candidates, issue
+evidence, protected PR delivery and recovery-backed cleanup. Native HPC and
+scientific, registry, funding and venue outcomes retain their own tracks.
 
 ### Tabular contract v3 and Polars migration
 

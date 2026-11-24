@@ -6,7 +6,9 @@ acceptance or other active track owners.
 
 - Reconcile accepted provider and capacity packets through the existing integrator.
 - Review each Rust/LLVM source bootstrap against an explicit packaging requirement.
-- Qualify Innovate/MARS adapters and tobac/VOP installed numerical contracts; retain full HPC gates.
+- Qualify Innovate/MARS adapters and tobac/VOP installed numerical contracts.
+  The [HPC roadmap](../../../roadmap.md#deferred-hpc-qualification) owns further
+  native packaging and compiler acceptance.
 
 Use frontier-first qualified candidates and explicit retained-version exceptions.
 Separate core, binding, backend, build, test-oracle and tooling dependencies.

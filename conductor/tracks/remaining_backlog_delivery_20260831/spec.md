@@ -8,6 +8,12 @@ prune retired branches and worktrees. This track records that existing scope;
 it does not replace individual issues' acceptance criteria or reopen completed
 historical tracks. Issue #1053 coordinates delivery.
 
+The [24 November scope decision](../../reconciliation-20261124.md) defines the
+remaining repository-owned acceptance for this track. The
+[HPC roadmap](../../../roadmap.md#deferred-hpc-qualification) owns further
+native qualification and upstream recipe work. The accepted repository
+recipes, installed Colab Spack pass and previous native receipts remain evidence.
+
 ## Authoritative inputs
 
 - `AGENTS.md`, `CONTRIBUTING.md`, `conductor/workflow.md` and
@@ -24,8 +30,9 @@ historical tracks. Issue #1053 coordinates delivery.
 1. **AC1 — Inventory:** audit all open PRs and issues, retaining source heads,
    current acceptance criteria, delivery state and unresolved gates.
 2. **AC2 — Technical repairs:** complete dependency delivery and Codecov
-   controls (#656), opt-in test acceleration (#1028), HPC packaging (#1025),
-   and remaining repository-owned R, governance and venue preparation.
+   controls (#656), opt-in test acceleration (#1028), repository source and
+   recipe delivery (#1025), and remaining repository-owned R, governance
+   and venue preparation.
    Preserve historical evidence and full CI, numerical and coverage gates.
 3. **AC3 — Delivery:** self-review each diff, run full local verification,
    resolve hosted failures and merge each eligible PR sequentially against
@@ -38,7 +45,9 @@ historical tracks. Issue #1053 coordinates delivery.
    before pruning. Recheck current branch tips and open PRs; use exact-SHA
    deletion leases. Keep maintained release branches and active worktrees.
 6. **AC6 — Final audit:** verify live PR, issue, branch and worktree inventories.
-   Do not claim the overall goal complete while required work remains.
+   Record every outstanding item's disposition and owner or gate. Archive this
+   track after the authorized repository delivery and recovery-backed cleanup
+   have been verified. Deferred native qualification retains its own criteria.
 
 ## External gates and exclusions
 
@@ -54,12 +63,9 @@ protected controls merely to close an issue.
 
 ## Capacity acceptance extension — 28 October 2026
 
-B6-CAP1–B6-CAP4 separate ordinary verification, SDK-based native dependency
-builds, compiler-from-source builds and the complete HPC matrix. G04.4 owns
-common disk instrumentation and G04.5 ordinary verification calibration.
-See [capacity plan](./capacity-plan.md) for source-bound evidence, ownership,
-measurement limits and the explicit support-scope decision. Preserve historical
-receipts and qualify source-bound replay and resource controls. No scope reduction or new hard storage
-limit is accepted without the recorded decision and representative measurements.
-B8 requires equivalent numerical, Arrow, linkage and module/isolation behaviour;
-B12 preserves unique work before any exact-target cleanup.
+The [capacity plan](./capacity-plan.md) retains the B6-CAP1–B6-CAP4 evidence,
+support decision and remaining measurements. G04.4 owns common disk
+instrumentation and G04.5 ordinary verification calibration. The deferred HPC
+plan owns further native capacity, linkage and module-isolation qualification.
+B8 retains full repository verification and B12 preserves unique work before
+any exact-target cleanup.
