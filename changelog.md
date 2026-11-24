@@ -1,5 +1,8 @@
 # Changelog
 
+- Remove two obsolete public security-report templates. The issue chooser
+  links to private vulnerability reporting.
+
 - Update `url` to 2.5.9 in both Rust lockfiles to address
   [RUSTSEC-2026-0592](https://rustsec.org/advisories/RUSTSEC-2026-0592.html).
 
