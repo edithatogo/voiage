@@ -82,7 +82,7 @@ def test_astro_site_uses_current_polyglot_stack() -> None:
     dependencies = manifest["dependencies"]
     for package, floor, ceiling in (
         ("astro", "7.1.3", "8"),
-        ("@astrojs/starlight", "0.41.4", "0.43"),
+        ("@astrojs/starlight", "0.41.4", "0.44"),
     ):
         pin = dependencies[package]
         assert re.fullmatch(r"\d+\.\d+\.\d+", pin), (package, pin)
