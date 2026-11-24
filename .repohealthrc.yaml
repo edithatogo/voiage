@@ -1,0 +1,9 @@
+version: 1
+disable:
+  - DOC-07 # The changelog is tracked as changelog.md.
+  - DEP-01 # The Python lock is uv.lock and the polyglot locks are nested.
+  - DEP-03 # The report records last-change dates for the actual lockfiles.
+  - SEC-04 # Frozen-install checks use the repository's actual lockfiles.
+exclude:
+  - .conductor
+  - packaging/spack-overlay/catalogue-license-sources

@@ -1,4 +1,6 @@
 version: 1
+# Same-commit workflow reference flagged by alint 0.22.1.
+baseline: .alint-baseline.jsonl
 extends:
   - alint://bundled/oss-baseline@v1
   - alint://bundled/ci/github-actions@v1
@@ -7,3 +9,28 @@ rules:
     level: error
   - id: oss-license-exists
     level: error
+  - id: oss-final-newline
+    paths:
+      include: ["**/*.md", "**/*.txt", "**/*.toml", "**/*.yml", "**/*.yaml"]
+      exclude:
+        # Hash-bound inventory.
+        - conductor/tracks/polars_container_20261026/inventory.md
+  - id: oss-no-trailing-whitespace
+    paths:
+      include: ["**/*.txt", "**/*.toml", "**/*.yml", "**/*.yaml"]
+      exclude:
+        # Original solver output.
+        - conductor/tracks/hpc_source_build_qualification_20261029/evidence/linux-graph-20261102/spack-solver.txt
+  - id: markdown-no-stray-trailing-whitespace
+    kind: file_content_forbidden
+    paths: ["**/*.md"]
+    pattern: |
+      (?xm)
+      (?:
+          [^\x20\t\r\n]\x20  # One trailing space
+        | \x20{3,}            # More than two trailing spaces
+        | \t[\x20\t]*         # A tab in trailing whitespace
+        | ^[\x20\t]+          # A blank line containing whitespace
+      )\r?$
+    level: info
+    message: "Markdown hard breaks use two spaces after text."

@@ -54,4 +54,25 @@ jobs:
             "https://github.com/spbuilds/repohealth/releases/download/v${REPOHEALTH_VERSION}/repohealth_${REPOHEALTH_VERSION}_linux_amd64.tar.gz"
           printf '%s  %s\n' "$REPOHEALTH_SHA256" "$archive" | sha256sum --check --strict
           tar -xzf "$archive" -C "$tool_dir" repohealth
-          "$tool_dir/repohealth" . --format markdown | tee -a "$GITHUB_STEP_SUMMARY"
+          repository_files=(
+            uv.lock
+            rust/Cargo.lock
+            r-package/voiageR/src/rust/Cargo.lock
+            docs/astro-site/pnpm-lock.yaml
+            changelog.md
+          )
+          git ls-files --error-unmatch -- "${repository_files[@]}" >/dev/null
+          {
+            "$tool_dir/repohealth" . --config .repohealthrc.yaml --format markdown
+            printf '\n## Voiage lockfiles and changelog\n\n'
+            printf 'The score uses the checks and exclusions in .repohealthrc.yaml.\n\n'
+            printf '| Tracked file | Last change |\n| --- | --- |\n'
+            for file in "${repository_files[@]}"; do
+              if ! test -s "$file"; then
+                printf '::error file=%s::Expected a nonempty repository file.\n' "$file" >&2
+                exit 1
+              fi
+              date=$(git log -1 --format=%cs -- "$file")
+              printf '| %s | %s |\n' "$file" "$date"
+            done
+          } | tee -a "$GITHUB_STEP_SUMMARY"
