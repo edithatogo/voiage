@@ -107,16 +107,18 @@ def _track_text(track_id: str) -> str:
 def test_registry_exactly_matches_active_track_directories() -> None:
     """Every active directory is registered and every active link resolves."""
     registry = _read("conductor/tracks.md")
-    active_root = Path("conductor/tracks")
-    active_ids = (
-        {path.name for path in active_root.iterdir() if path.is_dir()}
-        if active_root.is_dir()
-        else set()
-    )
+    local_ids = {path.name for path in Path("conductor/tracks").iterdir() if path.is_dir()}
+    cross_references = json.loads(_read("conductor/github-cross-references.json"))
+    deferred_ids = {
+        track["track_id"]
+        for track in cross_references["tracks"]
+        if track["lifecycle"] == "deferred"
+    }
     registered_ids = set(re.findall(r"\./tracks/([^/]+)/", registry))
 
-    assert registered_ids == active_ids
-    assert active_ids.isdisjoint(
+    assert deferred_ids <= local_ids
+    assert registered_ids == local_ids - deferred_ids
+    assert local_ids.isdisjoint(
         path.name for path in Path("conductor/archive").iterdir() if path.is_dir()
     )
 
