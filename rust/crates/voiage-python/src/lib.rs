@@ -27,13 +27,15 @@ use voiage_diagnostics::{CancellationToken, CheckpointIdentity, CheckpointStore,
 use voiage_domain::{BigRational, SampleCube, SampleMatrix, SampleVector};
 use voiage_numerics::{
     ceaf, coss, coss_selection_uncertainty, dominance, enbs, estimation_truth_assurance, evpi,
-    evpi_resumable, evppi, evppi_variance, evppi_variance_with_assurance, evsi_efficient_linear,
-    evsi_evpi_efficiency, evsi_moment_based, evsi_regression, evsi_stochastic, evsi_variance,
-    evsi_variance_with_assurance, expected_utility_information, heterogeneity,
-    information_efficiency_uncertainty, normal_normal_two_arm_evsi, structural_evpi,
-    structural_evppi, DominanceStatus as KernelDominanceStatus, EstimationVarianceKernelResult,
-    ExpectedUtilityInformationInput, InformationStructure, NumericalInputError,
-    ResumableEvpiOutcome, SolverSettings, UtilityDescriptor,
+    evpi_resumable, evppi, evppi_from_mars_artifact, evppi_nonlinear, evppi_variance,
+    evppi_variance_with_assurance, evsi_efficient_linear, evsi_evpi_efficiency, evsi_moment_based,
+    evsi_regression, evsi_stochastic, evsi_variance, evsi_variance_with_assurance,
+    expected_utility_information, heterogeneity, information_efficiency_uncertainty,
+    normal_normal_two_arm_evsi, structural_evpi, structural_evppi,
+    DominanceStatus as KernelDominanceStatus, EstimationVarianceKernelResult, EvppiBasis,
+    EvppiNonlinearConfig, ExpectedUtilityInformationInput, InformationStructure, MarsArtifact,
+    MarsHingeFactor, MarsStrategyModel, MarsTerm, NumericalInputError, ResumableEvpiOutcome,
+    SolverSettings, UtilityDescriptor,
 };
 use voiage_serialization::{
     CeafResultV1, CeafResultV1Input, DominanceResultV1, DominanceResultV1Input, DominanceStatus,
@@ -1019,6 +1021,172 @@ fn compute_evppi(
     })
 }
 
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct MarsHingeFactorDto {
+    parameter_index: usize,
+    knot: f64,
+    direction: i8,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct MarsTermDto {
+    coefficient: f64,
+    factors: Vec<MarsHingeFactorDto>,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct MarsStrategyModelDto {
+    intercept: f64,
+    terms: Vec<MarsTermDto>,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct MarsArtifactDto {
+    schema_version: String,
+    producer: String,
+    strategies: Vec<MarsStrategyModelDto>,
+}
+
+/// Compute cross-fitted nonlinear EVPPI and diagnostic summaries in Rust.
+#[pyfunction]
+fn compute_evppi_nonlinear(
+    py: Python<'_>,
+    net_benefit: &Bound<'_, PyAny>,
+    parameter_samples: &Bound<'_, PyAny>,
+    basis: &str,
+    knots_per_parameter: usize,
+    fold_count: usize,
+    ridge_lambda: f64,
+) -> PyResult<Py<PyDict>> {
+    let net_benefit = matrix_from_python(net_benefit, "net_benefit")?;
+    let parameter_samples = matrix_from_python(parameter_samples, "parameter_samples")?;
+    let basis_kind = match basis {
+        "quadratic_interaction" => EvppiBasis::QuadraticInteraction,
+        "piecewise_linear_spline" => EvppiBasis::PiecewiseLinearSpline {
+            knots_per_parameter,
+        },
+        _ => {
+            return Err(PyValueError::new_err(format!(
+                "unsupported nonlinear EVPPI basis: {basis}"
+            )));
+        }
+    };
+    let config = EvppiNonlinearConfig {
+        basis: basis_kind,
+        fold_count,
+        ridge_lambda,
+    };
+    let result =
+        evppi_nonlinear(&net_benefit, &parameter_samples, &config).map_err(|error| match error
+            .category()
+        {
+            ErrorCategory::DimensionMismatch => {
+                DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+            }
+            _ => InputError::new_err(("invalid_input", error.to_string())),
+        })?;
+    let output = PyDict::new(py);
+    output.set_item("estimator", result.estimator)?;
+    output.set_item("contract_version", result.contract_version)?;
+    output.set_item("evppi_in_sample", result.evppi_in_sample)?;
+    output.set_item("evppi_held_out", result.evppi_held_out)?;
+    output.set_item("held_out_realized_gain", result.held_out_realized_gain)?;
+    output.set_item(
+        "held_out_decision_loss_vs_perfect",
+        result.held_out_decision_loss_vs_perfect,
+    )?;
+    output.set_item("linear_evppi_reference", result.linear_evppi_reference)?;
+    output.set_item("expected_current_value", result.expected_current_value)?;
+    output.set_item(
+        "expected_perfect_information",
+        result.expected_perfect_information,
+    )?;
+    output.set_item("held_out_r2_by_strategy", result.held_out_r2_by_strategy)?;
+    output.set_item(
+        "held_out_rmse_by_strategy",
+        result.held_out_rmse_by_strategy,
+    )?;
+    output.set_item("basis_width", result.basis_width)?;
+    output.set_item("sample_count", result.sample_count)?;
+    output.set_item("strategy_count", result.strategy_count)?;
+    output.set_item("parameter_count", result.parameter_count)?;
+    output.set_item("fold_count", result.fold_count)?;
+    output.set_item("ridge_lambda", result.ridge_lambda)?;
+    output.set_item("applicability_warnings", result.applicability_warnings)?;
+    Ok(output.unbind())
+}
+
+/// Replay a producer-owned MARS fitted artifact to evaluate EVPPI in Rust.
+#[pyfunction]
+fn compute_evppi_mars_artifact(
+    py: Python<'_>,
+    net_benefit: &Bound<'_, PyAny>,
+    parameter_samples: &Bound<'_, PyAny>,
+    artifact_json: &str,
+) -> PyResult<Py<PyDict>> {
+    let net_benefit = matrix_from_python(net_benefit, "net_benefit")?;
+    let parameter_samples = matrix_from_python(parameter_samples, "parameter_samples")?;
+    let dto: MarsArtifactDto = serde_json::from_str(artifact_json)
+        .map_err(|error| PyValueError::new_err(format!("invalid MARS artifact JSON: {error}")))?;
+    let artifact = MarsArtifact {
+        schema_version: dto.schema_version,
+        producer: dto.producer,
+        strategies: dto
+            .strategies
+            .into_iter()
+            .map(|strategy| MarsStrategyModel {
+                intercept: strategy.intercept,
+                terms: strategy
+                    .terms
+                    .into_iter()
+                    .map(|term| MarsTerm {
+                        coefficient: term.coefficient,
+                        factors: term
+                            .factors
+                            .into_iter()
+                            .map(|factor| MarsHingeFactor {
+                                parameter_index: factor.parameter_index,
+                                knot: factor.knot,
+                                direction: factor.direction,
+                            })
+                            .collect(),
+                    })
+                    .collect(),
+            })
+            .collect(),
+    };
+    let result =
+        evppi_from_mars_artifact(&net_benefit, &parameter_samples, &artifact).map_err(|error| {
+            match error.category() {
+                ErrorCategory::DimensionMismatch => {
+                    DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+                }
+                _ => InputError::new_err(("invalid_input", error.to_string())),
+            }
+        })?;
+    let output = PyDict::new(py);
+    output.set_item("estimator", result.estimator)?;
+    output.set_item("contract_version", result.contract_version)?;
+    output.set_item("evppi", result.evppi)?;
+    output.set_item("realized_decision_gain", result.realized_decision_gain)?;
+    output.set_item("decision_loss_vs_perfect", result.decision_loss_vs_perfect)?;
+    output.set_item("expected_current_value", result.expected_current_value)?;
+    output.set_item(
+        "expected_perfect_information",
+        result.expected_perfect_information,
+    )?;
+    output.set_item("r2_by_strategy", result.r2_by_strategy)?;
+    output.set_item("rmse_by_strategy", result.rmse_by_strategy)?;
+    output.set_item("sample_count", result.sample_count)?;
+    output.set_item("strategy_count", result.strategy_count)?;
+    output.set_item("parameter_count", result.parameter_count)?;
+    Ok(output.unbind())
+}
+
 fn estimation_variance_result_to_dict<'py>(
     py: Python<'py>,
     result: &EstimationVarianceKernelResult,
@@ -1819,6 +1987,8 @@ fn core_module(module: &Bound<'_, PyModule>) -> PyResult<()> {
     )?)?;
     module.add_function(wrap_pyfunction!(compute_ceaf, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evppi, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_evppi_nonlinear, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_evppi_mars_artifact, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evppi_variance, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_variance, module)?)?;

@@ -67,7 +67,7 @@
     {
       "id": "Q04",
       "title": "Nonlinear EVPPI qualification",
-      "status": "planned",
+      "status": "completed_rust_routes",
       "depends_on": [
         "Q01",
         "Q02",

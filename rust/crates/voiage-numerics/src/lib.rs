@@ -38,7 +38,11 @@ pub use estimation_variance::{
 };
 pub use evpi::evpi;
 pub use evpi_resume::{evpi_resumable, ResumableEvpiOutcome};
-pub use evppi::evppi;
+pub use evppi::{
+    evppi, evppi_from_mars_artifact, evppi_nonlinear, EvppiBasis, EvppiMarsResult,
+    EvppiNonlinearConfig, EvppiNonlinearResult, MarsArtifact, MarsHingeFactor, MarsStrategyModel,
+    MarsTerm,
+};
 pub use evsi::{evsi_stochastic, EvsiKernelResult};
 pub use evsi_efficient::{evsi_efficient_linear, EvsiApproximationResult};
 pub use evsi_moment::evsi_moment_based;

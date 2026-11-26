@@ -102,6 +102,9 @@ with an explicit applicability and surrogate-diagnostic contract.
 - [ ] Compare with pinned `voi` flexible estimators and independent nested references; report approximation error separately from sampling error.
 - [ ] Test held-out prediction/decision diagnostics, reproducibility and supported failure states before changing maturity.
 
+**Q04 Rust nonlinear routes & MARS replay (`codex/frontier-q04-nonlinear-evppi-20261126`):**
+Implemented leak-free cross-fitted Rust nonlinear EVPPI (`QuadraticInteraction` and quantile `PiecewiseLinearSpline`) and producer-owned MARS hinge-artifact replay (`evppi_from_mars_artifact`) in `voiage-numerics`, wired via PyO3 (`voiage._runtime.compute_evppi_nonlinear`, `compute_evppi_mars_artifact`), and verified against held-out quadratic (`sqrt(2/pi) * exp(-0.5)`), multiplicative interaction (`1/pi`), correlated noisy models, invariance, and applicability warnings (`rust/crates/voiage-numerics/tests/evppi_nonlinear.rs`, `tests/test_q04_nonlinear_evppi.py`). External R `voi` comparator matrix runs remain queued under `Q09`.
+
 ### Q05 — Qualify coherent EVSI estimators
 
 Maps to V03/V04/V05/V07/F02. Depends on Q01/Q02/Q03; nonlinear surrogate variants also depend on Q04.

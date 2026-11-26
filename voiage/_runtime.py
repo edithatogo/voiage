@@ -473,3 +473,44 @@ def compute_evsi_regression(
     except Exception as error:
         _raise_native_error(error)
     return dict(result)
+
+
+def compute_evppi_nonlinear(
+    net_benefit: list[list[float]],
+    parameter_samples: list[list[float]],
+    *,
+    basis: str = "quadratic_interaction",
+    knots_per_parameter: int = 5,
+    fold_count: int = 5,
+    ridge_lambda: float = 1e-6,
+) -> dict[str, object]:
+    """Compute cross-fitted nonlinear EVPPI and diagnostic summaries in Rust."""
+    try:
+        result = _native().compute_evppi_nonlinear(
+            net_benefit,
+            parameter_samples,
+            basis,
+            knots_per_parameter,
+            fold_count,
+            ridge_lambda,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
+def compute_evppi_mars_artifact(
+    net_benefit: list[list[float]],
+    parameter_samples: list[list[float]],
+    artifact_json: str,
+) -> dict[str, object]:
+    """Replay a producer-owned MARS fitted artifact to evaluate EVPPI in Rust."""
+    try:
+        result = _native().compute_evppi_mars_artifact(
+            net_benefit,
+            parameter_samples,
+            artifact_json,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
