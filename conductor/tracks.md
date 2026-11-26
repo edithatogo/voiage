@@ -1181,7 +1181,7 @@ track at the top of this registry; completed repository slices stay closed.
 
 ---
 - [ ] **Track: Q08 Producer and Public-Health Workflows (V08, F06, F07, F08)**
-  *Link: [./tracks/voi_producer_public_health_q08_20261126/index.md](./tracks/voi_producer_public_health_q08_20261126/index.md)*
+  *Link: [./archive/voi_producer_public_health_q08_20261126/index.md](./archive/voi_producer_public_health_q08_20261126/index.md)*
   Installed producer exports, S01–S06 empirical/published benchmarks, risk-prediction, and public-health distributional workflows.
   GitHub: https://github.com/edithatogo/voiage/issues/1221
 

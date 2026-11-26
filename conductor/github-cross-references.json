@@ -6113,12 +6113,12 @@
     {
       "track_id": "voi_producer_public_health_q08_20261126",
       "metadata_track_id": "voi_producer_public_health_q08_20261126",
-      "path": "conductor/tracks/voi_producer_public_health_q08_20261126",
-      "lifecycle": "active",
+      "path": "conductor/archive/voi_producer_public_health_q08_20261126",
+      "lifecycle": "archived",
       "issue": {
         "number": 1423,
         "url": "https://github.com/edithatogo/voiage/issues/1423",
-        "state": "open"
+        "state": "closed"
       },
       "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1221",
       "subissues": [],

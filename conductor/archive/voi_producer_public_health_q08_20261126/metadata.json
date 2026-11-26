@@ -3,7 +3,7 @@
   "type": "feature",
   "status": "new",
   "created_at": "2026-11-26T13:16:00Z",
-  "updated_at": "2026-11-26T13:16:00Z",
+  "updated_at": "2026-11-26T20:50:00Z",
   "description": "Q08 producer and public-health workflows (V08, F06, F07, F08)",
   "dependencies": [
     "scientific_ecosystem_alignment_20261029"
