@@ -178,6 +178,13 @@ Welfare, transfers and costs use the existing installed SI02 evaluator.
 Mixed, correlated, information-set and dynamic claims retain the qualification
 requirements above. The comparative application pilot remains in SI04.
 
+The version 1 projection admits both original backward-induction algorithm
+`1.0.0` and `1.0.1` from the signed Paignia 0.1.0 release. Version 1.0.1
+corrects chance-payoff summation while retaining the static result schema
+and selection contract. Receipts carry the algorithm version actually
+executed and retain the package, input and run bindings.
+[Paignia result contract](https://github.com/edithatogo/paignia/blob/a04a19da06cc50e310a172574ed66f62000b891a/docs/architecture/solver-result-v1.md)
+
 The [synthetic fixture](../../../tests/fixtures/strategic_game_provider/)
 uses two equiprobable observed states. The Rust producer validates its native
 envelope and checks the institution's choices and both expected payoffs. The

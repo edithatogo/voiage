@@ -31,7 +31,6 @@ _NATIVE_FIELDS = (
         "solution concept",
     ),
     ("algorithm", "paignia/backward-induction", "algorithm"),
-    ("algorithm_version", "1.0.0", "algorithm version"),
     (
         "selection_rule",
         "input_order_pairwise_tolerance_then_lexicographic",
@@ -132,6 +131,8 @@ def _validate_native_policy(
     for field, required, label in _NATIVE_FIELDS:
         if native[field] != required:
             raise ValueError(f"unsupported native {label}")
+    if native["algorithm_version"] not in ("1.0.0", "1.0.1"):
+        raise ValueError("unsupported native algorithm version")
     identities = native["identities"]
     for field, expected in (
         ("specification_id", binding.specification_id),
