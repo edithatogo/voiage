@@ -38,10 +38,14 @@ fn r02_joint_research_implementation_capacity_selects_feasible_optimum() {
 
 #[test]
 fn r03_transport_bias_bounds_nest_nominal_evsi() {
-    let b = transport_bias_evsi_bounds(50.0, 100.0, 0.2).unwrap();
-    assert!((b.lower_bound_evsi - 40.0).abs() < 1e-12);
-    assert!((b.upper_bound_evsi - 60.0).abs() < 1e-12);
+    let b = transport_bias_evsi_bounds(0.0, 1.0, 0.1, 11.2).unwrap();
+    assert!((b.lower_bound_evsi - 0.0).abs() < 1e-12);
+    assert!((b.upper_bound_evsi - 1.0).abs() < 1e-12);
     assert_eq!(b.maturity, "experimental_frontier_v1");
+
+    let b2 = transport_bias_evsi_bounds(50.0, 100.0, 0.2, 25.0).unwrap();
+    assert!((b2.lower_bound_evsi - 40.0).abs() < 1e-12);
+    assert!((b2.upper_bound_evsi - 60.0).abs() < 1e-12);
 }
 
 #[test]
@@ -54,6 +58,7 @@ fn q08_and_r01_r03_error_branches_fail_closed() {
     assert!(
         joint_research_implementation_capacity(&[], &[(10.0, 1.0, 50.0)], &[(10.0, 1.0)]).is_err()
     );
-    assert!(transport_bias_evsi_bounds(120.0, 100.0, 0.2).is_err());
-    assert!(transport_bias_evsi_bounds(50.0, 100.0, 1.5).is_err());
+    assert!(transport_bias_evsi_bounds(120.0, 100.0, 0.2, 10.0).is_err());
+    assert!(transport_bias_evsi_bounds(50.0, 100.0, 1.5, 10.0).is_err());
+    assert!(transport_bias_evsi_bounds(50.0, 100.0, 0.2, -1.0).is_err());
 }

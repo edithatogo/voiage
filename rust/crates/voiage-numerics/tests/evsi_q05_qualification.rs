@@ -64,6 +64,21 @@ fn q05_conjugate_study_models_are_nonnegative_and_monotone_in_sample_size() {
     let tte_large = exponential_time_to_event_evsi(3.0, 6.0, 40.0, 400.0, -200.0).unwrap();
     assert!(tte_small > 0.0);
     assert!(tte_large > tte_small);
+
+    // Codex P1 counterexamples: large-exposure Gamma-Poisson & Beta(shape < 1) TTE
+    let gp_large_n = gamma_poisson_evsi(
+        4.0,
+        1.0,
+        1.0,
+        &SampleSizeConvention::TotalEqualTwoArm { total: 100_000 },
+        1.0,
+        -4.0,
+    )
+    .unwrap();
+    assert!(gp_large_n > 0.5);
+
+    let tte_singular = exponential_time_to_event_evsi(0.1, 1.0, 1.0, 1.0, 0.0).unwrap();
+    assert!((tte_singular - 0.0).abs() < 1e-12);
 }
 
 #[test]

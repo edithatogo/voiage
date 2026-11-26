@@ -153,31 +153,66 @@ pub fn gamma_poisson_evsi(
     let current_inb = net_benefit_slope * (prior_shape / prior_rate) + net_benefit_intercept;
     let current_value = current_inb.max(0.0);
 
+    if (net_benefit_slope >= 0.0 && net_benefit_intercept >= 0.0)
+        || (net_benefit_slope <= 0.0 && net_benefit_intercept <= 0.0)
+    {
+        return Ok(0.0);
+    }
+
     // Negative Binomial predictive: Y ~ NB(r = prior_shape, p = prior_rate / (prior_rate + E)).
     let p = prior_rate / (prior_rate + total_exposure);
     let ln_p = p.ln();
     let ln_1mp = (1.0 - p).ln();
 
+    let mean_y = prior_shape * total_exposure / prior_rate;
+    let var_y = mean_y * (1.0 + total_exposure / prior_rate);
+    let sd_y = var_y.sqrt();
+    #[allow(clippy::cast_possible_truncation, clippy::cast_sign_loss)]
+    let y_start = (mean_y - 12.0 * sd_y).floor().max(0.0) as u64;
+    #[allow(clippy::cast_possible_truncation, clippy::cast_sign_loss)]
+    let y_end = ((mean_y + 25.0 * sd_y).ceil().max(10_000.0)) as u64;
+    if y_end - y_start > 20_000_000 {
+        return Err(NumericalInputError::invalid(
+            "total_sample_size",
+            "Gamma-Poisson predictive support exceeds exact summation budget",
+        ));
+    }
+
+    #[allow(clippy::cast_precision_loss)]
+    let y0_f = y_start as f64;
+    let mut pmf = (ln_gamma(y0_f + prior_shape) - ln_gamma(y0_f + 1.0) - ln_gamma(prior_shape)
+        + prior_shape * ln_p
+        + y0_f * ln_1mp)
+        .exp();
+    let one_minus_p = 1.0 - p;
     let mut cdf = 0.0;
     let mut expected_after = 0.0;
-    let mut y: u32 = 0;
-    while cdf < 1.0 - 1e-12 && y < 100_000 {
-        let yf = f64::from(y);
-        let ln_pmf = ln_gamma(yf + prior_shape) - ln_gamma(yf + 1.0) - ln_gamma(prior_shape)
-            + prior_shape * ln_p
-            + yf * ln_1mp;
-        let pmf = ln_pmf.exp();
+    for y in y_start..=y_end {
+        #[allow(clippy::cast_precision_loss)]
+        let yf = y as f64;
         let post_mean = (prior_shape + yf) / (prior_rate + total_exposure);
         let post_inb = net_benefit_slope * post_mean + net_benefit_intercept;
         expected_after += pmf * post_inb.max(0.0);
         cdf += pmf;
-        y += 1;
+        if y >= y_start + 32 && cdf >= 1.0 - 1e-11 && yf > mean_y {
+            break;
+        }
+        pmf *= ((yf + prior_shape) / (yf + 1.0)) * one_minus_p;
+        if pmf == 0.0 && yf > mean_y {
+            break;
+        }
+    }
+    if !cdf.is_finite() || cdf < 1.0 - 1e-9 {
+        return Err(NumericalInputError::invalid(
+            "total_sample_size",
+            "Gamma-Poisson predictive tail mass unresolved",
+        ));
     }
 
     Ok((expected_after - current_value).max(0.0))
 }
 
-/// Computes deterministic quadrature EVSI for an exponential time-to-event study.
+/// Computes endpoint-aware tanh-sinh quadrature EVSI for an exponential time-to-event study.
 ///
 /// The hazard rate `lambda ~ Gamma(prior_shape, prior_rate)` is observed until
 /// `expected_events` (`d > 0`) events occur, yielding total follow-up time `T ~ Gamma(d, lambda)`.
@@ -186,7 +221,8 @@ pub fn gamma_poisson_evsi(
 ///
 /// # Errors
 ///
-/// Returns [`NumericalInputError`] for invalid prior, event count, or net-benefit parameters.
+/// Returns [`NumericalInputError`] for invalid prior, event count, net-benefit parameters,
+/// or if quadrature mass deviates from `1.0` beyond `1e-6`.
 pub fn exponential_time_to_event_evsi(
     prior_shape: f64,
     prior_rate: f64,
@@ -204,32 +240,54 @@ pub fn exponential_time_to_event_evsi(
         ));
     }
 
+    if (net_benefit_slope >= 0.0 && net_benefit_intercept >= 0.0)
+        || (net_benefit_slope <= 0.0 && net_benefit_intercept <= 0.0)
+    {
+        return Ok(0.0);
+    }
+
     let current_inb = net_benefit_slope * (prior_shape / prior_rate) + net_benefit_intercept;
     let current_value = current_inb.max(0.0);
 
-    // Midpoint quadrature on u in (0, 1) under Beta(expected_events, prior_shape) density.
-    let n_grid: u32 = 512;
-    let du = 1.0 / f64::from(n_grid);
+    // Tanh-sinh quadrature on u in (0, 1) handles Beta(d, alpha) endpoint singularities
+    // accurately even when d < 1 or alpha < 1.
+    let n_grid: i32 = 512;
+    let t_max = 4.5_f64;
+    let dt = (2.0 * t_max) / f64::from(n_grid);
+    let half_pi = 0.5 * PI;
     let norm_const = ln_beta(expected_events, prior_shape);
     let mut weight_sum = 0.0;
     let mut expected_after = 0.0;
 
     for idx in 0..n_grid {
-        let u = (f64::from(idx) + 0.5) * du;
+        let t = -t_max + (f64::from(idx) + 0.5) * dt;
+        let s = half_pi * t.sinh();
+        if s.abs() > 35.0 {
+            continue;
+        }
+        let u = f64::midpoint(1.0, s.tanh());
+        let one_minus_u = 0.5 * (1.0 - s.tanh());
+        if u <= 0.0 || one_minus_u <= 0.0 {
+            continue;
+        }
+        let cosh_s = s.cosh();
+        let du_dt = half_pi * t.cosh() / (2.0 * cosh_s * cosh_s);
         let ln_density =
-            (expected_events - 1.0) * u.ln() + (prior_shape - 1.0) * (1.0 - u).ln() - norm_const;
-        let w = ln_density.exp() * du;
-        let post_mean = (prior_shape + expected_events) * (1.0 - u) / prior_rate;
+            (expected_events - 1.0) * u.ln() + (prior_shape - 1.0) * one_minus_u.ln() - norm_const;
+        let w = ln_density.exp() * du_dt * dt;
+        if !w.is_finite() {
+            continue;
+        }
+        let post_mean = (prior_shape + expected_events) * one_minus_u / prior_rate;
         let post_inb = net_benefit_slope * post_mean + net_benefit_intercept;
         expected_after += w * post_inb.max(0.0);
         weight_sum += w;
     }
-    if !weight_sum.is_finite() || weight_sum <= 0.0 {
+    if !weight_sum.is_finite() || (weight_sum - 1.0).abs() > 1e-6 {
         return Err(NumericalInputError::invalid(
             "expected_events",
-            "quadrature weights failed to normalize",
+            "Beta predictive quadrature mass failed accuracy tolerance",
         ));
     }
-    let normalized_after = expected_after / weight_sum;
-    Ok((normalized_after - current_value).max(0.0))
+    Ok((expected_after - current_value).max(0.0))
 }

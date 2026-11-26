@@ -236,15 +236,20 @@ pub fn joint_research_implementation_capacity(
     })
 }
 
-/// Bounds EVSI under bounded covariate/transport shift `tv_bound` in `[0, 1]` (`R03`, `V08`, `V11`).
+/// Bounds EVSI under bounded total-variation shift `tv_bound` in `[0, 1]` for a payoff
+/// model with bounded span `payoff_span >= 0` (`R03`, `V08`, `V11`).
+///
+/// Because `EVSI = E[max_a E[U|Y]] - max_a E[U]` and each expectation shifts by at most
+/// `tv_bound * payoff_span`, `|EVSI(Q) - EVSI(P)| <= 2 * tv_bound * payoff_span`.
 ///
 /// # Errors
 ///
-/// Returns [`NumericalInputError`] for invalid EVSI, EVPI, or `tv_bound`.
+/// Returns [`NumericalInputError`] for invalid EVSI, EVPI, `tv_bound`, or `payoff_span`.
 pub fn transport_bias_evsi_bounds(
     nominal_evsi: f64,
     evpi_bound: f64,
     tv_bound: f64,
+    payoff_span: f64,
 ) -> Result<TransportBiasEvsiBound, NumericalInputError> {
     if !nominal_evsi.is_finite()
         || nominal_evsi < 0.0
@@ -262,8 +267,15 @@ pub fn transport_bias_evsi_bounds(
             "total-variation transport bound must be in [0, 1]",
         ));
     }
-    let lower = (nominal_evsi * (1.0 - tv_bound)).max(0.0);
-    let upper = (nominal_evsi + tv_bound * (evpi_bound - nominal_evsi)).min(evpi_bound);
+    if !payoff_span.is_finite() || payoff_span < 0.0 {
+        return Err(NumericalInputError::invalid(
+            "payoff_span",
+            "payoff_span must be finite and non-negative",
+        ));
+    }
+    let max_shift = 2.0 * tv_bound * payoff_span;
+    let lower = (nominal_evsi - max_shift).max(0.0);
+    let upper = (nominal_evsi + max_shift).min(evpi_bound);
     Ok(TransportBiasEvsiBound {
         nominal_evsi,
         lower_bound_evsi: lower,
