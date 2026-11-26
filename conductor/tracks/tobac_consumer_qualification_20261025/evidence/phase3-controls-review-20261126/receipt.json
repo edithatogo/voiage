@@ -140,6 +140,6 @@
     "disposition": "no_new_tool_stack_or_runtime_change_justified",
     "new_packages_installed": false,
     "runtime_files_modified": false,
-    "rationale": "pyproject.toml already defines pytest-gremlins>=1.9.0,<2 in the opt-in test-acceleration extra (backed by bounded local profiling in scripts/test_acceleration.py) and mutmut==3.8.1 in dev/CI authoritative gates. All existing repo harness, execution-packet, version-sync, pandas-free, reference-policy, security-lint, and mutation-score controls pass with 0 findings and 60/60 control tests passing."
+    "rationale": "pyproject.toml already defines pytest-gremlins>=1.9.0,<2 in the opt-in test-acceleration extra (backed by bounded local profiling in scripts/test_acceleration.py) and mutmut==3.8.1 in dev/CI authoritative gates. All existing repo harness, execution-packet, version-sync, check_pandas_free.py, reference-policy, security-lint, and mutation-score controls pass with 0 findings and 60/60 control tests passing."
   }
 }
