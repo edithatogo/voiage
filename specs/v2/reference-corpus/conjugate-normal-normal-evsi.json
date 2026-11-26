@@ -1,0 +1,93 @@
+{
+  "case_id": "conjugate-normal-normal-evsi",
+  "schema_version": "1.0.0",
+  "method": "evsi",
+  "verification_family": "D03",
+  "split": "development",
+  "held_out_from_tuning": false,
+  "synthetic_owned": true,
+  "same_author_application": false,
+  "decision": {
+    "description": "Two-arm equal-allocation Normal-Normal trial with linear incremental net benefit NB_1 - NB_0 = slope * effect + intercept.",
+    "strategies": ["standard_care", "new_therapy"],
+    "objective": "maximize",
+    "risk_attitude": "risk_neutral"
+  },
+  "study": {
+    "study_type": "two_arm_equal_allocation_normal",
+    "sample_size_basis": "explicit_per_arm_and_total",
+    "allocation_ratio": [1, 1]
+  },
+  "inputs": {
+    "prior_mean": 0.05,
+    "prior_standard_deviation": 0.2,
+    "outcome_standard_deviation": 1.0,
+    "net_benefit_slope": 10000.0,
+    "net_benefit_intercept": -200.0,
+    "subcases": [
+      {
+        "subcase_id": "n-per-arm-10",
+        "split": "development",
+        "per_arm_sample_size": 10,
+        "total_sample_size": 20,
+        "expected": {
+          "value": 197.47806541041913,
+          "atol": 1e-12,
+          "runtime_atol": 0.002,
+          "unit": "net_benefit_unit_per_decision"
+        }
+      },
+      {
+        "subcase_id": "n-per-arm-50",
+        "split": "development",
+        "per_arm_sample_size": 50,
+        "total_sample_size": 100,
+        "expected": {
+          "value": 426.83645903951713,
+          "atol": 1e-12,
+          "runtime_atol": 0.002,
+          "unit": "net_benefit_unit_per_decision"
+        }
+      },
+      {
+        "subcase_id": "n-per-arm-250",
+        "split": "held_out",
+        "per_arm_sample_size": 250,
+        "total_sample_size": 500,
+        "expected": {
+          "value": 588.1764917557121,
+          "atol": 1e-12,
+          "runtime_atol": 0.002,
+          "unit": "net_benefit_unit_per_decision"
+        }
+      }
+    ]
+  },
+  "expected": {
+    "value": 426.83645903951713,
+    "atol": 1e-12,
+    "runtime_atol": 0.002,
+    "unit": "net_benefit_unit_per_decision",
+    "additional_expected": {
+      "evpi": 656.8439695268509,
+      "evsi_n20": 197.47806541041913,
+      "evsi_n100": 426.83645903951713,
+      "evsi_n500": 588.1764917557121
+    }
+  },
+  "generator": {
+    "type": "exact_conjugate_normal_normal_preposterior",
+    "module": "stdlib_math_erfc_oracle"
+  },
+  "seed": null,
+  "source_rights": {
+    "license": "Apache-2.0",
+    "redistribution_allowed": true,
+    "pinned_revision": "d0cd33b45d95a1fb383b37b3769885782d90fa08",
+    "checksum_basis": "file_sha256_in_manifest"
+  },
+  "transformation_history": [
+    "Computed exact Gaussian preposterior expectations via stdlib math.erfc and math.exp separately from polynomial CDF approximations."
+  ],
+  "reference_implementation": "independent_stdlib_erfc_oracle"
+}

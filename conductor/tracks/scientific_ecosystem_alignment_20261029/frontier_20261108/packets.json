@@ -49,7 +49,7 @@
     {
       "id": "Q03",
       "title": "Independent reference corpus",
-      "status": "planned",
+      "status": "completed_owned_corpus",
       "depends_on": [
         "Q01"
       ],

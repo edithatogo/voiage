@@ -1,0 +1,87 @@
+{
+  "case_id": "exact-finite-weighted-evpi",
+  "schema_version": "1.0.0",
+  "method": "evpi",
+  "verification_family": "D01",
+  "split": "held_out",
+  "held_out_from_tuning": true,
+  "synthetic_owned": true,
+  "same_author_application": false,
+  "decision": {
+    "description": "Mutually exclusive discrete state-payoff decisions under equal and explicit rational state weights.",
+    "strategies": ["strategy_0", "strategy_1", "strategy_2"],
+    "objective": "maximize",
+    "risk_attitude": "risk_neutral"
+  },
+  "study": {
+    "study_type": "perfect_information",
+    "observation_model": "noiseless_state_revelation",
+    "sample_size_basis": "not_applicable"
+  },
+  "inputs": {
+    "subcases": [
+      {
+        "subcase_id": "symmetric-equal-weights",
+        "net_benefits": [[0.0, 100.0], [100.0, 0.0]],
+        "weights": [0.5, 0.5],
+        "weight_semantics": "probability",
+        "expected": {
+          "value": 50.0,
+          "exact_rational": "50",
+          "atol": 1e-12,
+          "unit": "net_benefit_unit_per_decision"
+        }
+      },
+      {
+        "subcase_id": "symmetric-unequal-weights",
+        "net_benefits": [[0.0, 100.0], [100.0, 0.0]],
+        "weights": [0.9, 0.1],
+        "weight_semantics": "probability",
+        "expected": {
+          "value": 10.0,
+          "exact_rational": "10",
+          "atol": 1e-12,
+          "unit": "net_benefit_unit_per_decision"
+        }
+      },
+      {
+        "subcase_id": "three-state-asymmetric-crossover",
+        "net_benefits": [[10.0, 0.0, 4.0], [2.0, 12.0, 6.0], [5.0, 5.0, 9.0]],
+        "weights": [0.2, 0.5, 0.3],
+        "weight_semantics": "probability",
+        "expected": {
+          "value": 3.2,
+          "exact_rational": "16/5",
+          "atol": 1e-12,
+          "unit": "net_benefit_unit_per_decision"
+        }
+      }
+    ]
+  },
+  "expected": {
+    "value": 3.2,
+    "atol": 1e-12,
+    "unit": "net_benefit_unit_per_decision",
+    "additional_expected": {
+      "symmetric_equal_evpi": 50.0,
+      "symmetric_unequal_evpi": 10.0,
+      "three_state_expected_current": 7.5,
+      "three_state_expected_perfect": 10.7
+    }
+  },
+  "generator": {
+    "type": "deterministic_finite_payoff_table",
+    "module": "exact_rational_specification"
+  },
+  "seed": null,
+  "source_rights": {
+    "license": "Apache-2.0",
+    "redistribution_allowed": true,
+    "pinned_revision": "d0cd33b45d95a1fb383b37b3769885782d90fa08",
+    "checksum_basis": "file_sha256_in_manifest"
+  },
+  "transformation_history": [
+    "Constructed exact finite decision payoff tables and probability vectors in exact rational arithmetic."
+  ],
+  "reference_implementation": "independent_exact_fraction_oracle"
+}

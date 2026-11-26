@@ -1,0 +1,62 @@
+{
+  "case_id": "exact-finite-evppi-discrete",
+  "schema_version": "1.0.0",
+  "method": "evppi",
+  "verification_family": "D02",
+  "split": "development",
+  "held_out_from_tuning": false,
+  "synthetic_owned": true,
+  "same_author_application": false,
+  "decision": {
+    "description": "Two-strategy discrete decision with a focal factor theta and nuisance factor eta where resolving theta switches action only on theta=0.",
+    "strategies": ["status_quo", "targeted_intervention"],
+    "objective": "maximize",
+    "risk_attitude": "risk_neutral"
+  },
+  "study": {
+    "study_type": "partial_perfect_information",
+    "parameter_of_interest": "theta",
+    "nuisance_parameter": "eta",
+    "sample_size_basis": "not_applicable"
+  },
+  "inputs": {
+    "draw_keys": ["s00", "s01", "s10", "s11", "s20", "s21"],
+    "net_benefits": [[5.0, 2.0], [5.0, 12.0], [5.0, 1.0], [5.0, 3.0], [5.0, 12.0], [5.0, -2.0]],
+    "parameter_samples": [
+      {"theta": 0.0, "eta": 0.0},
+      {"theta": 0.0, "eta": 1.0},
+      {"theta": 1.0, "eta": 0.0},
+      {"theta": 1.0, "eta": 1.0},
+      {"theta": 2.0, "eta": 0.0},
+      {"theta": 2.0, "eta": 1.0}
+    ],
+    "weights": [0.16666666666666666, 0.16666666666666666, 0.16666666666666666, 0.16666666666666666, 0.16666666666666666, 0.16666666666666666],
+    "weight_semantics": "equal"
+  },
+  "expected": {
+    "value": 0.6666666666666666,
+    "exact_rational": "2/3",
+    "atol": 1e-12,
+    "unit": "net_benefit_unit_per_decision",
+    "additional_expected": {
+      "expected_current_value": 5.0,
+      "evpi": 2.3333333333333335,
+      "evpi_exact_rational": "7/3"
+    }
+  },
+  "generator": {
+    "type": "exact_discrete_two_factor_grid",
+    "module": "exact_rational_specification"
+  },
+  "seed": null,
+  "source_rights": {
+    "license": "Apache-2.0",
+    "redistribution_allowed": true,
+    "pinned_revision": "d0cd33b45d95a1fb383b37b3769885782d90fa08",
+    "checksum_basis": "file_sha256_in_manifest"
+  },
+  "transformation_history": [
+    "Enumerated all 6 equiprobable states of (theta in {0,1,2}, eta in {0,1}) without Monte Carlo approximation."
+  ],
+  "reference_implementation": "independent_exact_fraction_oracle"
+}

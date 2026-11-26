@@ -1,0 +1,52 @@
+{
+  "case_id": "exact-single-period-enbs",
+  "schema_version": "1.0.0",
+  "method": "enbs",
+  "verification_family": "D01",
+  "split": "held_out",
+  "held_out_from_tuning": true,
+  "synthetic_owned": true,
+  "same_author_application": false,
+  "decision": {
+    "description": "Single-period undiscounted research commission check comparing gross population EVSI against fixed trial cost, including explicit no-study option.",
+    "strategies": ["commission_study", "no_study"],
+    "objective": "maximize",
+    "risk_attitude": "risk_neutral"
+  },
+  "study": {
+    "study_type": "research_commission_single_period",
+    "period_count": 1,
+    "discounting_status": "undiscounted",
+    "sample_size_basis": "population_scaled_single_period"
+  },
+  "inputs": {
+    "per_decision_evsi": 50.0,
+    "benefiting_population": 100.0,
+    "gross_population_evsi": 5000.0,
+    "research_cost": 6000.0
+  },
+  "expected": {
+    "value": -1000.0,
+    "atol": 1e-12,
+    "unit": "net_benefit_unit_population_total",
+    "additional_expected": {
+      "no_study_enbs": 0.0,
+      "optimal_study_choice_is_study": false
+    }
+  },
+  "generator": {
+    "type": "exact_arithmetic_enbs_identity",
+    "module": "exact_rational_specification"
+  },
+  "seed": null,
+  "source_rights": {
+    "license": "Apache-2.0",
+    "redistribution_allowed": true,
+    "pinned_revision": "d0cd33b45d95a1fb383b37b3769885782d90fa08",
+    "checksum_basis": "file_sha256_in_manifest"
+  },
+  "transformation_history": [
+    "Evaluated ENBS = 50 * 100 - 6000 = -1000 alongside no-study alternative 0."
+  ],
+  "reference_implementation": "independent_exact_fraction_oracle"
+}

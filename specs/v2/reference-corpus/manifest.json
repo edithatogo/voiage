@@ -1,0 +1,193 @@
+{
+  "schema_version": "1.0.0",
+  "corpus_id": "voiage-independent-reference-corpus-q03",
+  "pinned_revision": "d0cd33b45d95a1fb383b37b3769885782d90fa08",
+  "policies": {
+    "no_self_certification": true,
+    "preserve_held_out_from_tuning": true,
+    "disclose_synthetic_and_same_author": true,
+    "external_candidate_admission": "explicit_rights_and_checksum_required"
+  },
+  "admitted_cases": [
+    {
+      "id": "evpi-exact-v1",
+      "path": "specs/numerical-reference/v1/evpi-cases.json",
+      "method": "evpi",
+      "verification_family": "D01",
+      "sha256": "6cd3bb36beb6a349d204f1e8846e9a5dfe68c09ad40e8af43011a9fcf2968485",
+      "license": "Apache-2.0",
+      "pinned_revision": "d0cd33b45d95a1fb383b37b3769885782d90fa08",
+      "split": "development",
+      "held_out_from_tuning": false,
+      "synthetic_owned": true,
+      "same_author_application": false,
+      "reference_implementation": "independent_hand_calculation"
+    },
+    {
+      "id": "exact-finite-weighted-evpi",
+      "path": "specs/v2/reference-corpus/exact-finite-weighted-evpi.json",
+      "method": "evpi",
+      "verification_family": "D01",
+      "sha256": "be6de939d34cab56719abe2391982d76cd6a280de79ac5aa6c2f04bed696eb37",
+      "license": "Apache-2.0",
+      "pinned_revision": "d0cd33b45d95a1fb383b37b3769885782d90fa08",
+      "split": "held_out",
+      "held_out_from_tuning": true,
+      "synthetic_owned": true,
+      "same_author_application": false,
+      "reference_implementation": "independent_exact_fraction_oracle"
+    },
+    {
+      "id": "exact-finite-evppi-discrete",
+      "path": "specs/v2/reference-corpus/exact-finite-evppi-discrete.json",
+      "method": "evppi",
+      "verification_family": "D02",
+      "sha256": "ed315804f25232ba28b4c321648a71780adb4fc99a6a323f91461891556b38b3",
+      "license": "Apache-2.0",
+      "pinned_revision": "d0cd33b45d95a1fb383b37b3769885782d90fa08",
+      "split": "development",
+      "held_out_from_tuning": false,
+      "synthetic_owned": true,
+      "same_author_application": false,
+      "reference_implementation": "independent_exact_fraction_oracle"
+    },
+    {
+      "id": "exact-nonlinear-quadratic-evppi",
+      "path": "specs/v2/reference-corpus/exact-nonlinear-quadratic-evppi.json",
+      "method": "evppi",
+      "verification_family": "D02",
+      "sha256": "ff7e3b4f16aa628b70f2d29c8dce314d679de15e5088e33b2495b79009f49721",
+      "license": "Apache-2.0",
+      "pinned_revision": "d0cd33b45d95a1fb383b37b3769885782d90fa08",
+      "split": "held_out",
+      "held_out_from_tuning": true,
+      "synthetic_owned": true,
+      "same_author_application": false,
+      "reference_implementation": "independent_analytic_erfc_oracle"
+    },
+    {
+      "id": "conjugate-normal-normal-evsi",
+      "path": "specs/v2/reference-corpus/conjugate-normal-normal-evsi.json",
+      "method": "evsi",
+      "verification_family": "D03",
+      "sha256": "d4eb2cff5ec0f1e122ef6062c09e4ec39cdfb4c5cce8ec932abde4d09e734739",
+      "license": "Apache-2.0",
+      "pinned_revision": "d0cd33b45d95a1fb383b37b3769885782d90fa08",
+      "split": "development",
+      "held_out_from_tuning": false,
+      "synthetic_owned": true,
+      "same_author_application": false,
+      "reference_implementation": "independent_stdlib_erfc_oracle"
+    },
+    {
+      "id": "conjugate-beta-binomial-evsi",
+      "path": "specs/v2/reference-corpus/conjugate-beta-binomial-evsi.json",
+      "method": "evsi",
+      "verification_family": "D03",
+      "sha256": "37c832b057343f8b909f561d4b6976891be6c7127667936bfa513a9ef761a627",
+      "license": "Apache-2.0",
+      "pinned_revision": "d0cd33b45d95a1fb383b37b3769885782d90fa08",
+      "split": "development",
+      "held_out_from_tuning": false,
+      "synthetic_owned": true,
+      "same_author_application": false,
+      "reference_implementation": "independent_beta_binomial_exact_sum_oracle"
+    },
+    {
+      "id": "conjugate-gamma-poisson-evsi",
+      "path": "specs/v2/reference-corpus/conjugate-gamma-poisson-evsi.json",
+      "method": "evsi",
+      "verification_family": "D03",
+      "sha256": "39d2fcab23ce92cec6d9d21540a3a523c19d4d30ea3c65a50da1851522178357",
+      "license": "Apache-2.0",
+      "pinned_revision": "d0cd33b45d95a1fb383b37b3769885782d90fa08",
+      "split": "held_out",
+      "held_out_from_tuning": true,
+      "synthetic_owned": true,
+      "same_author_application": false,
+      "reference_implementation": "independent_gamma_poisson_certified_oracle"
+    },
+    {
+      "id": "exact-single-period-enbs",
+      "path": "specs/v2/reference-corpus/exact-single-period-enbs.json",
+      "method": "enbs",
+      "verification_family": "D01",
+      "sha256": "8d3114456a8021d18e40fb1adea575af41b77d1d0cca24e157656355613f857a",
+      "license": "Apache-2.0",
+      "pinned_revision": "d0cd33b45d95a1fb383b37b3769885782d90fa08",
+      "split": "held_out",
+      "held_out_from_tuning": true,
+      "synthetic_owned": true,
+      "same_author_application": false,
+      "reference_implementation": "independent_exact_fraction_oracle"
+    }
+  ],
+  "external_candidates": [
+    {
+      "id": "S01",
+      "name": "ConVOI voi chemotherapy model and VOI comparators",
+      "url": "https://chjackson.github.io/voi/reference/index.html",
+      "verification_families": ["D01", "D02", "D03", "D15"],
+      "admission_state": "candidate-source-only",
+      "license_cleared": false,
+      "checksum_verified": false,
+      "redistribution_allowed": null,
+      "pinned_revision": null
+    },
+    {
+      "id": "S02",
+      "name": "BCEA Smoking/Vaccine PSA tables",
+      "url": "https://n8thangreen.github.io/BCEA/reference/index.html",
+      "verification_families": ["D01"],
+      "admission_state": "candidate-source-only",
+      "license_cleared": false,
+      "checksum_verified": false,
+      "redistribution_allowed": null,
+      "pinned_revision": null
+    },
+    {
+      "id": "S03",
+      "name": "DARTH Sick-Sicker structural calibration candidate",
+      "url": "https://darth-git.github.io/darthpack/articles/aa-introduction.html",
+      "verification_families": ["D06"],
+      "admission_state": "candidate-source-only",
+      "license_cleared": false,
+      "checksum_verified": false,
+      "redistribution_allowed": null,
+      "pinned_revision": null
+    },
+    {
+      "id": "S04",
+      "name": "gemtc smoking network meta-analysis candidate",
+      "url": "https://github.com/cran/gemtc/blob/master/MD5",
+      "verification_families": ["D07"],
+      "admission_state": "candidate-source-only",
+      "license_cleared": false,
+      "checksum_verified": false,
+      "redistribution_allowed": null,
+      "pinned_revision": null
+    },
+    {
+      "id": "S05",
+      "name": "sbibm simulation-based inference benchmark tasks",
+      "url": "https://github.com/sbi-benchmark/sbibm",
+      "verification_families": ["D16"],
+      "admission_state": "candidate-source-only",
+      "license_cleared": false,
+      "checksum_verified": false,
+      "redistribution_allowed": null,
+      "pinned_revision": null
+    },
+    {
+      "id": "S06",
+      "name": "OWID vaccination uptake time-series candidate",
+      "url": "https://ourworldindata.org/grapher/share-people-fully-vaccinated-covid",
+      "verification_families": ["D12"],
+      "admission_state": "candidate-source-only",
+      "license_cleared": false,
+      "checksum_verified": false,
+      "redistribution_allowed": null,
+      "pinned_revision": null
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "case_id": "conjugate-beta-binomial-evsi",
+  "schema_version": "1.0.0",
+  "method": "evsi",
+  "verification_family": "D03",
+  "split": "development",
+  "held_out_from_tuning": false,
+  "synthetic_owned": true,
+  "same_author_application": false,
+  "decision": {
+    "description": "Single-arm response proportion decision with Beta(2, 3) prior, NB_0 = 0, and NB_1(p) = 1000 * p - 450.",
+    "strategies": ["no_adopt", "adopt_new"],
+    "objective": "maximize",
+    "risk_attitude": "risk_neutral"
+  },
+  "study": {
+    "study_type": "single_arm_binomial_proportion",
+    "sample_size_basis": "total_single_arm_trials",
+    "conjugate_family": "beta_binomial"
+  },
+  "inputs": {
+    "alpha_prior": 2.0,
+    "beta_prior": 3.0,
+    "net_benefit_slope": 1000.0,
+    "net_benefit_intercept": -450.0,
+    "subcases": [
+      {
+        "subcase_id": "binomial-n20",
+        "total_sample_size": 20,
+        "expected": {
+          "value": 52.88819875776397,
+          "atol": 1e-12,
+          "unit": "net_benefit_unit_per_decision"
+        }
+      },
+      {
+        "subcase_id": "binomial-n100",
+        "total_sample_size": 100,
+        "expected": {
+          "value": 59.36655498348415,
+          "atol": 1e-12,
+          "unit": "net_benefit_unit_per_decision"
+        }
+      }
+    ]
+  },
+  "expected": {
+    "value": 59.36655498348415,
+    "atol": 1e-12,
+    "unit": "net_benefit_unit_per_decision",
+    "additional_expected": {
+      "evpi": 61.3091875,
+      "evpi_exact_rational": "980947/16000",
+      "evsi_n20": 52.88819875776397,
+      "evsi_n100": 59.36655498348415
+    }
+  },
+  "generator": {
+    "type": "exact_finite_beta_binomial_predictive_sum",
+    "module": "exact_lgamma_and_polynomial_integral"
+  },
+  "seed": null,
+  "source_rights": {
+    "license": "Apache-2.0",
+    "redistribution_allowed": true,
+    "pinned_revision": "d0cd33b45d95a1fb383b37b3769885782d90fa08",
+    "checksum_basis": "file_sha256_in_manifest"
+  },
+  "transformation_history": [
+    "Summed exact Beta-Binomial predictive probabilities over all k in 0..n and integrated Beta(2,3) exceedance EVPI symbolically in Fraction arithmetic."
+  ],
+  "reference_implementation": "independent_beta_binomial_exact_sum_oracle"
+}

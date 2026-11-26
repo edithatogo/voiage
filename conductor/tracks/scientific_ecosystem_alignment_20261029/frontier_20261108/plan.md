@@ -83,6 +83,9 @@ Maps to V02/V05/V08/F08. Depends on Q01 for contract freeze; source/rights prefl
 **Produces:** versioned case manifests and independent reference artifacts, not only raw tables.
 
 - [ ] Start with exact finite decisions and conjugate studies; add chemotherapy and BCEA, then DARTH only after provenance and reproduction admission.
+
+**Q03 admitted synthetic/analytic corpus (`codex/frontier-q03-reference-corpus-20261126`):**
+Admitted 7 versioned repository-owned reference cases under `specs/v2/reference-corpus/` (`exact-finite-weighted-evpi`, `exact-finite-evppi-discrete`, `exact-nonlinear-quadratic-evppi`, `conjugate-normal-normal-evsi`, `conjugate-beta-binomial-evsi`, `conjugate-gamma-poisson-evsi` with certified tail bound, and `exact-single-period-enbs`) alongside indexed `specs/numerical-reference/v1/evpi-cases.json`, verified offline by `scripts/validate_reference_corpus.py` and `tests/test_q03_reference_corpus.py`. External candidates (`S01` ConVOI `voi` chemotherapy, `S02` BCEA, `S03` DARTH, `S04` `gemtc`, `S05` `sbibm`, `S06` OWID) remain `candidate-source-only` pending separate rights/checksum admission.
 - [ ] Test rejection of missing units, broken draw alignment, absent licences/checksums, unpinned sources and references computed by the implementation under test.
 - [ ] Record the decision, study, expected answer/error bound, generator, seed, source rights, transformation history and reference implementation separately.
 - [ ] Reproduce each admitted case offline from pinned inputs. Hold out cases from estimator tuning; disclose synthetic and same-author application cases.

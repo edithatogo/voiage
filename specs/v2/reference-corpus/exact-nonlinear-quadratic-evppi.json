@@ -1,0 +1,57 @@
+{
+  "case_id": "exact-nonlinear-quadratic-evppi",
+  "schema_version": "1.0.0",
+  "method": "evppi",
+  "verification_family": "D02",
+  "split": "held_out",
+  "held_out_from_tuning": true,
+  "synthetic_owned": true,
+  "same_author_application": false,
+  "decision": {
+    "description": "Quadratic threshold crossover where X ~ N(0,1), NB_0 = 0, and NB_1(X) = X^2 - 1 has zero linear covariance with X.",
+    "strategies": ["baseline_zero", "quadratic_payoff"],
+    "objective": "maximize",
+    "risk_attitude": "risk_neutral"
+  },
+  "study": {
+    "study_type": "partial_perfect_information",
+    "parameter_of_interest": "x",
+    "prior_distribution": "standard_normal",
+    "sample_size_basis": "analytic_with_q04_sample_seed"
+  },
+  "inputs": {
+    "distribution": "Normal(0, 1)",
+    "nb_0": "0",
+    "nb_1": "x^2 - 1",
+    "q04_sample_metadata": {
+      "n_draws": 20000,
+      "sampler": "box_muller_mt19937",
+      "seed": 20261108
+    }
+  },
+  "expected": {
+    "value": 0.4839414490382867,
+    "closed_form": "sqrt(2 / pi) * exp(-0.5)",
+    "atol": 1e-12,
+    "unit": "net_benefit_unit_per_decision",
+    "additional_expected": {
+      "theoretical_linear_ols_evppi": 0.0,
+      "expected_current_value": 0.0
+    }
+  },
+  "generator": {
+    "type": "closed_form_gaussian_threshold_integral",
+    "module": "independent_analytic_calculus"
+  },
+  "seed": 20261108,
+  "source_rights": {
+    "license": "Apache-2.0",
+    "redistribution_allowed": true,
+    "pinned_revision": "d0cd33b45d95a1fb383b37b3769885782d90fa08",
+    "checksum_basis": "file_sha256_in_manifest"
+  },
+  "transformation_history": [
+    "Derived exact EVPPI by integrating (x^2 - 1) phi(x) over |x| > 1 using antiderivative -x phi(x)."
+  ],
+  "reference_implementation": "independent_analytic_erfc_oracle"
+}
