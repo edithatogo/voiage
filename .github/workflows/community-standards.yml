@@ -2,6 +2,14 @@ name: Community standards
 
 on:
   pull_request:
+    paths:
+      - "README*"
+      - "CONTRIBUTING*"
+      - "CODE_OF_CONDUCT*"
+      - "SECURITY*"
+      - "LICENSE*"
+      - "CITATION*"
+      - ".github/**"
   push:
     branches: [main]
   merge_group:

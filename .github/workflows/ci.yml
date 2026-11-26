@@ -287,6 +287,7 @@ jobs:
   # Unit tests
   test-unit:
     name: Unit Tests (Python ${{ matrix.python }})
+    needs: [repository-harness, version-sync, lint]
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -343,6 +344,7 @@ jobs:
 
   ingestion-conformance:
     name: Standardized Ingestion Conformance
+    needs: [test-unit]
     runs-on: ubuntu-latest
     steps:
     - name: Harden the runner (Audit all outbound calls)
@@ -378,6 +380,7 @@ jobs:
 
   pandas-free-runtime:
     name: Pandas-free Base Runtime (${{ matrix.os }})
+    needs: [test-unit]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 15
     strategy:
@@ -416,6 +419,7 @@ jobs:
 
   excel-interchange:
     name: Excel Interchange Extra (${{ matrix.os }})
+    needs: [test-unit]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 15
     strategy:
@@ -463,6 +467,7 @@ jobs:
 
   example-smoke:
     name: Example and Notebook Smoke
+    needs: [test-unit]
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
@@ -500,6 +505,7 @@ jobs:
 
   coverage-report:
     name: Coverage Report
+    needs: [repository-harness, version-sync, lint]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -556,6 +562,7 @@ jobs:
 
   free-threaded-observation:
     name: Python 3.15.2t Observation
+    needs: [test-unit]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -598,6 +605,7 @@ jobs:
 
   benchmark-regression:
     name: Benchmark Regression Checks
+    needs: [repository-harness, version-sync, lint]
     runs-on: ubuntu-latest
     steps:
     - name: Harden the runner (Audit all outbound calls)
@@ -670,6 +678,7 @@ jobs:
   # Integration tests
   test-integration:
     name: Integration Tests
+    needs: [repository-harness, version-sync, lint]
     runs-on: ubuntu-latest
     steps:
     - name: Harden the runner (Audit all outbound calls)
@@ -709,6 +718,7 @@ jobs:
   # End-to-end tests
   test-e2e:
     name: E2E Tests (CLI)
+    needs: [repository-harness, version-sync, lint]
     runs-on: ubuntu-latest
     steps:
     - name: Harden the runner (Audit all outbound calls)
@@ -774,6 +784,7 @@ jobs:
   # Bounded production-contract mutation gates
   test-mutation:
     name: Mutation Testing
+    needs: [test-unit]
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -951,6 +962,7 @@ jobs:
   # Documentation build
   docs:
     name: Build Documentation
+    needs: [repository-harness, version-sync, lint]
     runs-on: ubuntu-latest
     steps:
     - name: Harden the runner (Audit all outbound calls)
