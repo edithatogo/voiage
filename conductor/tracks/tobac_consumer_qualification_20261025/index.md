@@ -9,6 +9,10 @@ after the broader track meets its acceptance criteria.
 - [Metadata](./metadata.json)
 - [Initial consumer reconciliation](./consumer-reconciliation-20261029.md)
 - [Installed M2 retail EVPI qualification](./evidence/installed-m2-retail-20261124/README.md)
+- [Phase 2 producer support & backend qualification](./evidence/phase2-qualification-20261126/README.md)
+- [Phase 3 installed R11.1–R11.5 bounded-extension qualification](./evidence/installed-r11-extension-20261126/README.md)
+- [Phase 3 engineering, context, versioning & security controls review](./evidence/phase3-controls-review-20261126/README.md)
+- [Consumer handoff & rollback note (`P4.3`)](./evidence/handoff-20261126.md)
 - [Current master record](https://github.com/edithatogo/tobac/tree/fe06ef5958ba0f218317a738fe8de95973300a12/conductor/archive/scientific_ecosystem_20261025)
 
 The original 25 October registration was planning-only. It is retained as

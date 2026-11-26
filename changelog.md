@@ -1,5 +1,15 @@
 # Changelog
 
+- Complete `tobac` consumer qualification Phases 1–3 (`tests/test_tobac_r11_contracts.py`,
+  `tests/test_tobac_phase2_interchange_and_backends.py`, installed R11.1–R11.5
+  bounded-extension provenance checks, and engineering/security controls review)
+  and record installed `tobac` parity across credal LP dominance and Tobit-censored
+  sequential EVSI (`CE05`).
+
+- Add R11.1–R11.5 `tobac` consumer contract and independent exact-`Fraction`
+  oracle tests (`tests/test_tobac_r11_contracts.py`) and reconcile `CE04`
+  completion in Conductor tracking.
+
 - Qualify the optional Voiage backend against tobac's frozen M2 retail case
   with both packages installed on Python 3.15.2.
 

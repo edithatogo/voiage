@@ -1,0 +1,286 @@
+{
+  "receipt_id": "ce05-installed-tobac-parity-20261126",
+  "track_id": "tobac_credal_endogenous_voi_20261110",
+  "leaf": "CE05",
+  "recorded_at_utc": "2026-11-26T02:46:03Z",
+  "status": "passed",
+  "environment": {
+    "python": "3.15.2",
+    "platform": "darwin-arm64",
+    "isolated_interpreter_flag": "-I",
+    "uv_pip_check": "All installed packages are compatible (36 packages)"
+  },
+  "sources": {
+    "voiage": {
+      "branch": "codex/tobac-r11-contracts-20261126",
+      "head_commit": "d0cd33b45d95a1fb383b37b3769885782d90fa08",
+      "wheel": "voiage-3.1.0-cp315-abi3-macosx_11_0_arm64.whl",
+      "wheel_sha256": "8890d790d60386014215bd7f55a35b020e88277c2f108fbcc663501727d7d5ab",
+      "installed_paths": {
+        "voiage": "/Volumes/PortableSSD/tmp-ce05-JMQ2Sw/venv/lib/python3.15/site-packages/voiage/__init__.py",
+        "voiage._core": "/Volumes/PortableSSD/tmp-ce05-JMQ2Sw/venv/lib/python3.15/site-packages/voiage/_core.abi3-darwin.so"
+      },
+      "module_sha256": {
+        "voiage/_core.abi3-darwin.so": "348b68320b0ac88f6261a00ea7a3546d0e346fd3dd509a4acff1c80b99385acd"
+      }
+    },
+    "tobac": {
+      "repo": "/Volumes/PortableSSD/GitHub/tobac-t18-m2a",
+      "branch": "main",
+      "commit": "fe06ef5958ba0f218317a738fe8de95973300a12",
+      "wheel": "tobac_regulatory_research-0.2.0-py3-none-any.whl",
+      "wheel_sha256": "28b501a07bba28a8ad47cea0c50c0a2ee334744f1c802772951e31d6484312e1",
+      "installed_paths": {
+        "tobac": "/Volumes/PortableSSD/tmp-ce05-JMQ2Sw/venv/lib/python3.15/site-packages/tobac/__init__.py",
+        "tobac_supply": "/Volumes/PortableSSD/tmp-ce05-JMQ2Sw/venv/lib/python3.15/site-packages/tobac_supply/__init__.py"
+      },
+      "module_sha256": {
+        "tobac/credal.py": "bcf6b651bce5d1f2127f23c2e321e3b3cc469080005f301d2bb71afc5b946380",
+        "tobac/partial_identification.py": "34f528557b34f050036e52a4a5e66b189de75c14e24087b6d9bc85e60aee834c",
+        "tobac/information.py": "355e3fbef1cacdb783d96af5561bb150ef9958873abfb6a658b2a5a69bd7f5e8"
+      }
+    }
+  },
+  "checks": {
+    "tobac_property_suite": {
+      "target": "tests/engineering/test_properties.py",
+      "exit_code": 0,
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "duration_seconds": 22.06
+    },
+    "credal_parity": {
+      "input_formats_verified": [
+        "pyarrow.Table",
+        "polars.DataFrame"
+      ],
+      "arrow_polars_exact_equality": true,
+      "partial_identification": {
+        "feasible_quitting": [
+          0.21052631578947367,
+          0.6666666666666667
+        ],
+        "feasible_switching": [
+          0.0,
+          0.819047619047619
+        ],
+        "infeasible_check": false,
+        "accounting_bounds": [
+          87.4090909090909,
+          171.05555555555554
+        ]
+      },
+      "cases": [
+        {
+          "case": "strict_dominance",
+          "tobac_status": "identified",
+          "voiage_status": "feasible",
+          "tobac_common_optimal": [
+            "dominant"
+          ],
+          "tobac_pure_dominated": [
+            "suboptimal_a",
+            "suboptimal_b"
+          ],
+          "voiage_e_admissible": [
+            "dominant"
+          ],
+          "voiage_strictly_dominated": [
+            "suboptimal_a",
+            "suboptimal_b"
+          ],
+          "primal_witnesses": {
+            "dominant": {
+              "point": [
+                "3002399751580331/4503599627370496",
+                "1501199875790165/4503599627370496",
+                "0"
+              ],
+              "payoffs": {
+                "dominant": "21016798261062315/2251799813685248",
+                "suboptimal_a": "14261398820006571/2251799813685248",
+                "suboptimal_b": "9757799192636075/2251799813685248"
+              }
+            }
+          },
+          "dual_certificates": {
+            "suboptimal_a": {
+              "alternative_multipliers": {
+                "dominant": "1"
+              },
+              "margin": "9955325492082149/4503599627370496"
+            },
+            "suboptimal_b": {
+              "alternative_multipliers": {
+                "dominant": "1"
+              },
+              "margin": "18962524746823141/4503599627370496"
+            }
+          },
+          "pairwise_tobac_dual_bounds": {
+            "dominant_vs_suboptimal_a": "9955325492082149/4503599627370496",
+            "dominant_vs_suboptimal_b": "18962524746823141/4503599627370496",
+            "suboptimal_a_vs_suboptimal_b": "2"
+          }
+        },
+        {
+          "case": "e_admissibility_and_mixed_dominance",
+          "tobac_status": "not_identified",
+          "voiage_status": "feasible",
+          "tobac_common_optimal": [],
+          "tobac_pure_dominated": [],
+          "voiage_e_admissible": [
+            "action_d",
+            "action_p",
+            "action_q"
+          ],
+          "voiage_strictly_dominated": [
+            "mixed_dominated"
+          ],
+          "primal_witnesses": {
+            "action_d": [
+              "948126237341157/4503599627370496",
+              "3555473390029339/4503599627370496",
+              "0"
+            ],
+            "action_p": [
+              "948126237341157/4503599627370496",
+              "0",
+              "3555473390029339/4503599627370496"
+            ],
+            "action_q": [
+              "3002399751580331/4503599627370496",
+              "0",
+              "1501199875790165/4503599627370496"
+            ]
+          },
+          "dual_certificates": {
+            "mixed_dominated": {
+              "alternative_multipliers": {
+                "action_d": "4/9",
+                "action_p": "1/9",
+                "action_q": "4/9"
+              },
+              "margin": "5/9"
+            }
+          }
+        },
+        {
+          "case": "multi_restriction_simplex",
+          "tobac_status": "identified",
+          "voiage_status": "feasible",
+          "tobac_common_optimal": [
+            "action_d"
+          ],
+          "tobac_pure_dominated": [
+            "action_p",
+            "action_q"
+          ],
+          "voiage_e_admissible": [
+            "action_d"
+          ],
+          "voiage_strictly_dominated": [
+            "action_p",
+            "action_q"
+          ],
+          "primal_witnesses": {
+            "action_d": [
+              "948126237341157/4503599627370496",
+              "3555473390029339/4503599627370496",
+              "0"
+            ]
+          },
+          "dual_certificates": {
+            "action_p": {
+              "alternative_multipliers": {
+                "action_d": "1"
+              },
+              "margin": "1114048328875859/562949953421312"
+            },
+            "action_q": {
+              "alternative_multipliers": {
+                "action_d": "1"
+              },
+              "margin": "9457559217478041/2251799813685248"
+            }
+          },
+          "pairwise_tobac_dual_bounds": {
+            "action_d_vs_action_q": "9457559217478041/2251799813685248",
+            "action_d_vs_action_p": "1114048328875859/562949953421312"
+          }
+        },
+        {
+          "case": "infeasible_restrictions",
+          "tobac_status": "incompatible",
+          "voiage_status": "infeasible",
+          "tobac_infeasibility_certificate": {
+            "multipliers": [
+              "1/2",
+              "0",
+              "0",
+              "0",
+              "1/2"
+            ],
+            "minimum_left": "-1/2",
+            "maximum_right": "-653318235417891/1125899906842624"
+          }
+        }
+      ]
+    },
+    "censored_evsi_parity": {
+      "max_abs_error": 4.440892098500626e-16,
+      "tolerance": 1e-12,
+      "draw_order_invariance": true,
+      "ipc_roundtrip_verified": true,
+      "preserved_columns": [
+        "draw_id",
+        "strategy_id",
+        "perspective",
+        "subgroup_id"
+      ],
+      "scenarios": {
+        "original_tobit": {
+          "voiage_evsi_fraction": "2225705935486674795373102185415010566365295066679870581651822397130368424553602/546410596216644131758145331457271523672578674137289621553519975615227035579797",
+          "voiage_evsi_float": 4.073321328132176,
+          "tobac_evaluate_evsi": 4.073321328132176,
+          "tobac_scalar_oracle_evsi": 4.073321328132176,
+          "abs_err_eval": 0.0,
+          "abs_err_oracle": 0.0
+        },
+        "garbled_detection_0_5x": {
+          "voiage_evsi_fraction": "16050498332074649564717924172834205912643829855927473757698521824264426451326/9516139597031444663583499549900524855716144572110509179229635080075842411435",
+          "voiage_evsi_float": 1.6866606640660877,
+          "tobac_evaluate_evsi": 1.6866606640660873,
+          "abs_err_eval": 4.440892098500626e-16,
+          "blackwell_monotone": true
+        },
+        "garbled_coarsened_bins": {
+          "voiage_evsi_fraction": "91987307571144809719040002506902192670680555635130580296575796575985198589494/57896044618658096762696756626617360217865161414491413285536984151610270199095",
+          "voiage_evsi_float": 1.5888357862274438,
+          "tobac_evaluate_evsi": 1.5888357862274436,
+          "abs_err_eval": 2.220446049250313e-16,
+          "blackwell_monotone": true
+        },
+        "zero_information": {
+          "voiage_evsi_fraction": "0",
+          "empty_schedule_evsi_fraction": "0",
+          "tobac_evaluate_evsi": 0.0,
+          "tobac_scalar_oracle_evsi": 0.0
+        },
+        "two_stage_joint": {
+          "voiage_evsi_fraction": "11796329152761336848032635374761054458384066738052584285162617696994886544255803420823769949110139120808704725591216126744141839728329073536902955364/3132197038279928981220786384400500608296223283977063069285943852486645960392417386844886726127524312160798346188112977199259209267447967582340511463",
+          "voiage_evsi_float": 3.76615168477376,
+          "tobac_joint_evsi": 3.76615168477376,
+          "abs_err_eval": 0.0,
+          "abs_err_oracle": 4.440892098500626e-16
+        },
+        "societal_catchment_a_scope": {
+          "voiage_evsi_fraction": "7494587972800350879364548342679868841666556577449/2923003274661805593018454421612525455544477024256",
+          "tobac_evaluate_evsi": 2.5640025920489204,
+          "abs_err_eval": 4.440892098500626e-16
+        }
+      }
+    }
+  }
+}

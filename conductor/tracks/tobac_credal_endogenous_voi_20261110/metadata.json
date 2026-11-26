@@ -3,7 +3,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-11-10T00:00:00Z",
-  "updated_at": "2026-11-21T00:14:00Z",
+  "updated_at": "2026-11-26T02:46:03Z",
   "description": "Credal LP dominance with Farkas duality witnesses and endogenous Tobit-censored sequential EVSI for tobac",
   "execution_status": "in_progress",
   "dependencies": [
@@ -19,5 +19,5 @@
   },
   "leaf_count": 5,
   "max_files_per_leaf": 5,
-  "execution_disposition": "Native credal decisions and censored sequential EVSI implemented. Python interchange and installed tobac qualification remain open. HPC qualification remains with its existing track."
+  "execution_disposition": "CE01-CE05 are complete and verified, including non-editable installed-package parity against edithatogo/tobac main (fe06ef5958ba0f218317a738fe8de95973300a12) recorded in evidence/installed-tobac-parity-20261126/receipt.json. Track status remains in_progress pending final closeout. HPC qualification remains with its existing track."
 }

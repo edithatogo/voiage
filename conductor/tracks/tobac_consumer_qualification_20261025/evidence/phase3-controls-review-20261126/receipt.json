@@ -1,0 +1,145 @@
+{
+  "observed_at_utc": "2026-11-26T02:54:17Z",
+  "track_id": "tobac_consumer_qualification_20261025",
+  "phase": "phase3",
+  "task_id": "P3.3",
+  "status": "passed",
+  "branch": "codex/tobac-r11-contracts-20261126",
+  "git_head": "d0cd33b45d95a1fb383b37b3769885782d90fa08",
+  "runtime": {
+    "python_version": "3.15.2",
+    "ruff_version": "0.17.4",
+    "installed_mutation_tools_in_venv": {
+      "mutmut": "not-installed",
+      "pytest-gremlins": "not-installed"
+    }
+  },
+  "checks": {
+    "repo_harness": {
+      "command": ".venv/bin/python scripts/repo_harness.py",
+      "exit_code": 0,
+      "status": "pass",
+      "workflow_count": 43,
+      "finding_count": 0,
+      "findings": []
+    },
+    "installed_pytest_controls": {
+      "command": ".venv/bin/python -I scripts/run_installed_pytest.py -o addopts='' tests/test_repo_harness.py tests/test_execution_packets.py tests/test_version_sync.py tests/test_mutation_score.py",
+      "exit_code": 0,
+      "collected": 60,
+      "passed": 60,
+      "failed": 0,
+      "skipped": 0,
+      "duration_seconds": 1.92,
+      "suites": {
+        "tests/test_repo_harness.py": {
+          "passed": 12
+        },
+        "tests/test_execution_packets.py": {
+          "passed": 14
+        },
+        "tests/test_version_sync.py": {
+          "passed": 18
+        },
+        "tests/test_mutation_score.py": {
+          "passed": 16
+        }
+      }
+    },
+    "check_pandas_free": {
+      "command": ".venv/bin/python scripts/check_pandas_free.py --source voiage",
+      "exit_code": 0,
+      "passed": true,
+      "violations": []
+    },
+    "check_reference_policy": {
+      "command": ".venv/bin/python scripts/check_reference_policy.py",
+      "exit_code": 0,
+      "passed": true,
+      "scanned_files": 5012,
+      "unapproved": [],
+      "errors": []
+    },
+    "version_sync": {
+      "command": ".venv/bin/python -I voiage/versioning.py --repo-root .",
+      "exit_code": 0,
+      "output": "validated version synchronization against pyproject.toml @ 3.1.0",
+      "canonical_version": "3.1.0"
+    },
+    "ruff_security_lint": {
+      "command": "ruff check voiage --select=S --ignore=S101",
+      "exit_code": 0,
+      "output": "All checks passed!",
+      "passed": true
+    }
+  },
+  "tooling_and_controls_assessment": {
+    "spec_reference": "conductor/tracks/tobac_consumer_qualification_20261025/spec.md#acceptance-6",
+    "pyproject_configuration": {
+      "test_acceleration_extra": {
+        "location": "pyproject.toml#L51-L58",
+        "packages": [
+          "pytest-testmon>=2.2.0,<3",
+          "pytest-gremlins>=1.9.0,<2",
+          "coverage>=7.16.0,<8",
+          "vcrpy>=8.3.0,<9"
+        ],
+        "policy_note": "Marked explicitly in pyproject.toml as local feedback experiments only; not a replacement for CI or coverage."
+      },
+      "dev_extra_mutation": {
+        "location": "pyproject.toml#L95-L97",
+        "package": "mutmut==3.8.1"
+      },
+      "tool_mutmut": {
+        "location": "pyproject.toml#L273-L286",
+        "source_paths": [
+          "voiage/"
+        ],
+        "only_mutate": [
+          "voiage/contracts/capabilities.py",
+          "voiage/contracts/digests.py"
+        ],
+        "pytest_add_cli_args": [
+          "-x",
+          "--no-cov"
+        ],
+        "pytest_add_cli_args_test_selection": [
+          "tests/test_analysis_contracts.py",
+          "tests/test_calculation_kernel.py",
+          "tests/test_critical_invariants.py",
+          "tests/test_mutation_score.py"
+        ],
+        "also_copy": [
+          "scripts/"
+        ]
+      }
+    },
+    "local_acceleration_runner": {
+      "path": "scripts/test_acceleration.py",
+      "profiles": [
+        "ordinary",
+        "testmon",
+        "gremlins",
+        "ctrace",
+        "sysmon"
+      ],
+      "gremlins_scope": "Bounded local feedback targeting voiage/mutation_policy.py via tests/test_mutation_score.py with --gremlin-operators=comparison,boolean and --gremlin-workers=1."
+    },
+    "authoritative_mutation_gates": [
+      "nox -s contract_mutation (mutmut run; mutmut export-cicd-stats)",
+      "scripts/check_mutation_score.py",
+      "scripts/check_mutation_cohort.py",
+      "scripts/run_critical_mutation_lane.py . --threshold 90"
+    ],
+    "execution_packet_and_context_controls": {
+      "execution_packets": "tests/test_execution_packets.py (14 passed) validates scripts/validate_execution_packets.py fail-closed checks on required/unknown fields, duplicate/unknown task IDs, dependency cycles, path-escape/out-of-scope edits without input mutation, stale input_sha256 digests, unsupported result states, pending prerequisites, and zero command execution.",
+      "mutation_score_gate": "tests/test_mutation_score.py (16 passed) validates voiage.mutation_policy and scripts/check_mutation_score.py fail-closed unresolved-mutant accounting, interruption rejection, threshold bounds, and broad baseline score/debt ratcheting.",
+      "repo_harness": "scripts/repo_harness.py (43 workflows, 0 findings) and tests/test_repo_harness.py (12 passed) enforce pinned GitHub Actions SHAs, setup-uv 0.13.6, required security/assurance workflows, AGENTS.md context sections, Astro docs platform exclusivity, and pinned coverage/mutation thresholds.",
+      "version_sync": "voiage/versioning.py (3.1.0) and tests/test_version_sync.py (18 passed) enforce cross-manifest synchronization across Python, Rust, Julia, and R."
+    },
+    "disposition": "no_new_tool_stack_or_runtime_change_justified",
+    "new_packages_installed": false,
+    "runtime_files_modified": false,
+    "rationale": "pyproject.toml already defines pytest-gremlins>=1.9.0,<2 in the opt-in test-acceleration extra (backed by bounded local profiling in scripts/test_acceleration.py) and mutmut==3.8.1 in dev/CI authoritative gates. All existing repo harness, execution-packet, version-sync, check_pandas_free.py, reference-policy, security-lint, and mutation-score controls pass with 0 findings and 60/60 control tests passing."
+  }
+}

@@ -1,0 +1,165 @@
+{
+  "observed_at_utc": "2026-11-26T02:44:40Z",
+  "track_id": "tobac_consumer_qualification_20261025",
+  "phase": "phase2",
+  "status": "passed",
+  "branch": "codex/tobac-r11-contracts-20261126",
+  "git_head": "d0cd33b45d95a1fb383b37b3769885782d90fa08",
+  "runtime": {
+    "python": "3.15.2 (main, Oct 25 2026, 16:57:51) [Clang 21.0.0 (clang-2100.3.34.2)]",
+    "python_version": "3.15.2",
+    "platform": "macOS-27.2.1-arm64-arm-64bit-Mach-O",
+    "rustc": "rustc 1.100.0 (0ef1bc386 2026-11-09) (Homebrew)",
+    "cargo": "cargo 1.100.0 (3acc79c0c 2026-11-05) (Homebrew)",
+    "installed_package": {
+      "voiage_file": ".venv/lib/python3.15/site-packages/voiage/__init__.py",
+      "native_extension_path": ".venv/lib/python3.15/site-packages/voiage/_core.abi3-darwin.so",
+      "native_extension_sha256": "7b6b340c9b9f97be619909991ccadbdbe21b3e8a814850af8f69b461f5c35c36",
+      "note": "On macOS arm64 the installed CPython 3.15 abi3 extension filename is _core.abi3-darwin.so (_core.abi3.so is absent)."
+    },
+    "packages": {
+      "voiage": "3.1.0",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "polars": "2.1.0",
+      "pyarrow": "26.0.1",
+      "pydantic": "2.14.3",
+      "jsonschema": "4.26.0",
+      "scikit-learn": "1.9.1",
+      "jax": "0.12.0.1",
+      "jaxlib": "0.12.0.1",
+      "pytest": "9.2.0",
+      "hypothesis": "6.170.15"
+    }
+  },
+  "checks": {
+    "check_pandas_free": {
+      "command": ".venv/bin/python scripts/check_pandas_free.py --source voiage",
+      "exit_status": 0,
+      "passed": true,
+      "violations": []
+    },
+    "rust_locked_unit_tests": {
+      "command": "cargo test --manifest-path rust/Cargo.toml --locked -p voiage-domain -p voiage-numerics --lib",
+      "exit_status": 0,
+      "crates": {
+        "voiage-domain": { "passed": 0, "failed": 0, "ignored": 0 },
+        "voiage-numerics": { "passed": 29, "failed": 0, "ignored": 0 }
+      }
+    },
+    "ruff": {
+      "command": "ruff check tests/test_tobac_phase2_interchange_and_backends.py && ruff format --check tests/test_tobac_phase2_interchange_and_backends.py",
+      "exit_status": 0,
+      "passed": true
+    },
+    "installed_pytest": {
+      "command": ".venv/bin/python -I scripts/run_installed_pytest.py -o addopts='' -v tests/test_tobac_phase2_interchange_and_backends.py tests/test_tobac_r11_contracts.py",
+      "exit_status": 0,
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "suites": {
+        "tests/test_tobac_phase2_interchange_and_backends.py": {
+          "passed": 4,
+          "sha256": "d877c5033773e10d08012290cc4d45bf5ac98ec0b01de8085f27c25d861bb445"
+        },
+        "tests/test_tobac_r11_contracts.py": {
+          "passed": 6,
+          "sha256": "a444c3bb717f3391f523b0c664e0c6a732b21de83876e349f0f1b3f3f5cd3834"
+        }
+      }
+    }
+  },
+  "bounded_gap_disposition": {
+    "new_runtime_code_added": false,
+    "verified_interfaces": [
+      "AnalysisSpec",
+      "ParameterSpec",
+      "NumericalPolicy",
+      "RunContext",
+      "NormalizedInputBundle",
+      "run_evpi",
+      "information_source_portfolio_value",
+      "paired_draw_bundle"
+    ],
+    "summary": "Phase 1 R11.1-R11.5 (tests/test_tobac_r11_contracts.py) and existing tobac suites verified typed and native interfaces with zero runtime defects; per spec.md, no new runtime code or wrapper API was added."
+  },
+  "benchmarks_median_of_5": {
+    "evpi_4096x4": {
+      "shape": [4096, 4],
+      "evpi_rust_core": {
+        "median_ms": 0.6587,
+        "all_ms": [0.7546, 0.5721, 0.6587, 0.8928, 0.5751],
+        "value": 0.09613423910383045
+      },
+      "run_evpi_numpy_contract": {
+        "median_ms": 1.2901,
+        "all_ms": [4.4522, 4.3541, 1.2827, 1.2901, 1.2282],
+        "value": 0.0961342391038319
+      },
+      "jax_backend_x64": {
+        "median_ms": 0.7999,
+        "all_ms": [1.2793, 0.7999, 1.1638, 0.6759, 0.603],
+        "value": 0.0961342391038309
+      },
+      "max_abs_diff": 1.4432899320127035e-15,
+      "diff_evpi_vs_run_evpi": 1.4432899320127035e-15,
+      "diff_evpi_vs_jax_x64": 4.440892098500626e-16,
+      "diff_run_evpi_vs_jax_x64": 9.992007221626409e-16,
+      "tolerance_atol": 1e-12
+    },
+    "evpi_20480x4": {
+      "shape": [20480, 4],
+      "evpi_rust_core": {
+        "median_ms": 3.5917,
+        "all_ms": [4.0075, 4.7484, 3.4285, 3.5917, 2.8886],
+        "value": 0.09525992827139329
+      },
+      "run_evpi_numpy_contract": {
+        "median_ms": 1.826,
+        "all_ms": [1.826, 1.8057, 1.9783, 1.8913, 1.8105],
+        "value": 0.0952599282713914
+      },
+      "jax_backend_x64": {
+        "median_ms": 0.9531,
+        "all_ms": [11.0108, 1.4027, 0.9531, 0.7728, 0.6445],
+        "value": 0.0952599282713954
+      },
+      "max_abs_diff": 3.9968028886505635e-15,
+      "diff_evpi_vs_run_evpi": 1.887379141862766e-15,
+      "diff_evpi_vs_jax_x64": 2.1094237467877974e-15,
+      "diff_run_evpi_vs_jax_x64": 3.9968028886505635e-15,
+      "tolerance_atol": 1e-12
+    },
+    "paired_draw_ipc_parquet_round_trip_4096x4": {
+      "rows": 16384,
+      "columns": 6,
+      "median_ms": 54.0338,
+      "all_ms": [63.494, 54.0338, 54.0886, 52.9386, 48.5523],
+      "content_digest": "de872292238a9714934791de18b0ddf7c09f60578cfebb3765f7fd73e0ea3d3b",
+      "ipc_content_digest_equal": true,
+      "parquet_table_equal": true,
+      "parquet_canonical_json_equal": true,
+      "parquet_schema_fingerprint_equal": true,
+      "parquet_string_view_digest_note": "On 16,384-row Polars CompatLevel.newest() string_view tables, Parquet read/cast preserves table equality, schema_fingerprint, and canonical_json while repacking variadic string_view buffers (so content_digest differs at 16,384 rows, whereas CompatLevel.oldest() large_string and 256-row string_view preserve content_digest identically)."
+    }
+  },
+  "genuine_blockers": [
+    {
+      "id": "deep_learning_unavailable_cp315",
+      "detail": "[tool.voiage.unavailable-extras.deep_learning]: PyTorch has no CPython 3.15 wheels; installation_available=false and explicit scikit-learn metamodel fallback applies."
+    },
+    {
+      "id": "portfolio_zero_probability_schema",
+      "detail": "information_source_portfolio schema rejects probability == 0.0 (strict > 0), whereas paired_draw_bundle accepts nonnegative draw weights (>= 0)."
+    },
+    {
+      "id": "dependency_frontier_offline_ssl_timeout",
+      "detail": "scripts/dependency_frontier.py live PyPI fetch times out on SSL handshake to PyPI in this environment; qualification relied on pinned .venv artifacts and locked Cargo dependencies."
+    },
+    {
+      "id": "tobac_published_3_1_0_vs_main",
+      "detail": "tobac default adapter targets published voiage 3.1.0, while experimental credal and censored APIs sit on post-3.1.0 main."
+    }
+  ]
+}
