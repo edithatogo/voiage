@@ -120,10 +120,13 @@ pub fn decision_aware_simulation_allocation(
     }
     let mut allocations = vec![1_usize; k];
     let remaining = total_budget - k;
+    let rem_u32 = u32::try_from(remaining)
+        .map_err(|_| NumericalInputError::invalid("total_budget", "budget exceeds u32 range"))?;
     let mut assigned = 0_usize;
     for (idx, &score) in scores.iter().enumerate() {
+        #[allow(clippy::cast_possible_truncation, clippy::cast_sign_loss)]
         let extra = if score_sum > 0.0 {
-            ((score / score_sum) * (remaining as f64)).floor() as usize
+            ((score / score_sum) * f64::from(rem_u32)).floor() as usize
         } else {
             remaining / k
         };
@@ -139,7 +142,10 @@ pub fn decision_aware_simulation_allocation(
     }
     let mut max_se = 0.0_f64;
     for (&sd, &n) in posterior_sds.iter().zip(allocations.iter()) {
-        let se = sd / (n as f64).sqrt();
+        let n_u32 = u32::try_from(n).map_err(|_| {
+            NumericalInputError::invalid("total_budget", "allocation exceeds u32 range")
+        })?;
+        let se = sd / f64::from(n_u32).sqrt();
         max_se = max_se.max(se);
     }
     Ok(DecisionAwareAllocationResult {

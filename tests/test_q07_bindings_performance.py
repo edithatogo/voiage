@@ -20,7 +20,9 @@ def test_q07_buffer_crossing_avoids_tolist_and_preserves_values() -> None:
     tracemalloc.start()
     t0 = time.perf_counter()
     evpi_val = evpi(nb)
-    res = evsi_importance_sampling(nb, lw, min_ess_threshold=10.0, max_khat_threshold=0.9)
+    res = evsi_importance_sampling(
+        nb, lw, min_ess_threshold=10.0, max_khat_threshold=0.9
+    )
     elapsed_ms = (time.perf_counter() - t0) * 1000.0
     _, peak_bytes = tracemalloc.get_traced_memory()
     tracemalloc.stop()

@@ -61,6 +61,7 @@ pub struct SequentialDesignSummary {
 ///
 /// Returns [`NumericalInputError`] on empty/oversized portfolios, invalid costs/EVSIs,
 /// negative budgets, or unguarded parameter-group overlaps.
+#[allow(clippy::too_many_lines)]
 pub fn enumerate_study_portfolio(
     studies: &[PortfolioStudySpec],
     interactions: &[PortfolioInteraction],

@@ -22,13 +22,25 @@ class SampleSizeSpecV1(ContractModel):
     def validate_convention(self) -> Self:
         """Enforce unambiguous sample-size semantics per convention."""
         if self.convention == "per_arm":
-            if self.per_arm is None or self.total is not None or self.per_arm_sizes is not None:
+            if (
+                self.per_arm is None
+                or self.total is not None
+                or self.per_arm_sizes is not None
+            ):
                 raise ValueError("per_arm convention requires only `per_arm > 0`")
         elif self.convention == "total_equal_two_arm":
-            if self.total is None or self.per_arm is not None or self.per_arm_sizes is not None:
-                raise ValueError("total_equal_two_arm convention requires only `total > 0`")
+            if (
+                self.total is None
+                or self.per_arm is not None
+                or self.per_arm_sizes is not None
+            ):
+                raise ValueError(
+                    "total_equal_two_arm convention requires only `total > 0`"
+                )
             if self.total % 2 != 0:
-                raise ValueError("total_equal_two_arm requires an even total sample size")
+                raise ValueError(
+                    "total_equal_two_arm requires an even total sample size"
+                )
         elif self.convention == "multi_arm" and (
             self.per_arm_sizes is None
             or len(self.per_arm_sizes) < 2

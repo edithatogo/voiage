@@ -183,6 +183,7 @@ pub fn evsi_qmc_normal_normal(
 /// # Errors
 ///
 /// Returns [`NumericalInputError`] for invalid inputs, `base_points == 0`, or `levels == 0`.
+#[allow(clippy::too_many_arguments)]
 pub fn evsi_multilevel_normal_normal(
     prior_mean: f64,
     prior_standard_deviation: f64,
@@ -221,6 +222,7 @@ pub fn evsi_multilevel_normal_normal(
 /// # Errors
 ///
 /// Returns [`NumericalInputError`] if any estimator fails validation.
+#[allow(clippy::too_many_arguments)]
 pub fn compare_evsi_mc_vs_qmc(
     prior_mean: f64,
     prior_standard_deviation: f64,
@@ -265,7 +267,8 @@ pub fn compare_evsi_mc_vs_qmc(
         z = (z ^ (z >> 30)).wrapping_mul(0xBF58_476D_1CE4_E5B9);
         z = (z ^ (z >> 27)).wrapping_mul(0x94D0_49BB_1331_11EB);
         z ^= z >> 31;
-        ((z >> 11) as f64 + 0.5) / ((1_u64 << 53) as f64)
+        let hi = u32::try_from(z >> 32).unwrap_or(0);
+        (f64::from(hi) + 0.5) / 4_294_967_296.0
     };
     let mut mc_sum = 0.0;
     for _ in 0..evaluations {

@@ -126,12 +126,18 @@ def test_q05_native_study_models_and_qmc_bindings() -> None:
 
 
 def test_q05_importance_sampling_binding_and_fail_closed_degeneracy() -> None:
-    nb = np.array([[0.0, float(k)] for k in [1, 2, 3, -1, -2, 1.5, 0.5, -0.5, 2.5, -1.5]])
+    nb = np.array(
+        [[0.0, float(k)] for k in [1, 2, 3, -1, -2, 1.5, 0.5, -0.5, 2.5, -1.5]]
+    )
     healthy_lw = np.array([[0.1, 0.2, 0.3, -0.1, -0.2, 0.15, 0.05, -0.05, 0.25, -0.15]])
-    res = evsi_importance_sampling(nb, healthy_lw, min_ess_threshold=5.0, max_khat_threshold=0.7)
+    res = evsi_importance_sampling(
+        nb, healthy_lw, min_ess_threshold=5.0, max_khat_threshold=0.7
+    )
     assert float(res["min_ess"]) >= 5.0
     assert float(res["evsi"]) >= 0.0
 
     bad_lw = np.array([[20.0] + [-20.0] * 9])
     with pytest.raises(InputError):
-        evsi_importance_sampling(nb, bad_lw, min_ess_threshold=5.0, max_khat_threshold=0.7)
+        evsi_importance_sampling(
+            nb, bad_lw, min_ess_threshold=5.0, max_khat_threshold=0.7
+        )

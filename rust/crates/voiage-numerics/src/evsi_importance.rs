@@ -74,7 +74,7 @@ fn compute_row_weights_and_diagnostics(
 
     // Hill / empirical Pareto tail index on upper tail of sorted weights.
     let mut sorted = weights.clone();
-    sorted.sort_by(|a, b| a.total_cmp(b));
+    sorted.sort_by(f64::total_cmp);
     let n = sorted.len();
     let tail_len = (n / 5).max(3).min(n - 1);
     let threshold = sorted[n - 1 - tail_len];

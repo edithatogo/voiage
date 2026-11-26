@@ -81,6 +81,7 @@ fn bound_evsi_identity(
 /// # Errors
 ///
 /// Returns a descriptive error string on shape mismatch, non-finite weights, or corrupt checkpoints.
+#[allow(clippy::too_many_arguments, clippy::too_many_lines)]
 pub fn evsi_streaming_resumable(
     net_benefit: &SampleMatrix,
     log_weights: &SampleMatrix,
@@ -186,10 +187,13 @@ pub fn evsi_streaming_resumable(
     }
 
     let d_f64 = f64::from(u32::try_from(dataset_count).map_err(|_| "dataset count overflow")?);
-    let post_study_mean: f64 = payload
-        .chunks_exact(8)
-        .map(|b| f64::from_bits(u64::from_le_bytes(b.try_into().unwrap())) / d_f64)
-        .sum();
+    let mut post_study_mean = 0.0_f64;
+    for chunk in payload.chunks_exact(8) {
+        let arr: [u8; 8] = chunk
+            .try_into()
+            .map_err(|_| "corrupt EVSI checkpoint chunk".to_string())?;
+        post_study_mean += f64::from_bits(u64::from_le_bytes(arr)) / d_f64;
+    }
     let s_f64 = f64::from(u32::try_from(sample_count).map_err(|_| "sample count overflow")?);
     let mut prior_means = vec![0.0; strategy_count];
     for row in net_benefit.rows() {

@@ -1638,8 +1638,9 @@ fn compute_exponential_time_to_event_evsi(
 }
 
 #[pyfunction]
-fn compute_evsi_qmc_normal_normal<'py>(
-    py: Python<'py>,
+#[allow(clippy::too_many_arguments)]
+fn compute_evsi_qmc_normal_normal(
+    py: Python<'_>,
     prior_mean: f64,
     prior_standard_deviation: f64,
     outcome_standard_deviation: f64,
@@ -1647,7 +1648,7 @@ fn compute_evsi_qmc_normal_normal<'py>(
     net_benefit_slope: f64,
     net_benefit_intercept: f64,
     num_points: usize,
-) -> PyResult<Bound<'py, PyDict>> {
+) -> PyResult<Bound<'_, PyDict>> {
     let result = evsi_qmc_normal_normal(
         prior_mean,
         prior_standard_deviation,
@@ -1685,8 +1686,9 @@ fn compute_discounted_population_enbs(
 }
 
 #[pyfunction]
-fn compute_enumerate_study_portfolio<'py>(
-    py: Python<'py>,
+#[allow(clippy::too_many_arguments)]
+fn compute_enumerate_study_portfolio(
+    py: Python<'_>,
     study_ids: Vec<String>,
     costs: Vec<f64>,
     standalone_evsis: Vec<f64>,
@@ -1694,7 +1696,7 @@ fn compute_enumerate_study_portfolio<'py>(
     interactions: Vec<(usize, usize, f64)>,
     budget: f64,
     require_explicit_overlap_guard: bool,
-) -> PyResult<Bound<'py, PyDict>> {
+) -> PyResult<Bound<'_, PyDict>> {
     if study_ids.len() != costs.len()
         || study_ids.len() != standalone_evsis.len()
         || study_ids.len() != parameter_groups.len()
@@ -1740,6 +1742,7 @@ fn compute_enumerate_study_portfolio<'py>(
 }
 
 #[pyfunction]
+#[allow(clippy::needless_pass_by_value)]
 fn compute_equity_weighted_study_enbs(
     subgroup_evsi: Vec<f64>,
     equity_weights: Vec<f64>,
@@ -1750,11 +1753,12 @@ fn compute_equity_weighted_study_enbs(
 }
 
 #[pyfunction]
-fn compute_sequential_adaptive_stopping_regret<'py>(
-    py: Python<'py>,
+#[allow(clippy::needless_pass_by_value)]
+fn compute_sequential_adaptive_stopping_regret(
+    py: Python<'_>,
     stage_evsi_remaining: Vec<f64>,
     stage_cumulative_costs: Vec<f64>,
-) -> PyResult<Bound<'py, PyDict>> {
+) -> PyResult<Bound<'_, PyDict>> {
     let res = sequential_adaptive_stopping_regret(&stage_evsi_remaining, &stage_cumulative_costs)
         .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
     let output = PyDict::new(py);

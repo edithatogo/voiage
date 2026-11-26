@@ -1434,7 +1434,11 @@ def beta_binomial_two_arm_evsi(
     net_benefit_intercept: float,
 ) -> float:
     """Compute exact two-arm Beta-Binomial EVSI."""
-    if isinstance(per_arm_sample_size, bool) or not isinstance(per_arm_sample_size, int) or per_arm_sample_size <= 0:
+    if (
+        isinstance(per_arm_sample_size, bool)
+        or not isinstance(per_arm_sample_size, int)
+        or per_arm_sample_size <= 0
+    ):
         raise_input_error("per_arm_sample_size must be a positive integer.")
     return _runtime.compute_beta_binomial_two_arm_evsi(
         _finite_float_argument(alpha_0, "alpha_0"),
@@ -1457,7 +1461,12 @@ def gamma_poisson_evsi(
     net_benefit_intercept: float,
 ) -> float:
     """Compute tail-certified conjugate Gamma-Poisson EVSI."""
-    if isinstance(total_sample_size, bool) or not isinstance(total_sample_size, int) or total_sample_size <= 0 or total_sample_size % 2 != 0:
+    if (
+        isinstance(total_sample_size, bool)
+        or not isinstance(total_sample_size, int)
+        or total_sample_size <= 0
+        or total_sample_size % 2 != 0
+    ):
         raise_input_error("total_sample_size must be a positive even integer.")
     return _runtime.compute_gamma_poisson_evsi(
         _finite_float_argument(prior_shape, "prior_shape"),
@@ -1498,14 +1507,25 @@ def evsi_qmc_normal_normal(
     num_points: int = 1024,
 ) -> dict[str, object]:
     """Compute deterministic Halton QMC Normal-Normal EVSI."""
-    if isinstance(total_sample_size, bool) or not isinstance(total_sample_size, int) or total_sample_size <= 0 or total_sample_size % 2 != 0:
+    if (
+        isinstance(total_sample_size, bool)
+        or not isinstance(total_sample_size, int)
+        or total_sample_size <= 0
+        or total_sample_size % 2 != 0
+    ):
         raise_input_error("total_sample_size must be a positive even integer.")
-    if isinstance(num_points, bool) or not isinstance(num_points, int) or num_points <= 0:
+    if (
+        isinstance(num_points, bool)
+        or not isinstance(num_points, int)
+        or num_points <= 0
+    ):
         raise_input_error("num_points must be a positive integer.")
     return _runtime.compute_evsi_qmc_normal_normal(
         _finite_float_argument(prior_mean, "prior_mean"),
         _finite_float_argument(prior_standard_deviation, "prior_standard_deviation"),
-        _finite_float_argument(outcome_standard_deviation, "outcome_standard_deviation"),
+        _finite_float_argument(
+            outcome_standard_deviation, "outcome_standard_deviation"
+        ),
         total_sample_size,
         _finite_float_argument(net_benefit_slope, "net_benefit_slope"),
         _finite_float_argument(net_benefit_intercept, "net_benefit_intercept"),
