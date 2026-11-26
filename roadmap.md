@@ -91,6 +91,11 @@ Prepared track records:
 - `conductor/tracks/polars_container_20261026/`
 - `conductor/tracks/pandas_free_io_20261026/`
 - `conductor/tracks/translation_reference_20261026/`
+- `conductor/tracks/voi_coherent_evsi_q05_20261126/`
+- `conductor/tracks/voi_study_design_portfolio_q06_20261126/`
+- `conductor/tracks/voi_bindings_performance_q07_20261126/`
+- `conductor/tracks/voi_producer_public_health_q08_20261126/`
+- `conductor/tracks/voi_frontier_research_r01_r03_20261126/`
 
 The ordered implementation tracks are individually registered under issues
 [#1111](https://github.com/edithatogo/voiage/issues/1111) through

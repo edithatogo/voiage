@@ -1,0 +1,17 @@
+{
+  "track_id": "voi_frontier_research_r01_r03_20261126",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-11-26T13:16:00Z",
+  "updated_at": "2026-11-26T13:16:00Z",
+  "description": "R01-R03 advanced research extensions (V07, V08, V09, V10, V11, F03, F06)",
+  "dependencies": [
+    "voi_coherent_evsi_q05_20261126",
+    "voi_study_design_portfolio_q06_20261126",
+    "voi_bindings_performance_q07_20261126",
+    "voi_producer_public_health_q08_20261126"
+  ],
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/1424"
+  }
+}

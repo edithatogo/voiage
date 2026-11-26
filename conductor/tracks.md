@@ -1106,8 +1106,10 @@ track at the top of this registry; completed repository slices stay closed.
   *Link: [./tracks/vop_logging_version_pilot_20260907/index.md](./tracks/vop_logging_version_pilot_20260907/index.md)*
 
 ---
-- [ ] **Track: Optional native telemetry qualification**
-  *Link: [./tracks/optional_native_telemetry_20260907/index.md](./tracks/optional_native_telemetry_20260907/index.md)*
+- [x] **Track: Optional native telemetry qualification** [completed: 2026-11-26]
+  *Link: [./archive/optional_native_telemetry_20260907/index.md](./archive/optional_native_telemetry_20260907/index.md)*
+  Opt-in `otel` (`opentelemetry = 0.32.0`, `opentelemetry_sdk = 0.32.1`) and `otel-http` (`opentelemetry-otlp = 0.32.0`, loopback OTLP/HTTP JSON) features in `voiage-diagnostics` verified across `--no-default-features` (44 passed), `--features otel` (50 passed), `--all-features` (54 passed, including real loopback HTTP collector, unsampled no-connection, stalled-collector bounded teardown, and async runtime init), and `tests/test_optional_telemetry_contract.py` (2 passed).
+  GitHub: https://github.com/edithatogo/voiage/issues/1116
 
 ---
 - [x] **Track: Tabular contract v3 and xarray removal**
@@ -1158,3 +1160,33 @@ track at the top of this registry; completed repository slices stay closed.
   *Link: [./archive/tobac_credal_endogenous_voi_20261110/index.md](./archive/tobac_credal_endogenous_voi_20261110/index.md)*
   CE01–CE05 (native credal/censored kernels, Arrow/Polars interchange, experimental Python bindings, and installed `tobac` parity) are complete, evidenced (`2026-11-26`), and archived; upstream consumer pin promotion (`edithatogo/tobac#178`) remains with the external `tobac` repository.
   GitHub: https://github.com/edithatogo/voiage/issues/1290
+
+---
+- [ ] **Track: Q05 Coherent EVSI Qualification (V03, V04, V05, V07, F02)**
+  *Link: [./tracks/voi_coherent_evsi_q05_20261126/index.md](./tracks/voi_coherent_evsi_q05_20261126/index.md)*
+  Regression, moment-matching, importance-sampling, non-normal study models, QMC/multilevel/unbiased EVSI, and F02 inference diagnostics.
+  GitHub: https://github.com/edithatogo/voiage/issues/1221
+
+---
+- [ ] **Track: Q06 Research Design and Portfolio Decisions (V06, V10, F06)**
+  *Link: [./tracks/voi_study_design_portfolio_q06_20261126/index.md](./tracks/voi_study_design_portfolio_q06_20261126/index.md)*
+  Economic study-design optimization, exact small-portfolio enumeration, overlap/dependence guards, and selective V10 frontier extensions.
+  GitHub: https://github.com/edithatogo/voiage/issues/1221
+
+---
+- [ ] **Track: Q07 Thin Bindings and Measured Computation (V12, F04, F05)**
+  *Link: [./tracks/voi_bindings_performance_q07_20261126/index.md](./tracks/voi_bindings_performance_q07_20261126/index.md)*
+  Cross-language binding parity, zero-copy crossing profiling, and resumable/cancellable streaming reductions.
+  GitHub: https://github.com/edithatogo/voiage/issues/1221
+
+---
+- [ ] **Track: Q08 Producer and Public-Health Workflows (V08, F06, F07, F08)**
+  *Link: [./tracks/voi_producer_public_health_q08_20261126/index.md](./tracks/voi_producer_public_health_q08_20261126/index.md)*
+  Installed producer exports, S01–S06 empirical/published benchmarks, risk-prediction, and public-health distributional workflows.
+  GitHub: https://github.com/edithatogo/voiage/issues/1221
+
+---
+- [ ] **Track: R01–R03 Advanced Research Extensions (V07, V08, V09, V10, V11, F03, F06)**
+  *Link: [./tracks/voi_frontier_research_r01_r03_20261126/index.md](./tracks/voi_frontier_research_r01_r03_20261126/index.md)*
+  Decision-aware stopping, joint research-implementation-capacity optimization, transport bias, strategic information design, and Q09 evaluation packet.
+  GitHub: https://github.com/edithatogo/voiage/issues/1221

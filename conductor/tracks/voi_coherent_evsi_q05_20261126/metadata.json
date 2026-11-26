@@ -1,0 +1,14 @@
+{
+  "track_id": "voi_coherent_evsi_q05_20261126",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-11-26T13:16:00Z",
+  "updated_at": "2026-11-26T13:16:00Z",
+  "description": "Q05 coherent EVSI qualification (V03, V04, V05, V07, F02)",
+  "dependencies": [
+    "scientific_ecosystem_alignment_20261029"
+  ],
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/1420"
+  }
+}

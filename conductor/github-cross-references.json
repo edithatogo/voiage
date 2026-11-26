@@ -5718,8 +5718,8 @@
     {
       "track_id": "optional_native_telemetry_20260907",
       "metadata_track_id": "optional_native_telemetry_20260907",
-      "path": "conductor/tracks/optional_native_telemetry_20260907",
-      "lifecycle": "active",
+      "path": "conductor/archive/optional_native_telemetry_20260907",
+      "lifecycle": "archived",
       "issue": {
         "number": 1116,
         "url": "https://github.com/edithatogo/voiage/issues/1116",
@@ -6064,6 +6064,81 @@
       "subissues": [],
       "pull_requests": [],
       "pull_request_evidence": "Planning prepared locally; no pull request evidence recorded"
+    },
+    {
+      "track_id": "voi_coherent_evsi_q05_20261126",
+      "metadata_track_id": "voi_coherent_evsi_q05_20261126",
+      "path": "conductor/tracks/voi_coherent_evsi_q05_20261126",
+      "lifecycle": "active",
+      "issue": {
+        "number": 1420,
+        "url": "https://github.com/edithatogo/voiage/issues/1420",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1221",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "voi_study_design_portfolio_q06_20261126",
+      "metadata_track_id": "voi_study_design_portfolio_q06_20261126",
+      "path": "conductor/tracks/voi_study_design_portfolio_q06_20261126",
+      "lifecycle": "active",
+      "issue": {
+        "number": 1421,
+        "url": "https://github.com/edithatogo/voiage/issues/1421",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1221",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "voi_bindings_performance_q07_20261126",
+      "metadata_track_id": "voi_bindings_performance_q07_20261126",
+      "path": "conductor/tracks/voi_bindings_performance_q07_20261126",
+      "lifecycle": "active",
+      "issue": {
+        "number": 1422,
+        "url": "https://github.com/edithatogo/voiage/issues/1422",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1221",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "voi_producer_public_health_q08_20261126",
+      "metadata_track_id": "voi_producer_public_health_q08_20261126",
+      "path": "conductor/tracks/voi_producer_public_health_q08_20261126",
+      "lifecycle": "active",
+      "issue": {
+        "number": 1423,
+        "url": "https://github.com/edithatogo/voiage/issues/1423",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1221",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
+    },
+    {
+      "track_id": "voi_frontier_research_r01_r03_20261126",
+      "metadata_track_id": "voi_frontier_research_r01_r03_20261126",
+      "path": "conductor/tracks/voi_frontier_research_r01_r03_20261126",
+      "lifecycle": "active",
+      "issue": {
+        "number": 1424,
+        "url": "https://github.com/edithatogo/voiage/issues/1424",
+        "state": "open"
+      },
+      "parent_issue_url": "https://github.com/edithatogo/voiage/issues/1221",
+      "subissues": [],
+      "pull_requests": [],
+      "pull_request_evidence": "none_found"
     }
   ]
 }

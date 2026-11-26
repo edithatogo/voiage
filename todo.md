@@ -43,7 +43,8 @@ implementation tracks are complete; parent review and optional telemetry are sep
 - [x] Add local verification resource limits and termination receipts before
   continuing Python 3.15.1 acceptance testing.
 
-- [ ] Ordered implementation tracks: `conductor/tracks/agent_safe_engineering_20260907/`, `conductor/tracks/execution_packet_guard_20260907/`, `conductor/tracks/version_identity_contracts_20260907/`, `conductor/tracks/native_structured_logging_20260907/`, `conductor/tracks/logging_privacy_resilience_20260907/`, `conductor/tracks/vop_logging_version_pilot_20260907/`, and `conductor/tracks/optional_native_telemetry_20260907/`.
+- [ ] Ordered implementation tracks: `conductor/tracks/agent_safe_engineering_20260907/`, `conductor/tracks/execution_packet_guard_20260907/`, `conductor/tracks/version_identity_contracts_20260907/`, `conductor/tracks/native_structured_logging_20260907/`, `conductor/tracks/logging_privacy_resilience_20260907/`, `conductor/tracks/vop_logging_version_pilot_20260907/`, and `conductor/archive/optional_native_telemetry_20260907/` (archived; `#1116`).
+- [ ] Execute future VOI methods expansion (`V03`–`V11`, `F02`–`F07` beyond `Q01`–`Q04`): `conductor/tracks/voi_coherent_evsi_q05_20261126/` (`#1420`), `conductor/tracks/voi_study_design_portfolio_q06_20261126/` (`#1421`), `conductor/tracks/voi_bindings_performance_q07_20261126/` (`#1422`), `conductor/tracks/voi_producer_public_health_q08_20261126/` (`#1423`), and `conductor/tracks/voi_frontier_research_r01_r03_20261126/` (`#1424`).
 Completed prerequisite records remain linked for navigation:
 `conductor/tracks/tabular_contract_v3_20261026/`,
 `conductor/tracks/polars_container_20261026/`,
