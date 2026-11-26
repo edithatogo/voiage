@@ -13,6 +13,7 @@ Existing test, platform, coverage, security and source-identity contracts remain
 - [Metadata](./metadata.json)
 - [Measured baseline](./baseline.json)
 - [Validation evidence](./validation.json)
+- [Hosted timing comparison (2026-11-26)](./hosted-comparison-20261126.json)
 
 This is a bounded follow-up to the completed G04 measurement work in
 `agent_safe_engineering_20260907`; it does not change that historical evidence

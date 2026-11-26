@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "observed_at_utc": "2026-11-26T12:51:14Z",
+  "purpose": "Comparable hosted CI timing measurement on main after PR #1332 and PR #1416 against the 2026-11-15 baseline.",
+  "baseline_reference": {
+    "path": "conductor/tracks/agent_safe_engineering_20260907/ci-efficiency-20261115/baseline.json",
+    "ci_run_id": 43644441955,
+    "head_sha": "b0f07ab0a88eb5500a8eda3b8d0ec85b6905a108",
+    "created_to_updated_seconds": 295,
+    "successful_job_count": 21,
+    "total_successful_job_execution_seconds": 2111,
+    "successful_job_queue_seconds": {
+      "minimum": 1,
+      "median": 39,
+      "maximum": 61
+    }
+  },
+  "observed_main_runs": [
+    {
+      "label": "post-1332 / pre-1416",
+      "ci_run_id": 45814877911,
+      "head_sha": "851c80a6b",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/45814877911",
+      "created_at": "2026-11-26T11:55:17Z",
+      "updated_at": "2026-11-26T12:03:59Z",
+      "created_to_updated_seconds": 522,
+      "successful_job_count": 22,
+      "returned_job_count": 24,
+      "total_successful_job_execution_seconds": 1984,
+      "successful_job_queue_seconds": {
+        "minimum": 2,
+        "median": 137.0,
+        "maximum": 183
+      }
+    },
+    {
+      "label": "post-1416 staged main",
+      "ci_run_id": 45821097483,
+      "head_sha": "739daa8f1",
+      "url": "https://github.com/edithatogo/voiage/actions/runs/45821097483",
+      "created_at": "2026-11-26T12:35:38Z",
+      "updated_at": "2026-11-26T12:44:49Z",
+      "created_to_updated_seconds": 551,
+      "successful_job_count": 22,
+      "returned_job_count": 24,
+      "total_successful_job_execution_seconds": 1947,
+      "successful_job_queue_seconds": {
+        "minimum": 3,
+        "median": 73.5,
+        "maximum": 117
+      }
+    }
+  ],
+  "notes": [
+    "Both 2026-11-26 main runs executed 22 successful jobs (vs 21 in the 2026-11-14 baseline, adding Simulation Outcome Isolated Consumer) with lower total successful job execution seconds (1984s and 1947s vs 2111s).",
+    "Median per-job queue time dropped from 137.0s (run 45814877911) to 73.5s (run 45821097483) after PR #1416 staged non-required jobs after required preflight/unit checks."
+  ]
+}
