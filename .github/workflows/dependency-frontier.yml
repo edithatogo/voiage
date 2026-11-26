@@ -3,6 +3,13 @@ name: Dependency Assurance
 on:
   pull_request:
     branches: [main]
+    paths:
+      - "pyproject.toml"
+      - "uv.lock"
+      - "rust/Cargo.toml"
+      - "rust/Cargo.lock"
+      - "scripts/dependency_frontier.py"
+      - ".github/workflows/dependency-frontier.yml"
   push:
     branches: [main]
   workflow_dispatch:

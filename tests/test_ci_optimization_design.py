@@ -257,3 +257,50 @@ def test_binding_caches_are_lock_and_toolchain_keyed() -> None:
     assert "${{ matrix.julia }}" in workflow
     assert "${{ matrix.rust_target }}" in workflow
     assert workflow.startswith("name: R CMD Check")
+
+
+def test_required_pr_checks_run_before_non_required_ci_and_path_filtered_workflows() -> (
+    None
+):
+    ci = yaml.safe_load((ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8"))
+    jobs = ci["jobs"]
+    stage1_gates = {"repository-harness", "version-sync", "lint"}
+    for required_stage2 in (
+        "test-unit",
+        "coverage-report",
+        "benchmark-regression",
+        "test-integration",
+        "test-e2e",
+        "docs",
+    ):
+        assert stage1_gates <= set(jobs[required_stage2].get("needs", []))
+
+    for non_required_stage3 in (
+        "ingestion-conformance",
+        next(k for k in jobs if k.endswith("-free-runtime")),
+        "excel-interchange",
+        "example-smoke",
+        "free-threaded-observation",
+        "test-mutation",
+    ):
+        assert "test-unit" in jobs[non_required_stage3].get("needs", [])
+
+    for workflow_name in (
+        "c15-cross-platform.yml",
+        "operational-assurance.yml",
+        "dependency-frontier.yml",
+        "community-standards.yml",
+        "fair-software.yml",
+    ):
+        wf = yaml.safe_load(
+            (ROOT / ".github/workflows" / workflow_name).read_text(encoding="utf-8")
+        )
+        triggers = wf.get("on") or wf.get(True)
+        assert triggers["pull_request"]["paths"], (
+            f"{workflow_name} must path-filter pull_request runs"
+        )
+        push_cfg = triggers.get("push", {})
+        if isinstance(push_cfg, dict):
+            assert "paths" not in push_cfg, (
+                f"{workflow_name} must remain unconditional on push"
+            )

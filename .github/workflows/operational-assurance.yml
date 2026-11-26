@@ -5,6 +5,18 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+    paths:
+      - "voiage/**"
+      - "tests/**"
+      - "rust/**"
+      - "pyproject.toml"
+      - "uv.lock"
+      - "tox.ini"
+      - ".github/coverage-policy.json"
+      - ".github/workflows/operational-assurance.yml"
+      - "scripts/check_consumer_matrix.py"
+      - "scripts/check_coverage_policy.py"
+      - "scripts/coverage_artifact_identity.py"
   merge_group:
     types: [checks_requested]
   workflow_dispatch:

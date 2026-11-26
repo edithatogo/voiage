@@ -2,6 +2,13 @@ name: FAIR research software assessment
 
 on:
   pull_request:
+    paths:
+      - "README*"
+      - "CITATION*"
+      - "LICENSE*"
+      - "pyproject.toml"
+      - "codemeta.json"
+      - ".github/workflows/fair-software.yml"
   push:
     branches: [main]
   workflow_dispatch:

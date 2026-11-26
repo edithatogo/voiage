@@ -6,6 +6,26 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+    paths:
+      - "voiage/**"
+      - "rust/**"
+      - "pyproject.toml"
+      - "uv.lock"
+      - "paper/**"
+      - "scripts/coverage_artifact_identity.py"
+      - "scripts/check_consumer_matrix.py"
+      - "scripts/docx_validator/**"
+      - "scripts/reproducible_build.py"
+      - "scripts/c15_artifact_digest.py"
+      - "scripts/c15_performance_ratchet.py"
+      - "benchmarks/c15_performance_baseline_py315.json"
+      - "tests/test_coverage_artifact_identity.py"
+      - "tests/test_manuscript_docx_validator.py"
+      - "tests/test_core_metrics_regression.py"
+      - "tests/test_numerical_reference_cases.py"
+      - "tests/test_polars_numerical_parity.py"
+      - "tests/test_v2_stable_api_contract.py"
+      - ".github/workflows/c15-cross-platform.yml"
   workflow_dispatch:
 
 
