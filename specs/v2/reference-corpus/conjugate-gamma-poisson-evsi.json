@@ -1,0 +1,76 @@
+{
+  "case_id": "conjugate-gamma-poisson-evsi",
+  "schema_version": "1.0.0",
+  "method": "evsi",
+  "verification_family": "D03",
+  "split": "held_out",
+  "held_out_from_tuning": true,
+  "synthetic_owned": true,
+  "same_author_application": false,
+  "decision": {
+    "description": "Event-rate decision with Gamma(alpha=3, rate=2) prior, NB_0 = 0, and NB_1(lambda) = 500 * lambda - 800 under Poisson(exposure * lambda) observation.",
+    "strategies": ["defer", "intervene"],
+    "objective": "maximize",
+    "risk_attitude": "risk_neutral"
+  },
+  "study": {
+    "study_type": "poisson_exposure_count_study",
+    "sample_size_basis": "person_time_exposure",
+    "conjugate_family": "gamma_poisson"
+  },
+  "inputs": {
+    "alpha_prior": 3,
+    "rate_prior": 2.0,
+    "net_benefit_slope": 500.0,
+    "net_benefit_intercept": -800.0,
+    "subcases": [
+      {
+        "subcase_id": "exposure-4",
+        "exposure": 4.0,
+        "k_max": 200,
+        "certified_tail_bound": 1e-12,
+        "expected": {
+          "value": 117.70563430371382,
+          "atol": 1e-11,
+          "unit": "net_benefit_unit_per_decision"
+        }
+      },
+      {
+        "subcase_id": "exposure-20",
+        "exposure": 20.0,
+        "k_max": 600,
+        "certified_tail_bound": 1e-11,
+        "expected": {
+          "value": 140.20136478916703,
+          "atol": 1e-11,
+          "unit": "net_benefit_unit_per_decision"
+        }
+      }
+    ]
+  },
+  "expected": {
+    "value": 117.70563430371382,
+    "atol": 1e-11,
+    "unit": "net_benefit_unit_per_decision",
+    "additional_expected": {
+      "evpi": 147.96680044146858,
+      "evsi_t4": 117.70563430371382,
+      "evsi_t20": 140.20136478916703
+    }
+  },
+  "generator": {
+    "type": "exact_negative_binomial_predictive_with_certified_mean_tail",
+    "module": "independent_incomplete_gamma_oracle"
+  },
+  "seed": null,
+  "source_rights": {
+    "license": "Apache-2.0",
+    "redistribution_allowed": true,
+    "pinned_revision": "d0cd33b45d95a1fb383b37b3769885782d90fa08",
+    "checksum_basis": "file_sha256_in_manifest"
+  },
+  "transformation_history": [
+    "Evaluated Negative-Binomial predictive sum with prior-mean exhaustion tail bound <= slope * (alpha/rate - prefix_mean) < 1e-11 and elementary closed-form Gamma(3,2) EVPI."
+  ],
+  "reference_implementation": "independent_gamma_poisson_certified_oracle"
+}

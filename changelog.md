@@ -1,11 +1,17 @@
 # Changelog
 
+- Admit the `Q03` versioned independent reference corpus under
+  `specs/v2/reference-corpus/` covering exact finite weighted EVPI/ENBS,
+  discrete and nonlinear analytic EVPPI, and exact Normal-Normal,
+  Beta-Binomial, and tail-certified Gamma-Poisson EVSI cases with offline
+  fail-closed validation in `scripts/validate_reference_corpus.py`, while
+  keeping external benchmarks (`S01`-`S06`) `candidate-source-only`.
+
 - Add leak-free cross-fitted Rust nonlinear EVPPI estimators (quadratic with
   interactions and training-quantile piecewise-linear splines) plus
   producer-owned MARS artifact replay in `voiage-numerics` and `voiage._runtime`
   for `Q04`, with held-out R2/RMSE, realized decision gain, decision loss vs
   perfect information, and applicability warnings.
-
 - Complete `tobac` consumer qualification Phases 1–3 (`tests/test_tobac_r11_contracts.py`,
   `tests/test_tobac_phase2_interchange_and_backends.py`, installed R11.1–R11.5
   bounded-extension provenance checks, and engineering/security controls review)
