@@ -1,5 +1,11 @@
 # Changelog
 
+- Add leak-free cross-fitted Rust nonlinear EVPPI estimators (quadratic with
+  interactions and training-quantile piecewise-linear splines) plus
+  producer-owned MARS artifact replay in `voiage-numerics` and `voiage._runtime`
+  for `Q04`, with held-out R2/RMSE, realized decision gain, decision loss vs
+  perfect information, and applicability warnings.
+
 - Complete `tobac` consumer qualification Phases 1–3 (`tests/test_tobac_r11_contracts.py`,
   `tests/test_tobac_phase2_interchange_and_backends.py`, installed R11.1–R11.5
   bounded-extension provenance checks, and engineering/security controls review)
@@ -9,7 +15,6 @@
 - Add R11.1–R11.5 `tobac` consumer contract and independent exact-`Fraction`
   oracle tests (`tests/test_tobac_r11_contracts.py`) and reconcile `CE04`
   completion in Conductor tracking.
-
 - Qualify the optional Voiage backend against tobac's frozen M2 retail case
   with both packages installed on Python 3.15.2.
 
