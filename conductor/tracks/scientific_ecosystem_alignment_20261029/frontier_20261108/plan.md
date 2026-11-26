@@ -52,10 +52,12 @@ gap/literature documents. Reuse existing capability registries, not a new runtim
 **Produces:** a method × estimator × study-model × binding × backend inventory with
 source owner, maturity, assumptions, reference case and unsupported disposition.
 
-- [ ] Add failing coverage for a native claim backed only by a Python bridge and for a capability missing its study-model/reference contract.
-- [ ] Reconcile actual installed behaviour with registry, README, papers and release docs; mark historical reviews as historical with links rather than deleting evidence.
-- [ ] Freeze the minimum decision/sample/result contracts and supported weight/unit conventions; record any signature changes before downstream work.
-- [ ] Run existing capability-report and consumer-matrix tests and the relevant docs/registry checks. Require every advertised capability to have a verification family or an explicit exclusion.
+- [x] Add failing coverage for a native claim backed only by a Python bridge and for a capability missing its study-model/reference contract. (`tests/test_q01_capability_authority.py`)
+- [x] Reconcile actual installed behaviour with registry, README, papers and release docs; mark historical reviews as historical with links rather than deleting evidence. (`specs/v2/capability-authority-matrix.json` covers all 7 stable methods, 6 CLI dispatch methods, and 42 frontier families)
+- [x] Freeze the minimum decision/sample/result contracts and supported weight/unit conventions; record any signature changes before downstream work.
+- [x] Run existing capability-report and consumer-matrix tests and the relevant docs/registry checks. Require every advertised capability to have a verification family or an explicit exclusion.
+
+Also recorded `Q03` source-and-rights preflight in `specs/v2/source-rights-preflight.json` (owned synthetic/hand-calculated references indexed separately; external candidates `S01`–`S06` kept `candidate-source-only` pending `Q03` acquisition).
 
 ### Q02 — Consolidate the Rust numerical authority
 

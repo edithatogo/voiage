@@ -1,0 +1,165 @@
+{
+  "schema_version": "1.0.0",
+  "purpose": "Q03 source-and-rights preflight inventory prior to external benchmark admission",
+  "policy": {
+    "external_admission_rule": "All external candidates start as candidate-source-only with license_cleared=false and checksum_verified=false until source bytes, license, and redistribution rights are verified.",
+    "self_certification_forbidden": "Reference values cannot be generated solely by the voiage implementation under test."
+  },
+  "owned_synthetic_references": [
+    {
+      "id": "evpi-exact-v1",
+      "path": "specs/numerical-reference/v1/evpi-cases.json",
+      "method": "evpi",
+      "verification_family": "D01",
+      "provenance": "independent_hand_calculation",
+      "reference_implementation": "independent_hand_calculation",
+      "license": "Apache-2.0",
+      "synthetic_owned": true
+    },
+    {
+      "id": "normative-evpi",
+      "path": "specs/core-api/fixtures/v1/normative/evpi.json",
+      "method": "evpi",
+      "verification_family": "D01",
+      "provenance": "owned_normative_fixture",
+      "reference_implementation": "independent_specification",
+      "license": "Apache-2.0",
+      "synthetic_owned": true
+    },
+    {
+      "id": "normative-evppi",
+      "path": "specs/core-api/fixtures/v1/normative/evppi.json",
+      "method": "evppi",
+      "verification_family": "D02",
+      "provenance": "owned_normative_fixture",
+      "reference_implementation": "independent_specification",
+      "license": "Apache-2.0",
+      "synthetic_owned": true
+    },
+    {
+      "id": "normative-evsi",
+      "path": "specs/core-api/fixtures/v1/normative/evsi.json",
+      "method": "evsi",
+      "verification_family": "D03",
+      "provenance": "owned_normative_fixture",
+      "reference_implementation": "independent_specification",
+      "license": "Apache-2.0",
+      "synthetic_owned": true
+    },
+    {
+      "id": "normative-enbs",
+      "path": "specs/core-api/fixtures/v1/normative/enbs.json",
+      "method": "enbs",
+      "verification_family": "D01",
+      "provenance": "owned_normative_fixture",
+      "reference_implementation": "independent_specification",
+      "license": "Apache-2.0",
+      "synthetic_owned": true
+    },
+    {
+      "id": "normative-ceac",
+      "path": "specs/core-api/fixtures/v1/normative/ceac.json",
+      "method": "ceac",
+      "verification_family": "D01",
+      "provenance": "owned_normative_fixture",
+      "reference_implementation": "independent_specification",
+      "license": "Apache-2.0",
+      "synthetic_owned": true
+    },
+    {
+      "id": "v2-ingestion-provider-sdk",
+      "path": "specs/core-api/fixtures/v2/ingestion-provider-sdk-v1.json",
+      "method": "normalized_input",
+      "verification_family": "D17",
+      "provenance": "owned_v2_fixture",
+      "reference_implementation": "independent_specification",
+      "license": "Apache-2.0",
+      "synthetic_owned": true
+    },
+    {
+      "id": "v2-normalized-input-bundle",
+      "path": "specs/core-api/fixtures/v2/normalized-input-bundle.json",
+      "method": "normalized_input",
+      "verification_family": "D17",
+      "provenance": "owned_v2_fixture",
+      "reference_implementation": "independent_specification",
+      "license": "Apache-2.0",
+      "synthetic_owned": true
+    }
+  ],
+  "external_candidates": [
+    {
+      "id": "S01",
+      "name": "ConVOI voi",
+      "url": "https://chjackson.github.io/voi/reference/index.html",
+      "secondary_url": "https://chjackson.github.io/voi/reference/evsi.html",
+      "verification_families": ["D01", "D02", "D03", "D15"],
+      "admission_state": "candidate-source-only",
+      "license_cleared": false,
+      "checksum_verified": false,
+      "redistribution_allowed": null,
+      "pinned_revision": null,
+      "notes": "Chemotherapy model and VOI comparator definitions; not acquired in preflight."
+    },
+    {
+      "id": "S02",
+      "name": "BCEA",
+      "url": "https://n8thangreen.github.io/BCEA/reference/index.html",
+      "verification_families": ["D01"],
+      "admission_state": "candidate-source-only",
+      "license_cleared": false,
+      "checksum_verified": false,
+      "redistribution_allowed": null,
+      "pinned_revision": null,
+      "notes": "Smoking/Vaccine example PSA tables; verify object versions and license before export."
+    },
+    {
+      "id": "S03",
+      "name": "DARTH",
+      "url": "https://darth-git.github.io/darthpack/articles/aa-introduction.html",
+      "verification_families": ["D06"],
+      "admission_state": "candidate-source-only",
+      "license_cleared": false,
+      "checksum_verified": false,
+      "redistribution_allowed": null,
+      "pinned_revision": null,
+      "notes": "Sick-Sicker calibration and structural model candidate."
+    },
+    {
+      "id": "S04",
+      "name": "gemtc",
+      "url": "https://github.com/cran/gemtc/blob/master/MD5",
+      "verification_families": ["D07"],
+      "admission_state": "candidate-source-only",
+      "license_cleared": false,
+      "checksum_verified": false,
+      "redistribution_allowed": null,
+      "pinned_revision": null,
+      "notes": "CRAN MD5 location for smoking.rdata network meta-analysis candidate; economic model separate."
+    },
+    {
+      "id": "S05",
+      "name": "sbibm",
+      "url": "https://github.com/sbi-benchmark/sbibm",
+      "verification_families": ["D16"],
+      "admission_state": "candidate-source-only",
+      "license_cleared": false,
+      "checksum_verified": false,
+      "redistribution_allowed": null,
+      "pinned_revision": null,
+      "notes": "Simulation-based inference tasks require decision actions and utility overlay before VOI use."
+    },
+    {
+      "id": "S06",
+      "name": "OWID vaccination series",
+      "url": "https://ourworldindata.org/grapher/share-people-fully-vaccinated-covid",
+      "verification_families": ["D12"],
+      "admission_state": "candidate-source-only",
+      "license_cleared": false,
+      "checksum_verified": false,
+      "redistribution_allowed": null,
+      "pinned_revision": null,
+      "notes": "Forecast-validation uptake series; third-party rights check required; non-causal."
+    }
+  ]
+}

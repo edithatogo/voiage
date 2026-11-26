@@ -1,11 +1,16 @@
 # Changelog
 
+- Reconcile capability, verification-family, and Rust-authority ownership across
+  stable methods, CLI dispatch, and all 42 frontier families (`Q01`) in
+  `specs/v2/capability-authority-matrix.json`, and record the `Q03`
+  source-and-rights preflight inventory in
+  `specs/v2/source-rights-preflight.json`.
+
 - Consolidate Rust EVPI/ENBS numerical authority across `voiage-numerics`,
   `voiage-ffi`, and offline `#![no_std]` `r-package/voiageR/src/rust` (`Q02`),
   fixing extreme-finite overflow in `voiage_rust_evpi` and verifying parity in
   `tests/test_q02_rust_authority_parity.py` and
   `rust/crates/voiage-numerics/tests/q02_rust_authority_witnesses.rs`.
-
 - Admit the `Q03` versioned independent reference corpus under
   `specs/v2/reference-corpus/` covering exact finite weighted EVPI/ENBS,
   discrete and nonlinear analytic EVPPI, and exact Normal-Normal,
