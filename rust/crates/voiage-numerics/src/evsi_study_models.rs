@@ -163,9 +163,7 @@ pub fn gamma_poisson_evsi(
     let mut y: u32 = 0;
     while cdf < 1.0 - 1e-12 && y < 100_000 {
         let yf = f64::from(y);
-        let ln_pmf = ln_gamma(yf + prior_shape)
-            - ln_gamma(yf + 1.0)
-            - ln_gamma(prior_shape)
+        let ln_pmf = ln_gamma(yf + prior_shape) - ln_gamma(yf + 1.0) - ln_gamma(prior_shape)
             + prior_shape * ln_p
             + yf * ln_1mp;
         let pmf = ln_pmf.exp();
@@ -218,9 +216,8 @@ pub fn exponential_time_to_event_evsi(
 
     for idx in 0..n_grid {
         let u = (f64::from(idx) + 0.5) * du;
-        let ln_density = (expected_events - 1.0) * u.ln()
-            + (prior_shape - 1.0) * (1.0 - u).ln()
-            - norm_const;
+        let ln_density =
+            (expected_events - 1.0) * u.ln() + (prior_shape - 1.0) * (1.0 - u).ln() - norm_const;
         let w = ln_density.exp() * du;
         let post_mean = (prior_shape + expected_events) * (1.0 - u) / prior_rate;
         let post_inb = net_benefit_slope * post_mean + net_benefit_intercept;

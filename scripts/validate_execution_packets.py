@@ -133,7 +133,10 @@ def validate_packet(
     if not isinstance(phases, list):
         errors.append("phases must be a list")
     else:
-        known = _plan_task_ids(root / "conductor" / "tracks" / str(track_id))
+        track_dir = root / "conductor" / "tracks" / str(track_id)
+        if not track_dir.is_dir():
+            track_dir = root / "conductor" / "archive" / str(track_id)
+        known = _plan_task_ids(track_dir)
         for phase in phases:
             if not isinstance(phase, dict):
                 errors.append("each phase must be an object")

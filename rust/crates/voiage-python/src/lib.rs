@@ -26,20 +26,20 @@ use voiage_diagnostics::telemetry::{emit as emit_diagnostic_event, Correlation};
 use voiage_diagnostics::{CancellationToken, CheckpointIdentity, CheckpointStore, ErrorCategory};
 use voiage_domain::{BigRational, SampleCube, SampleMatrix, SampleSizeConvention, SampleVector};
 use voiage_numerics::{
-    beta_binomial_two_arm_evsi, ceaf, coss, coss_selection_uncertainty,
-    discounted_population_enbs, dominance, enbs, enumerate_study_portfolio,
-    equity_weighted_study_enbs, estimation_truth_assurance, evpi, evpi_resumable, evppi,
-    evppi_from_mars_artifact, evppi_nonlinear, evppi_variance, evppi_variance_with_assurance,
-    evsi_efficient_linear, evsi_evpi_efficiency, evsi_importance_sampling, evsi_moment_based,
-    evsi_qmc_normal_normal, evsi_regression, evsi_stochastic, evsi_variance,
-    evsi_variance_with_assurance, expected_utility_information, exponential_time_to_event_evsi,
-    gamma_poisson_evsi, heterogeneity, information_efficiency_uncertainty,
-    normal_normal_two_arm_evsi, sequential_adaptive_stopping_regret, structural_evpi,
-    structural_evppi, DominanceStatus as KernelDominanceStatus, EstimationVarianceKernelResult,
-    EvppiBasis, EvppiNonlinearConfig, ExpectedUtilityInformationInput, InformationStructure,
-    MarsArtifact, MarsHingeFactor, MarsStrategyModel, MarsTerm, NumericalInputError,
-    PortfolioInteraction, PortfolioStudySpec, ResumableEvpiOutcome, SolverSettings,
-    StudyScheduleConfig, UtilityDescriptor,
+    beta_binomial_two_arm_evsi, ceaf, coss, coss_selection_uncertainty, discounted_population_enbs,
+    dominance, enbs, enumerate_study_portfolio, equity_weighted_study_enbs,
+    estimation_truth_assurance, evpi, evpi_resumable, evppi, evppi_from_mars_artifact,
+    evppi_nonlinear, evppi_variance, evppi_variance_with_assurance, evsi_efficient_linear,
+    evsi_evpi_efficiency, evsi_importance_sampling, evsi_moment_based, evsi_qmc_normal_normal,
+    evsi_regression, evsi_stochastic, evsi_variance, evsi_variance_with_assurance,
+    expected_utility_information, exponential_time_to_event_evsi, gamma_poisson_evsi,
+    heterogeneity, information_efficiency_uncertainty, normal_normal_two_arm_evsi,
+    sequential_adaptive_stopping_regret, structural_evpi, structural_evppi,
+    DominanceStatus as KernelDominanceStatus, EstimationVarianceKernelResult, EvppiBasis,
+    EvppiNonlinearConfig, ExpectedUtilityInformationInput, InformationStructure, MarsArtifact,
+    MarsHingeFactor, MarsStrategyModel, MarsTerm, NumericalInputError, PortfolioInteraction,
+    PortfolioStudySpec, ResumableEvpiOutcome, SolverSettings, StudyScheduleConfig,
+    UtilityDescriptor,
 };
 use voiage_serialization::{
     CeafResultV1, CeafResultV1Input, DominanceResultV1, DominanceResultV1Input, DominanceStatus,
@@ -1709,20 +1709,24 @@ fn compute_enumerate_study_portfolio<'py>(
         .zip(costs)
         .zip(standalone_evsis)
         .zip(parameter_groups)
-        .map(|(((study_id, cost), standalone_evsi), parameter_group)| PortfolioStudySpec {
-            study_id,
-            cost,
-            standalone_evsi,
-            parameter_group,
-        })
+        .map(
+            |(((study_id, cost), standalone_evsi), parameter_group)| PortfolioStudySpec {
+                study_id,
+                cost,
+                standalone_evsi,
+                parameter_group,
+            },
+        )
         .collect();
     let inters: Vec<PortfolioInteraction> = interactions
         .into_iter()
-        .map(|(study_a, study_b, joint_evsi_adjustment)| PortfolioInteraction {
-            study_a,
-            study_b,
-            joint_evsi_adjustment,
-        })
+        .map(
+            |(study_a, study_b, joint_evsi_adjustment)| PortfolioInteraction {
+                study_a,
+                study_b,
+                joint_evsi_adjustment,
+            },
+        )
         .collect();
     let res = enumerate_study_portfolio(&studies, &inters, budget, require_explicit_overlap_guard)
         .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
@@ -2225,16 +2229,25 @@ fn core_module(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_function(wrap_pyfunction!(compute_evsi_moment_based, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_regression, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_importance_sampling, module)?)?;
-    module.add_function(wrap_pyfunction!(compute_beta_binomial_two_arm_evsi, module)?)?;
+    module.add_function(wrap_pyfunction!(
+        compute_beta_binomial_two_arm_evsi,
+        module
+    )?)?;
     module.add_function(wrap_pyfunction!(compute_gamma_poisson_evsi, module)?)?;
     module.add_function(wrap_pyfunction!(
         compute_exponential_time_to_event_evsi,
         module
     )?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_qmc_normal_normal, module)?)?;
-    module.add_function(wrap_pyfunction!(compute_discounted_population_enbs, module)?)?;
+    module.add_function(wrap_pyfunction!(
+        compute_discounted_population_enbs,
+        module
+    )?)?;
     module.add_function(wrap_pyfunction!(compute_enumerate_study_portfolio, module)?)?;
-    module.add_function(wrap_pyfunction!(compute_equity_weighted_study_enbs, module)?)?;
+    module.add_function(wrap_pyfunction!(
+        compute_equity_weighted_study_enbs,
+        module
+    )?)?;
     module.add_function(wrap_pyfunction!(
         compute_sequential_adaptive_stopping_regret,
         module

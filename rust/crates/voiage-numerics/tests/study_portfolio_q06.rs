@@ -73,3 +73,22 @@ fn q06_equity_weighted_enbs_and_sequential_stopping_regret() {
     assert!((seq.optimal_net_value - 120.0).abs() < 1e-12);
     assert!((seq.immediate_stop_regret - 40.0).abs() < 1e-12);
 }
+
+#[test]
+fn q06_error_branches_fail_closed() {
+    let base = StudyScheduleConfig {
+        discount_rate: 0.0,
+        recruitment_delay_years: 1.0,
+        time_horizon_years: 5.0,
+        incident_population_per_year: 100.0,
+    };
+    assert!(discounted_population_enbs(1.0, 10.0, &base).unwrap() > 0.0);
+    assert!(discounted_population_enbs(-1.0, 10.0, &base).is_err());
+    assert!(discounted_population_enbs(1.0, -1.0, &base).is_err());
+
+    assert!(enumerate_study_portfolio(&[], &[], 100.0, true).is_err());
+    assert!(equity_weighted_study_enbs(&[], &[], 0.0).is_err());
+    assert!(equity_weighted_study_enbs(&[10.0], &[0.0], 0.0).is_err());
+    assert!(sequential_adaptive_stopping_regret(&[], &[]).is_err());
+    assert!(sequential_adaptive_stopping_regret(&[-1.0], &[0.0]).is_err());
+}

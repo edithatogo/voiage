@@ -169,7 +169,8 @@ pub fn enumerate_study_portfolio(
             None => true,
             Some(prev) => {
                 enbs > prev.enbs + 1e-12
-                    || ((enbs - prev.enbs).abs() <= 1e-12 && selected.len() < prev.selected_indices.len())
+                    || ((enbs - prev.enbs).abs() <= 1e-12
+                        && selected.len() < prev.selected_indices.len())
             }
         };
         if replace {
@@ -243,8 +244,7 @@ pub fn sequential_adaptive_stopping_regret(
     stage_evsi_remaining: &[f64],
     stage_cumulative_costs: &[f64],
 ) -> Result<SequentialDesignSummary, NumericalInputError> {
-    if stage_evsi_remaining.is_empty()
-        || stage_evsi_remaining.len() != stage_cumulative_costs.len()
+    if stage_evsi_remaining.is_empty() || stage_evsi_remaining.len() != stage_cumulative_costs.len()
     {
         return Err(NumericalInputError::invalid(
             "stage_evsi_remaining",

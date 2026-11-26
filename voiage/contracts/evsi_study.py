@@ -29,17 +29,16 @@ class SampleSizeSpecV1(ContractModel):
                 raise ValueError("total_equal_two_arm convention requires only `total > 0`")
             if self.total % 2 != 0:
                 raise ValueError("total_equal_two_arm requires an even total sample size")
-        elif self.convention == "multi_arm":
-            if (
-                self.per_arm_sizes is None
-                or len(self.per_arm_sizes) < 2
-                or any(n <= 0 for n in self.per_arm_sizes)
-                or self.per_arm is not None
-                or self.total is not None
-            ):
-                raise ValueError(
-                    "multi_arm convention requires `per_arm_sizes` with >= 2 positive arm sizes"
-                )
+        elif self.convention == "multi_arm" and (
+            self.per_arm_sizes is None
+            or len(self.per_arm_sizes) < 2
+            or any(n <= 0 for n in self.per_arm_sizes)
+            or self.per_arm is not None
+            or self.total is not None
+        ):
+            raise ValueError(
+                "multi_arm convention requires `per_arm_sizes` with >= 2 positive arm sizes"
+            )
         return self
 
     def resolved_total(self) -> int:

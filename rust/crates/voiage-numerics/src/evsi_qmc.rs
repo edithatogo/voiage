@@ -141,7 +141,9 @@ pub fn evsi_qmc_normal_normal(
             "num_points must be positive",
         ));
     }
-    if !prior_mean.is_finite() || !net_benefit_slope.is_finite() || !net_benefit_intercept.is_finite()
+    if !prior_mean.is_finite()
+        || !net_benefit_slope.is_finite()
+        || !net_benefit_intercept.is_finite()
     {
         return Err(NumericalInputError::invalid(
             "prior_mean",
@@ -164,9 +166,10 @@ pub fn evsi_qmc_normal_normal(
         let inb = current_mean + inb_sd * z;
         sum += inb.max(0.0);
     }
-    let n_f = f64::from(u32::try_from(num_points).map_err(|_| {
-        NumericalInputError::invalid("num_points", "num_points exceeds u32 range")
-    })?);
+    let n_f =
+        f64::from(u32::try_from(num_points).map_err(|_| {
+            NumericalInputError::invalid("num_points", "num_points exceeds u32 range")
+        })?);
     let evsi = (sum / n_f - current_val).max(0.0);
     Ok(EvsiQmcResult {
         estimator: "qmc_halton",

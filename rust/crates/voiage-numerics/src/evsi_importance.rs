@@ -34,7 +34,10 @@ pub struct EvsiImportanceResult {
 fn compute_row_weights_and_diagnostics(
     log_weights: &[f64],
 ) -> Result<(Vec<f64>, f64, f64), NumericalInputError> {
-    if log_weights.iter().any(|w| w.is_nan() || *w == f64::INFINITY) {
+    if log_weights
+        .iter()
+        .any(|w| w.is_nan() || *w == f64::INFINITY)
+    {
         return Err(NumericalInputError::invalid(
             "log_weights",
             "importance log-weights must not be NaN or +inf",
@@ -155,10 +158,7 @@ pub fn evsi_importance_sampling_raw(
                 post_means[k] += w * nb;
             }
         }
-        let best = post_means
-            .iter()
-            .copied()
-            .fold(f64::NEG_INFINITY, f64::max);
+        let best = post_means.iter().copied().fold(f64::NEG_INFINITY, f64::max);
         post_study_sum += best;
     }
 

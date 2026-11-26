@@ -50,10 +50,8 @@ fn q05_conjugate_study_models_are_nonnegative_and_monotone_in_sample_size() {
     let small = SampleSizeConvention::PerArm { per_arm: 10 };
     let large = SampleSizeConvention::PerArm { per_arm: 40 };
 
-    let bb_small =
-        beta_binomial_two_arm_evsi(2.0, 8.0, 2.5, 7.5, &small, 1000.0, -50.0).unwrap();
-    let bb_large =
-        beta_binomial_two_arm_evsi(2.0, 8.0, 2.5, 7.5, &large, 1000.0, -50.0).unwrap();
+    let bb_small = beta_binomial_two_arm_evsi(2.0, 8.0, 2.5, 7.5, &small, 1000.0, -50.0).unwrap();
+    let bb_large = beta_binomial_two_arm_evsi(2.0, 8.0, 2.5, 7.5, &large, 1000.0, -50.0).unwrap();
     assert!(bb_small > 0.0);
     assert!(bb_large > bb_small);
 
@@ -161,4 +159,43 @@ fn q05_regression_and_moment_estimators_stay_finite_and_ordered() {
 
     let qmc = evsi_qmc_normal_normal(0.0, 1.0, 2.0, 50, 100.0, 0.0, 128).unwrap();
     assert!(qmc.evsi > 0.0);
+}
+
+#[test]
+fn q05_error_branches_fail_closed() {
+    let nb = SampleMatrix::try_from(vec![vec![0.0, 1.0], vec![1.0, 0.0]]).unwrap();
+    assert!(SampleMatrix::try_from(vec![vec![f64::NAN, 0.0]]).is_err());
+    assert!(SampleMatrix::try_from(vec![vec![f64::NEG_INFINITY, 0.0]]).is_err());
+    let lw_bad_cols = SampleMatrix::try_from(vec![vec![0.0]]).unwrap();
+    let lw_ok = SampleMatrix::try_from(vec![vec![0.0, 0.0]]).unwrap();
+    assert!(evsi_importance_sampling_raw(&nb, &lw_bad_cols).is_err());
+    assert!(evsi_importance_sampling(&nb, &lw_ok, 0.5, 0.7).is_err());
+    assert!(evsi_importance_sampling(&nb, &lw_ok, 2.0, 0.0).is_err());
+
+    let bad_multi = SampleSizeConvention::MultiArm {
+        per_arm_sizes: vec![10, 10, 10],
+    };
+    assert!(beta_binomial_two_arm_evsi(2.0, 8.0, 2.0, 8.0, &bad_multi, 100.0, 0.0).is_err());
+    assert!(beta_binomial_two_arm_evsi(
+        0.0,
+        8.0,
+        2.0,
+        8.0,
+        &SampleSizeConvention::PerArm { per_arm: 5 },
+        100.0,
+        0.0
+    )
+    .is_err());
+    assert!(gamma_poisson_evsi(
+        0.0,
+        1.0,
+        1.0,
+        &SampleSizeConvention::PerArm { per_arm: 5 },
+        100.0,
+        0.0
+    )
+    .is_err());
+    assert!(exponential_time_to_event_evsi(3.0, 6.0, 0.0, 100.0, 0.0).is_err());
+    assert!(evsi_qmc_normal_normal(0.0, 1.0, 1.0, 10, 100.0, 0.0, 0).is_err());
+    assert!(evsi_multilevel_normal_normal(0.0, 1.0, 1.0, 10, 100.0, 0.0, 0, 2).is_err());
 }

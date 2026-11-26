@@ -159,10 +159,7 @@ pub fn evsi_streaming_resumable(
                     post_means[k] += w * nb;
                 }
             }
-            let row_best = post_means
-                .iter()
-                .copied()
-                .fold(f64::NEG_INFINITY, f64::max);
+            let row_best = post_means.iter().copied().fold(f64::NEG_INFINITY, f64::max);
             payload.extend_from_slice(&row_best.to_bits().to_le_bytes());
         }
 
@@ -170,8 +167,13 @@ pub fn evsi_streaming_resumable(
         batches = batches
             .checked_add(1)
             .ok_or("invalid checkpoint batch count")?;
-        let cp = ExecutionCheckpoint::new(bound.clone(), batches, completed as u64, sha256_prefixed(&payload))
-            .map_err(|e| e.to_string())?;
+        let cp = ExecutionCheckpoint::new(
+            bound.clone(),
+            batches,
+            completed as u64,
+            sha256_prefixed(&payload),
+        )
+        .map_err(|e| e.to_string())?;
         store
             .save_with_payload(&cp, &payload)
             .map_err(|e| e.to_string())?;

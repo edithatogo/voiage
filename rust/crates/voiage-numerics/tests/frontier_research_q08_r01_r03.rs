@@ -43,3 +43,17 @@ fn r03_transport_bias_bounds_nest_nominal_evsi() {
     assert!((b.upper_bound_evsi - 60.0).abs() < 1e-12);
     assert_eq!(b.maturity, "experimental_frontier_v1");
 }
+
+#[test]
+fn q08_and_r01_r03_error_branches_fail_closed() {
+    assert!(risk_prediction_threshold_evpi(&[], 0.5).is_err());
+    assert!(risk_prediction_threshold_evpi(&[1.2], 0.5).is_err());
+    assert!(decision_aware_simulation_allocation(&[1.0], &[0.5], 0).is_err());
+    assert!(decision_aware_simulation_allocation(&[-1.0], &[0.5], 5).is_err());
+    assert!(joint_research_implementation_capacity(&[], &[], &[(10.0, 1.0)]).is_err());
+    assert!(
+        joint_research_implementation_capacity(&[], &[(10.0, 1.0, 50.0)], &[(10.0, 1.0)]).is_err()
+    );
+    assert!(transport_bias_evsi_bounds(120.0, 100.0, 0.2).is_err());
+    assert!(transport_bias_evsi_bounds(50.0, 100.0, 1.5).is_err());
+}

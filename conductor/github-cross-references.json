@@ -5634,8 +5634,8 @@
     {
       "track_id": "execution_packet_guard_20260907",
       "metadata_track_id": "execution_packet_guard_20260907",
-      "path": "conductor/tracks/execution_packet_guard_20260907",
-      "lifecycle": "active",
+      "path": "conductor/archive/execution_packet_guard_20260907",
+      "lifecycle": "archived",
       "issue": {
         "number": 1111,
         "url": "https://github.com/edithatogo/voiage/issues/1111",
@@ -5658,8 +5658,8 @@
     {
       "track_id": "version_identity_contracts_20260907",
       "metadata_track_id": "version_identity_contracts_20260907",
-      "path": "conductor/tracks/version_identity_contracts_20260907",
-      "lifecycle": "active",
+      "path": "conductor/archive/version_identity_contracts_20260907",
+      "lifecycle": "archived",
       "issue": {
         "number": 1112,
         "url": "https://github.com/edithatogo/voiage/issues/1112",
@@ -5673,8 +5673,8 @@
     {
       "track_id": "native_structured_logging_20260907",
       "metadata_track_id": "native_structured_logging_20260907",
-      "path": "conductor/tracks/native_structured_logging_20260907",
-      "lifecycle": "active",
+      "path": "conductor/archive/native_structured_logging_20260907",
+      "lifecycle": "archived",
       "issue": {
         "number": 1113,
         "url": "https://github.com/edithatogo/voiage/issues/1113",
@@ -5688,8 +5688,8 @@
     {
       "track_id": "logging_privacy_resilience_20260907",
       "metadata_track_id": "logging_privacy_resilience_20260907",
-      "path": "conductor/tracks/logging_privacy_resilience_20260907",
-      "lifecycle": "active",
+      "path": "conductor/archive/logging_privacy_resilience_20260907",
+      "lifecycle": "archived",
       "issue": {
         "number": 1114,
         "url": "https://github.com/edithatogo/voiage/issues/1114",
@@ -5703,8 +5703,8 @@
     {
       "track_id": "vop_logging_version_pilot_20260907",
       "metadata_track_id": "vop_logging_version_pilot_20260907",
-      "path": "conductor/tracks/vop_logging_version_pilot_20260907",
-      "lifecycle": "active",
+      "path": "conductor/archive/vop_logging_version_pilot_20260907",
+      "lifecycle": "archived",
       "issue": {
         "number": 1115,
         "url": "https://github.com/edithatogo/voiage/issues/1115",
@@ -5812,8 +5812,8 @@
     {
       "track_id": "tabular_contract_v3_20261026",
       "metadata_track_id": "tabular_contract_v3_20261026",
-      "path": "conductor/tracks/tabular_contract_v3_20261026",
-      "lifecycle": "active",
+      "path": "conductor/archive/tabular_contract_v3_20261026",
+      "lifecycle": "archived",
       "issue": {
         "number": 1196,
         "url": "https://github.com/edithatogo/voiage/issues/1196",
@@ -5827,8 +5827,8 @@
     {
       "track_id": "polars_container_20261026",
       "metadata_track_id": "polars_container_20261026",
-      "path": "conductor/tracks/polars_container_20261026",
-      "lifecycle": "active",
+      "path": "conductor/archive/polars_container_20261026",
+      "lifecycle": "archived",
       "issue": {
         "number": 1197,
         "url": "https://github.com/edithatogo/voiage/issues/1197",
@@ -5842,8 +5842,8 @@
     {
       "track_id": "pandas_free_io_20261026",
       "metadata_track_id": "pandas_free_io_20261026",
-      "path": "conductor/tracks/pandas_free_io_20261026",
-      "lifecycle": "active",
+      "path": "conductor/archive/pandas_free_io_20261026",
+      "lifecycle": "archived",
       "issue": {
         "number": 1198,
         "url": "https://github.com/edithatogo/voiage/issues/1198",
@@ -5857,8 +5857,8 @@
     {
       "track_id": "translation_reference_20261026",
       "metadata_track_id": "translation_reference_20261026",
-      "path": "conductor/tracks/translation_reference_20261026",
-      "lifecycle": "active",
+      "path": "conductor/archive/translation_reference_20261026",
+      "lifecycle": "archived",
       "issue": {
         "number": 1199,
         "url": "https://github.com/edithatogo/voiage/issues/1199",

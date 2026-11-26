@@ -17,17 +17,17 @@
       "reason": "Verified inventory of the exact Python 3.15.1 overlay snapshot before runtime promotion.",
       "sha256": "89049c28e0ae05af8fda9cac3767de6537afda612c2e8d0f7ce77ae409163c7b"
     },
-    "conductor/tracks/pandas_free_io_20261026/historical/dependency-runtime-policy-python3151.json": {
+    "conductor/archive/pandas_free_io_20261026/historical/dependency-runtime-policy-python3151.json": {
       "category": "frozen_historical_evidence",
       "reason": "Exact previous Python 3.15.1 source-qualification policy retained during runtime promotion.",
       "sha256": "f8e0639e1568bc7b2ef3c2c6870f812b6cddc1c14ab2b27647a484a488428ef3"
     },
-    "conductor/tracks/pandas_free_io_20261026/historical/v3-stable-api-python3151.json": {
+    "conductor/archive/pandas_free_io_20261026/historical/v3-stable-api-python3151.json": {
       "category": "frozen_historical_evidence",
       "reason": "Exact previous v3 API contract retained before updating its active Python minimum.",
       "sha256": "6d7dcd1253899c60a7fa6eaf3206718494212e6b2195a57821da7fc559f52421"
     },
-    "conductor/tracks/pandas_free_io_20261026/historical/hpc_package_smoke-20261115.py.txt": {
+    "conductor/archive/pandas_free_io_20261026/historical/hpc_package_smoke-20261115.py.txt": {
       "category": "frozen_historical_evidence",
       "reason": "Byte-exact historical smoke script retained before removing an obsolete lint annotation.",
       "sha256": "7fd376f043be95e487918bd61bcc8d4514587e7913b48fb022cacdfc8a3eb042"
@@ -287,12 +287,12 @@
         }
       ]
     },
-    "conductor/tracks/pandas_free_io_20261026/evidence.jsonl": {
+    "conductor/archive/pandas_free_io_20261026/evidence.jsonl": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "25b108e3b614e679bbfbd73f3bd6879d4ab61bfba1fa83fb19172dc4dee69dc6"
     },
-    "conductor/tracks/pandas_free_io_20261026/inventory.md": {
+    "conductor/archive/pandas_free_io_20261026/inventory.md": {
       "category": "frozen_historical_evidence",
       "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
       "lines": [
@@ -318,7 +318,7 @@
         }
       ]
     },
-    "conductor/tracks/pandas_free_io_20261026/metadata.json": {
+    "conductor/archive/pandas_free_io_20261026/metadata.json": {
       "category": "frozen_historical_evidence",
       "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
       "lines": [
@@ -332,32 +332,32 @@
         }
       ]
     },
-    "conductor/tracks/pandas_free_io_20261026/phase-1-baseline.json": {
+    "conductor/archive/pandas_free_io_20261026/phase-1-baseline.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "2c8c937ebc8b77d9525cabd559e8eecc9b639ef8fbc1b90cf2841abf25b02acf"
     },
-    "conductor/tracks/pandas_free_io_20261026/phase-2-baseline.json": {
+    "conductor/archive/pandas_free_io_20261026/phase-2-baseline.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "ee7651e9489a9929b5b8e3daeafd2f185995952671f4a5753f59c60f9bf97fd9"
     },
-    "conductor/tracks/pandas_free_io_20261026/phase-3-acceptance-python315.json": {
+    "conductor/archive/pandas_free_io_20261026/phase-3-acceptance-python315.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "ef02a32b80ca766e7fd48f90d5ffaf63d96de5532d00a6d2ed9f08286a04d674"
     },
-    "conductor/tracks/pandas_free_io_20261026/phase-3-baseline.json": {
+    "conductor/archive/pandas_free_io_20261026/phase-3-baseline.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "3736b2d9d20c56ffaab380e4fbf8d55e73c94cf08dd7ae7c543dc00031de5797"
     },
-    "conductor/tracks/pandas_free_io_20261026/phase-3-engines-python315.json": {
+    "conductor/archive/pandas_free_io_20261026/phase-3-engines-python315.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "eb95f6b83ac8c68b249124882aa9e5bed007c73ca3ee4a0746e68a83c9b3aca5"
     },
-    "conductor/tracks/pandas_free_io_20261026/phase-3-review.md": {
+    "conductor/archive/pandas_free_io_20261026/phase-3-review.md": {
       "category": "frozen_historical_evidence",
       "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
       "lines": [
@@ -371,22 +371,22 @@
         }
       ]
     },
-    "conductor/tracks/pandas_free_io_20261026/phase-3-whitespace-python315.json": {
+    "conductor/archive/pandas_free_io_20261026/phase-3-whitespace-python315.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "429171f8dc0835ed56f5e50bb05739ab2f4919718619ebc0247013d635cc1f34"
     },
-    "conductor/tracks/pandas_free_io_20261026/phase-4-acceptance-python315.json": {
+    "conductor/archive/pandas_free_io_20261026/phase-4-acceptance-python315.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "81a0d013662ee2d4a057d3fd29697bb0cf1ab5a536bcf20094c1fff0ee9e66a7"
     },
-    "conductor/tracks/pandas_free_io_20261026/phase-4-baseline.json": {
+    "conductor/archive/pandas_free_io_20261026/phase-4-baseline.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "4e02381cc704e12b424fdda19eb459b44f22da943494a9997ac718c0632d973d"
     },
-    "conductor/tracks/pandas_free_io_20261026/phase-4-review.md": {
+    "conductor/archive/pandas_free_io_20261026/phase-4-review.md": {
       "category": "frozen_historical_evidence",
       "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
       "lines": [
@@ -396,37 +396,37 @@
         }
       ]
     },
-    "conductor/tracks/pandas_free_io_20261026/phase-5-acceptance-python315.json": {
+    "conductor/archive/pandas_free_io_20261026/phase-5-acceptance-python315.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "816a8e40ec2280dd4fcec13d7cfddacff6a9070cc0cdc2c3be03fd40fb0be5d1"
     },
-    "conductor/tracks/pandas_free_io_20261026/phase-5-baseline.json": {
+    "conductor/archive/pandas_free_io_20261026/phase-5-baseline.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "18ecbfcc2283c753396bd8e0ce7ed81b3da11906a6ef078743d1d8591a44d32f"
     },
-    "conductor/tracks/pandas_free_io_20261026/phase-5-benchmark-compatibility-python315.json": {
+    "conductor/archive/pandas_free_io_20261026/phase-5-benchmark-compatibility-python315.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "4fc050322b95834f29c3e9174476303b99d67b11a1b9e991345c6f587ee128cd"
     },
-    "conductor/tracks/pandas_free_io_20261026/phase-5-protected-ci-python315.json": {
+    "conductor/archive/pandas_free_io_20261026/phase-5-protected-ci-python315.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "fd73442a36dcb5b66ff56fdd31eaba6f229dc7b15d748c034b8b8656afd0ab6d"
     },
-    "conductor/tracks/pandas_free_io_20261026/phase-6-acceptance-python315.json": {
+    "conductor/archive/pandas_free_io_20261026/phase-6-acceptance-python315.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "89b5b9fee730da2be5896b3e4afc3e14be2b8e4b22fe62997f1a9753b1b6853a"
     },
-    "conductor/tracks/pandas_free_io_20261026/phase-6-baseline.json": {
+    "conductor/archive/pandas_free_io_20261026/phase-6-baseline.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "f880c1344a1a6dd8268e7278e53262bd1d7c37970eea16bc335dfa5865f83412"
     },
-    "conductor/tracks/pandas_free_io_20261026/phase-6-review.md": {
+    "conductor/archive/pandas_free_io_20261026/phase-6-review.md": {
       "category": "frozen_historical_evidence",
       "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
       "lines": [
@@ -440,12 +440,12 @@
         }
       ]
     },
-    "conductor/tracks/pandas_free_io_20261026/phase-7-baseline.json": {
+    "conductor/archive/pandas_free_io_20261026/phase-7-baseline.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "45834bb769565303213c1007824edef2c9703120fc0bdb6634b66fb3addb257c"
     },
-    "conductor/tracks/pandas_free_io_20261026/plan.md": {
+    "conductor/archive/pandas_free_io_20261026/plan.md": {
       "category": "frozen_historical_evidence",
       "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
       "lines": [
@@ -499,7 +499,7 @@
         }
       ]
     },
-    "conductor/tracks/pandas_free_io_20261026/spec.md": {
+    "conductor/archive/pandas_free_io_20261026/spec.md": {
       "category": "frozen_historical_evidence",
       "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
       "lines": [
@@ -577,22 +577,22 @@
         }
       ]
     },
-    "conductor/tracks/pandas_free_io_20261026/t12-acceptance-python315.json": {
+    "conductor/archive/pandas_free_io_20261026/t12-acceptance-python315.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "547b169df796529a02230d0b76dcf49fd45f70d986f2abe3396f5bb894f40767"
     },
-    "conductor/tracks/polars_container_20261026/acceptance-python315-before-ownership-review.json": {
+    "conductor/archive/polars_container_20261026/acceptance-python315-before-ownership-review.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "1add6feff507b3f3b51fd6fcdbcdddc640b32029c465ba55d352ffe12bc286e2"
     },
-    "conductor/tracks/polars_container_20261026/acceptance-python315.json": {
+    "conductor/archive/polars_container_20261026/acceptance-python315.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "c5dc8bd6212d57158ad1125bf89d38191ca1f27c9dc8880f612116efd563cf6c"
     },
-    "conductor/tracks/polars_container_20261026/benchmark-baseline-schema-2a6e76b7.txt": {
+    "conductor/archive/polars_container_20261026/benchmark-baseline-schema-2a6e76b7.txt": {
       "category": "frozen_historical_evidence",
       "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
       "lines": [
@@ -690,27 +690,27 @@
         }
       ]
     },
-    "conductor/tracks/polars_container_20261026/benchmark-before.json": {
+    "conductor/archive/polars_container_20261026/benchmark-before.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "7e846dbf1c16d20ab038ee7c6c485b1c8a560ac5008f3cca95ee7eb6cedee8e6"
     },
-    "conductor/tracks/polars_container_20261026/benchmark-owned-buffers-python315.json": {
+    "conductor/archive/polars_container_20261026/benchmark-owned-buffers-python315.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "7efcb1e2cf6f0b84b35a2abbfc76b30a27adc666ffcd72d30df5ff154f748e70"
     },
-    "conductor/tracks/polars_container_20261026/benchmark-python315.json": {
+    "conductor/archive/polars_container_20261026/benchmark-python315.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "079945009302e7491ceb891321c409b069ccaf9c7bab1dd11ae0b660cec506c0"
     },
-    "conductor/tracks/polars_container_20261026/benchmark-receipt.json": {
+    "conductor/archive/polars_container_20261026/benchmark-receipt.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "c69842a64ba20627cad257b7f38a5b6377f8c8436dc3f7d885b3c4283dd48052"
     },
-    "conductor/tracks/polars_container_20261026/benchmark_container.py": {
+    "conductor/archive/polars_container_20261026/benchmark_container.py": {
       "category": "frozen_historical_evidence",
       "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
       "lines": [
@@ -728,7 +728,7 @@
         }
       ]
     },
-    "conductor/tracks/polars_container_20261026/benchmark_runtime315.py": {
+    "conductor/archive/polars_container_20261026/benchmark_runtime315.py": {
       "category": "frozen_historical_evidence",
       "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
       "lines": [
@@ -738,12 +738,12 @@
         }
       ]
     },
-    "conductor/tracks/polars_container_20261026/dependency-frontier-python315.json": {
+    "conductor/archive/polars_container_20261026/dependency-frontier-python315.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "5be4d6e5591c8a483ecc7c29dd557538761848d75a595b858fadde07c3394e6f"
     },
-    "conductor/tracks/polars_container_20261026/dependency-frontier-python315.md": {
+    "conductor/archive/polars_container_20261026/dependency-frontier-python315.md": {
       "category": "frozen_historical_evidence",
       "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
       "lines": [
@@ -757,12 +757,12 @@
         }
       ]
     },
-    "conductor/tracks/polars_container_20261026/evidence.jsonl": {
+    "conductor/archive/polars_container_20261026/evidence.jsonl": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "ca7f36cac82ab841e806b3648b8d00b324f038d2de7d69d75c93c3dfcb475c3d"
     },
-    "conductor/tracks/polars_container_20261026/index.md": {
+    "conductor/archive/polars_container_20261026/index.md": {
       "category": "frozen_historical_evidence",
       "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
       "lines": [
@@ -772,7 +772,7 @@
         }
       ]
     },
-    "conductor/tracks/polars_container_20261026/inventory.md": {
+    "conductor/archive/polars_container_20261026/inventory.md": {
       "category": "frozen_historical_evidence",
       "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
       "lines": [
@@ -958,12 +958,12 @@
         }
       ]
     },
-    "conductor/tracks/polars_container_20261026/metadata.json": {
+    "conductor/archive/polars_container_20261026/metadata.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "d7ee5bd485ad8c17ae9e885b4cf88985959d24d5371fb23da8b94da96f367813"
     },
-    "conductor/tracks/polars_container_20261026/parity_reference.py": {
+    "conductor/archive/polars_container_20261026/parity_reference.py": {
       "category": "frozen_historical_evidence",
       "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
       "lines": [
@@ -973,17 +973,17 @@
         }
       ]
     },
-    "conductor/tracks/polars_container_20261026/phase-1-baseline.json": {
+    "conductor/archive/polars_container_20261026/phase-1-baseline.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "f70bffd4c2388502617ff9b79d81aa0cfd84ecbd7b829ada93abb714a589ba5c"
     },
-    "conductor/tracks/polars_container_20261026/phase-2-baseline.json": {
+    "conductor/archive/polars_container_20261026/phase-2-baseline.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "7452db6ede489ab71cfec7a0353e966b03027d186c029222a79346884f24c120"
     },
-    "conductor/tracks/polars_container_20261026/plan.md": {
+    "conductor/archive/polars_container_20261026/plan.md": {
       "category": "frozen_historical_evidence",
       "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
       "lines": [
@@ -1013,7 +1013,7 @@
         }
       ]
     },
-    "conductor/tracks/polars_container_20261026/qualification-20261027-initial.md": {
+    "conductor/archive/polars_container_20261026/qualification-20261027-initial.md": {
       "category": "frozen_historical_evidence",
       "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
       "lines": [
@@ -1035,7 +1035,7 @@
         }
       ]
     },
-    "conductor/tracks/polars_container_20261026/qualification-20261027.md": {
+    "conductor/archive/polars_container_20261026/qualification-20261027.md": {
       "category": "frozen_historical_evidence",
       "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
       "lines": [
@@ -1049,17 +1049,17 @@
         }
       ]
     },
-    "conductor/tracks/polars_container_20261026/qualification-receipt-initial.json": {
+    "conductor/archive/polars_container_20261026/qualification-receipt-initial.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "daab64602b3e373f2836150a02cf990de04ea115b865c4e2c6f29163f2786ec6"
     },
-    "conductor/tracks/polars_container_20261026/qualification-receipt.json": {
+    "conductor/archive/polars_container_20261026/qualification-receipt.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "ae4402cb6cd7e9051040b89a7527cab2c5282c34f79879d762dbba14eb491baa"
     },
-    "conductor/tracks/polars_container_20261026/spec.md": {
+    "conductor/archive/polars_container_20261026/spec.md": {
       "category": "frozen_historical_evidence",
       "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
       "lines": [
@@ -1133,12 +1133,12 @@
         }
       ]
     },
-    "conductor/tracks/tabular_contract_v3_20261026/evidence.jsonl": {
+    "conductor/archive/tabular_contract_v3_20261026/evidence.jsonl": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "63fba5973478e122ef15474f9abcfcb9806824bae83ed248e2ebfa9b4c1a7708"
     },
-    "conductor/tracks/tabular_contract_v3_20261026/index.md": {
+    "conductor/archive/tabular_contract_v3_20261026/index.md": {
       "category": "frozen_historical_evidence",
       "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
       "lines": [
@@ -1152,17 +1152,17 @@
         }
       ]
     },
-    "conductor/tracks/tabular_contract_v3_20261026/metadata.json": {
+    "conductor/archive/tabular_contract_v3_20261026/metadata.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "28383ccc1f4da550cb0e4cace89bca720449f4f93aedc54902ac214b68f2df3a"
     },
-    "conductor/tracks/tabular_contract_v3_20261026/phase-1-baseline.json": {
+    "conductor/archive/tabular_contract_v3_20261026/phase-1-baseline.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "70f9ae8b286b5a569874f3b0ec1051ad9a44c89f0de7cc2570effe2c925c6ce3"
     },
-    "conductor/tracks/tabular_contract_v3_20261026/plan.md": {
+    "conductor/archive/tabular_contract_v3_20261026/plan.md": {
       "category": "frozen_historical_evidence",
       "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
       "lines": [
@@ -1188,7 +1188,7 @@
         }
       ]
     },
-    "conductor/tracks/tabular_contract_v3_20261026/spec.md": {
+    "conductor/archive/tabular_contract_v3_20261026/spec.md": {
       "category": "frozen_historical_evidence",
       "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
       "lines": [
@@ -1214,7 +1214,7 @@
         }
       ]
     },
-    "conductor/tracks/translation_reference_20261026/index.md": {
+    "conductor/archive/translation_reference_20261026/index.md": {
       "category": "translation_reference",
       "reason": "Exact reviewed final acceptance and retained migration record; no runtime import exemption.",
       "lines": [
@@ -1228,7 +1228,7 @@
         }
       ]
     },
-    "conductor/tracks/translation_reference_20261026/plan.md": {
+    "conductor/archive/translation_reference_20261026/plan.md": {
       "category": "translation_reference",
       "reason": "Exact reviewed final acceptance and retained migration record; no runtime import exemption.",
       "lines": [
@@ -1246,7 +1246,7 @@
         }
       ]
     },
-    "conductor/tracks/translation_reference_20261026/spec.md": {
+    "conductor/archive/translation_reference_20261026/spec.md": {
       "category": "frozen_historical_evidence",
       "reason": "Exact retained historical planning/qualification statements within an active appendable record.",
       "lines": [
@@ -2569,27 +2569,27 @@
         }
       ]
     },
-    "conductor/tracks/pandas_free_io_20261026/phase-7-acceptance-python315.json": {
+    "conductor/archive/pandas_free_io_20261026/phase-7-acceptance-python315.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable qualification receipt for the tested candidates and retained first failures.",
       "sha256": "ea9b21b958fdc417cf91f0c30f09b0c917d1cd10e2da5cbd061198d7aee8be26"
     },
-    "conductor/tracks/pandas_free_io_20261026/final-acceptance-python315.json": {
+    "conductor/archive/pandas_free_io_20261026/final-acceptance-python315.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable exact merged-revision acceptance or successor handoff; no source-import exemption.",
       "sha256": "61c9a58e0a95c1e05629f10faf9a9eb6bdaa3fdc5f7fe029f5a44766ad1bf6c9"
     },
-    "conductor/tracks/translation_reference_20261026/io-acceptance-handoff-python315.json": {
+    "conductor/archive/translation_reference_20261026/io-acceptance-handoff-python315.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable exact merged-revision acceptance or successor handoff; no source-import exemption.",
       "sha256": "8bb95ff78d683ec97d356af33c65a50d0a7867c76cf59d3b6ade26d5e1866430"
     },
-    "conductor/tracks/translation_reference_20261026/registration-baseline.json": {
+    "conductor/archive/translation_reference_20261026/registration-baseline.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable dated/source-bound record, retained contract or upstream notice; not current runtime instructions.",
       "sha256": "9e05a829c8041fb4c14358b87d4ddc029d11d0eb674fc85384723b289ae41876"
     },
-    "conductor/tracks/translation_reference_20261026/metadata.json": {
+    "conductor/archive/translation_reference_20261026/metadata.json": {
       "category": "translation_reference",
       "reason": "Exact reviewed final acceptance and retained migration record; no runtime import exemption.",
       "lines": [
@@ -2599,7 +2599,7 @@
         }
       ]
     },
-    "conductor/tracks/translation_reference_20261026/semantic-cases.json": {
+    "conductor/archive/translation_reference_20261026/semantic-cases.json": {
       "category": "translation_reference",
       "reason": "Reviewed source-derived legacy forms and executable semantic boundary recipes; no runtime import exemption.",
       "lines": [
@@ -2889,32 +2889,32 @@
         }
       ]
     },
-    "conductor/tracks/translation_reference_20261026/tobac-consumer-idioms.json": {
+    "conductor/archive/translation_reference_20261026/tobac-consumer-idioms.json": {
       "category": "frozen_historical_evidence",
       "reason": "Exact capture contract, immutable committed-source excerpt inventory or retained upstream notice.",
       "sha256": "cfb16c836c131d32a9c160f81b1c2be548c9126ce55b3debb25c67c23d3e53d6"
     },
-    "conductor/tracks/translation_reference_20261026/capture-contract.json": {
+    "conductor/archive/translation_reference_20261026/capture-contract.json": {
       "category": "frozen_historical_evidence",
       "reason": "Exact capture contract, immutable committed-source excerpt inventory or retained upstream notice.",
       "sha256": "76d588c8dc6de2edd305cbbb29e7c89e2ef317ea3010065b6c7eaf5d7f11f731"
     },
-    "conductor/tracks/translation_reference_20261026/voiage-idioms.json": {
+    "conductor/archive/translation_reference_20261026/voiage-idioms.json": {
       "category": "frozen_historical_evidence",
       "reason": "Exact capture contract, immutable committed-source excerpt inventory or retained upstream notice.",
       "sha256": "1e5a4ab8ad9d6562415e1314898d2cb605947149f92f901705e7d90e8f0e403a"
     },
-    "conductor/tracks/translation_reference_20261026/voiage-idioms-python3152.json": {
+    "conductor/archive/translation_reference_20261026/voiage-idioms-python3152.json": {
       "category": "frozen_historical_evidence",
       "reason": "Exact committed-source excerpt inventory for Python 3.15.2, preserving the earlier capture.",
       "sha256": "1a6d4a1a11c77a47ad54d886a0645034360c9953001d1ee856bbc21f564c7c76"
     },
-    "conductor/tracks/translation_reference_20261026/consumer-notices/tobac-LICENSE": {
+    "conductor/archive/translation_reference_20261026/consumer-notices/tobac-LICENSE": {
       "category": "frozen_historical_evidence",
       "reason": "Exact capture contract, immutable committed-source excerpt inventory or retained upstream notice.",
       "sha256": "f4d9b0aad8ff9e650f5890fa3eeb7c1311479cab901f8a9b416a2d9acaf54266"
     },
-    "conductor/tracks/translation_reference_20261026/consumer-notices/tobac-NOTICE": {
+    "conductor/archive/translation_reference_20261026/consumer-notices/tobac-NOTICE": {
       "category": "frozen_historical_evidence",
       "reason": "Exact capture contract, immutable committed-source excerpt inventory or retained upstream notice.",
       "sha256": "617d847e789906e604b0c47e559d4e760794c3cdf782a09d3a29b09cfe502a3a"
@@ -2929,12 +2929,12 @@
         }
       ]
     },
-    "conductor/tracks/translation_reference_20261026/qualification-python315.json": {
+    "conductor/archive/translation_reference_20261026/qualification-python315.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable source-bound qualification receipt with actual first failures and bounded oracle results.",
       "sha256": "103778fbf606909cfb3743067d95c65ecdeaeb0e56fb8857e309ccc57fbb99a6"
     },
-    "conductor/tracks/translation_reference_20261026/acceptance-python315.json": {
+    "conductor/archive/translation_reference_20261026/acceptance-python315.json": {
       "category": "frozen_historical_evidence",
       "reason": "Immutable exact-source hosted acceptance and publication-location record; final-head CI still required.",
       "sha256": "e765d896233b94f4bcbbb86ce7af405fbb19a787c3515e915e4aef36c85726a2"

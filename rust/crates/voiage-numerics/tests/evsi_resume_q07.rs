@@ -2,7 +2,9 @@
 
 use voiage_diagnostics::{CancellationToken, CheckpointIdentity, CheckpointStore};
 use voiage_domain::SampleMatrix;
-use voiage_numerics::{evsi_importance_sampling_raw, evsi_streaming_resumable, ResumableEvsiOutcome};
+use voiage_numerics::{
+    evsi_importance_sampling_raw, evsi_streaming_resumable, ResumableEvsiOutcome,
+};
 
 #[test]
 fn q07_streaming_evsi_resumes_exact_bit_and_respects_cancellation() {
