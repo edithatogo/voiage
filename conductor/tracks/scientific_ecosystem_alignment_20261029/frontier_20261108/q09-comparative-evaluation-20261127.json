@@ -1,0 +1,47 @@
+{
+  "schema_version": "voiage.q09-comparative-evaluation.v1",
+  "all_passed": true,
+  "cases": [
+    {
+      "case_id": "q05_normal_normal_exact_vs_qmc",
+      "estimand": "two_arm_normal_evsi",
+      "reference_value": 185.20430418067076,
+      "qmc_value": 184.38775256118612,
+      "abs_error": 0.8165516194846418,
+      "exact_ms": 21.4035,
+      "qmc_ms": 1.4112,
+      "passed": true
+    },
+    {
+      "case_id": "q05_non_normal_study_models",
+      "beta_binomial_evsi": 59.308869265626015,
+      "gamma_poisson_evsi": 31.792804844670638,
+      "exponential_tte_evsi": 41.761891273554056,
+      "passed": true
+    },
+    {
+      "case_id": "q05_importance_sampling_diagnostics",
+      "evsi": 0.2686545314296467,
+      "min_ess": 9.74062060388101,
+      "max_khat": 0.09999999999999991,
+      "passed": true
+    },
+    {
+      "case_id": "q06_portfolio_equity_and_sequential",
+      "discounted_population_enbs": 9909.561516505884,
+      "portfolio_selected": [
+        0,
+        2
+      ],
+      "portfolio_enbs": 190.0,
+      "equity_weighted_enbs": 125.0,
+      "sequential_optimal_stage": 1,
+      "passed": true
+    }
+  ],
+  "external_gates_retained": [
+    "pyOpenSci / JOSS / rOpenSci venue submissions (#1037)",
+    "External independent reproduction & MDM manuscript evaluation",
+    "Live installed innovate Q08.2 workflow (#1423)"
+  ]
+}

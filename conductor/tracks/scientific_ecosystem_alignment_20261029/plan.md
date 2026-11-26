@@ -51,7 +51,7 @@ close historical acceptance gaps or change runtime maturity labels.
 - [x] Q01–Q03: reconcile advertised capabilities, consolidate Rust authority and admit independent reference cases; source/rights preflight may run alongside Q01.
 - [x] Q04–Q06: qualify nonlinear EVPPI, coherent EVSI and research-design/portfolio decisions against independent references.
 - [~] Q07–Q08: verify installed thin bindings, accuracy-matched computation and one existing-library integration pilot at a time (`Q07` archived; `Q08.1`/`Q08.3` done; `Q08.2` externally gated on installed `innovate`).
-- [ ] Q09: deliver the reproducible comparative evaluation and existing pyOpenSci/JOSS venue route without performing external submissions.
+- [~] Q09: deliver the reproducible comparative evaluation and existing pyOpenSci/JOSS venue route without performing external submissions. (`scripts/run_q09_comparative_evaluation.py` and `frontier_20261108/q09-comparative-evaluation-20261127.json` complete; external reproduction & venue submissions retained as external gates.)
 - [x] R01–R03: admit decision-aware computation, joint implementation investment and transfer/bias/perspective research only after their separate scientific gates.
 
 Detailed scopes, dependencies, failing witnesses and acceptance evidence are in

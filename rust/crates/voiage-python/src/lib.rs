@@ -2885,4 +2885,201 @@ mod tests {
             assert!((evsi - (5.0 / 12.0)).abs() <= 1.0e-12);
         });
     }
+
+    #[test]
+    #[allow(clippy::too_many_lines)]
+    fn q05_and_q06_pyo3_wrappers_execute_and_validate() {
+        Python::initialize();
+        Python::attach(|py| {
+            let module = PyModule::new(py, "_core_test").unwrap();
+            module
+                .add_function(wrap_pyfunction!(compute_evsi_importance_sampling, &module).unwrap())
+                .unwrap();
+            module
+                .add_function(
+                    wrap_pyfunction!(compute_beta_binomial_two_arm_evsi, &module).unwrap(),
+                )
+                .unwrap();
+            module
+                .add_function(wrap_pyfunction!(compute_gamma_poisson_evsi, &module).unwrap())
+                .unwrap();
+            module
+                .add_function(
+                    wrap_pyfunction!(compute_exponential_time_to_event_evsi, &module).unwrap(),
+                )
+                .unwrap();
+            module
+                .add_function(wrap_pyfunction!(compute_evsi_qmc_normal_normal, &module).unwrap())
+                .unwrap();
+            module
+                .add_function(
+                    wrap_pyfunction!(compute_discounted_population_enbs, &module).unwrap(),
+                )
+                .unwrap();
+            module
+                .add_function(wrap_pyfunction!(compute_enumerate_study_portfolio, &module).unwrap())
+                .unwrap();
+            module
+                .add_function(
+                    wrap_pyfunction!(compute_equity_weighted_study_enbs, &module).unwrap(),
+                )
+                .unwrap();
+            module
+                .add_function(
+                    wrap_pyfunction!(compute_sequential_adaptive_stopping_regret, &module).unwrap(),
+                )
+                .unwrap();
+
+            let nb = vec![
+                vec![0.0_f64, 1.0],
+                vec![0.0, 2.0],
+                vec![0.0, 3.0],
+                vec![0.0, -1.0],
+                vec![0.0, -2.0],
+                vec![0.0, 1.5],
+            ];
+            let lw = vec![vec![0.1_f64, 0.2, 0.3, -0.1, -0.2, 0.15]];
+            let is_res = module
+                .getattr("compute_evsi_importance_sampling")
+                .unwrap()
+                .call1((nb.clone(), lw, 3.0_f64, 0.8_f64))
+                .unwrap()
+                .cast_into::<PyDict>()
+                .unwrap();
+            assert!(
+                is_res
+                    .get_item("evsi")
+                    .unwrap()
+                    .unwrap()
+                    .extract::<f64>()
+                    .unwrap()
+                    >= 0.0
+            );
+            assert!(module
+                .getattr("compute_evsi_importance_sampling")
+                .unwrap()
+                .call1((nb, vec![vec![0.1_f64]], 3.0_f64, 0.8_f64))
+                .is_err());
+
+            let bb = module
+                .getattr("compute_beta_binomial_two_arm_evsi")
+                .unwrap()
+                .call1((
+                    2.0_f64, 8.0_f64, 2.5_f64, 7.5_f64, 10_u32, 1000.0_f64, -50.0_f64,
+                ))
+                .unwrap()
+                .extract::<f64>()
+                .unwrap();
+            assert!(bb > 0.0);
+
+            let gp = module
+                .getattr("compute_gamma_poisson_evsi")
+                .unwrap()
+                .call1((4.0_f64, 10.0_f64, 1.0_f64, 20_u32, 500.0_f64, -200.0_f64))
+                .unwrap()
+                .extract::<f64>()
+                .unwrap();
+            assert!(gp > 0.0);
+
+            let tte = module
+                .getattr("compute_exponential_time_to_event_evsi")
+                .unwrap()
+                .call1((3.0_f64, 6.0_f64, 20.0_f64, 400.0_f64, -200.0_f64))
+                .unwrap()
+                .extract::<f64>()
+                .unwrap();
+            assert!(tte > 0.0);
+
+            let qmc = module
+                .getattr("compute_evsi_qmc_normal_normal")
+                .unwrap()
+                .call1((
+                    0.1_f64, 0.5_f64, 1.0_f64, 100_usize, 1000.0_f64, -100.0_f64, 256_usize,
+                ))
+                .unwrap()
+                .cast_into::<PyDict>()
+                .unwrap();
+            assert!(
+                qmc.get_item("evsi")
+                    .unwrap()
+                    .unwrap()
+                    .extract::<f64>()
+                    .unwrap()
+                    > 0.0
+            );
+
+            let pop_enbs = module
+                .getattr("compute_discounted_population_enbs")
+                .unwrap()
+                .call1((
+                    2.0_f64, 5000.0_f64, 0.035_f64, 1.0_f64, 10.0_f64, 1000.0_f64,
+                ))
+                .unwrap()
+                .extract::<f64>()
+                .unwrap();
+            assert!(pop_enbs > 0.0);
+
+            let port = module
+                .getattr("compute_enumerate_study_portfolio")
+                .unwrap()
+                .call1((
+                    vec!["s1", "s2"],
+                    vec![100.0_f64, 80.0],
+                    vec![220.0_f64, 150.0],
+                    vec!["eff", "util"],
+                    Vec::<(usize, usize, f64)>::new(),
+                    250.0_f64,
+                    true,
+                ))
+                .unwrap()
+                .cast_into::<PyDict>()
+                .unwrap();
+            assert!(
+                port.get_item("enbs")
+                    .unwrap()
+                    .unwrap()
+                    .extract::<f64>()
+                    .unwrap()
+                    > 0.0
+            );
+            assert!(module
+                .getattr("compute_enumerate_study_portfolio")
+                .unwrap()
+                .call1((
+                    vec!["s1"],
+                    vec![100.0_f64, 80.0],
+                    vec![220.0_f64],
+                    vec!["eff"],
+                    Vec::<(usize, usize, f64)>::new(),
+                    250.0_f64,
+                    true,
+                ))
+                .is_err());
+
+            let eq = module
+                .getattr("compute_equity_weighted_study_enbs")
+                .unwrap()
+                .call1((vec![100.0_f64, 200.0], vec![1.0_f64, 3.0], 50.0_f64))
+                .unwrap()
+                .extract::<f64>()
+                .unwrap();
+            assert!((eq - 125.0).abs() < 1e-12);
+
+            let seq = module
+                .getattr("compute_sequential_adaptive_stopping_regret")
+                .unwrap()
+                .call1((vec![100.0_f64, 180.0], vec![20.0_f64, 60.0]))
+                .unwrap()
+                .cast_into::<PyDict>()
+                .unwrap();
+            assert_eq!(
+                seq.get_item("optimal_stage")
+                    .unwrap()
+                    .unwrap()
+                    .extract::<usize>()
+                    .unwrap(),
+                1
+            );
+        });
+    }
 }
