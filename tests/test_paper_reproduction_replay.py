@@ -195,7 +195,7 @@ def test_active_locks_meet_current_advisory_floors(lock_path: str) -> None:
 def test_patched_replay_archives_are_bound_by_reference_policy() -> None:
     policy = json.loads(
         (
-            ROOT / "conductor/tracks/pandas_free_io_20261026/reference-policy.json"
+            ROOT / "conductor/archive/pandas_free_io_20261026/reference-policy.json"
         ).read_text()
     )["files"]
     for field in ("lockfile", "project_file"):

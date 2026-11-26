@@ -46,9 +46,11 @@ Earlier candidate results are in the [November qualification packet](evidence/in
 
 ## Phase 4 — Handoff
 
-- [ ] Task P4.1: Execute full relevant native, clean-package, coverage, security and hosted gates.
-- [ ] Task P4.2: Reconcile main and master track, publish only within authority, verify receiving refs/files.
-- [ ] Task P4.3: Deliver exact artifact/API/schema receipts and rollback notes to tobac.
+- [~] Task P4.1: Execute full relevant native, clean-package, coverage, security and hosted gates.
+- [~] Task P4.2: Reconcile main and master track, publish only within authority, verify receiving refs/files.
+  Verified `/Users/doughnut/Documents/tobac/tests/engineering/test_voiage_installed.py` (`2 passed in 4.38s`) against current `voiage`; downstream `edithatogo/tobac` lockfile/PR adoption remains owned by `tobac`.
+- [x] Task P4.3: Deliver exact artifact/API/schema receipts and rollback notes to tobac.
+  Recorded in [handoff-20261126.md](evidence/handoff-20261126.md).
 - [ ] Task P4.4: Phase verification and checkpoint including repository review requirements.
 
 Current release evidence and available-compute boundary are recorded in

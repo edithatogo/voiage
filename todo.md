@@ -43,13 +43,13 @@ implementation tracks are complete; parent review and optional telemetry are sep
 - [x] Add local verification resource limits and termination receipts before
   continuing Python 3.15.1 acceptance testing.
 
-- [ ] Ordered implementation tracks: `conductor/tracks/agent_safe_engineering_20260907/`, `conductor/tracks/execution_packet_guard_20260907/`, `conductor/tracks/version_identity_contracts_20260907/`, `conductor/tracks/native_structured_logging_20260907/`, `conductor/tracks/logging_privacy_resilience_20260907/`, `conductor/tracks/vop_logging_version_pilot_20260907/`, and `conductor/archive/optional_native_telemetry_20260907/` (archived; `#1116`).
-- [ ] Execute future VOI methods expansion (`V03`–`V11`, `F02`–`F07` beyond `Q01`–`Q04`): `conductor/tracks/voi_coherent_evsi_q05_20261126/` (`#1420`), `conductor/tracks/voi_study_design_portfolio_q06_20261126/` (`#1421`), `conductor/tracks/voi_bindings_performance_q07_20261126/` (`#1422`), `conductor/tracks/voi_producer_public_health_q08_20261126/` (`#1423`), and `conductor/tracks/voi_frontier_research_r01_r03_20261126/` (`#1424`).
+- [ ] Ordered implementation tracks: `conductor/tracks/agent_safe_engineering_20260907/`, `conductor/archive/execution_packet_guard_20260907/`, `conductor/archive/version_identity_contracts_20260907/`, `conductor/archive/native_structured_logging_20260907/`, `conductor/archive/logging_privacy_resilience_20260907/`, `conductor/archive/vop_logging_version_pilot_20260907/`, and `conductor/archive/optional_native_telemetry_20260907/` (archived; `#1116`).
+- [~] Execute future VOI methods expansion (`V03`–`V11`, `F02`–`F07` beyond `Q01`–`Q04`): `conductor/archive/voi_coherent_evsi_q05_20261126/` (`#1420`, archived), `conductor/archive/voi_study_design_portfolio_q06_20261126/` (`#1421`, archived), `conductor/archive/voi_bindings_performance_q07_20261126/` (`#1422`, archived), `conductor/archive/voi_producer_public_health_q08_20261126/` (`#1423`, archived), and `conductor/archive/voi_frontier_research_r01_r03_20261126/` (`#1424`, archived).
 Completed prerequisite records remain linked for navigation:
-`conductor/tracks/tabular_contract_v3_20261026/`,
-`conductor/tracks/polars_container_20261026/`,
-`conductor/tracks/pandas_free_io_20261026/` and
-`conductor/tracks/translation_reference_20261026/`.
+`conductor/archive/tabular_contract_v3_20261026/`,
+`conductor/archive/polars_container_20261026/`,
+`conductor/archive/pandas_free_io_20261026/` and
+`conductor/archive/translation_reference_20261026/`.
 
 - [~] Continue the existing [v2.2 release and venue track](conductor/tracks/v2_2_release_and_venue_submissions_20260830/index.md) from its maintainer gate.
 - [x] Implement the [optional simulation-outcome boundary](conductor/archive/simulation_outcome_boundary_20261107/index.md): paired draws, explicit value conventions, and optional installed use. O01–O08 merged (#1411) and archived; the [VOP/VOH planning supplement](conductor/archive/simulation_outcome_boundary_20261107/value-perspective-heterogeneity.md) and scientific-alignment/HPC owners remain retained.
@@ -860,12 +860,12 @@ as recorded in the active task above; earlier route decisions below are historic
   topics, pinned consumer/native source inventories and the linked documentation
   source. Guarded Python 3.15.1 full and hosted source gates pass; final delivery
   remains protected by current-head CI. See
-  `conductor/tracks/translation_reference_20261026/acceptance-python315.json`.
+  `conductor/archive/translation_reference_20261026/acceptance-python315.json`.
 
 - [x] Complete all seven external-I/O migration phases and exact merged-revision
   acceptance at PR #1209 (`420fd7ab`), with guarded Python 3.15.1 verification
   and the successor packaging/enforcement handoff. See
-  `conductor/tracks/pandas_free_io_20261026/final-acceptance-python315.json`.
+  `conductor/archive/pandas_free_io_20261026/final-acceptance-python315.json`.
 
 - [x] Implement Phase 7 generated-code/reference cleanup and exact repository
   reference permissions, preserving external metadata and historical evidence;
@@ -889,11 +889,11 @@ as recorded in the active task above; earlier route decisions below are historic
 
 - [x] Qualify Phase 2 CSV/Parquet inference and null/NaN propagation on Python
   3.15.1, retaining public payloads and existing numerical diagnostics.
-  See `conductor/tracks/pandas_free_io_20261026/phase-2-acceptance-python315.json`.
+  See `conductor/archive/pandas_free_io_20261026/phase-2-acceptance-python315.json`.
 
 - [x] Complete pandas-free I/O T1.2: Polars ecosystem CSV/Parquet and widget CSV
   paths, preserving public behavior on Python 3.15.1 under the resource guard.
-  See `conductor/tracks/pandas_free_io_20261026/t12-acceptance-python315.json`.
+  See `conductor/archive/pandas_free_io_20261026/t12-acceptance-python315.json`.
 
 - [x] Freeze the pandas-free I/O T1.1 inventory, source digests and signatures;
   retain container qualification failures separately from implementation status.
@@ -1497,10 +1497,10 @@ as recorded in the active task above; earlier route decisions below are historic
 - [ ] Execute the logging/versioning sequence only after packet readiness: execution guard, version identities, native logging, privacy/resilience, VOP pilot, then optional telemetry. Canonical tasks: `conductor/tracks/agent_safe_engineering_20260907/orchestration.md`.
 
 - [ ] Begin prepared implementation at `execution_packet_guard_20260907/START_HERE.md`; use the active-track readiness matrix for all dependent and externally gated work.
-- [ ] Continue in order with `conductor/tracks/version_identity_contracts_20260907/`.
-- [ ] Continue in order with `conductor/tracks/native_structured_logging_20260907/`.
-- [ ] Continue in order with `conductor/tracks/logging_privacy_resilience_20260907/`.
-- [ ] Continue in order with `conductor/tracks/vop_logging_version_pilot_20260907/`.
+- [ ] Continue in order with `conductor/archive/version_identity_contracts_20260907/`.
+- [ ] Continue in order with `conductor/archive/native_structured_logging_20260907/`.
+- [ ] Continue in order with `conductor/archive/logging_privacy_resilience_20260907/`.
+- [ ] Continue in order with `conductor/archive/vop_logging_version_pilot_20260907/`.
 - [ ] Continue in order with `conductor/tracks/optional_native_telemetry_20260907/`.
 
 Release and base installed-package qualification are complete. See

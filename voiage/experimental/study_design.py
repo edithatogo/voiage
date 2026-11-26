@@ -681,4 +681,79 @@ def evsi_evpi_efficiency(
         ) from error
 
 
-__all__ = ["calculate_coss", "evsi_evpi_efficiency"]
+def discounted_population_enbs(
+    *,
+    per_patient_evsi: float,
+    research_cost: float,
+    discount_rate: float = 0.035,
+    recruitment_delay_years: float = 0.0,
+    time_horizon_years: float = 10.0,
+    incident_population_per_year: float = 1000.0,
+) -> float:
+    """Compute discounted population ENBS with recruitment delay and time horizon."""
+    return _runtime.compute_discounted_population_enbs(
+        float(per_patient_evsi),
+        float(research_cost),
+        discount_rate=float(discount_rate),
+        recruitment_delay_years=float(recruitment_delay_years),
+        time_horizon_years=float(time_horizon_years),
+        incident_population_per_year=float(incident_population_per_year),
+    )
+
+
+def enumerate_study_portfolio(
+    *,
+    study_ids: Sequence[str],
+    costs: Sequence[float],
+    standalone_evsis: Sequence[float],
+    parameter_groups: Sequence[str],
+    interactions: Sequence[tuple[int, int, float]] = (),
+    budget: float,
+    require_explicit_overlap_guard: bool = True,
+) -> dict[str, object]:
+    """Enumerate feasible research portfolios under budget and overlap guards."""
+    return _runtime.compute_enumerate_study_portfolio(
+        list(study_ids),
+        [float(c) for c in costs],
+        [float(e) for e in standalone_evsis],
+        list(parameter_groups),
+        [(int(a), int(b), float(adj)) for a, b, adj in interactions],
+        float(budget),
+        require_explicit_overlap_guard=bool(require_explicit_overlap_guard),
+    )
+
+
+def equity_weighted_study_enbs(
+    *,
+    subgroup_evsi: Sequence[float],
+    equity_weights: Sequence[float],
+    research_cost: float,
+) -> float:
+    """Compute equity-weighted study ENBS across subgroups."""
+    return _runtime.compute_equity_weighted_study_enbs(
+        [float(v) for v in subgroup_evsi],
+        [float(w) for w in equity_weights],
+        float(research_cost),
+    )
+
+
+def sequential_adaptive_stopping_regret(
+    *,
+    stage_evsi_remaining: Sequence[float],
+    stage_cumulative_costs: Sequence[float],
+) -> dict[str, object]:
+    """Evaluate sequential adaptive stopping stage and immediate-stop regret."""
+    return _runtime.compute_sequential_adaptive_stopping_regret(
+        [float(v) for v in stage_evsi_remaining],
+        [float(c) for c in stage_cumulative_costs],
+    )
+
+
+__all__ = [
+    "calculate_coss",
+    "discounted_population_enbs",
+    "enumerate_study_portfolio",
+    "equity_weighted_study_enbs",
+    "evsi_evpi_efficiency",
+    "sequential_adaptive_stopping_regret",
+]

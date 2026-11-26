@@ -17,7 +17,7 @@ import subprocess
 import sys
 from typing import Any
 
-TRACK = Path("conductor/tracks/translation_reference_20261026")
+TRACK = Path("conductor/archive/translation_reference_20261026")
 PAGE = Path(
     "docs/astro-site/src/content/docs/user-guide/tabular-translation-reference.mdx"
 )
@@ -153,7 +153,7 @@ def render(rows: list[dict[str, Any]]) -> str:
         "The committed capture records source commits, file and excerpt digests,",
         "and one-based line ranges. CI needs no external consumer checkout.",
         "The source manifests are `tobac-consumer-idioms.json` and",
-        "`voiage-idioms-python3152.json` under `conductor/tracks/translation_reference_20261026/`.",
+        "`voiage-idioms-python3152.json` under `conductor/archive/translation_reference_20261026/`.",
         "See the [migration guide](/voiage/user-guide/migration-guide).",
         "",
         "Fixtures below establish the stated relationships only: value/order",

@@ -66,7 +66,7 @@ def _sha256(path: Path) -> str:
 
 def test_python_patch_promotion_preserves_the_previous_v3_contract() -> None:
     previous_path = (
-        ROOT / "conductor/tracks/pandas_free_io_20261026/historical/"
+        ROOT / "conductor/archive/pandas_free_io_20261026/historical/"
         "v3-stable-api-python3151.json"
     )
     assert _sha256(previous_path) == (

@@ -10,6 +10,7 @@ mod collections;
 mod core_contracts;
 mod credal;
 mod decision_problem;
+mod evsi_contracts;
 mod simulation_outcome;
 
 pub use collections::{DomainError, SampleCube, SampleMatrix, SampleVector, StrategyCollection};
@@ -24,6 +25,7 @@ pub use decision_problem::{
     AnalysisType, DecisionProblem, DecisionProblemError, ExecutionMode, Intervention, Provenance,
     ReproducibilityMetadata,
 };
+pub use evsi_contracts::{EvsiDiagnostics, EvsiEstimatorKind, SampleSizeConvention};
 /// Exact rational values used in finite decision and welfare calculations.
 pub use num_rational::BigRational;
 pub use simulation_outcome::{

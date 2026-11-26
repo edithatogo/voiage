@@ -10,7 +10,8 @@ from scripts.validate_execution_packets import validate_packet
 
 ROOT = Path(__file__).parents[1]
 PACKET_PATH = (
-    ROOT / "conductor/tracks/execution_packet_guard_20260907/implementation-packet.json"
+    ROOT
+    / "conductor/archive/execution_packet_guard_20260907/implementation-packet.json"
 )
 
 

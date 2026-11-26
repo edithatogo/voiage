@@ -1087,23 +1087,23 @@ track at the top of this registry; completed repository slices stay closed.
 
 ---
 - [x] **Track: Execution packet readiness and drift controls**
-  *Link: [./tracks/execution_packet_guard_20260907/index.md](./tracks/execution_packet_guard_20260907/index.md)*
+  *Link: [./archive/execution_packet_guard_20260907/index.md](./archive/execution_packet_guard_20260907/index.md)*
 
 ---
 - [x] **Track: Version identities and compatibility policy**
-  *Link: [./tracks/version_identity_contracts_20260907/index.md](./tracks/version_identity_contracts_20260907/index.md)*
+  *Link: [./archive/version_identity_contracts_20260907/index.md](./archive/version_identity_contracts_20260907/index.md)*
 
 ---
 - [x] **Track: Minimal Rust structured logging**
-  *Link: [./tracks/native_structured_logging_20260907/index.md](./tracks/native_structured_logging_20260907/index.md)*
+  *Link: [./archive/native_structured_logging_20260907/index.md](./archive/native_structured_logging_20260907/index.md)*
 
 ---
 - [x] **Track: Logging privacy and bounded delivery**
-  *Link: [./tracks/logging_privacy_resilience_20260907/index.md](./tracks/logging_privacy_resilience_20260907/index.md)*
+  *Link: [./archive/logging_privacy_resilience_20260907/index.md](./archive/logging_privacy_resilience_20260907/index.md)*
 
 ---
 - [x] **Track: VOP-to-VOI version and logging pilot**
-  *Link: [./tracks/vop_logging_version_pilot_20260907/index.md](./tracks/vop_logging_version_pilot_20260907/index.md)*
+  *Link: [./archive/vop_logging_version_pilot_20260907/index.md](./archive/vop_logging_version_pilot_20260907/index.md)*
 
 ---
 - [x] **Track: Optional native telemetry qualification** [completed: 2026-11-26]
@@ -1113,25 +1113,25 @@ track at the top of this registry; completed repository slices stay closed.
 
 ---
 - [x] **Track: Tabular contract v3 and xarray removal**
-  *Link: [./tracks/tabular_contract_v3_20261026/index.md](./tracks/tabular_contract_v3_20261026/index.md)*
+  *Link: [./archive/tabular_contract_v3_20261026/index.md](./archive/tabular_contract_v3_20261026/index.md)*
   **Completed on 2026-10-26.** Opens the decision-record revision, publishes `specs/v3/stable-api.json` and `specs/v3/compatibility-policy.json`, and updates the v2-to-v3 migration guide; owns no runtime change.
   GitHub: https://github.com/edithatogo/voiage/issues/1196
 
 ---
 - [x] **Track: Polars-native core containers**
-  *Link: [./tracks/polars_container_20261026/index.md](./tracks/polars_container_20261026/index.md)*
+  *Link: [./archive/polars_container_20261026/index.md](./archive/polars_container_20261026/index.md)*
   **Accepted and merged in PR #1202 (`b1c63e7f`) on 2026-10-27 with Python 3.15.1/Polars 2.1.0.** Replaces the xarray-backed `ValueArray`/`ParameterSet` containers with wide Polars frames at bit-identical numerical parity, removes xarray imports from `voiage/`, `tests/`, `examples/` and `scripts/`, and records a performance delta.
   GitHub: https://github.com/edithatogo/voiage/issues/1197
 
 ---
 - [x] **Track: Pandas-free external I/O and packaging**
-  *Link: [./tracks/pandas_free_io_20261026/index.md](./tracks/pandas_free_io_20261026/index.md)*
+  *Link: [./archive/pandas_free_io_20261026/index.md](./archive/pandas_free_io_20261026/index.md)*
   **Completed on 2026-10-28 at merged revision `420fd7ab` (PR #1209).** All seven phases, exact merged-revision acceptance and successor packaging/enforcement handoff passed on Python 3.15.1 under the resource guard. Native package publication and successor implementation remain separate.
   GitHub: https://github.com/edithatogo/voiage/issues/1198
 
 ---
 - [x] **Track: pandas and xarray to Polars translation reference**
-  *Link: [./tracks/translation_reference_20261026/index.md](./tracks/translation_reference_20261026/index.md)*
+  *Link: [./archive/translation_reference_20261026/index.md](./archive/translation_reference_20261026/index.md)*
   **Completed on 2026-10-28.** Fourteen source-derived/anticipatory semantic topics, both executable forms, retained consumer attribution and the linked documentation source pass guarded Python 3.15.1 qualification and applicable hosted checks. See the acceptance receipt; final-head CI remains required before merge.
   GitHub: https://github.com/edithatogo/voiage/issues/1199
 
@@ -1163,30 +1163,30 @@ track at the top of this registry; completed repository slices stay closed.
 
 ---
 - [ ] **Track: Q05 Coherent EVSI Qualification (V03, V04, V05, V07, F02)**
-  *Link: [./tracks/voi_coherent_evsi_q05_20261126/index.md](./tracks/voi_coherent_evsi_q05_20261126/index.md)*
+  *Link: [./archive/voi_coherent_evsi_q05_20261126/index.md](./archive/voi_coherent_evsi_q05_20261126/index.md)*
   Regression, moment-matching, importance-sampling, non-normal study models, QMC/multilevel/unbiased EVSI, and F02 inference diagnostics.
   GitHub: https://github.com/edithatogo/voiage/issues/1221
 
 ---
 - [ ] **Track: Q06 Research Design and Portfolio Decisions (V06, V10, F06)**
-  *Link: [./tracks/voi_study_design_portfolio_q06_20261126/index.md](./tracks/voi_study_design_portfolio_q06_20261126/index.md)*
+  *Link: [./archive/voi_study_design_portfolio_q06_20261126/index.md](./archive/voi_study_design_portfolio_q06_20261126/index.md)*
   Economic study-design optimization, exact small-portfolio enumeration, overlap/dependence guards, and selective V10 frontier extensions.
   GitHub: https://github.com/edithatogo/voiage/issues/1221
 
 ---
 - [ ] **Track: Q07 Thin Bindings and Measured Computation (V12, F04, F05)**
-  *Link: [./tracks/voi_bindings_performance_q07_20261126/index.md](./tracks/voi_bindings_performance_q07_20261126/index.md)*
+  *Link: [./archive/voi_bindings_performance_q07_20261126/index.md](./archive/voi_bindings_performance_q07_20261126/index.md)*
   Cross-language binding parity, zero-copy crossing profiling, and resumable/cancellable streaming reductions.
   GitHub: https://github.com/edithatogo/voiage/issues/1221
 
 ---
 - [ ] **Track: Q08 Producer and Public-Health Workflows (V08, F06, F07, F08)**
-  *Link: [./tracks/voi_producer_public_health_q08_20261126/index.md](./tracks/voi_producer_public_health_q08_20261126/index.md)*
+  *Link: [./archive/voi_producer_public_health_q08_20261126/index.md](./archive/voi_producer_public_health_q08_20261126/index.md)*
   Installed producer exports, S01–S06 empirical/published benchmarks, risk-prediction, and public-health distributional workflows.
   GitHub: https://github.com/edithatogo/voiage/issues/1221
 
 ---
 - [ ] **Track: R01–R03 Advanced Research Extensions (V07, V08, V09, V10, V11, F03, F06)**
-  *Link: [./tracks/voi_frontier_research_r01_r03_20261126/index.md](./tracks/voi_frontier_research_r01_r03_20261126/index.md)*
+  *Link: [./archive/voi_frontier_research_r01_r03_20261126/index.md](./archive/voi_frontier_research_r01_r03_20261126/index.md)*
   Decision-aware stopping, joint research-implementation-capacity optimization, transport bias, strategic information design, and Q09 evaluation packet.
   GitHub: https://github.com/edithatogo/voiage/issues/1221

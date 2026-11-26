@@ -7,7 +7,7 @@
     "conductor/archive/remaining_backlog_delivery_20260831/historical/qualify-hpc-source-python3151-20261115.py.txt": "2b4cccbb8110c32d418a57b672b03105ce24b6408aafd3c348c87af63439d63e",
     "conductor/archive/remaining_backlog_delivery_20260831/historical/python3151-current-overlay-20261115.tar.gz": "d3f835358556adc56203e92099688211a13f7bc782c48454e5174e3f2de476c6",
     "conductor/archive/remaining_backlog_delivery_20260831/historical/python3151-current-overlay-20261115.json": "89049c28e0ae05af8fda9cac3767de6537afda612c2e8d0f7ce77ae409163c7b",
-    "conductor/tracks/pandas_free_io_20261026/historical/hpc_package_smoke-20261115.py.txt": "7fd376f043be95e487918bd61bcc8d4514587e7913b48fb022cacdfc8a3eb042",
+    "conductor/archive/pandas_free_io_20261026/historical/hpc_package_smoke-20261115.py.txt": "7fd376f043be95e487918bd61bcc8d4514587e7913b48fb022cacdfc8a3eb042",
     "packaging/easybuild-2023a-arrow-overlay/2023a/Arrow-25.0.1-gfbf-2023a.eb": "f1ecf46882aeab95e7b10604d9a90eee730566050eaab1c2c3b0f3bff6cfc7ec",
     "packaging/easybuild-2023a-arrow-overlay/2023a/Cython-3.1.8-GCCcore-12.3.0.eb": "9beed145433cfb600d1c54b939e855469f085a57d9eb69d9638892c9f1e142cd",
     "packaging/easybuild-2023a-arrow-overlay/2023a/Thrift-0.22.0-GCC-12.3.0.eb": "eddf7734d0ab355030f6220624d08d6a5daf8df6ae170a5f5741144010a99b8c",
@@ -465,7 +465,7 @@
     "scripts/hpc_package_smoke.py": {
       "source_commit": "b0f07ab0a88eb5500a8eda3b8d0ec85b6905a108",
       "original_path": "scripts/hpc_package_smoke.py",
-      "archive_path": "conductor/tracks/pandas_free_io_20261026/historical/hpc_package_smoke-20261115.py.txt",
+      "archive_path": "conductor/archive/pandas_free_io_20261026/historical/hpc_package_smoke-20261115.py.txt",
       "original_sha256": "7fd376f043be95e487918bd61bcc8d4514587e7913b48fb022cacdfc8a3eb042",
       "change": "Removed the obsolete S310 lint annotation; executable content is unchanged."
     }

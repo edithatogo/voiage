@@ -24,7 +24,7 @@ ROOT = Path(__file__).parents[1]
 FIXTURES = ROOT / "tests/fixtures/tabular_io/excel"
 BASELINE = json.loads(
     (
-        ROOT / "conductor/tracks/pandas_free_io_20261026/phase-3-baseline.json"
+        ROOT / "conductor/archive/pandas_free_io_20261026/phase-3-baseline.json"
     ).read_text()
 )
 

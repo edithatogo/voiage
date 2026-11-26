@@ -15,7 +15,7 @@ ROOT = Path(__file__).parents[1]
 
 def test_previous_runtime_policy_remains_exact_during_patch_promotion() -> None:
     previous_path = (
-        ROOT / "conductor/tracks/pandas_free_io_20261026/historical/"
+        ROOT / "conductor/archive/pandas_free_io_20261026/historical/"
         "dependency-runtime-policy-python3151.json"
     )
     assert hashlib.sha256(previous_path.read_bytes()).hexdigest() == (

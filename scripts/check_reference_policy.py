@@ -19,7 +19,7 @@ CATEGORIES = {
     "producer_compatibility",
     "frozen_historical_evidence",
 }
-DEFAULT_POLICY = "conductor/tracks/pandas_free_io_20261026/reference-policy.json"
+DEFAULT_POLICY = "conductor/archive/pandas_free_io_20261026/reference-policy.json"
 
 
 def digest(data: bytes) -> str:
