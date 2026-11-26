@@ -1,11 +1,11 @@
 {
   "track_id": "simulation_outcome_boundary_20261107",
   "type": "feature",
-  "status": "new",
+  "status": "in_progress",
   "created_at": "2026-11-07T00:00:00Z",
-  "updated_at": "2026-11-07T22:22:23Z",
+  "updated_at": "2026-11-26T03:41:00Z",
   "description": "Optional simulation-outcome input boundary for cross-domain VOI",
-  "execution_status": "pending",
+  "execution_status": "in_progress",
   "base_revision": "a5d87a736fa9f0f876e44872d946b2170d2a0898",
   "dependencies": [
     "scientific_ecosystem_alignment_20261029: existing provider/pin and consumer qualification ownership",
@@ -19,25 +19,33 @@
   },
   "leaf_count": 8,
   "max_files_per_leaf": 5,
-  "execution_disposition": "Planning only; HPC remains deferred except MLX/Metal; no new dependency, pin, schema, IRI, runtime or completed-method claim",
+  "execution_disposition": "O01-O08 (8/8 leaves) implemented and locally verified across voiage-domain, voiage-numerics, Arrow/Parquet interchange, EVPI analytical equivalence (1e-12 tolerance), and isolated packaged-crate consumer without producer engines; retained in_progress awaiting PR merge, hosted CI, and track archival. Synthetic fixtures do not establish full real-producer qualification; existing scientific alignment and HPC owners retain their unfulfilled gates.",
   "review_policy": "Routine diff and focused tests; coherent specialist agent review at public contract and numerical boundaries; no repeated human approvals",
   "verification": {
     "status": "passed",
-    "scope": "Documentation/registry checks only; implementation, runtime, numerical and installed-consumer acceptance remain pending",
-    "environment": "Python 3.12.14 compatibility tooling; not product Python 3.15.1 qualification",
+    "scope": "O01-O08 implementation, specialist contract and numerical reviews, Arrow/Parquet interchange on non-editable voiage==3.1.0 wheel, EVPI equivalence (1e-12), and isolated unpacked-crate consumer verification on synthetic health and non-health fixtures; real-producer integration and hosted CI remain external gates",
+    "environment": "Python 3.15.2 (.venv, non-editable voiage==3.1.0), Rust 1.100.0 (locked)",
     "commands": [
-      "python scripts/normalize_conductor_registry.py",
-      "python scripts/validate_conductor_github_cross_references.py",
-      "git diff --check"
+      "cargo test --locked --manifest-path rust/Cargo.toml -p voiage-domain -p voiage-numerics",
+      "cargo clippy --locked --manifest-path rust/Cargo.toml -p voiage-domain -p voiage-numerics --all-targets -- -D warnings",
+      "cargo fmt --manifest-path rust/Cargo.toml --check",
+      ".venv/bin/python scripts/check_simulation_outcome_consumer.py",
+      ".venv/bin/python scripts/run_installed_pytest.py -q tests/test_simulation_outcome_interchange.py tests/test_normalized_input_bundle.py tests/test_contract_interchange.py tests/test_simulation_outcome_consumer_contract.py tests/test_rust_workspace_contract.py tests/test_structure_api_abi_audit.py tests/test_repo_harness.py tests/test_ci_optimization_design.py tests/test_conductor_registry_normalization.py tests/test_conductor_github_cross_references.py tests/test_conductor_followthrough_tracks.py",
+      ".venv/bin/python scripts/repo_harness.py",
+      ".venv/bin/python scripts/check_pandas_free.py --source voiage",
+      ".venv/bin/python scripts/check_reference_policy.py",
+      ".venv/bin/python -I voiage/versioning.py --repo-root .",
+      ".venv/bin/python scripts/validate_conductor_github_cross_references.py"
     ],
-    "existing_test_functions": {
-      "source": "tests/test_conductor_registry_normalization.py",
-      "runner": "stdlib runpy invocation of the three existing test functions; pytest runtime not exercised",
-      "passed": 3
+    "artifact_hashes": {
+      "voiage-domain-3.1.0.crate": "0b791cc6427896ea1ee3b1b48dc0289912887fc0fb5bcf6607fbdfc14394d1e7",
+      "voiage-diagnostics-3.1.0.crate": "f467fece137e7c7fd4f7b3e14fb926c6c05ad34ff3244e42a6b7d8f350c184d9",
+      "voiage-numerics-3.1.0.crate": "f9409e18ab71881ce39d7304f9eab316d65e679bb35599370ea9218e038d53b1",
+      "specs/ecosystem/simulation-outcome/v1/evpi-fixtures.json": "0ac9880b48a32eef3d330870dbb103eca263a82ef110ef43361cbf58e0f35911",
+      "specs/ecosystem/simulation-outcome/v1/interchange-fixture.json": "efa4c3ec41ab317a7b6daffcf3eaf75fcccc7d54bbe61261f9820378adda7933"
     },
-    "document_checks": "JSON parsing, eight pending leaves, exact file budgets <=5, dependencies/review/check fields, 207 local links, issue synchronization, and protected scientific/HPC/pin files unchanged",
-    "independent_review": "Read-only contract/scope review found no blocking issues",
-    "not_run": "Full tox, Astro build, Rust commands, numerical methods, and installed-consumer acceptance; Rust toolchain unavailable"
+    "independent_review": "Specialist contract review (613ecc41) and specialist numerical review (67352e19) findings remediated",
+    "not_run": "Hosted GitHub Actions workflows, full PR tox/mutation suite, and live Kairos/game/HEOR external producer packages"
   },
   "handoff_reconciliation": {
     "base_revision": "9b8d558943e2ba48f2b18c02ee0960ef3968662d",

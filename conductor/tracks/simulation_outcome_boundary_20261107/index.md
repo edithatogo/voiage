@@ -1,6 +1,6 @@
 # Optional simulation-outcome boundary for cross-domain VOI
 
-Status: new; all implementation leaves are pending.
+Status: in progress; O01–O08 implemented and locally verified on synthetic health and non-health fixtures (awaiting PR/hosted CI and archival; real-producer pin/qualification remains with scientific alignment).
 
 - [Specification](./spec.md)
 - [Implementation Plan](./plan.md)

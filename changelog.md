@@ -1,11 +1,17 @@
 # Changelog
 
+- Add optional `voiage.simulation-outcome.v1` boundary (`O01`–`O08`): `voiage-domain`
+  profile/pairing/declaration/parameter contracts, `voiage-numerics` adapter
+  and analytical EVPI equivalence, Arrow/Parquet interchange
+  (`voiage.contracts.interchange` / `normalized_input`), and isolated
+  packaged-crate verification (`scripts/check_simulation_outcome_consumer.py`
+  plus CI job `simulation-outcome-consumer`).
+
 - Reconcile capability, verification-family, and Rust-authority ownership across
   stable methods, CLI dispatch, and all 42 frontier families (`Q01`) in
   `specs/v2/capability-authority-matrix.json`, and record the `Q03`
   source-and-rights preflight inventory in
   `specs/v2/source-rights-preflight.json`.
-
 - Consolidate Rust EVPI/ENBS numerical authority across `voiage-numerics`,
   `voiage-ffi`, and offline `#![no_std]` `r-package/voiageR/src/rust` (`Q02`),
   fixing extreme-finite overflow in `voiage_rust_evpi` and verifying parity in

@@ -1,0 +1,10 @@
+[package]
+name = "simulation-outcome-isolated-consumer"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+serde_json = "1.0"
+voiage-domain = "=3.1.0"
+voiage-numerics = "=3.1.0"

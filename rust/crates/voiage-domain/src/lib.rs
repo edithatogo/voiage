@@ -10,6 +10,7 @@ mod collections;
 mod core_contracts;
 mod credal;
 mod decision_problem;
+mod simulation_outcome;
 
 pub use collections::{DomainError, SampleCube, SampleMatrix, SampleVector, StrategyCollection};
 pub use core_contracts::{
@@ -25,6 +26,13 @@ pub use decision_problem::{
 };
 /// Exact rational values used in finite decision and welfare calculations.
 pub use num_rational::BigRational;
+pub use simulation_outcome::{
+    validate_profile_version, AlignedParameterSamples, DrawIdentity, ObjectiveDirection,
+    OutcomeRecordInput, ParameterSampleInput, ProducerProvenance, ProducerProvenanceInput,
+    SimulationOutcomeError, SimulationOutcomeProfileInput, ValidatedSimulationOutcomeProfile,
+    ValueConvention, ValueDeclaration, ValueDeclarationInput, WeightSemantics,
+    SIMULATION_OUTCOME_PROFILE_VERSION_V1,
+};
 
 /// Rounds an exact rational to a finite binary64 value.
 ///

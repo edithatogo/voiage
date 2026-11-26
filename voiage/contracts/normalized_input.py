@@ -5,7 +5,7 @@ their source-specific metadata and resources into these records; calculation
 code consumes only this contract.
 """
 
-# pyright: reportAny=false, reportUnknownArgumentType=false, reportUnknownMemberType=false, reportUnknownParameterType=false, reportUnknownVariableType=false, reportUnannotatedClassAttribute=false
+# pyright: reportAny=false, reportUnknownArgumentType=false, reportUnknownMemberType=false, reportUnknownParameterType=false, reportUnknownVariableType=false, reportUnannotatedClassAttribute=false, reportUnusedImport=false
 
 from __future__ import annotations
 
@@ -25,7 +25,34 @@ from pyarrow import parquet as pq
 from pydantic import Field, StringConstraints, field_serializer, model_validator
 
 from voiage.contracts.analysis import ContractModel, thaw_json
-from voiage.contracts.interchange import schema_fingerprint
+from voiage.contracts.interchange import (
+    SIMULATION_OUTCOME_PROFILE_VERSION_V1,
+    SimulationOutcomeProfileMetadata,
+    SimulationOutcomeProvenance,
+    SimulationOutcomeValueDeclaration,
+    schema_fingerprint,
+    validate_untrimmed_nonempty,
+)
+
+__all__ = [
+    "SIMULATION_OUTCOME_PROFILE_VERSION_V1",
+    "BindingProfile",
+    "DatasetManifest",
+    "Digest",
+    "FieldManifest",
+    "Identifier",
+    "IngestionDiagnostic",
+    "KeyReference",
+    "NormalizedInputBundle",
+    "ResourceManifest",
+    "SimulationOutcomeProfileMetadata",
+    "SimulationOutcomeProvenance",
+    "SimulationOutcomeValueDeclaration",
+    "SourceProvenance",
+    "TableManifest",
+    "VOIBinding",
+    "validate_untrimmed_nonempty",
+]
 
 Identifier = Annotated[str, StringConstraints(min_length=1, strip_whitespace=True)]
 Digest = Annotated[str, StringConstraints(pattern=r"^[a-f0-9]{64}$")]

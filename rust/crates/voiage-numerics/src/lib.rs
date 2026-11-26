@@ -19,6 +19,7 @@ mod evsi_regression;
 mod heterogeneity;
 mod sequential_evsi;
 mod signed_social_information;
+mod simulation_outcome_adapter;
 mod structural;
 mod study_design;
 mod tobit;
@@ -53,6 +54,10 @@ pub use sequential_evsi::{sequential_evsi, ObservationChannel, SequentialEvsi};
 pub use signed_social_information::{
     evaluate_signed_social_information, SignedDesignEvaluation, SignedInformationDesign,
     SignedInformationInput, SignedInformationLedger, SignedInformationSelector, SignedWelfareStage,
+};
+pub use simulation_outcome_adapter::{
+    adapt_simulation_outcome, adapt_simulation_outcome_input, simulation_outcome_evpi,
+    SimulationOutcomeAdapterError, SimulationOutcomeEvpiResult, SimulationOutcomeHandoff,
 };
 pub use structural::{structural_evpi, structural_evppi};
 pub use study_design::{

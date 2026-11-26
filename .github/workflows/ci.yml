@@ -745,6 +745,32 @@ jobs:
       env:
         CI: true
 
+  simulation-outcome-consumer:
+    name: Simulation Outcome Isolated Consumer
+    runs-on: ubuntu-latest
+    steps:
+    - name: Harden the runner (Audit all outbound calls)
+      uses: step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a # v2.22.4
+      with:
+        egress-policy: audit
+
+    - name: Checkout code
+      uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+      with:
+        persist-credentials: false
+
+    - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
+      with:
+        toolchain: stable
+
+    - name: Set up Python
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: "3.15.2"
+
+    - name: Run isolated simulation-outcome consumer verification
+      run: python scripts/check_simulation_outcome_consumer.py
+
   # Bounded production-contract mutation gates
   test-mutation:
     name: Mutation Testing
