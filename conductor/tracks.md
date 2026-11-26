@@ -1143,13 +1143,14 @@ track at the top of this registry; completed repository slices stay closed.
 ---
 - [~] **Track: Scientific ecosystem alignment (voiage)**
   *Link: [./tracks/scientific_ecosystem_alignment_20261029/index.md](./tracks/scientific_ecosystem_alignment_20261029/index.md)*
-  Repository and cross-project consumer qualification continues independently of the HPC roadmap.
+  Repository and cross-project consumer qualification continues independently of the HPC roadmap. Frontier `Q01` (#1412), `Q02` (#1413), `Q03` (#1414), and `Q04` (#1415) merged into `main` (`2026-11-26`).
+  GitHub: https://github.com/edithatogo/voiage/issues/1221
 
 ---
 
 - [~] **Track: Optional simulation-outcome boundary for cross-domain VOI**
   *Link: [./tracks/simulation_outcome_boundary_20261107/index.md](./tracks/simulation_outcome_boundary_20261107/index.md)*
-  O01–O08 implemented and locally verified (`voiage-domain`, `voiage-numerics`, Arrow/Parquet interchange, EVPI analytical equivalence, and isolated packaged-crate consumer); retained in progress pending PR/hosted CI and archival. Synthetic fixtures do not replace full real-producer qualification; existing scientific alignment retains provider/pin ownership.
+  O01–O08 implemented and merged (#1411: `voiage-domain`, `voiage-numerics`, Arrow/Parquet interchange, EVPI analytical equivalence, and isolated packaged-crate consumer); retained in progress pending archival. Synthetic fixtures do not replace full real-producer qualification; existing scientific alignment retains provider/pin ownership.
   GitHub: https://github.com/edithatogo/voiage/issues/1283
 
 ---
