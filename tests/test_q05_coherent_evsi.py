@@ -211,3 +211,40 @@ def test_q05_importance_sampling_binding_and_fail_closed_degeneracy() -> None:
             net_benefit_intercept=-100.0,
             num_points=0,
         )
+    with pytest.raises(InputError):
+        beta_binomial_two_arm_evsi(
+            alpha_0=0.0,
+            beta_0=8.0,
+            alpha_1=2.5,
+            beta_1=7.5,
+            per_arm_sample_size=10,
+            net_benefit_slope=1000.0,
+            net_benefit_intercept=-50.0,
+        )
+    with pytest.raises(InputError):
+        gamma_poisson_evsi(
+            prior_shape=0.0,
+            prior_rate=10.0,
+            exposure_per_unit=1.0,
+            total_sample_size=20,
+            net_benefit_slope=500.0,
+            net_benefit_intercept=-200.0,
+        )
+    with pytest.raises(InputError):
+        exponential_time_to_event_evsi(
+            prior_shape=3.0,
+            prior_rate=6.0,
+            expected_events=0.0,
+            net_benefit_slope=400.0,
+            net_benefit_intercept=-200.0,
+        )
+    with pytest.raises(InputError):
+        evsi_qmc_normal_normal(
+            prior_mean=0.1,
+            prior_standard_deviation=0.0,
+            outcome_standard_deviation=1.0,
+            total_sample_size=100,
+            net_benefit_slope=1000.0,
+            net_benefit_intercept=-100.0,
+            num_points=64,
+        )

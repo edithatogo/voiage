@@ -74,3 +74,24 @@ def test_q06_equity_weighted_and_sequential_regret() -> None:
     )
     assert seq["optimal_stage"] == 1
     assert float(seq["immediate_stop_regret"]) == pytest.approx(40.0)
+
+    with pytest.raises(InputError):
+        discounted_population_enbs(
+            per_patient_evsi=-1.0,
+            research_cost=5000.0,
+            discount_rate=0.035,
+            recruitment_delay_years=1.0,
+            time_horizon_years=10.0,
+            incident_population_per_year=1000.0,
+        )
+    with pytest.raises(InputError):
+        equity_weighted_study_enbs(
+            subgroup_evsi=[100.0],
+            equity_weights=[0.0],
+            research_cost=50.0,
+        )
+    with pytest.raises(InputError):
+        sequential_adaptive_stopping_regret(
+            stage_evsi_remaining=[],
+            stage_cumulative_costs=[],
+        )
