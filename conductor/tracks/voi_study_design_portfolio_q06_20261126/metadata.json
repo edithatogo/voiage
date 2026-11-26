@@ -1,0 +1,14 @@
+{
+  "track_id": "voi_study_design_portfolio_q06_20261126",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-11-26T13:16:00Z",
+  "updated_at": "2026-11-26T13:16:00Z",
+  "description": "Q06 research design and portfolio decisions (V06, V10, F06)",
+  "dependencies": [
+    "voi_coherent_evsi_q05_20261126"
+  ],
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/1421"
+  }
+}

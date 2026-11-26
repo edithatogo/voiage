@@ -1,0 +1,14 @@
+{
+  "track_id": "voi_bindings_performance_q07_20261126",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-11-26T13:16:00Z",
+  "updated_at": "2026-11-26T13:16:00Z",
+  "description": "Q07 thin bindings and measured computation (V12, F04, F05)",
+  "dependencies": [
+    "scientific_ecosystem_alignment_20261029"
+  ],
+  "github_cross_reference": {
+    "issue": "https://github.com/edithatogo/voiage/issues/1422"
+  }
+}
