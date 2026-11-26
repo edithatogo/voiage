@@ -1,0 +1,509 @@
+{
+  "schema_version": "1.0.0",
+  "purpose": "Q01 reconciliation of method x estimator x study-model x binding x backend authority against stable-api.json, promotion-checklist.json, and voiage-numerics",
+  "entries": [
+    {
+      "id": "evpi",
+      "stable_api_method": "evpi",
+      "cli_method": "evpi",
+      "maturity": "stable",
+      "authoritative_implementation": "rust",
+      "rust_symbols": ["evpi"],
+      "study_model_contract": "Paired finite sample-by-strategy net-benefit matrix under equal weights",
+      "verification_families": ["D01"],
+      "reference_artifacts": ["specs/numerical-reference/v1/evpi-cases.json"],
+      "bindings": {"python": "pyo3", "rust": "native", "r": "c-abi", "julia": "c-abi"}
+    },
+    {
+      "id": "evppi",
+      "stable_api_method": "evppi",
+      "cli_method": "evppi",
+      "maturity": "stable",
+      "authoritative_implementation": "rust",
+      "rust_symbols": ["evppi"],
+      "study_model_contract": "Finite PSA net-benefit matrix + aligned uncertain parameters",
+      "verification_families": ["D02"],
+      "reference_artifacts": ["specs/core-api/fixtures/v1/normative/evppi.json"],
+      "bindings": {"python": "pyo3", "rust": "native", "r": "python-bridge", "julia": "unsupported"}
+    },
+    {
+      "id": "evsi",
+      "stable_api_method": "evsi",
+      "cli_method": "evsi",
+      "maturity": "method-specific",
+      "authoritative_implementation": "rust+python-orchestration",
+      "rust_symbols": ["evsi_stochastic", "evsi_efficient_linear", "evsi_moment_based", "evsi_regression"],
+      "study_model_contract": "Built-in coherent joint-Gaussian two-loop or explicit paired trial_simulator/posterior_sampler callbacks",
+      "verification_families": ["D03", "D04"],
+      "reference_artifacts": ["specs/core-api/fixtures/v1/normative/evsi.json"],
+      "bindings": {"python": "pyo3+python-orchestration", "rust": "native-kernels", "r": "python-bridge", "julia": "unsupported"}
+    },
+    {
+      "id": "normal_normal_two_arm_evsi",
+      "stable_api_method": "normal_normal_two_arm_evsi",
+      "maturity": "stable",
+      "authoritative_implementation": "rust",
+      "rust_symbols": ["normal_normal_two_arm_evsi"],
+      "study_model_contract": "Analytical two-arm equal-allocation normal trial with known common outcome SD and linear incremental NB",
+      "verification_families": ["D03"],
+      "reference_artifacts": ["specs/core-api/fixtures/v1/normative/evsi.json"],
+      "bindings": {"python": "pyo3", "rust": "native", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "enbs",
+      "stable_api_method": "enbs",
+      "cli_method": "enbs",
+      "maturity": "stable",
+      "authoritative_implementation": "rust",
+      "rust_symbols": ["enbs"],
+      "study_model_contract": "Scalar EVSI minus finite nonnegative research cost",
+      "verification_families": ["D01"],
+      "reference_artifacts": ["specs/core-api/fixtures/v1/normative/enbs.json"],
+      "bindings": {"python": "pyo3", "rust": "native", "r": "c-abi", "julia": "c-abi"}
+    },
+    {
+      "id": "ceaf",
+      "stable_api_method": "ceaf",
+      "cli_method": "ceaf",
+      "maturity": "stable",
+      "authoritative_implementation": "rust",
+      "rust_symbols": ["ceaf"],
+      "study_model_contract": "Sample-by-strategy net-benefit matrix across willingness-to-pay thresholds",
+      "verification_families": ["D01"],
+      "reference_artifacts": ["specs/core-api/fixtures/v1/compatibility/expected/ceaf-normal-001.json"],
+      "bindings": {"python": "pyo3", "rust": "native", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "dominance",
+      "stable_api_method": "dominance",
+      "cli_method": "dominance",
+      "maturity": "stable",
+      "authoritative_implementation": "rust",
+      "rust_symbols": ["dominance"],
+      "study_model_contract": "Mean cost and effect vectors by strategy identifier",
+      "verification_families": ["D01"],
+      "reference_artifacts": ["specs/core-api/fixtures/v1/compatibility/expected/dominance-normal-001.json"],
+      "bindings": {"python": "pyo3", "rust": "native", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "value_of_perspective",
+      "frontier_family": "value_of_perspective",
+      "maturity": "fixture-backed",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D10"],
+      "reference_artifacts": ["specs/frontier/perspective/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "value_of_distributional_equity",
+      "frontier_family": "value_of_distributional_equity",
+      "maturity": "experimental",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D10"],
+      "reference_artifacts": ["specs/frontier/distributional/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "value_of_model_validation",
+      "frontier_family": "value_of_model_validation",
+      "maturity": "fixture-backed",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D06"],
+      "reference_artifacts": ["specs/frontier/validation/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "value_of_threshold_information",
+      "frontier_family": "value_of_threshold_information",
+      "maturity": "fixture-backed",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D10"],
+      "reference_artifacts": ["specs/frontier/threshold/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "value_of_preference_information",
+      "frontier_family": "value_of_preference_information",
+      "maturity": "fixture-backed",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D10"],
+      "reference_artifacts": ["specs/frontier/preference/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "value_of_implementation",
+      "frontier_family": "value_of_implementation",
+      "maturity": "experimental",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D12"],
+      "reference_artifacts": ["specs/frontier/implementation/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "value_of_dynamic_real_options",
+      "frontier_family": "value_of_dynamic_real_options",
+      "maturity": "experimental",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D08"],
+      "reference_artifacts": ["specs/frontier/dynamic-real-options/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "value_of_flexibility",
+      "frontier_family": "value_of_flexibility",
+      "maturity": "experimental",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D08"],
+      "reference_artifacts": ["specs/frontier/value-of-flexibility/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "distribution_family_information_value",
+      "frontier_family": "distribution_family_information_value",
+      "maturity": "experimental",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D11"],
+      "reference_artifacts": ["specs/frontier/value-of-distributional-information/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "qualitative_information_assessment",
+      "frontier_family": "qualitative_information_assessment",
+      "maturity": "experimental",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D11"],
+      "reference_artifacts": ["specs/frontier/qualitative-information/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "finite_additive_mcda_perfect_information",
+      "frontier_family": "finite_additive_mcda_perfect_information",
+      "maturity": "experimental",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D10"],
+      "reference_artifacts": ["specs/frontier/mcda-information/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "forecast_signal_information_value",
+      "frontier_family": "forecast_signal_information_value",
+      "maturity": "experimental",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D14"],
+      "reference_artifacts": ["specs/frontier/forecast-signal-information/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "event_localized_information_value",
+      "frontier_family": "event_localized_information_value",
+      "maturity": "experimental",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D08"],
+      "reference_artifacts": ["specs/frontier/event-localized-information/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "outcome_conditional_sample_information_value",
+      "frontier_family": "outcome_conditional_sample_information_value",
+      "maturity": "experimental",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D03"],
+      "reference_artifacts": ["specs/frontier/outcome-conditional-sample-information/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "risk_sensitive_constrained_perfect_information",
+      "frontier_family": "risk_sensitive_constrained_perfect_information",
+      "maturity": "experimental",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D11"],
+      "reference_artifacts": ["specs/frontier/risk-sensitive-constrained-voi/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "value_of_uncertainty_modelling",
+      "frontier_family": "value_of_uncertainty_modelling",
+      "maturity": "experimental",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D06"],
+      "reference_artifacts": ["specs/frontier/uncertainty-modelling-value/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "information_source_portfolio_value",
+      "frontier_family": "information_source_portfolio_value",
+      "maturity": "experimental",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D09"],
+      "reference_artifacts": ["specs/frontier/information-source-portfolio/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "heterogeneity_value_decomposition",
+      "frontier_family": "heterogeneity_value_decomposition",
+      "maturity": "experimental",
+      "authoritative_implementation": "rust+python-orchestration",
+      "rust_symbols": ["heterogeneity"],
+      "verification_families": ["D10"],
+      "reference_artifacts": ["specs/frontier/heterogeneity-value/v1"],
+      "bindings": {"python": "pyo3+python-orchestration", "rust": "native-kernels", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "deterministic_sensitivity_analysis",
+      "frontier_family": "deterministic_sensitivity_analysis",
+      "maturity": "experimental",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D01"],
+      "reference_artifacts": ["specs/frontier/deterministic-sensitivity-analysis/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "value_of_causal_transportability",
+      "frontier_family": "value_of_causal_transportability",
+      "maturity": "fixture-backed",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D13"],
+      "reference_artifacts": ["specs/frontier/causal-transportability/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "value_of_data_quality_privacy_linkage",
+      "frontier_family": "value_of_data_quality_privacy_linkage",
+      "maturity": "fixture-backed",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D17"],
+      "reference_artifacts": ["specs/frontier/data-quality/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "value_of_computational_refinement",
+      "frontier_family": "value_of_computational_refinement",
+      "maturity": "fixture-backed",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D16"],
+      "reference_artifacts": ["specs/frontier/computational/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "value_of_expert_synthesis",
+      "frontier_family": "value_of_expert_synthesis",
+      "maturity": "fixture-backed",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D07"],
+      "reference_artifacts": ["specs/frontier/expert-synthesis/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "value_of_monitoring_surveillance",
+      "frontier_family": "value_of_monitoring_surveillance",
+      "maturity": "fixture-backed",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D08"],
+      "reference_artifacts": ["specs/frontier/monitoring-surveillance/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "value_of_implementation_strategy_comparison",
+      "frontier_family": "value_of_implementation_strategy_comparison",
+      "maturity": "fixture-backed",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D12"],
+      "reference_artifacts": ["specs/frontier/implementation-strategy/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "value_of_equity_information",
+      "frontier_family": "value_of_equity_information",
+      "maturity": "fixture-backed",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D10"],
+      "reference_artifacts": ["specs/frontier/equity-information/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "value_of_ambiguity_distribution_shift",
+      "frontier_family": "value_of_ambiguity_distribution_shift",
+      "maturity": "fixture-backed",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D13"],
+      "reference_artifacts": ["specs/frontier/ambiguity-distribution-shift/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "value_of_adaptive_learning_bandit",
+      "frontier_family": "value_of_adaptive_learning_bandit",
+      "maturity": "fixture-backed",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D08"],
+      "reference_artifacts": ["specs/frontier/adaptive-learning-bandit/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "value_of_capacity_budget_constrained",
+      "frontier_family": "value_of_capacity_budget_constrained",
+      "maturity": "fixture-backed",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D09"],
+      "reference_artifacts": ["specs/frontier/capacity-budget-constrained/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "value_of_federated_privacy_preserving",
+      "frontier_family": "value_of_federated_privacy_preserving",
+      "maturity": "fixture-backed",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D17"],
+      "reference_artifacts": ["specs/frontier/federated-privacy-preserving/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "value_of_ai_assisted_evidence_triage",
+      "frontier_family": "value_of_ai_assisted_evidence_triage",
+      "maturity": "fixture-backed",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D14"],
+      "reference_artifacts": ["specs/frontier/ai-assisted-evidence-triage/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "value_of_explainability_transparency",
+      "frontier_family": "value_of_explainability_transparency",
+      "maturity": "fixture-backed",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D14"],
+      "reference_artifacts": ["specs/frontier/explainability-transparency/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "value_of_interoperability_standardization",
+      "frontier_family": "value_of_interoperability_standardization",
+      "maturity": "fixture-backed",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D17"],
+      "reference_artifacts": ["specs/frontier/interoperability-standardization/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "value_of_regulatory_market_access",
+      "frontier_family": "value_of_regulatory_market_access",
+      "maturity": "fixture-backed",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D12"],
+      "reference_artifacts": ["specs/frontier/regulatory-market-access/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "value_of_replication_reproducibility",
+      "frontier_family": "value_of_replication_reproducibility",
+      "maturity": "fixture-backed",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D17"],
+      "reference_artifacts": ["specs/frontier/replication-reproducibility/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "value_of_evidence_obsolescence_refresh",
+      "frontier_family": "value_of_evidence_obsolescence_refresh",
+      "maturity": "fixture-backed",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D08"],
+      "reference_artifacts": ["specs/frontier/evidence-obsolescence-refresh/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "value_of_strategic_behavior",
+      "frontier_family": "value_of_strategic_behavior",
+      "maturity": "fixture-backed",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D11"],
+      "reference_artifacts": ["specs/frontier/strategic-behavior/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "study_design_efficiency",
+      "frontier_family": "study_design_efficiency",
+      "maturity": "experimental",
+      "authoritative_implementation": "rust+python-orchestration",
+      "rust_symbols": ["coss", "coss_selection_uncertainty", "evsi_evpi_efficiency", "information_efficiency_uncertainty"],
+      "verification_families": ["D09"],
+      "reference_artifacts": ["specs/frontier/study-design-efficiency/v1"],
+      "bindings": {"python": "pyo3+python-orchestration", "rust": "native-kernels", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "expected_utility_information_pricing",
+      "frontier_family": "expected_utility_information_pricing",
+      "maturity": "experimental",
+      "authoritative_implementation": "rust+python-orchestration",
+      "rust_symbols": ["expected_utility_information"],
+      "verification_families": ["D11"],
+      "reference_artifacts": ["specs/frontier/expected-utility-information-pricing/v1"],
+      "bindings": {"python": "pyo3+python-orchestration", "rust": "native-kernels", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "implementation_information_decomposition",
+      "frontier_family": "implementation_information_decomposition",
+      "maturity": "experimental",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D12"],
+      "reference_artifacts": ["specs/frontier/implementation-information/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "belief_state_sequential_information_value",
+      "frontier_family": "belief_state_sequential_information_value",
+      "maturity": "experimental",
+      "authoritative_implementation": "python",
+      "rust_symbols": [],
+      "verification_families": ["D08"],
+      "reference_artifacts": ["specs/frontier/belief-state-information/v1"],
+      "bindings": {"python": "python", "rust": "unsupported", "r": "unsupported", "julia": "unsupported"}
+    },
+    {
+      "id": "signed_social_information_value",
+      "frontier_family": "signed_social_information_value",
+      "maturity": "experimental",
+      "authoritative_implementation": "rust+python-orchestration",
+      "rust_symbols": ["evaluate_signed_social_information"],
+      "verification_families": ["D11"],
+      "reference_artifacts": ["specs/frontier/signed-social-information/v1"],
+      "bindings": {"python": "pyo3+python-orchestration", "rust": "native-kernels", "r": "unsupported", "julia": "unsupported"}
+    }
+  ]
+}

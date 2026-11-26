@@ -16,7 +16,7 @@
     {
       "id": "Q01",
       "title": "Capability and scientific-authority reconciliation",
-      "status": "planned",
+      "status": "completed",
       "depends_on": [],
       "maps_to": [
         "V01",
