@@ -29,7 +29,16 @@ def test_q05_contracts_enforce_sample_size_and_f02_diagnostics() -> None:
     assert total.resolved_total() == 50
 
     with pytest.raises(ValueError):
+        SampleSizeSpecV1(convention="per_arm", total=50)
+    with pytest.raises(ValueError):
+        SampleSizeSpecV1(convention="total_equal_two_arm", per_arm=25)
+    with pytest.raises(ValueError):
         SampleSizeSpecV1(convention="total_equal_two_arm", total=51)
+    with pytest.raises(ValueError):
+        SampleSizeSpecV1(convention="multi_arm", per_arm_sizes=(10,))
+
+    multi = SampleSizeSpecV1(convention="multi_arm", per_arm_sizes=(10, 20, 30))
+    assert multi.resolved_total() == 60
 
     res = EvsiStudyResultV1(
         estimator="importance_sampling",
@@ -56,12 +65,32 @@ def test_q05_contracts_enforce_sample_size_and_f02_diagnostics() -> None:
     with pytest.raises(ValueError):
         PosteriorSampleBoundaryV1(
             framework="stan",
+            parameter_names=("alpha", "alpha"),
+            draw_count=1000,
+            chain_count=4,
+            min_bulk_ess=400.0,
+            max_rhat=1.01,
+            divergent_transitions=0,
+        )
+    with pytest.raises(ValueError):
+        PosteriorSampleBoundaryV1(
+            framework="stan",
             parameter_names=("alpha",),
             draw_count=1000,
             chain_count=4,
             min_bulk_ess=400.0,
             max_rhat=1.25,
             divergent_transitions=0,
+        )
+    with pytest.raises(ValueError):
+        PosteriorSampleBoundaryV1(
+            framework="stan",
+            parameter_names=("alpha",),
+            draw_count=1000,
+            chain_count=4,
+            min_bulk_ess=400.0,
+            max_rhat=1.01,
+            divergent_transitions=2,
         )
 
 
@@ -140,4 +169,45 @@ def test_q05_importance_sampling_binding_and_fail_closed_degeneracy() -> None:
     with pytest.raises(InputError):
         evsi_importance_sampling(
             nb, bad_lw, min_ess_threshold=5.0, max_khat_threshold=0.7
+        )
+    with pytest.raises(InputError):
+        evsi_importance_sampling(np.array([1.0, 2.0]), bad_lw)
+    with pytest.raises(InputError):
+        beta_binomial_two_arm_evsi(
+            alpha_0=2.0,
+            beta_0=8.0,
+            alpha_1=2.5,
+            beta_1=7.5,
+            per_arm_sample_size=0,
+            net_benefit_slope=1000.0,
+            net_benefit_intercept=-50.0,
+        )
+    with pytest.raises(InputError):
+        gamma_poisson_evsi(
+            prior_shape=4.0,
+            prior_rate=10.0,
+            exposure_per_unit=1.0,
+            total_sample_size=21,
+            net_benefit_slope=500.0,
+            net_benefit_intercept=-200.0,
+        )
+    with pytest.raises(InputError):
+        evsi_qmc_normal_normal(
+            prior_mean=0.1,
+            prior_standard_deviation=0.5,
+            outcome_standard_deviation=1.0,
+            total_sample_size=99,
+            net_benefit_slope=1000.0,
+            net_benefit_intercept=-100.0,
+            num_points=1024,
+        )
+    with pytest.raises(InputError):
+        evsi_qmc_normal_normal(
+            prior_mean=0.1,
+            prior_standard_deviation=0.5,
+            outcome_standard_deviation=1.0,
+            total_sample_size=100,
+            net_benefit_slope=1000.0,
+            net_benefit_intercept=-100.0,
+            num_points=0,
         )
