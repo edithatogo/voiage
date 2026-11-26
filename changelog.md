@@ -4,7 +4,7 @@
   stable methods, CLI dispatch, and all 42 frontier families (`Q01`) in
   `specs/v2/capability-authority-matrix.json`, and record the `Q03`
   source-and-rights preflight inventory in
-  `specs/numerical-reference/v1/source-rights-preflight.json`.
+  `specs/v2/source-rights-preflight.json`.
 
 - Consolidate Rust EVPI/ENBS numerical authority across `voiage-numerics`,
   `voiage-ffi`, and offline `#![no_std]` `r-package/voiageR/src/rust` (`Q02`),

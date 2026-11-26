@@ -16,9 +16,7 @@ STABLE_API_PATH = ROOT / "specs" / "v2" / "stable-api.json"
 CHECKLIST_PATH = ROOT / "specs" / "frontier" / "governance" / "promotion-checklist.json"
 NUMERICS_LIB_PATH = ROOT / "rust" / "crates" / "voiage-numerics" / "src" / "lib.rs"
 MATRIX_PATH = ROOT / "specs" / "v2" / "capability-authority-matrix.json"
-PREFLIGHT_PATH = (
-    ROOT / "specs" / "numerical-reference" / "v1" / "source-rights-preflight.json"
-)
+PREFLIGHT_PATH = ROOT / "specs" / "v2" / "source-rights-preflight.json"
 
 ALLOWED_AUTHORITY_MODES = frozenset(
     {"rust", "rust+python-orchestration", "python", "unsupported"}

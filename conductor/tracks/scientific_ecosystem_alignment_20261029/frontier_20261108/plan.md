@@ -57,7 +57,7 @@ source owner, maturity, assumptions, reference case and unsupported disposition.
 - [x] Freeze the minimum decision/sample/result contracts and supported weight/unit conventions; record any signature changes before downstream work.
 - [x] Run existing capability-report and consumer-matrix tests and the relevant docs/registry checks. Require every advertised capability to have a verification family or an explicit exclusion.
 
-Also recorded `Q03` source-and-rights preflight in `specs/numerical-reference/v1/source-rights-preflight.json` (owned synthetic/hand-calculated references indexed separately; external candidates `S01`–`S06` kept `candidate-source-only` pending `Q03` acquisition).
+Also recorded `Q03` source-and-rights preflight in `specs/v2/source-rights-preflight.json` (owned synthetic/hand-calculated references indexed separately; external candidates `S01`–`S06` kept `candidate-source-only` pending `Q03` acquisition).
 
 ### Q02 — Consolidate the Rust numerical authority
 
