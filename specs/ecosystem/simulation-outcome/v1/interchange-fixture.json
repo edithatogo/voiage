@@ -1,0 +1,66 @@
+{
+  "schema_fixture": "O06-arrow-parquet-interchange-fixtures",
+  "synthetic_health_with_parameters": {
+    "profile_version": "voiage.simulation-outcome.v1",
+    "provenance": {
+      "producer_id": "synthetic-heor-interchange",
+      "producer_version": "0.1.0",
+      "model_revision": "heor-ic-rev-1",
+      "valuation_source": "synthetic-qaly-nmb",
+      "artifact_digest": "5555555555555555555555555555555555555555555555555555555555555555"
+    },
+    "strategy_ids": ["standard_care", "intervention"],
+    "value_declaration": {
+      "unit": "NZD",
+      "perspective": "health_system",
+      "convention": "net_benefit",
+      "objective": "maximize",
+      "currency_price_year": "NZD-2026",
+      "population_basis": "per_patient",
+      "horizon": "10y",
+      "discounting_status": "discounted_3.5pct"
+    },
+    "weight_semantics": "probability",
+    "draw_namespace": "synthetic.heor.interchange.v1",
+    "outcomes": [
+      {"draw_namespace": "synthetic.heor.interchange.v1", "draw_key": "draw-02", "strategy_id": "intervention", "value": 85.0, "weight": 0.4},
+      {"draw_namespace": "synthetic.heor.interchange.v1", "draw_key": "draw-01", "strategy_id": "standard_care", "value": 100.0, "weight": 0.6},
+      {"draw_namespace": "synthetic.heor.interchange.v1", "draw_key": "draw-02", "strategy_id": "standard_care", "value": 90.0, "weight": 0.4},
+      {"draw_namespace": "synthetic.heor.interchange.v1", "draw_key": "draw-01", "strategy_id": "intervention", "value": 120.0, "weight": 0.6}
+    ],
+    "parameter_samples": [
+      {"draw_namespace": "synthetic.heor.interchange.v1", "draw_key": "draw-02", "values": {"risk": 0.35, "wtp_scale": 1.2}},
+      {"draw_namespace": "synthetic.heor.interchange.v1", "draw_key": "draw-01", "values": {"risk": 0.15, "wtp_scale": 1.0}}
+    ]
+  },
+  "synthetic_non_health_shuffled": {
+    "profile_version": "voiage.simulation-outcome.v1",
+    "provenance": {
+      "producer_id": "synthetic-ops-interchange",
+      "producer_version": "0.2.0",
+      "model_revision": "ops-ic-rev-2",
+      "valuation_source": "synthetic-utility",
+      "artifact_digest": "6666666666666666666666666666666666666666666666666666666666666666"
+    },
+    "strategy_ids": ["keep", "upgrade", "defer"],
+    "value_declaration": {
+      "unit": "utils",
+      "perspective": "operator",
+      "convention": "utility",
+      "objective": "maximize"
+    },
+    "weight_semantics": "relative_weight",
+    "draw_namespace": "synthetic.ops.interchange.v1",
+    "outcomes": [
+      {"draw_namespace": "synthetic.ops.interchange.v1", "draw_key": "d2", "strategy_id": "defer", "value": 3.5, "weight": 2.0},
+      {"draw_namespace": "synthetic.ops.interchange.v1", "draw_key": "d0", "strategy_id": "upgrade", "value": 14.0, "weight": 1.0},
+      {"draw_namespace": "synthetic.ops.interchange.v1", "draw_key": "d1", "strategy_id": "keep", "value": 12.0, "weight": 0.0},
+      {"draw_namespace": "synthetic.ops.interchange.v1", "draw_key": "d0", "strategy_id": "keep", "value": 10.0, "weight": 1.0},
+      {"draw_namespace": "synthetic.ops.interchange.v1", "draw_key": "d2", "strategy_id": "keep", "value": 8.0, "weight": 2.0},
+      {"draw_namespace": "synthetic.ops.interchange.v1", "draw_key": "d1", "strategy_id": "defer", "value": 7.0, "weight": 0.0},
+      {"draw_namespace": "synthetic.ops.interchange.v1", "draw_key": "d0", "strategy_id": "defer", "value": 11.0, "weight": 1.0},
+      {"draw_namespace": "synthetic.ops.interchange.v1", "draw_key": "d2", "strategy_id": "upgrade", "value": 9.5, "weight": 2.0},
+      {"draw_namespace": "synthetic.ops.interchange.v1", "draw_key": "d1", "strategy_id": "upgrade", "value": 9.0, "weight": 0.0}
+    ]
+  }
+}

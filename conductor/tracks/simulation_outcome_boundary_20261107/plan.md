@@ -19,8 +19,9 @@ outcome producer or new task-completion counters.
 
 ### O01 — reject unsupported outcome-profile versions
 
-- [ ] Task: validate the declared version of the generic outcome profile and
+- [x] Task: validate the declared version of the generic outcome profile and
   return an explicit unsupported-version error.
+  Implemented `voiage.simulation-outcome.v1` contract in `rust/crates/voiage-domain/src/simulation_outcome.rs`, `specs/ecosystem/simulation-outcome/v1/profile.md`, and `profile-fixtures.json` (synthetic health + non-health cases); verified by `simulation_outcome_profile` (`2 passed`) and specialist contract review.
 - Depends on: inventory of current `ValueArray`, `ParameterSet`, and normalized
   input contracts; coordinate the supported subset with scientific alignment.
 - Execution: specialist, public input contract.
@@ -36,8 +37,9 @@ outcome producer or new task-completion counters.
 
 ### O02 — enforce paired strategy/draw identity
 
-- [ ] Task: admit exactly one value per declared strategy/draw key and preserve
+- [x] Task: admit exactly one value per declared strategy/draw key and preserve
   the producer-declared joint-draw correspondence.
+  Implemented canonical pairing, strict untrimmed key/namespace validation, `DrawIdentity` receipts, and `Equal`/`Probability`/`RelativeWeight` validation; verified by `simulation_draw_pairing` (`3 passed`) and specialist contract review.
 - Depends on: O01.
 - Execution: specialist, joint-sample interpretation.
 - Files (3): `rust/crates/voiage-domain/src/simulation_outcome.rs` (future),
@@ -51,8 +53,9 @@ outcome producer or new task-completion counters.
 
 ### O03 — reject incompatible value declarations
 
-- [ ] Task: reject input values that disagree with the declared units,
+- [x] Task: reject input values that disagree with the declared units,
   perspective, or value/objective convention before numerical evaluation.
+  Implemented `ValueDeclaration`, `ValueConvention`, and `ObjectiveDirection` checks without implicit conversions; verified by `simulation_value_conventions` (`2 passed`) and specialist contract review.
 - Depends on: O01; apply the agreed contract without adding valuation methods.
 - Execution: specialist, decision-value semantics.
 - Files (3): `rust/crates/voiage-domain/src/simulation_outcome.rs` (future),
@@ -65,8 +68,9 @@ outcome producer or new task-completion counters.
 
 ### O04 — align supplied parameter samples by draw key
 
-- [ ] Task: join optional parameter samples to outcome draws by their declared
+- [x] Task: join optional parameter samples to outcome draws by their declared
   identity instead of assuming row-position equivalence.
+  Implemented `AlignedParameterSamples` draw-key alignment and schema consistency checks; verified by `simulation_parameter_alignment` (`3 passed`) after specialist review.
 - Depends on: O01, O02.
 - Execution: local against the frozen pairing contract.
 - Files (3): `rust/crates/voiage-domain/src/simulation_outcome.rs` (future),
@@ -78,24 +82,28 @@ outcome producer or new task-completion counters.
 
 ### O05 — convert validated outcomes through an optional native adapter
 
-- [ ] Task: map accepted valued outcomes to existing Rust VOI input contracts
+- [x] Task: map accepted valued outcomes to existing Rust VOI input contracts
   without changing their values, pairing, weights, or declared conventions.
+  Implemented `SimulationOutcomeHandoff`, `adapt_simulation_outcome`, and `adapt_simulation_outcome_input` in `rust/crates/voiage-numerics/src/simulation_outcome_adapter.rs` (reusing existing workspace crate per frozen 7-crate inventory), preserving values, `DrawIdentity`, weights, `ValueDeclaration`, `ProducerProvenance`, `ValueArray`, and optional `ParameterSet`; verified by `simulation_outcome_core_handoff` (`3 passed; 0 failed`, including `RelativeWeight` and `Minimize`/`Loss` preservation without sign flip).
 - Depends on: O01–O04; existing owner retains provider qualification.
 - Execution: local against the reviewed public contract.
-- Files (5): `rust/Cargo.toml`, `rust/Cargo.lock`,
-  `rust/crates/voiage-simulation-adapter/Cargo.toml` (future),
-  `rust/crates/voiage-simulation-adapter/src/lib.rs` (future),
-  `rust/crates/voiage-simulation-adapter/tests/core_handoff.rs` (future).
+- Files (4): `conductor/tracks/simulation_outcome_boundary_20261107/plan.md`,
+  `rust/crates/voiage-numerics/src/lib.rs`,
+  `rust/crates/voiage-numerics/src/simulation_outcome_adapter.rs` (future),
+  `rust/crates/voiage-numerics/tests/simulation_outcome_core_handoff.rs` (future).
 - Check: `cargo test --locked --manifest-path rust/Cargo.toml -p
-  voiage-simulation-adapter --test core_handoff` (future package/target).
-  This provisional optional package depends on Voiage contracts/kernels, not
-  producer engines; reuse an existing appropriate package if the owner inventory
-  identifies one and update the concrete test target before implementation.
+  voiage-numerics --test simulation_outcome_core_handoff` (future target).
+  Owner inventory (`tests/test_rust_workspace_contract.py` and
+  `tests/test_structure_api_abi_audit.py`) freezes `rust/crates/` at 7
+  workspace crates, and `voiage-numerics` already depends on `voiage-domain` +
+  `voiage-diagnostics` with zero producer engines; reuse `voiage-numerics`
+  instead of creating a new workspace crate.
 
 ### O06 — preserve outcome semantics through Arrow/Parquet interchange
 
-- [ ] Task: round-trip the accepted outcome profile without losing identity,
+- [x] Task: round-trip the accepted outcome profile without losing identity,
   value declarations, weights, or provenance metadata.
+  Implemented `SimulationOutcomeProvenance`, `SimulationOutcomeValueDeclaration`, and `SimulationOutcomeProfileMetadata` in `voiage/contracts/normalized_input.py`, and Arrow/Parquet helpers in `voiage/contracts/interchange.py` (`specs/ecosystem/simulation-outcome/v1/interchange-fixture.json`, SHA-256 `efa4c3ec41ab317a7b6daffcf3eaf75fcccc7d54bbe61261f9820378adda7933`, `profile.md`); verified on reinstalled non-editable `voiage==3.1.0` wheel via `run_installed_pytest.py` (`tests/test_simulation_outcome_interchange.py`, `test_normalized_input_bundle.py`, `test_contract_interchange.py`: `70 passed`).
 - Depends on: O01–O04; existing normalized-input/interchange conventions.
 - Execution: local; return to the contract review if format semantics must change.
 - Files (5): `voiage/contracts/normalized_input.py`,
@@ -111,24 +119,26 @@ outcome producer or new task-completion counters.
 
 ### O07 — preserve an analytical VOI result across the adapter
 
-- [ ] Task: obtain the same EVPI from a hand-calculated paired payoff fixture
+- [x] Task: obtain the same EVPI from a hand-calculated paired payoff fixture
   through the adapter and the existing Rust kernel within a declared tolerance.
+  Implemented `simulation_outcome_evpi` delegating to `evpi` (`Equal`) and `structural_evpi` (`Probability` / `RelativeWeight`) with tolerance `1e-12` against `specs/ecosystem/simulation-outcome/v1/evpi-fixtures.json` (SHA-256 `0ac9880b48a32eef3d330870dbb103eca263a82ef110ef43361cbf58e0f35911`); verified `simulation_outcome_evpi_equivalence` (`3 passed; 0 failed`) and completed specialist numerical review (`docs/reviews/simulation-outcome-numerical-qualification.md`, Neumaier compensated summation + boundary documentation remediated).
 - Depends on: O02, O03, O05; an independently specified expected result.
 - Execution: specialist, numerical/estimand boundary.
 - Files (3):
-  `rust/crates/voiage-simulation-adapter/tests/native_evpi_equivalence.rs` (future),
+  `rust/crates/voiage-numerics/tests/simulation_outcome_evpi_equivalence.rs` (future),
   `specs/ecosystem/simulation-outcome/v1/evpi-fixtures.json` (future),
   `docs/reviews/simulation-outcome-numerical-qualification.md` (future).
 - Check: `cargo test --locked --manifest-path rust/Cargo.toml -p
-  voiage-simulation-adapter --test native_evpi_equivalence` (future target).
+  voiage-numerics --test simulation_outcome_evpi_equivalence` (future target).
   Include a joint-permutation invariant and an independently permuted-strategy
   counterexample whose true EVPI differs. Cover the supported weight convention;
   do not claim EVSI, EVPPI, causal validity, or producer calibration from EVPI.
 
 ### O08 — use installed outcome artifacts without producer engines
 
-- [ ] Task: run the optional adapter in an isolated consumer that has no Kairos,
+- [x] Task: run the optional adapter in an isolated consumer that has no Kairos,
   game, or HEOR engine dependency, while retaining normal default Voiage use.
+  Added isolated crate `tests/fixtures/simulation_outcome_consumer/` (fixture hashes `01359dd644d099b3d90e0acf32ef88bf6bdc29f21c0d5b313e0b43287e8e29ec`, `22a24a23c983a5f9d6ae99a9cd161be4471c374d43fd1b41ff2c7c563c92c38a`), helper `scripts/check_simulation_outcome_consumer.py` (`4 passed; 0 failed` against unpacked `voiage-domain`/`voiage-diagnostics`/`voiage-numerics` v3.1.0 crates, `35` resolved packages, zero producer engines), `tests/test_simulation_outcome_consumer_contract.py`, and CI job `simulation-outcome-consumer` in `.github/workflows/ci.yml`. Synthetic fixtures remain labelled; installed use is not full real-producer qualification.
 - Depends on: O05–O07 and accepted provider/consumer contract evidence through
   scientific alignment; no automatic provider pin update.
 - Execution: local; specialist review only for a newly changed public boundary.

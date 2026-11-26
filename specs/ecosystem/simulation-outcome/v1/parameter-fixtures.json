@@ -1,0 +1,69 @@
+{
+  "schema_fixture": "O04-parameter-alignment-fixtures",
+  "base_profile": {
+    "profile_version": "voiage.simulation-outcome.v1",
+    "provenance": {
+      "producer_id": "synthetic-param-sim",
+      "producer_version": "0.1.0",
+      "model_revision": "rev-2",
+      "valuation_source": "synthetic-payoff",
+      "artifact_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    },
+    "strategy_ids": ["hold", "act"],
+    "value_declaration": {
+      "unit": "NZD",
+      "perspective": "payer",
+      "convention": "net_benefit",
+      "objective": "maximize"
+    },
+    "weight_semantics": "equal",
+    "draw_namespace": "ns.params.v1",
+    "outcomes": [
+      {
+        "draw_namespace": "ns.params.v1",
+        "draw_key": "draw-b",
+        "strategy_id": "act",
+        "value": 15.0,
+        "weight": 1.0
+      },
+      {
+        "draw_namespace": "ns.params.v1",
+        "draw_key": "draw-a",
+        "strategy_id": "hold",
+        "value": 5.0,
+        "weight": 1.0
+      },
+      {
+        "draw_namespace": "ns.params.v1",
+        "draw_key": "draw-b",
+        "strategy_id": "hold",
+        "value": 4.0,
+        "weight": 1.0
+      },
+      {
+        "draw_namespace": "ns.params.v1",
+        "draw_key": "draw-a",
+        "strategy_id": "act",
+        "value": 9.0,
+        "weight": 1.0
+      }
+    ],
+    "parameter_samples": [
+      {
+        "draw_namespace": "ns.params.v1",
+        "draw_key": "draw-a",
+        "values": {"theta_1": 0.1, "theta_2": 2.5}
+      },
+      {
+        "draw_namespace": "ns.params.v1",
+        "draw_key": "draw-b",
+        "values": {"theta_1": 0.9, "theta_2": 7.5}
+      }
+    ]
+  },
+  "expected_parameter_names": ["theta_1", "theta_2"],
+  "expected_parameter_matrix": [
+    [0.1, 2.5],
+    [0.9, 7.5]
+  ]
+}

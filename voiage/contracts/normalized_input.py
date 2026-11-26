@@ -29,6 +29,7 @@ from voiage.contracts.interchange import schema_fingerprint
 
 Identifier = Annotated[str, StringConstraints(min_length=1, strip_whitespace=True)]
 Digest = Annotated[str, StringConstraints(pattern=r"^[a-f0-9]{64}$")]
+SIMULATION_OUTCOME_PROFILE_VERSION_V1 = "voiage.simulation-outcome.v1"
 _MANIFEST_KEY = b"voiage.normalized.manifest"
 _TABLE_ID_KEY = b"voiage.normalized.table_id"
 _ORIGINAL_METADATA_KEY = b"voiage.normalized.original_schema_metadata"
@@ -689,3 +690,115 @@ class NormalizedInputBundle:
         else:
             table = table.replace_schema_metadata(restored_metadata)
         return cls(manifest=manifest, tables={table_name: table})
+
+
+def validate_untrimmed_nonempty(value: str, field_name: str) -> str:
+    """Require a non-empty string with no leading or trailing whitespace."""
+    if not value.strip():
+        raise ValueError(f"{field_name} must not be empty")
+    if value != value.strip():
+        raise ValueError(
+            f"{field_name} must not contain leading or trailing whitespace"
+        )
+    return value
+
+
+class SimulationOutcomeProvenance(ContractModel):
+    """Producer provenance preserved on simulation-outcome interchange tables."""
+
+    producer_id: str
+    producer_version: str
+    model_revision: str
+    valuation_source: str
+    artifact_digest: str
+
+    @model_validator(mode="after")
+    def validate_identifiers(self) -> SimulationOutcomeProvenance:
+        """Reject blank or padded provenance identifiers without coercing them."""
+        for field_name in (
+            "producer_id",
+            "producer_version",
+            "model_revision",
+            "valuation_source",
+            "artifact_digest",
+        ):
+            validate_untrimmed_nonempty(getattr(self, field_name), field_name)
+        return self
+
+
+class SimulationOutcomeValueDeclaration(ContractModel):
+    """Explicit unit, perspective, convention, and scope declaration."""
+
+    unit: str
+    perspective: str
+    convention: Literal["utility", "net_benefit", "loss"]
+    objective: Literal["maximize", "minimize"]
+    currency_price_year: str | None = None
+    population_basis: str | None = None
+    horizon: str | None = None
+    discounting_status: str | None = None
+
+    @model_validator(mode="after")
+    def validate_declaration(self) -> SimulationOutcomeValueDeclaration:
+        """Enforce non-empty declarations and convention/objective compatibility."""
+        validate_untrimmed_nonempty(self.unit, "unit")
+        validate_untrimmed_nonempty(self.perspective, "perspective")
+        for field_name in (
+            "currency_price_year",
+            "population_basis",
+            "horizon",
+            "discounting_status",
+        ):
+            optional_value = getattr(self, field_name)
+            if optional_value is not None:
+                validate_untrimmed_nonempty(optional_value, field_name)
+        expected_objective = "minimize" if self.convention == "loss" else "maximize"
+        if self.objective != expected_objective:
+            raise ValueError(
+                "incompatible value convention and objective direction without implicit conversion"
+            )
+        return self
+
+
+class SimulationOutcomeProfileMetadata(ContractModel):
+    """Immutable metadata header embedded alongside simulation-outcome tables."""
+
+    profile_version: Literal["voiage.simulation-outcome.v1"]
+    provenance: SimulationOutcomeProvenance
+    draw_namespace: str
+    strategy_ids: tuple[str, ...]
+    value_declaration: SimulationOutcomeValueDeclaration
+    weight_semantics: Literal["equal", "probability", "relative_weight"]
+    draw_keys: tuple[str, ...]
+    parameter_names: tuple[str, ...] | None = None
+
+    @model_validator(mode="after")
+    def validate_profile_metadata(self) -> SimulationOutcomeProfileMetadata:
+        """Reject empty or duplicated strategy, draw, and parameter identifiers."""
+        validate_untrimmed_nonempty(self.draw_namespace, "draw_namespace")
+        if not self.strategy_ids:
+            raise ValueError("strategy_ids must not be empty")
+        seen_strategies: set[str] = set()
+        for strategy in self.strategy_ids:
+            validate_untrimmed_nonempty(strategy, "strategy_ids")
+            if strategy in seen_strategies:
+                raise ValueError("strategy_ids must be unique")
+            seen_strategies.add(strategy)
+        if not self.draw_keys:
+            raise ValueError("draw_keys must not be empty")
+        seen_draws: set[str] = set()
+        for draw_key in self.draw_keys:
+            validate_untrimmed_nonempty(draw_key, "draw_keys")
+            if draw_key in seen_draws:
+                raise ValueError("draw_keys must be unique")
+            seen_draws.add(draw_key)
+        if self.parameter_names is not None:
+            if not self.parameter_names:
+                raise ValueError("parameter_names must not be empty when supplied")
+            seen_params: set[str] = set()
+            for param_name in self.parameter_names:
+                validate_untrimmed_nonempty(param_name, "parameter_names")
+                if param_name in seen_params:
+                    raise ValueError("parameter_names must be unique")
+                seen_params.add(param_name)
+        return self

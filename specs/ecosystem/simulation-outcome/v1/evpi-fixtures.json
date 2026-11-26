@@ -1,0 +1,213 @@
+{
+  "schema_fixture": "O07-analytical-evpi-fixtures",
+  "tolerance": 1e-12,
+  "accepted": [
+    {
+      "case_id": "synthetic_health_equal_weights",
+      "domain_kind": "synthetic_health",
+      "expected_evpi": 1.5,
+      "profile": {
+        "profile_version": "voiage.simulation-outcome.v1",
+        "provenance": {
+          "producer_id": "synthetic-heor-evpi",
+          "producer_version": "0.1.0",
+          "model_revision": "heor-evpi-rev-1",
+          "valuation_source": "synthetic-nmb",
+          "artifact_digest": "1111111111111111111111111111111111111111111111111111111111111111"
+        },
+        "strategy_ids": ["standard_care", "intervention"],
+        "value_declaration": {
+          "unit": "NZD",
+          "perspective": "health_system",
+          "convention": "net_benefit",
+          "objective": "maximize",
+          "currency_price_year": "NZD-2026",
+          "population_basis": "per_patient",
+          "horizon": "5y",
+          "discounting_status": "discounted_3.5pct"
+        },
+        "weight_semantics": "equal",
+        "draw_namespace": "synthetic.heor.evpi.v1",
+        "outcomes": [
+          {"draw_namespace": "synthetic.heor.evpi.v1", "draw_key": "d0", "strategy_id": "standard_care", "value": 10.0, "weight": 1.0},
+          {"draw_namespace": "synthetic.heor.evpi.v1", "draw_key": "d0", "strategy_id": "intervention", "value": 4.0, "weight": 1.0},
+          {"draw_namespace": "synthetic.heor.evpi.v1", "draw_key": "d1", "strategy_id": "standard_care", "value": 2.0, "weight": 1.0},
+          {"draw_namespace": "synthetic.heor.evpi.v1", "draw_key": "d1", "strategy_id": "intervention", "value": 8.0, "weight": 1.0},
+          {"draw_namespace": "synthetic.heor.evpi.v1", "draw_key": "d2", "strategy_id": "standard_care", "value": 6.0, "weight": 1.0},
+          {"draw_namespace": "synthetic.heor.evpi.v1", "draw_key": "d2", "strategy_id": "intervention", "value": 6.0, "weight": 1.0},
+          {"draw_namespace": "synthetic.heor.evpi.v1", "draw_key": "d3", "strategy_id": "standard_care", "value": 0.0, "weight": 1.0},
+          {"draw_namespace": "synthetic.heor.evpi.v1", "draw_key": "d3", "strategy_id": "intervention", "value": 10.0, "weight": 1.0}
+        ],
+        "parameter_samples": [
+          {"draw_namespace": "synthetic.heor.evpi.v1", "draw_key": "d3", "values": {"risk": 0.4, "cost_mult": 1.3}},
+          {"draw_namespace": "synthetic.heor.evpi.v1", "draw_key": "d1", "values": {"risk": 0.2, "cost_mult": 1.1}},
+          {"draw_namespace": "synthetic.heor.evpi.v1", "draw_key": "d0", "values": {"risk": 0.1, "cost_mult": 1.0}},
+          {"draw_namespace": "synthetic.heor.evpi.v1", "draw_key": "d2", "values": {"risk": 0.3, "cost_mult": 1.2}}
+        ]
+      }
+    },
+    {
+      "case_id": "synthetic_non_health_probability_weights",
+      "domain_kind": "synthetic_non_health",
+      "expected_evpi": 3.0,
+      "profile": {
+        "profile_version": "voiage.simulation-outcome.v1",
+        "provenance": {
+          "producer_id": "synthetic-portfolio-sim",
+          "producer_version": "0.2.0",
+          "model_revision": "port-rev-2",
+          "valuation_source": "synthetic-expected-utility",
+          "artifact_digest": "2222222222222222222222222222222222222222222222222222222222222222"
+        },
+        "strategy_ids": ["hold", "reallocate", "hedge"],
+        "value_declaration": {
+          "unit": "utils",
+          "perspective": "portfolio_owner",
+          "convention": "utility",
+          "objective": "maximize"
+        },
+        "weight_semantics": "probability",
+        "draw_namespace": "synthetic.port.evpi.v1",
+        "outcomes": [
+          {"draw_namespace": "synthetic.port.evpi.v1", "draw_key": "s0", "strategy_id": "hold", "value": 15.0, "weight": 0.2},
+          {"draw_namespace": "synthetic.port.evpi.v1", "draw_key": "s0", "strategy_id": "reallocate", "value": 5.0, "weight": 0.2},
+          {"draw_namespace": "synthetic.port.evpi.v1", "draw_key": "s0", "strategy_id": "hedge", "value": 10.0, "weight": 0.2},
+          {"draw_namespace": "synthetic.port.evpi.v1", "draw_key": "s1", "strategy_id": "hold", "value": 4.0, "weight": 0.5},
+          {"draw_namespace": "synthetic.port.evpi.v1", "draw_key": "s1", "strategy_id": "reallocate", "value": 12.0, "weight": 0.5},
+          {"draw_namespace": "synthetic.port.evpi.v1", "draw_key": "s1", "strategy_id": "hedge", "value": 8.0, "weight": 0.5},
+          {"draw_namespace": "synthetic.port.evpi.v1", "draw_key": "s2", "strategy_id": "hold", "value": 6.0, "weight": 0.3},
+          {"draw_namespace": "synthetic.port.evpi.v1", "draw_key": "s2", "strategy_id": "reallocate", "value": 2.0, "weight": 0.3},
+          {"draw_namespace": "synthetic.port.evpi.v1", "draw_key": "s2", "strategy_id": "hedge", "value": 16.0, "weight": 0.3}
+        ]
+      }
+    },
+    {
+      "case_id": "synthetic_non_health_relative_weights",
+      "domain_kind": "synthetic_non_health",
+      "expected_evpi": 6.0,
+      "profile": {
+        "profile_version": "voiage.simulation-outcome.v1",
+        "provenance": {
+          "producer_id": "synthetic-grid-ops",
+          "producer_version": "0.3.0",
+          "model_revision": "grid-rev-4",
+          "valuation_source": "synthetic-net-value",
+          "artifact_digest": "3333333333333333333333333333333333333333333333333333333333333333"
+        },
+        "strategy_ids": ["keep", "upgrade"],
+        "value_declaration": {
+          "unit": "USD",
+          "perspective": "grid_operator",
+          "convention": "net_benefit",
+          "objective": "maximize"
+        },
+        "weight_semantics": "relative_weight",
+        "draw_namespace": "synthetic.grid.evpi.v1",
+        "outcomes": [
+          {"draw_namespace": "synthetic.grid.evpi.v1", "draw_key": "w0", "strategy_id": "keep", "value": 1000.0, "weight": 0.0},
+          {"draw_namespace": "synthetic.grid.evpi.v1", "draw_key": "w0", "strategy_id": "upgrade", "value": -500.0, "weight": 0.0},
+          {"draw_namespace": "synthetic.grid.evpi.v1", "draw_key": "w1", "strategy_id": "keep", "value": 20.0, "weight": 1.0},
+          {"draw_namespace": "synthetic.grid.evpi.v1", "draw_key": "w1", "strategy_id": "upgrade", "value": 10.0, "weight": 1.0},
+          {"draw_namespace": "synthetic.grid.evpi.v1", "draw_key": "w2", "strategy_id": "keep", "value": 10.0, "weight": 3.0},
+          {"draw_namespace": "synthetic.grid.evpi.v1", "draw_key": "w2", "strategy_id": "upgrade", "value": 30.0, "weight": 3.0},
+          {"draw_namespace": "synthetic.grid.evpi.v1", "draw_key": "w3", "strategy_id": "keep", "value": 15.0, "weight": 6.0},
+          {"draw_namespace": "synthetic.grid.evpi.v1", "draw_key": "w3", "strategy_id": "upgrade", "value": 5.0, "weight": 6.0}
+        ]
+      }
+    }
+  ],
+  "joint_permutation_invariant": {
+    "baseline_case_id": "synthetic_health_equal_weights",
+    "expected_evpi": 1.5,
+    "profile": {
+      "profile_version": "voiage.simulation-outcome.v1",
+      "provenance": {
+        "producer_id": "synthetic-heor-evpi",
+        "producer_version": "0.1.0",
+        "model_revision": "heor-evpi-rev-1",
+        "valuation_source": "synthetic-nmb",
+        "artifact_digest": "1111111111111111111111111111111111111111111111111111111111111111"
+      },
+      "strategy_ids": ["standard_care", "intervention"],
+      "value_declaration": {
+        "unit": "NZD",
+        "perspective": "health_system",
+        "convention": "net_benefit",
+        "objective": "maximize",
+        "currency_price_year": "NZD-2026",
+        "population_basis": "per_patient",
+        "horizon": "5y",
+        "discounting_status": "discounted_3.5pct"
+      },
+      "weight_semantics": "equal",
+      "draw_namespace": "synthetic.heor.evpi.v1",
+      "outcomes": [
+        {"draw_namespace": "synthetic.heor.evpi.v1", "draw_key": "d3", "strategy_id": "intervention", "value": 10.0, "weight": 1.0},
+        {"draw_namespace": "synthetic.heor.evpi.v1", "draw_key": "d1", "strategy_id": "standard_care", "value": 2.0, "weight": 1.0},
+        {"draw_namespace": "synthetic.heor.evpi.v1", "draw_key": "d0", "strategy_id": "intervention", "value": 4.0, "weight": 1.0},
+        {"draw_namespace": "synthetic.heor.evpi.v1", "draw_key": "d2", "strategy_id": "standard_care", "value": 6.0, "weight": 1.0},
+        {"draw_namespace": "synthetic.heor.evpi.v1", "draw_key": "d3", "strategy_id": "standard_care", "value": 0.0, "weight": 1.0},
+        {"draw_namespace": "synthetic.heor.evpi.v1", "draw_key": "d1", "strategy_id": "intervention", "value": 8.0, "weight": 1.0},
+        {"draw_namespace": "synthetic.heor.evpi.v1", "draw_key": "d2", "strategy_id": "intervention", "value": 6.0, "weight": 1.0},
+        {"draw_namespace": "synthetic.heor.evpi.v1", "draw_key": "d0", "strategy_id": "standard_care", "value": 10.0, "weight": 1.0}
+      ]
+    }
+  },
+  "independent_strategy_permutation_counterexample": {
+    "baseline_case_id": "synthetic_health_equal_weights",
+    "baseline_evpi": 1.5,
+    "counterexample_evpi": 0.0,
+    "profile": {
+      "profile_version": "voiage.simulation-outcome.v1",
+      "provenance": {
+        "producer_id": "synthetic-heor-evpi",
+        "producer_version": "0.1.0",
+        "model_revision": "heor-evpi-rev-1",
+        "valuation_source": "synthetic-nmb",
+        "artifact_digest": "1111111111111111111111111111111111111111111111111111111111111111"
+      },
+      "strategy_ids": ["standard_care", "intervention"],
+      "value_declaration": {
+        "unit": "NZD",
+        "perspective": "health_system",
+        "convention": "net_benefit",
+        "objective": "maximize"
+      },
+      "weight_semantics": "equal",
+      "draw_namespace": "synthetic.heor.counterexample.v1",
+      "outcomes": [
+        {"draw_namespace": "synthetic.heor.counterexample.v1", "draw_key": "d0", "strategy_id": "standard_care", "value": 10.0, "weight": 1.0},
+        {"draw_namespace": "synthetic.heor.counterexample.v1", "draw_key": "d0", "strategy_id": "intervention", "value": 10.0, "weight": 1.0},
+        {"draw_namespace": "synthetic.heor.counterexample.v1", "draw_key": "d1", "strategy_id": "standard_care", "value": 2.0, "weight": 1.0},
+        {"draw_namespace": "synthetic.heor.counterexample.v1", "draw_key": "d1", "strategy_id": "intervention", "value": 8.0, "weight": 1.0},
+        {"draw_namespace": "synthetic.heor.counterexample.v1", "draw_key": "d2", "strategy_id": "standard_care", "value": 6.0, "weight": 1.0},
+        {"draw_namespace": "synthetic.heor.counterexample.v1", "draw_key": "d2", "strategy_id": "intervention", "value": 6.0, "weight": 1.0},
+        {"draw_namespace": "synthetic.heor.counterexample.v1", "draw_key": "d3", "strategy_id": "standard_care", "value": 0.0, "weight": 1.0},
+        {"draw_namespace": "synthetic.heor.counterexample.v1", "draw_key": "d3", "strategy_id": "intervention", "value": 4.0, "weight": 1.0}
+      ]
+    }
+  },
+  "rejected_minimize_loss": {
+    "profile_version": "voiage.simulation-outcome.v1",
+    "provenance": {
+      "producer_id": "synthetic-loss-sim",
+      "producer_version": "0.1.0",
+      "model_revision": "loss-rev-1",
+      "valuation_source": "synthetic-cost",
+      "artifact_digest": "4444444444444444444444444444444444444444444444444444444444444444"
+    },
+    "strategy_ids": ["s0", "s1"],
+    "value_declaration": {
+      "unit": "USD",
+      "perspective": "payer",
+      "convention": "loss",
+      "objective": "minimize"
+    },
+    "weight_semantics": "equal",
+    "draw_namespace": "synthetic.loss.v1",
+    "outcomes": [
+      {"draw_namespace": "synthetic.loss.v1", "draw_key": "d0", "strategy_id": "s0", "value": 5.0, "weight": 1.0},
+      {"draw_namespace": "synthetic.loss.v1", "draw_key": "d0", "strategy_id": "s1", "value": 8.0, "weight": 1.0}
+    ]
+  }
+}

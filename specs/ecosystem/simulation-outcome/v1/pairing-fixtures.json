@@ -1,0 +1,59 @@
+{
+  "schema_fixture": "O02-draw-pairing-fixtures",
+  "base_profile": {
+    "profile_version": "voiage.simulation-outcome.v1",
+    "provenance": {
+      "producer_id": "synthetic-pairing-sim",
+      "producer_version": "0.1.0",
+      "model_revision": "rev-1",
+      "valuation_source": "synthetic-payoff",
+      "artifact_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "strategy_ids": ["alpha", "beta"],
+    "value_declaration": {
+      "unit": "score",
+      "perspective": "decision_maker",
+      "convention": "net_benefit",
+      "objective": "maximize"
+    },
+    "weight_semantics": "probability",
+    "draw_namespace": "ns.paired.v1",
+    "outcomes": [
+      {
+        "draw_namespace": "ns.paired.v1",
+        "draw_key": "draw-001",
+        "strategy_id": "alpha",
+        "value": 12.0,
+        "weight": 0.25
+      },
+      {
+        "draw_namespace": "ns.paired.v1",
+        "draw_key": "draw-001",
+        "strategy_id": "beta",
+        "value": 8.0,
+        "weight": 0.25
+      },
+      {
+        "draw_namespace": "ns.paired.v1",
+        "draw_key": "draw-002",
+        "strategy_id": "alpha",
+        "value": 4.0,
+        "weight": 0.75
+      },
+      {
+        "draw_namespace": "ns.paired.v1",
+        "draw_key": "draw-002",
+        "strategy_id": "beta",
+        "value": 10.0,
+        "weight": 0.75
+      }
+    ]
+  },
+  "expected_draw_keys": ["draw-001", "draw-002"],
+  "expected_strategy_ids": ["alpha", "beta"],
+  "expected_payoff_matrix": [
+    [12.0, 8.0],
+    [4.0, 10.0]
+  ],
+  "expected_draw_weights": [0.25, 0.75]
+}

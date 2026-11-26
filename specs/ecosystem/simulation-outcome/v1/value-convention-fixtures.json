@@ -1,0 +1,42 @@
+{
+  "schema_fixture": "O03-value-convention-fixtures",
+  "accepted": [
+    {
+      "label": "utility_maximize",
+      "unit": "utils",
+      "perspective": "society",
+      "convention": "utility",
+      "objective": "maximize"
+    },
+    {
+      "label": "net_benefit_maximize_with_heor_metadata",
+      "unit": "AUD",
+      "perspective": "payer",
+      "convention": "net_benefit",
+      "objective": "maximize",
+      "currency_price_year": "AUD-2026",
+      "population_basis": "cohort_1000",
+      "horizon": "lifetime",
+      "discounting_status": "discounted_5pct"
+    },
+    {
+      "label": "loss_minimize",
+      "unit": "cost_nzd",
+      "perspective": "operator",
+      "convention": "loss",
+      "objective": "minimize"
+    }
+  ],
+  "incompatible_convention_objective": [
+    {"convention": "loss", "objective": "maximize"},
+    {"convention": "utility", "objective": "minimize"},
+    {"convention": "net_benefit", "objective": "minimize"}
+  ],
+  "unsupported_values": [
+    {"convention": "qaly_gain", "objective": "maximize"},
+    {"convention": "utility", "objective": "target"},
+    {"convention": " utility", "objective": "maximize"},
+    {"convention": "utility", "objective": "maximize "},
+    {"convention": "   ", "objective": "maximize"}
+  ]
+}

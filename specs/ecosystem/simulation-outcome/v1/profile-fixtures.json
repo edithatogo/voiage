@@ -1,0 +1,117 @@
+{
+  "schema_fixture": "O01-profile-version-fixtures",
+  "accepted": [
+    {
+      "label": "synthetic_heor_health_v1",
+      "profile_version": "voiage.simulation-outcome.v1",
+      "provenance": {
+        "producer_id": "synthetic-heor-producer",
+        "producer_version": "0.1.0",
+        "model_revision": "heor-rev-1",
+        "valuation_source": "synthetic-qaly-nmb",
+        "artifact_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "strategy_ids": ["standard_care", "intervention"],
+      "value_declaration": {
+        "unit": "NZD",
+        "perspective": "health_system",
+        "convention": "net_benefit",
+        "objective": "maximize",
+        "currency_price_year": "NZD-2026",
+        "population_basis": "per_patient",
+        "horizon": "10y",
+        "discounting_status": "discounted_3.5pct"
+      },
+      "weight_semantics": "probability",
+      "draw_namespace": "heor.crn.v1",
+      "outcomes": [
+        {
+          "draw_namespace": "heor.crn.v1",
+          "draw_key": "draw-01",
+          "strategy_id": "standard_care",
+          "value": 100.0,
+          "weight": 0.5
+        },
+        {
+          "draw_namespace": "heor.crn.v1",
+          "draw_key": "draw-01",
+          "strategy_id": "intervention",
+          "value": 120.0,
+          "weight": 0.5
+        },
+        {
+          "draw_namespace": "heor.crn.v1",
+          "draw_key": "draw-02",
+          "strategy_id": "standard_care",
+          "value": 90.0,
+          "weight": 0.5
+        },
+        {
+          "draw_namespace": "heor.crn.v1",
+          "draw_key": "draw-02",
+          "strategy_id": "intervention",
+          "value": 80.0,
+          "weight": 0.5
+        }
+      ]
+    },
+    {
+      "label": "synthetic_non_health_reliability_v1",
+      "profile_version": "voiage.simulation-outcome.v1",
+      "provenance": {
+        "producer_id": "synthetic-ops-sim",
+        "producer_version": "0.2.0",
+        "model_revision": "ops-rev-3",
+        "valuation_source": "synthetic-service-utility",
+        "artifact_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "strategy_ids": ["keep", "upgrade"],
+      "value_declaration": {
+        "unit": "reliability_units",
+        "perspective": "operator",
+        "convention": "utility",
+        "objective": "maximize"
+      },
+      "weight_semantics": "equal",
+      "draw_namespace": "ops.sim.v1",
+      "outcomes": [
+        {
+          "draw_namespace": "ops.sim.v1",
+          "draw_key": "d1",
+          "strategy_id": "keep",
+          "value": 10.0,
+          "weight": 1.0
+        },
+        {
+          "draw_namespace": "ops.sim.v1",
+          "draw_key": "d1",
+          "strategy_id": "upgrade",
+          "value": 14.0,
+          "weight": 1.0
+        },
+        {
+          "draw_namespace": "ops.sim.v1",
+          "draw_key": "d2",
+          "strategy_id": "keep",
+          "value": 12.0,
+          "weight": 1.0
+        },
+        {
+          "draw_namespace": "ops.sim.v1",
+          "draw_key": "d2",
+          "strategy_id": "upgrade",
+          "value": 9.0,
+          "weight": 1.0
+        }
+      ]
+    }
+  ],
+  "rejected_versions": [
+    "voiage.simulation-outcome.v2",
+    "1.0.0",
+    "v1",
+    "",
+    "   ",
+    " voiage.simulation-outcome.v1 "
+  ]
+}

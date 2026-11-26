@@ -1147,10 +1147,9 @@ track at the top of this registry; completed repository slices stay closed.
 
 ---
 
-- [ ] **Track: Optional simulation-outcome boundary for cross-domain VOI**
+- [~] **Track: Optional simulation-outcome boundary for cross-domain VOI**
   *Link: [./tracks/simulation_outcome_boundary_20261107/index.md](./tracks/simulation_outcome_boundary_20261107/index.md)*
-  Planning complete; eight implementation leaves pending. Existing scientific
-  alignment retains provider and pin ownership.
+  O01–O08 implemented and locally verified (`voiage-domain`, `voiage-numerics`, Arrow/Parquet interchange, EVPI analytical equivalence, and isolated packaged-crate consumer); retained in progress pending PR/hosted CI and archival. Synthetic fixtures do not replace full real-producer qualification; existing scientific alignment retains provider/pin ownership.
   GitHub: https://github.com/edithatogo/voiage/issues/1283
 
 ---
