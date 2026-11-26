@@ -1,5 +1,9 @@
 # Changelog
 
+- Admit the signed Paignia 0.1.0 backward-induction algorithm revision
+  `1.0.1` in the experimental static-policy adapter. The same digest, result
+  identity and declared-response checks apply to admitted revisions.
+
 - Add optional `voiage.simulation-outcome.v1` boundary (`O01`–`O08`): `voiage-domain`
   profile/pairing/declaration/parameter contracts, `voiage-numerics` adapter
   and analytical EVPI equivalence, Arrow/Parquet interchange

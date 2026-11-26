@@ -77,11 +77,23 @@ def _reseal(
     return specification, changed, replace(binding, projection_sha256=digest)
 
 
+def test_signed_backward_induction_correction_retains_static_policy_semantics(
+    scoped_case: BoundCase,
+) -> None:
+    corrected = _reseal(
+        scoped_case, lambda packet: packet["native"].update(algorithm_version="1.0.1")
+    )
+    assert value_paignia_static_policy(*corrected).to_contract_dict() == (
+        value_paignia_static_policy(*scoped_case).to_contract_dict()
+    )
+
+
 @pytest.mark.parametrize(
     ("field", "value", "failure"),
     [
         ("status", "not_converged", "not_converged"),
         ("solution_concept", "finite_nash", "solution concept"),
+        ("algorithm_version", "1.0.2", "algorithm version"),
         ("catalogue", "enumerated", "catalogue"),
         ("selection_rule", "warm_start_previous", "selection rule"),
     ],
