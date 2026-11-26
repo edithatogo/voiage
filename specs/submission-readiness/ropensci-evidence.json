@@ -94,7 +94,8 @@
         ".github/workflows/bindings-ci.yml",
         "specs/submission-readiness/r-workflow-requalification-20261027.json",
         "specs/submission-readiness/r-workflow-requalification-20261115.json",
-        "specs/submission-readiness/r-workflow-requalification-20261116-stepsecurity.json"
+        "specs/submission-readiness/r-workflow-requalification-20261116-stepsecurity.json",
+        "specs/submission-readiness/r-workflow-requalification-20261126-q02-rust-authority.json"
       ]
     },
     {

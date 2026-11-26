@@ -386,7 +386,7 @@ def test_pending_r_qualification_cannot_claim_current_success(
 
     def read_text(path: Path, *args: object, **kwargs: object) -> str:
         content = original(path, *args, **kwargs)
-        if path.name == "r-workflow-requalification-20261116-stepsecurity.json":
+        if path.name == "r-workflow-requalification-20261126-q02-rust-authority.json":
             payload = json.loads(content)
             payload["current_workflow_qualified"] = True
             return json.dumps(payload)
@@ -404,6 +404,7 @@ def test_pending_r_qualification_cannot_claim_current_success(
     [
         "r-workflow-requalification-20261027.json",
         "r-workflow-requalification-20261115.json",
+        "r-workflow-requalification-20261116-stepsecurity.json",
     ],
 )
 def test_pending_r_qualification_rejects_changed_previous_evidence(

@@ -1,0 +1,13 @@
+{
+  "state": "hosted_pending",
+  "workflow_sha256": "019263de02d26f9ff8fbb22a4fe2c652080359bcaa01db6621c8ca134407946e",
+  "historical_receipt": "specs/submission-readiness/r-distribution-evidence-20260902.json",
+  "reason": "Python 3.15.2, workflow security instrumentation, and Q02 Rust EVPI numerical-authority alignment require fresh hosted qualification.",
+  "current_workflow_qualified": false,
+  "new_hosted_execution_claimed": false,
+  "unqualified_r_source_tree": "ea0ab59da73a17d43deaeb5d098b40702b4c03a1",
+  "previous_requalification": {
+    "path": "specs/submission-readiness/r-workflow-requalification-20261116-stepsecurity.json",
+    "sha256": "26fe50862459d3e8a2fe8e086d33f37581a8ed980a3f907d9bb8065a82623318"
+  }
+}

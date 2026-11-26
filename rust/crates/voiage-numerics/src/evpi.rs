@@ -2,13 +2,24 @@ use voiage_domain::SampleMatrix;
 
 use crate::NumericalInputError;
 
+#[inline]
+pub(crate) fn neumaier_step(sum: f64, compensation: f64, value: f64) -> (f64, f64) {
+    let total = sum + value;
+    let updated_comp = if sum.abs() >= value.abs() {
+        compensation + ((sum - total) + value)
+    } else {
+        compensation + ((value - total) + sum)
+    };
+    (total, updated_comp)
+}
+
 /// Computes expected value of perfect information from `[sample][strategy]`
 /// net-benefit values.
 ///
 /// # Errors
 ///
-/// The matrix is validated by [`SampleMatrix`]. This result-bearing signature
-/// preserves a uniform numerical-kernel boundary for future checked failures.
+/// The matrix is validated by [`SampleMatrix`]. Returns an error if the sample
+/// count or intermediate means exceed the finite `f64` numerical range.
 pub fn evpi(net_benefit: &SampleMatrix) -> Result<f64, NumericalInputError> {
     let [sample_count, strategy_count] = net_benefit.shape();
     let divisor = f64::from(u32::try_from(sample_count).map_err(|_| {
@@ -17,29 +28,48 @@ pub fn evpi(net_benefit: &SampleMatrix) -> Result<f64, NumericalInputError> {
             "sample count exceeds the supported numerical range",
         )
     })?);
-    let mut strategy_values = vec![Vec::with_capacity(sample_count); strategy_count];
-    let mut perfect_information_values = Vec::with_capacity(sample_count);
+    let mut perfect_sum = 0.0_f64;
+    let mut perfect_comp = 0.0_f64;
+    let mut strategy_sums = vec![(0.0_f64, 0.0_f64); strategy_count];
 
     for row in net_benefit.rows() {
         let mut row_maximum = f64::NEG_INFINITY;
         for (strategy_index, value) in row.iter().copied().enumerate() {
-            strategy_values[strategy_index].push(value / divisor);
+            let (col_sum, col_comp) = strategy_sums[strategy_index];
+            strategy_sums[strategy_index] = neumaier_step(col_sum, col_comp, value / divisor);
             row_maximum = row_maximum.max(value);
         }
-        perfect_information_values.push(row_maximum / divisor);
+        (perfect_sum, perfect_comp) =
+            neumaier_step(perfect_sum, perfect_comp, row_maximum / divisor);
     }
 
-    perfect_information_values.sort_by(f64::total_cmp);
-    let perfect_information_mean: f64 = perfect_information_values.into_iter().sum();
-    let current_information_mean = strategy_values
-        .into_iter()
-        .map(|mut values| {
-            values.sort_by(f64::total_cmp);
-            values.into_iter().sum::<f64>()
-        })
-        .fold(f64::NEG_INFINITY, f64::max);
+    let perfect_information_mean = perfect_sum + perfect_comp;
+    if !perfect_information_mean.is_finite() {
+        return Err(NumericalInputError::invalid(
+            "net_benefit",
+            "expected perfect-information net benefit is non-finite",
+        ));
+    }
+    let mut current_information_mean = f64::NEG_INFINITY;
+    for (col_sum, col_comp) in strategy_sums {
+        let col_mean = col_sum + col_comp;
+        if !col_mean.is_finite() {
+            return Err(NumericalInputError::invalid(
+                "net_benefit",
+                "expected strategy net benefit is non-finite",
+            ));
+        }
+        current_information_mean = current_information_mean.max(col_mean);
+    }
+    let diff = perfect_information_mean - current_information_mean;
+    if !current_information_mean.is_finite() || !diff.is_finite() {
+        return Err(NumericalInputError::invalid(
+            "net_benefit",
+            "expected value of perfect information is non-finite",
+        ));
+    }
 
-    Ok((perfect_information_mean - current_information_mean).max(0.0))
+    Ok(diff.max(0.0))
 }
 
 #[cfg(test)]
