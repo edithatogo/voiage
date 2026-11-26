@@ -1137,7 +1137,7 @@ track at the top of this registry; completed repository slices stay closed.
 
 - [~] **Track: tobac weighted VOI consumer qualification**
   *Link: [./tracks/tobac_consumer_qualification_20261025/index.md](./tracks/tobac_consumer_qualification_20261025/index.md)*
-  One installed workflow passed against published voiage 3.1.0; the broader consumer track and default version requirement remain open. See its installed 5 November receipt.
+  Phases 1–3 (contract mapping, Phase 2 backend/interchange qualification, installed M2 retail EVPI, installed R11.1–R11.5 bounded extension, and controls review) are complete (`2026-11-24`, `2026-11-26`); Phase 4 handoff gates remain open.
   GitHub: https://github.com/edithatogo/voiage/issues/1193
 
 ---
@@ -1156,5 +1156,5 @@ track at the top of this registry; completed repository slices stay closed.
 ---
 - [~] **Track: Credal LP dominance and endogenous censored EVSI for tobac**
   *Link: [./tracks/tobac_credal_endogenous_voi_20261110/index.md](./tracks/tobac_credal_endogenous_voi_20261110/index.md)*
-  Native credal decisions and Tobit-censored sequential EVSI are implemented. Python interchange and installed `tobac` parity remain in progress.
+  CE01–CE05 (native credal/censored kernels, Arrow/Polars interchange, experimental Python bindings, and installed `tobac` parity) are complete and evidenced (`2026-11-26`); upstream consumer pin promotion (`edithatogo/tobac#178`) and track archival remain open.
   GitHub: https://github.com/edithatogo/voiage/issues/1290

@@ -1,0 +1,300 @@
+{
+  "observed_at_utc": "2026-11-26T02:57:09Z",
+  "track_id": "tobac_consumer_qualification_20261025",
+  "phase": "phase3",
+  "task": "P3.2",
+  "status": "passed",
+  "provider_source": {
+    "branch": "codex/tobac-r11-contracts-20261126",
+    "git_head": "d0cd33b45d95a1fb383b37b3769885782d90fa08",
+    "git_tree": "902db1faf9d878e109cbbd096c72db87b7a24287"
+  },
+  "consumer_source": {
+    "repository_path": "/Volumes/PortableSSD/GitHub/tobac-t18-m2a",
+    "git_ref": "main",
+    "git_sha": "fe06ef5958ba0f218317a738fe8de95973300a12",
+    "git_tree": "40892de77d11b0c62d6769709ccbfec3a6c16459"
+  },
+  "runtime": {
+    "python_version": "3.15.2",
+    "platform": "macOS-27.2.1-arm64-arm-64bit-Mach-O",
+    "rustc": "rustc 1.100.0 (0ef1bc386 2026-11-09) (Homebrew)",
+    "cargo": "cargo 1.100.0 (3acc79c0c 2026-11-05) (Homebrew)",
+    "installation": {
+      "editable": false,
+      "isolated_python_flags": "-I",
+      "uv_pip_check": "All installed packages are compatible",
+      "checked_packages": 36,
+      "imports_resolved_inside_venv": true
+    },
+    "packages": {
+      "voiage": "3.1.0",
+      "tobac-regulatory-research": "0.2.0",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "polars": "2.2.0",
+      "pyarrow": "26.0.1",
+      "pydantic": "2.14.4",
+      "pytest": "9.2.0",
+      "hypothesis": "6.170.17"
+    }
+  },
+  "artifacts": {
+    "wheels": {
+      "tobac_regulatory_research-0.2.0-py3-none-any.whl": {
+        "sha256": "849eea097d3d236a9f89a803fd3105389734a23020a7ea3300c867c60260cf4f"
+      },
+      "voiage-3.1.0-cp315-abi3-macosx_11_0_arm64.whl": {
+        "sha256": "3262f08d477b0b2528c747bbec30a5019f3cc17d59c859b93d5d2365096b5d48"
+      }
+    },
+    "installed_modules": {
+      "voiage.__init__": {
+        "site_packages_relpath": "voiage/__init__.py",
+        "sha256": "552edd0f753af8f50a873aeda971201f6bf0175a252b7a27ad48489665c3873f"
+      },
+      "voiage._core": {
+        "site_packages_relpath": "voiage/_core.abi3-darwin.so",
+        "sha256": "d786fd63dcf99e9db9ae6603734360a0b04f2c04b369545ead322af3741be79c"
+      },
+      "tobac.__init__": {
+        "site_packages_relpath": "tobac/__init__.py",
+        "sha256": "438a1124a46dfc7a91b5424c8127a8ead3e01c0f34e45740a1238429aa54f94f"
+      },
+      "tobac.retail_case": {
+        "site_packages_relpath": "tobac/retail_case.py",
+        "sha256": "248ec4ed391440ce8277f4e31dc30ace0586cc30ab1ac8ced524b1dae8558ff5"
+      },
+      "tobac_supply.__init__": {
+        "site_packages_relpath": "tobac_supply/__init__.py",
+        "sha256": "16467a877d1de4de35636a768f89d2e62d6b8407efb0d95db031930c17052f6f"
+      }
+    }
+  },
+  "installed_tobac_pytest": {
+    "command": "python -I -m pytest -c pytest.ini --noconftest --import-mode=importlib -v tests/engineering/test_voiage_installed.py tests/engineering/test_ecosystem_contracts.py",
+    "exit_status": 0,
+    "passed": 15,
+    "failed": 0,
+    "skipped": 0,
+    "duration_seconds": 62.66,
+    "suites": {
+      "tests/engineering/test_voiage_installed.py": {
+        "passed": 3,
+        "failed": 0,
+        "skipped": 0
+      },
+      "tests/engineering/test_ecosystem_contracts.py": {
+        "passed": 12,
+        "failed": 0,
+        "skipped": 0
+      }
+    }
+  },
+  "r11_verification": {
+    "r11_1": {
+      "tobac_parameter_sha256": "f49b7b6926940098254ab3150f1897af4c88bbb9e62b60920359875c2054a23c",
+      "tobac_roundtrip_equal": true,
+      "tobac_unknown_envelope_rejected": "Unexpected parameter envelope fields",
+      "tobac_unknown_nested_rejected": "Unexpected constants parameter fields",
+      "voiage_spec_contract_digest": "c0ca6fc9e389fb0b226b8dff1066afe210cd6dc5716fe10058dcced78253ab06",
+      "voiage_spec_roundtrip_equal": true,
+      "voiage_spec_unknown_field_rejected": "extra_forbidden",
+      "source_files_sha256": {
+        "configs/regulatory.json": "8fff72e501726af284d5b07bf61a40e803bb6fc41da767f49f77ecc7ec4eaaa7",
+        "configs/m2_retail.json": "925746a584e0f986e22b7848bd8fac50ae7fb6ae5e06a1cd8d4bad2742192b3f",
+        "results/milestone2/summary.csv": "cb0d1372173bc3d4a2dfa30a7fd07d8d5e15ad0391cb32a7cc1a5e8c4c67c5da"
+      }
+    },
+    "r11_2": {
+      "reg_illicit_0_2": {
+        "forward_evpi": 0.08134530468749951,
+        "reverse_evpi": 0.08134530468749951,
+        "bit_identical": true,
+        "values_sha256": "5f6cb644bf08aa45f1f439d6bc845f900be753ec066223aff45f7acd3d1feec0",
+        "weights_sha256": "822383b4e22d866efbd59c405b707d4fa1cb1b41d7b1cd04eace42291731a318"
+      },
+      "reg_illicit_0_8": {
+        "forward_evpi": 0.0609396328124996,
+        "reverse_evpi": 0.0609396328124996,
+        "bit_identical": true,
+        "values_sha256": "5f6cb644bf08aa45f1f439d6bc845f900be753ec066223aff45f7acd3d1feec0",
+        "weights_sha256": "73dbfd0137d1e3b01e9ed3c6b8e55b1afd3784591c6d74625485e917b46c9b65"
+      },
+      "m2_retail_cw_1_0": {
+        "forward_evpi": 0.06181538352543689,
+        "reverse_evpi": 0.06181538352543689,
+        "reversed_states_evpi": 0.06181538352543689,
+        "bit_identical": true,
+        "values_sha256": "ff7f65d32c4dcaa6f04c5827fc3abdd757b63371e396a0ca6c1c445732af50f0",
+        "weights_sha256": "5dcc7d78be43780220378fb9946e1e38f2b6639f7e0af938005a44b5833e68d1"
+      },
+      "inputs_unchanged": true
+    },
+    "r11_3": {
+      "io_guarded_calls_succeeded": true,
+      "guards": [
+        "builtins.open",
+        "pathlib.Path.open",
+        "socket.create_connection"
+      ],
+      "tolerance_atol": 1e-10,
+      "reg_illicit_0_2": {
+        "tobac_exact_oracle": 0.08134530468749991,
+        "installed_voiage": 0.08134530468749951,
+        "abs_diff": 4.0245584642661925e-16
+      },
+      "reg_illicit_0_8": {
+        "tobac_exact_oracle": 0.0609396328124999,
+        "installed_voiage": 0.0609396328124996,
+        "abs_diff": 2.983724378680108e-16
+      },
+      "m2_retail_cw_1_0": {
+        "frozen_csv_evpi": 0.06181538352544022,
+        "tobac_exact_oracle": 0.06181538352544015,
+        "installed_voiage_exact_evpi": 0.06181538352543689,
+        "installed_voiage_kernel": 0.061815383525438326,
+        "installed_voiage_run_evpi": 0.061815383525438326,
+        "abs_diff_vs_oracle": 3.2612801348363973e-15,
+        "abs_diff_vs_frozen": 3.3306690738754696e-15,
+        "abs_diff_run_evpi_vs_oracle": 1.824929096727601e-15
+      }
+    },
+    "r11_4": {
+      "extended_scenario_crime_weight_1_5": {
+        "states": 20480,
+        "tobac_exact_oracle": 0.06817987982961292,
+        "tobac_voiage_evpi": 0.06817987982961574,
+        "run_evpi_value": 0.0681798798296164,
+        "abs_diff_vs_oracle": 2.8171909249863347e-15,
+        "run_evpi_abs_diff_vs_oracle": 3.4833247397614286e-15,
+        "ext_bundle_content_digest": "af0f8248f60d06cec8edf428c6cab54fa8044dd3187abeb67ff4329a520a7cfe",
+        "ext_spec_contract_digest": "c93dada4725259abcd240c33187883303c11835bba4db6afef87132c14ab53d6"
+      },
+      "reference_preservation": {
+        "spec_contract_digest_before": "c0ca6fc9e389fb0b226b8dff1066afe210cd6dc5716fe10058dcced78253ab06",
+        "spec_contract_digest_after": "c0ca6fc9e389fb0b226b8dff1066afe210cd6dc5716fe10058dcced78253ab06",
+        "bundle_content_digest_before": "4f36d1d66f3fe70c069497fd7345b4a0097a57bbd4d966dafbe1ab8867c32882",
+        "bundle_content_digest_after": "4f36d1d66f3fe70c069497fd7345b4a0097a57bbd4d966dafbe1ab8867c32882",
+        "run_evpi_before": 0.061815383525438326,
+        "run_evpi_after": 0.061815383525438326,
+        "tobac_m2_before": 0.06181538352543689,
+        "tobac_m2_after": 0.06181538352543689,
+        "reg_02_before": 0.08134530468749951,
+        "reg_02_after": 0.08134530468749951,
+        "reg_08_before": 0.0609396328124996,
+        "reg_08_after": 0.0609396328124996,
+        "all_strictly_identical": true
+      }
+    },
+    "r11_5": {
+      "independent_layer_checks_passed": true,
+      "variants": {
+        "base": {
+          "input_identity": {
+            "normalized_input_digest": "4f36d1d66f3fe70c069497fd7345b4a0097a57bbd4d966dafbe1ab8867c32882",
+            "calculation_input_digest": "a87d89d95ac9b6f6f202507a1db0f0b33828911bb3e79240568cb79795cc3346",
+            "tobac_parameter_sha256": "f49b7b6926940098254ab3150f1897af4c88bbb9e62b60920359875c2054a23c"
+          },
+          "model_schema_identity": {
+            "tobac_schema": "tobac.regulatory-milestone.v1",
+            "voiage_schema_version": "2.0.0",
+            "method_contract_version": "1.0.0",
+            "spec_digest": "875e815efbfd91414d394e1eae3aba67bb37b91245fbdfdf7b1fc7bc08eb71f8"
+          },
+          "execution_identity": {
+            "selected_backend": "numpy",
+            "backend_version": "2.5.4",
+            "device": "cpu",
+            "package_version": "3.1.0",
+            "seed": 7,
+            "absolute_tolerance": 1e-10,
+            "dtype": "float64",
+            "native_extension_sha256": "d786fd63dcf99e9db9ae6603734360a0b04f2c04b369545ead322af3741be79c",
+            "voiage_wheel_sha256": "3262f08d477b0b2528c747bbec30a5019f3cc17d59c859b93d5d2365096b5d48",
+            "tobac_wheel_sha256": "849eea097d3d236a9f89a803fd3105389734a23020a7ea3300c867c60260cf4f"
+          },
+          "evpi": 0.061815383525438326
+        },
+        "mutated_input_cw_1_5": {
+          "input_identity": {
+            "normalized_input_digest": "af0f8248f60d06cec8edf428c6cab54fa8044dd3187abeb67ff4329a520a7cfe",
+            "calculation_input_digest": "6cc0d421ec7ddcd8cd8e743ebef8b6b5935730824f88b0321f20da0578da0fa4",
+            "tobac_parameter_sha256": "f49b7b6926940098254ab3150f1897af4c88bbb9e62b60920359875c2054a23c"
+          },
+          "model_schema_identity": {
+            "tobac_schema": "tobac.regulatory-milestone.v1",
+            "voiage_schema_version": "2.0.0",
+            "method_contract_version": "1.0.0",
+            "spec_digest": "dd8220dfd8cdd47d5b5f4a7a203415b2fcc6f3df16dd51b75dab994eb1973531"
+          },
+          "execution_identity": {
+            "selected_backend": "numpy",
+            "backend_version": "2.5.4",
+            "device": "cpu",
+            "package_version": "3.1.0",
+            "seed": 7,
+            "absolute_tolerance": 1e-10,
+            "dtype": "float64",
+            "native_extension_sha256": "d786fd63dcf99e9db9ae6603734360a0b04f2c04b369545ead322af3741be79c",
+            "voiage_wheel_sha256": "3262f08d477b0b2528c747bbec30a5019f3cc17d59c859b93d5d2365096b5d48",
+            "tobac_wheel_sha256": "849eea097d3d236a9f89a803fd3105389734a23020a7ea3300c867c60260cf4f"
+          },
+          "evpi": 0.0681798798296164
+        },
+        "mutated_model_schema_v1_1_0": {
+          "input_identity": {
+            "normalized_input_digest": "4f36d1d66f3fe70c069497fd7345b4a0097a57bbd4d966dafbe1ab8867c32882",
+            "calculation_input_digest": "a87d89d95ac9b6f6f202507a1db0f0b33828911bb3e79240568cb79795cc3346",
+            "tobac_parameter_sha256": "f49b7b6926940098254ab3150f1897af4c88bbb9e62b60920359875c2054a23c"
+          },
+          "model_schema_identity": {
+            "tobac_schema": "tobac.regulatory-milestone.v1",
+            "voiage_schema_version": "2.0.0",
+            "method_contract_version": "1.1.0",
+            "spec_digest": "6787a953e39b1ce58af6c8d776159470b2ec1cbc3371baa8abbef9608deb56b6"
+          },
+          "execution_identity": {
+            "selected_backend": "numpy",
+            "backend_version": "2.5.4",
+            "device": "cpu",
+            "package_version": "3.1.0",
+            "seed": 7,
+            "absolute_tolerance": 1e-10,
+            "dtype": "float64",
+            "native_extension_sha256": "d786fd63dcf99e9db9ae6603734360a0b04f2c04b369545ead322af3741be79c",
+            "voiage_wheel_sha256": "3262f08d477b0b2528c747bbec30a5019f3cc17d59c859b93d5d2365096b5d48",
+            "tobac_wheel_sha256": "849eea097d3d236a9f89a803fd3105389734a23020a7ea3300c867c60260cf4f"
+          },
+          "evpi": 0.061815383525438326
+        },
+        "mutated_execution_settings": {
+          "input_identity": {
+            "normalized_input_digest": "4f36d1d66f3fe70c069497fd7345b4a0097a57bbd4d966dafbe1ab8867c32882",
+            "calculation_input_digest": "a87d89d95ac9b6f6f202507a1db0f0b33828911bb3e79240568cb79795cc3346",
+            "tobac_parameter_sha256": "f49b7b6926940098254ab3150f1897af4c88bbb9e62b60920359875c2054a23c"
+          },
+          "model_schema_identity": {
+            "tobac_schema": "tobac.regulatory-milestone.v1",
+            "voiage_schema_version": "2.0.0",
+            "method_contract_version": "1.0.0",
+            "spec_digest": "e4bc051f892ff8ccdfe2e08731094fd67436104bd25d8341c052b3962c6223e0"
+          },
+          "execution_identity": {
+            "selected_backend": "numpy",
+            "backend_version": "2.5.4",
+            "device": "cpu",
+            "package_version": "3.1.0",
+            "seed": 19,
+            "absolute_tolerance": 1e-12,
+            "dtype": "float64",
+            "native_extension_sha256": "d786fd63dcf99e9db9ae6603734360a0b04f2c04b369545ead322af3741be79c",
+            "voiage_wheel_sha256": "3262f08d477b0b2528c747bbec30a5019f3cc17d59c859b93d5d2365096b5d48",
+            "tobac_wheel_sha256": "849eea097d3d236a9f89a803fd3105389734a23020a7ea3300c867c60260cf4f"
+          },
+          "evpi": 0.061815383525438326
+        }
+      }
+    }
+  }
+}
