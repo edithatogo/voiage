@@ -1401,3 +1401,113 @@ def enbs(evsi_result: float, research_cost: float) -> float:
         return _runtime.compute_enbs(float(evsi_result), float(research_cost))
     except ModuleNotFoundError, ImportError:
         raise_backend_not_available_error("ENBS requires the Rust runtime extension.")
+
+
+def evsi_importance_sampling(
+    net_benefit: Any,
+    log_weights: Any,
+    *,
+    min_ess_threshold: float = 10.0,
+    max_khat_threshold: float = 0.7,
+) -> dict[str, object]:
+    """Compute importance-sampling EVSI with fail-closed ESS and Pareto-k gates."""
+    nb_arr = np.asarray(net_benefit, dtype=np.float64)
+    lw_arr = np.asarray(log_weights, dtype=np.float64)
+    if nb_arr.ndim != 2 or lw_arr.ndim != 2:
+        raise_input_error("net_benefit and log_weights must be 2D arrays.")
+    return _runtime.compute_evsi_importance_sampling(
+        np.ascontiguousarray(nb_arr, dtype=np.float64),
+        np.ascontiguousarray(lw_arr, dtype=np.float64),
+        min_ess_threshold=float(min_ess_threshold),
+        max_khat_threshold=float(max_khat_threshold),
+    )
+
+
+def beta_binomial_two_arm_evsi(
+    *,
+    alpha_0: float,
+    beta_0: float,
+    alpha_1: float,
+    beta_1: float,
+    per_arm_sample_size: int,
+    net_benefit_slope: float,
+    net_benefit_intercept: float,
+) -> float:
+    """Compute exact two-arm Beta-Binomial EVSI."""
+    if isinstance(per_arm_sample_size, bool) or not isinstance(per_arm_sample_size, int) or per_arm_sample_size <= 0:
+        raise_input_error("per_arm_sample_size must be a positive integer.")
+    return _runtime.compute_beta_binomial_two_arm_evsi(
+        _finite_float_argument(alpha_0, "alpha_0"),
+        _finite_float_argument(beta_0, "beta_0"),
+        _finite_float_argument(alpha_1, "alpha_1"),
+        _finite_float_argument(beta_1, "beta_1"),
+        per_arm_sample_size,
+        _finite_float_argument(net_benefit_slope, "net_benefit_slope"),
+        _finite_float_argument(net_benefit_intercept, "net_benefit_intercept"),
+    )
+
+
+def gamma_poisson_evsi(
+    *,
+    prior_shape: float,
+    prior_rate: float,
+    exposure_per_unit: float,
+    total_sample_size: int,
+    net_benefit_slope: float,
+    net_benefit_intercept: float,
+) -> float:
+    """Compute tail-certified conjugate Gamma-Poisson EVSI."""
+    if isinstance(total_sample_size, bool) or not isinstance(total_sample_size, int) or total_sample_size <= 0 or total_sample_size % 2 != 0:
+        raise_input_error("total_sample_size must be a positive even integer.")
+    return _runtime.compute_gamma_poisson_evsi(
+        _finite_float_argument(prior_shape, "prior_shape"),
+        _finite_float_argument(prior_rate, "prior_rate"),
+        _finite_float_argument(exposure_per_unit, "exposure_per_unit"),
+        total_sample_size,
+        _finite_float_argument(net_benefit_slope, "net_benefit_slope"),
+        _finite_float_argument(net_benefit_intercept, "net_benefit_intercept"),
+    )
+
+
+def exponential_time_to_event_evsi(
+    *,
+    prior_shape: float,
+    prior_rate: float,
+    expected_events: float,
+    net_benefit_slope: float,
+    net_benefit_intercept: float,
+) -> float:
+    """Compute deterministic quadrature EVSI for an exponential time-to-event study."""
+    return _runtime.compute_exponential_time_to_event_evsi(
+        _finite_float_argument(prior_shape, "prior_shape"),
+        _finite_float_argument(prior_rate, "prior_rate"),
+        _finite_float_argument(expected_events, "expected_events"),
+        _finite_float_argument(net_benefit_slope, "net_benefit_slope"),
+        _finite_float_argument(net_benefit_intercept, "net_benefit_intercept"),
+    )
+
+
+def evsi_qmc_normal_normal(
+    *,
+    prior_mean: float,
+    prior_standard_deviation: float,
+    outcome_standard_deviation: float,
+    total_sample_size: int,
+    net_benefit_slope: float,
+    net_benefit_intercept: float,
+    num_points: int = 1024,
+) -> dict[str, object]:
+    """Compute deterministic Halton QMC Normal-Normal EVSI."""
+    if isinstance(total_sample_size, bool) or not isinstance(total_sample_size, int) or total_sample_size <= 0 or total_sample_size % 2 != 0:
+        raise_input_error("total_sample_size must be a positive even integer.")
+    if isinstance(num_points, bool) or not isinstance(num_points, int) or num_points <= 0:
+        raise_input_error("num_points must be a positive integer.")
+    return _runtime.compute_evsi_qmc_normal_normal(
+        _finite_float_argument(prior_mean, "prior_mean"),
+        _finite_float_argument(prior_standard_deviation, "prior_standard_deviation"),
+        _finite_float_argument(outcome_standard_deviation, "outcome_standard_deviation"),
+        total_sample_size,
+        _finite_float_argument(net_benefit_slope, "net_benefit_slope"),
+        _finite_float_argument(net_benefit_intercept, "net_benefit_intercept"),
+        num_points,
+    )

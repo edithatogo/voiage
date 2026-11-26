@@ -119,3 +119,30 @@ pub unsafe extern "C" fn voiage_rust_enbs(
     unsafe { out.write(evsi_result - research_cost) };
     OK
 }
+
+/// Compute population ENBS as `per_patient_evsi * effective_population - research_cost`.
+///
+/// # Safety
+///
+/// `out` must identify one writable double and is never retained.
+#[no_mangle]
+pub unsafe extern "C" fn voiage_rust_population_enbs(
+    per_patient_evsi: f64,
+    research_cost: f64,
+    effective_population: f64,
+    out: *mut f64,
+) -> i32 {
+    if out.is_null()
+        || !per_patient_evsi.is_finite()
+        || per_patient_evsi < 0.0
+        || !research_cost.is_finite()
+        || research_cost < 0.0
+        || !effective_population.is_finite()
+        || effective_population < 0.0
+    {
+        return INVALID_ARGUMENT;
+    }
+    // SAFETY: the caller contract supplies one writable output double.
+    unsafe { out.write(per_patient_evsi * effective_population - research_cost) };
+    OK
+}

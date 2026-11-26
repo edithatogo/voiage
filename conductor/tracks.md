@@ -1163,19 +1163,19 @@ track at the top of this registry; completed repository slices stay closed.
 
 ---
 - [ ] **Track: Q05 Coherent EVSI Qualification (V03, V04, V05, V07, F02)**
-  *Link: [./tracks/voi_coherent_evsi_q05_20261126/index.md](./tracks/voi_coherent_evsi_q05_20261126/index.md)*
+  *Link: [./archive/voi_coherent_evsi_q05_20261126/index.md](./archive/voi_coherent_evsi_q05_20261126/index.md)*
   Regression, moment-matching, importance-sampling, non-normal study models, QMC/multilevel/unbiased EVSI, and F02 inference diagnostics.
   GitHub: https://github.com/edithatogo/voiage/issues/1221
 
 ---
 - [ ] **Track: Q06 Research Design and Portfolio Decisions (V06, V10, F06)**
-  *Link: [./tracks/voi_study_design_portfolio_q06_20261126/index.md](./tracks/voi_study_design_portfolio_q06_20261126/index.md)*
+  *Link: [./archive/voi_study_design_portfolio_q06_20261126/index.md](./archive/voi_study_design_portfolio_q06_20261126/index.md)*
   Economic study-design optimization, exact small-portfolio enumeration, overlap/dependence guards, and selective V10 frontier extensions.
   GitHub: https://github.com/edithatogo/voiage/issues/1221
 
 ---
 - [ ] **Track: Q07 Thin Bindings and Measured Computation (V12, F04, F05)**
-  *Link: [./tracks/voi_bindings_performance_q07_20261126/index.md](./tracks/voi_bindings_performance_q07_20261126/index.md)*
+  *Link: [./archive/voi_bindings_performance_q07_20261126/index.md](./archive/voi_bindings_performance_q07_20261126/index.md)*
   Cross-language binding parity, zero-copy crossing profiling, and resumable/cancellable streaming reductions.
   GitHub: https://github.com/edithatogo/voiage/issues/1221
 
@@ -1187,6 +1187,6 @@ track at the top of this registry; completed repository slices stay closed.
 
 ---
 - [ ] **Track: R01–R03 Advanced Research Extensions (V07, V08, V09, V10, V11, F03, F06)**
-  *Link: [./tracks/voi_frontier_research_r01_r03_20261126/index.md](./tracks/voi_frontier_research_r01_r03_20261126/index.md)*
+  *Link: [./archive/voi_frontier_research_r01_r03_20261126/index.md](./archive/voi_frontier_research_r01_r03_20261126/index.md)*
   Decision-aware stopping, joint research-implementation-capacity optimization, transport bias, strategic information design, and Q09 evaluation packet.
   GitHub: https://github.com/edithatogo/voiage/issues/1221

@@ -514,3 +514,209 @@ def compute_evppi_mars_artifact(
     except Exception as error:
         _raise_native_error(error)
     return dict(result)
+
+
+def compute_evsi_importance_sampling(
+    net_benefit: list[list[float]],
+    log_weights: list[list[float]],
+    *,
+    min_ess_threshold: float = 10.0,
+    max_khat_threshold: float = 0.7,
+) -> dict[str, object]:
+    """Compute importance-sampling EVSI with fail-closed ESS and Pareto-k gates."""
+    try:
+        result = _native().compute_evsi_importance_sampling(
+            net_benefit,
+            log_weights,
+            min_ess_threshold,
+            max_khat_threshold,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
+def compute_beta_binomial_two_arm_evsi(
+    alpha_0: float,
+    beta_0: float,
+    alpha_1: float,
+    beta_1: float,
+    per_arm_sample_size: int,
+    net_benefit_slope: float,
+    net_benefit_intercept: float,
+) -> float:
+    """Compute exact two-arm Beta-Binomial EVSI."""
+    try:
+        return float(
+            _native().compute_beta_binomial_two_arm_evsi(
+                alpha_0,
+                beta_0,
+                alpha_1,
+                beta_1,
+                per_arm_sample_size,
+                net_benefit_slope,
+                net_benefit_intercept,
+            )
+        )
+    except Exception as error:
+        _raise_native_error(error)
+        raise
+
+
+def compute_gamma_poisson_evsi(
+    prior_shape: float,
+    prior_rate: float,
+    exposure_per_unit: float,
+    total_sample_size: int,
+    net_benefit_slope: float,
+    net_benefit_intercept: float,
+) -> float:
+    """Compute tail-certified Gamma-Poisson EVSI."""
+    try:
+        return float(
+            _native().compute_gamma_poisson_evsi(
+                prior_shape,
+                prior_rate,
+                exposure_per_unit,
+                total_sample_size,
+                net_benefit_slope,
+                net_benefit_intercept,
+            )
+        )
+    except Exception as error:
+        _raise_native_error(error)
+        raise
+
+
+def compute_exponential_time_to_event_evsi(
+    prior_shape: float,
+    prior_rate: float,
+    expected_events: float,
+    net_benefit_slope: float,
+    net_benefit_intercept: float,
+) -> float:
+    """Compute deterministic quadrature time-to-event EVSI."""
+    try:
+        return float(
+            _native().compute_exponential_time_to_event_evsi(
+                prior_shape,
+                prior_rate,
+                expected_events,
+                net_benefit_slope,
+                net_benefit_intercept,
+            )
+        )
+    except Exception as error:
+        _raise_native_error(error)
+        raise
+
+
+def compute_evsi_qmc_normal_normal(
+    prior_mean: float,
+    prior_standard_deviation: float,
+    outcome_standard_deviation: float,
+    total_sample_size: int,
+    net_benefit_slope: float,
+    net_benefit_intercept: float,
+    num_points: int,
+) -> dict[str, object]:
+    """Compute deterministic Halton QMC Normal-Normal EVSI."""
+    try:
+        result = _native().compute_evsi_qmc_normal_normal(
+            prior_mean,
+            prior_standard_deviation,
+            outcome_standard_deviation,
+            total_sample_size,
+            net_benefit_slope,
+            net_benefit_intercept,
+            num_points,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
+def compute_discounted_population_enbs(
+    per_patient_evsi: float,
+    research_cost: float,
+    *,
+    discount_rate: float,
+    recruitment_delay_years: float,
+    time_horizon_years: float,
+    incident_population_per_year: float,
+) -> float:
+    """Compute discounted population ENBS with recruitment delay and time horizon."""
+    try:
+        return float(
+            _native().compute_discounted_population_enbs(
+                per_patient_evsi,
+                research_cost,
+                discount_rate,
+                recruitment_delay_years,
+                time_horizon_years,
+                incident_population_per_year,
+            )
+        )
+    except Exception as error:
+        _raise_native_error(error)
+        raise
+
+
+def compute_enumerate_study_portfolio(
+    study_ids: list[str],
+    costs: list[float],
+    standalone_evsis: list[float],
+    parameter_groups: list[str],
+    interactions: list[tuple[int, int, float]],
+    budget: float,
+    *,
+    require_explicit_overlap_guard: bool = True,
+) -> dict[str, object]:
+    """Enumerate small research portfolio with overlap/dependence guards."""
+    try:
+        result = _native().compute_enumerate_study_portfolio(
+            study_ids,
+            costs,
+            standalone_evsis,
+            parameter_groups,
+            interactions,
+            budget,
+            require_explicit_overlap_guard,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)
+
+
+def compute_equity_weighted_study_enbs(
+    subgroup_evsi: list[float],
+    equity_weights: list[float],
+    research_cost: float,
+) -> float:
+    """Compute equity-weighted study ENBS across subgroups."""
+    try:
+        return float(
+            _native().compute_equity_weighted_study_enbs(
+                subgroup_evsi,
+                equity_weights,
+                research_cost,
+            )
+        )
+    except Exception as error:
+        _raise_native_error(error)
+        raise
+
+
+def compute_sequential_adaptive_stopping_regret(
+    stage_evsi_remaining: list[float],
+    stage_cumulative_costs: list[float],
+) -> dict[str, object]:
+    """Evaluate sequential adaptive stopping stage and immediate-stop regret."""
+    try:
+        result = _native().compute_sequential_adaptive_stopping_regret(
+            stage_evsi_remaining,
+            stage_cumulative_costs,
+        )
+    except Exception as error:
+        _raise_native_error(error)
+    return dict(result)

@@ -24,18 +24,22 @@ use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Mutex;
 use voiage_diagnostics::telemetry::{emit as emit_diagnostic_event, Correlation};
 use voiage_diagnostics::{CancellationToken, CheckpointIdentity, CheckpointStore, ErrorCategory};
-use voiage_domain::{BigRational, SampleCube, SampleMatrix, SampleVector};
+use voiage_domain::{BigRational, SampleCube, SampleMatrix, SampleSizeConvention, SampleVector};
 use voiage_numerics::{
-    ceaf, coss, coss_selection_uncertainty, dominance, enbs, estimation_truth_assurance, evpi,
-    evpi_resumable, evppi, evppi_from_mars_artifact, evppi_nonlinear, evppi_variance,
-    evppi_variance_with_assurance, evsi_efficient_linear, evsi_evpi_efficiency, evsi_moment_based,
-    evsi_regression, evsi_stochastic, evsi_variance, evsi_variance_with_assurance,
-    expected_utility_information, heterogeneity, information_efficiency_uncertainty,
-    normal_normal_two_arm_evsi, structural_evpi, structural_evppi,
-    DominanceStatus as KernelDominanceStatus, EstimationVarianceKernelResult, EvppiBasis,
-    EvppiNonlinearConfig, ExpectedUtilityInformationInput, InformationStructure, MarsArtifact,
-    MarsHingeFactor, MarsStrategyModel, MarsTerm, NumericalInputError, ResumableEvpiOutcome,
-    SolverSettings, UtilityDescriptor,
+    beta_binomial_two_arm_evsi, ceaf, coss, coss_selection_uncertainty,
+    discounted_population_enbs, dominance, enbs, enumerate_study_portfolio,
+    equity_weighted_study_enbs, estimation_truth_assurance, evpi, evpi_resumable, evppi,
+    evppi_from_mars_artifact, evppi_nonlinear, evppi_variance, evppi_variance_with_assurance,
+    evsi_efficient_linear, evsi_evpi_efficiency, evsi_importance_sampling, evsi_moment_based,
+    evsi_qmc_normal_normal, evsi_regression, evsi_stochastic, evsi_variance,
+    evsi_variance_with_assurance, expected_utility_information, exponential_time_to_event_evsi,
+    gamma_poisson_evsi, heterogeneity, information_efficiency_uncertainty,
+    normal_normal_two_arm_evsi, sequential_adaptive_stopping_regret, structural_evpi,
+    structural_evppi, DominanceStatus as KernelDominanceStatus, EstimationVarianceKernelResult,
+    EvppiBasis, EvppiNonlinearConfig, ExpectedUtilityInformationInput, InformationStructure,
+    MarsArtifact, MarsHingeFactor, MarsStrategyModel, MarsTerm, NumericalInputError,
+    PortfolioInteraction, PortfolioStudySpec, ResumableEvpiOutcome, SolverSettings,
+    StudyScheduleConfig, UtilityDescriptor,
 };
 use voiage_serialization::{
     CeafResultV1, CeafResultV1Input, DominanceResultV1, DominanceResultV1Input, DominanceStatus,
@@ -351,6 +355,22 @@ fn indices_from_python(values: &Bound<'_, PyAny>, field: &str) -> PyResult<Vec<u
 }
 
 fn matrix_from_python(values: &Bound<'_, PyAny>, field: &str) -> PyResult<SampleMatrix> {
+    if let Ok(buffer) = PyBuffer::<f64>::get(values) {
+        if let [samples, cols] = buffer.shape() {
+            if *cols > 0
+                && buffer.format().to_bytes() == b"d"
+                && buffer.is_c_contiguous()
+                && samples.checked_mul(*cols) == Some(buffer.item_count())
+            {
+                let cols = *cols;
+                let data = buffer.to_vec(values.py())?;
+                return matrix_from_rows(
+                    data.chunks_exact(cols).map(<[f64]>::to_vec).collect(),
+                    field,
+                );
+            }
+        }
+    }
     let value = if values.hasattr("tolist")? {
         values.call_method0("tolist")?
     } else {
@@ -375,33 +395,7 @@ fn matrix_from_rows(rows: Vec<Vec<f64>>, field: &str) -> PyResult<SampleMatrix> 
 }
 
 fn evpi_matrix_from_python(values: &Bound<'_, PyAny>) -> PyResult<SampleMatrix> {
-    let field = "net_benefit";
-    let fallback = || matrix_from_python(values, field);
-    let Ok(buffer) = PyBuffer::<f64>::get(values) else {
-        return fallback();
-    };
-    // The unprefixed double format uses native byte order.
-    let strategies = match buffer.shape() {
-        [samples, strategies]
-            if *strategies > 0
-                && buffer.format().to_bytes() == b"d"
-                && buffer.is_c_contiguous()
-                && samples.checked_mul(*strategies) == Some(buffer.item_count()) =>
-        {
-            *strategies
-        }
-        _ => {
-            drop(buffer);
-            return fallback();
-        }
-    };
-
-    // Copy from the exporter before building the validated Rust matrix.
-    let data = buffer.to_vec(values.py())?;
-    matrix_from_rows(
-        data.chunks_exact(strategies).map(<[f64]>::to_vec).collect(),
-        field,
-    )
+    matrix_from_python(values, "net_benefit")
 }
 
 fn cube_from_python(values: &Bound<'_, PyAny>, field: &str) -> PyResult<SampleCube> {
@@ -1539,6 +1533,233 @@ fn compute_evsi_regression<'py>(
     Ok(output)
 }
 
+#[pyfunction]
+#[pyo3(signature = (net_benefit, log_weights, min_ess_threshold=10.0, max_khat_threshold=0.7))]
+fn compute_evsi_importance_sampling<'py>(
+    py: Python<'py>,
+    net_benefit: &Bound<'_, PyAny>,
+    log_weights: &Bound<'_, PyAny>,
+    min_ess_threshold: f64,
+    max_khat_threshold: f64,
+) -> PyResult<Bound<'py, PyDict>> {
+    let net_benefit = matrix_from_python(net_benefit, "net_benefit")?;
+    let log_weights = matrix_from_python(log_weights, "log_weights")?;
+    let result = evsi_importance_sampling(
+        &net_benefit,
+        &log_weights,
+        min_ess_threshold,
+        max_khat_threshold,
+    )
+    .map_err(|error| match error.category() {
+        ErrorCategory::DimensionMismatch => {
+            DimensionMismatchError::new_err(("dimension_mismatch", error.to_string()))
+        }
+        _ => InputError::new_err(("invalid_input", error.to_string())),
+    })?;
+    let output = PyDict::new(py);
+    output.set_item("estimator", result.estimator)?;
+    output.set_item("contract_version", result.contract_version)?;
+    output.set_item("expected_current_value", result.expected_current_value)?;
+    output.set_item("expected_sample_value", result.expected_sample_value)?;
+    output.set_item("raw_evsi", result.raw_evsi)?;
+    output.set_item("evsi", result.evsi)?;
+    output.set_item("min_ess", result.min_ess)?;
+    output.set_item("mean_ess", result.mean_ess)?;
+    output.set_item("max_khat", result.max_khat)?;
+    output.set_item("dataset_count", result.dataset_count)?;
+    output.set_item("sample_count", result.sample_count)?;
+    Ok(output)
+}
+
+#[pyfunction]
+fn compute_beta_binomial_two_arm_evsi(
+    alpha_0: f64,
+    beta_0: f64,
+    alpha_1: f64,
+    beta_1: f64,
+    per_arm_sample_size: u32,
+    net_benefit_slope: f64,
+    net_benefit_intercept: f64,
+) -> PyResult<f64> {
+    let conv = SampleSizeConvention::PerArm {
+        per_arm: per_arm_sample_size,
+    };
+    beta_binomial_two_arm_evsi(
+        alpha_0,
+        beta_0,
+        alpha_1,
+        beta_1,
+        &conv,
+        net_benefit_slope,
+        net_benefit_intercept,
+    )
+    .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))
+}
+
+#[pyfunction]
+fn compute_gamma_poisson_evsi(
+    prior_shape: f64,
+    prior_rate: f64,
+    exposure_per_unit: f64,
+    total_sample_size: u32,
+    net_benefit_slope: f64,
+    net_benefit_intercept: f64,
+) -> PyResult<f64> {
+    let conv = SampleSizeConvention::TotalEqualTwoArm {
+        total: total_sample_size,
+    };
+    gamma_poisson_evsi(
+        prior_shape,
+        prior_rate,
+        exposure_per_unit,
+        &conv,
+        net_benefit_slope,
+        net_benefit_intercept,
+    )
+    .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))
+}
+
+#[pyfunction]
+fn compute_exponential_time_to_event_evsi(
+    prior_shape: f64,
+    prior_rate: f64,
+    expected_events: f64,
+    net_benefit_slope: f64,
+    net_benefit_intercept: f64,
+) -> PyResult<f64> {
+    exponential_time_to_event_evsi(
+        prior_shape,
+        prior_rate,
+        expected_events,
+        net_benefit_slope,
+        net_benefit_intercept,
+    )
+    .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))
+}
+
+#[pyfunction]
+fn compute_evsi_qmc_normal_normal<'py>(
+    py: Python<'py>,
+    prior_mean: f64,
+    prior_standard_deviation: f64,
+    outcome_standard_deviation: f64,
+    total_sample_size: usize,
+    net_benefit_slope: f64,
+    net_benefit_intercept: f64,
+    num_points: usize,
+) -> PyResult<Bound<'py, PyDict>> {
+    let result = evsi_qmc_normal_normal(
+        prior_mean,
+        prior_standard_deviation,
+        outcome_standard_deviation,
+        total_sample_size,
+        net_benefit_slope,
+        net_benefit_intercept,
+        num_points,
+    )
+    .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    let output = PyDict::new(py);
+    output.set_item("estimator", result.estimator)?;
+    output.set_item("evsi", result.evsi)?;
+    output.set_item("evaluations", result.evaluations)?;
+    Ok(output)
+}
+
+#[pyfunction]
+fn compute_discounted_population_enbs(
+    per_patient_evsi: f64,
+    research_cost: f64,
+    discount_rate: f64,
+    recruitment_delay_years: f64,
+    time_horizon_years: f64,
+    incident_population_per_year: f64,
+) -> PyResult<f64> {
+    let schedule = StudyScheduleConfig {
+        discount_rate,
+        recruitment_delay_years,
+        time_horizon_years,
+        incident_population_per_year,
+    };
+    discounted_population_enbs(per_patient_evsi, research_cost, &schedule)
+        .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))
+}
+
+#[pyfunction]
+fn compute_enumerate_study_portfolio<'py>(
+    py: Python<'py>,
+    study_ids: Vec<String>,
+    costs: Vec<f64>,
+    standalone_evsis: Vec<f64>,
+    parameter_groups: Vec<String>,
+    interactions: Vec<(usize, usize, f64)>,
+    budget: f64,
+    require_explicit_overlap_guard: bool,
+) -> PyResult<Bound<'py, PyDict>> {
+    if study_ids.len() != costs.len()
+        || study_ids.len() != standalone_evsis.len()
+        || study_ids.len() != parameter_groups.len()
+    {
+        return Err(DimensionMismatchError::new_err((
+            "dimension_mismatch",
+            "study portfolio vectors must have equal length",
+        )));
+    }
+    let studies: Vec<PortfolioStudySpec> = study_ids
+        .into_iter()
+        .zip(costs)
+        .zip(standalone_evsis)
+        .zip(parameter_groups)
+        .map(|(((study_id, cost), standalone_evsi), parameter_group)| PortfolioStudySpec {
+            study_id,
+            cost,
+            standalone_evsi,
+            parameter_group,
+        })
+        .collect();
+    let inters: Vec<PortfolioInteraction> = interactions
+        .into_iter()
+        .map(|(study_a, study_b, joint_evsi_adjustment)| PortfolioInteraction {
+            study_a,
+            study_b,
+            joint_evsi_adjustment,
+        })
+        .collect();
+    let res = enumerate_study_portfolio(&studies, &inters, budget, require_explicit_overlap_guard)
+        .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    let output = PyDict::new(py);
+    output.set_item("selected_indices", res.selected_indices)?;
+    output.set_item("total_cost", res.total_cost)?;
+    output.set_item("joint_evsi", res.joint_evsi)?;
+    output.set_item("enbs", res.enbs)?;
+    output.set_item("feasible_subsets_evaluated", res.feasible_subsets_evaluated)?;
+    Ok(output)
+}
+
+#[pyfunction]
+fn compute_equity_weighted_study_enbs(
+    subgroup_evsi: Vec<f64>,
+    equity_weights: Vec<f64>,
+    research_cost: f64,
+) -> PyResult<f64> {
+    equity_weighted_study_enbs(&subgroup_evsi, &equity_weights, research_cost)
+        .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))
+}
+
+#[pyfunction]
+fn compute_sequential_adaptive_stopping_regret<'py>(
+    py: Python<'py>,
+    stage_evsi_remaining: Vec<f64>,
+    stage_cumulative_costs: Vec<f64>,
+) -> PyResult<Bound<'py, PyDict>> {
+    let res = sequential_adaptive_stopping_regret(&stage_evsi_remaining, &stage_cumulative_costs)
+        .map_err(|error| InputError::new_err(("invalid_input", error.to_string())))?;
+    let output = PyDict::new(py);
+    output.set_item("optimal_stage", res.optimal_stage)?;
+    output.set_item("optimal_net_value", res.optimal_net_value)?;
+    output.set_item("immediate_stop_regret", res.immediate_stop_regret)?;
+    Ok(output)
+}
+
 fn add_operation_snapshot(
     py: Python<'_>,
     operations: &Bound<'_, PyDict>,
@@ -2003,6 +2224,21 @@ fn core_module(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_function(wrap_pyfunction!(compute_evsi_efficient_linear, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_moment_based, module)?)?;
     module.add_function(wrap_pyfunction!(compute_evsi_regression, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_evsi_importance_sampling, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_beta_binomial_two_arm_evsi, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_gamma_poisson_evsi, module)?)?;
+    module.add_function(wrap_pyfunction!(
+        compute_exponential_time_to_event_evsi,
+        module
+    )?)?;
+    module.add_function(wrap_pyfunction!(compute_evsi_qmc_normal_normal, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_discounted_population_enbs, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_enumerate_study_portfolio, module)?)?;
+    module.add_function(wrap_pyfunction!(compute_equity_weighted_study_enbs, module)?)?;
+    module.add_function(wrap_pyfunction!(
+        compute_sequential_adaptive_stopping_regret,
+        module
+    )?)?;
     module.add_function(wrap_pyfunction!(
         compute_expected_utility_information,
         module
