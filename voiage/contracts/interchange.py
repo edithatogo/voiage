@@ -8,20 +8,18 @@ from collections.abc import Mapping, Sequence
 from hashlib import sha256
 import json
 import math
-from typing import TYPE_CHECKING, TypeVar, cast
+from pathlib import Path  # noqa: TC003 - public API runtime annotation
+from typing import Literal, TypeVar, cast
 
 import pyarrow as pa
 from pyarrow import ipc
 import pyarrow.parquet as pq
+from pydantic import model_validator
 
 from voiage.contracts.analysis import AnalysisResult, ContractModel
 
-if TYPE_CHECKING:
-    from pathlib import Path
-
-    from voiage.contracts.normalized_input import SimulationOutcomeValueDeclaration
-
 PayloadT = TypeVar("PayloadT", bound=ContractModel)
+SIMULATION_OUTCOME_PROFILE_VERSION_V1 = "voiage.simulation-outcome.v1"
 
 
 def schema_fingerprint(schema: pa.Schema) -> str:
@@ -165,13 +163,137 @@ def _validate_mapping(raw: object, label: str) -> Mapping[str, object]:
     return cast("Mapping[str, object]", raw)
 
 
+def validate_untrimmed_nonempty(value: str, field_name: str) -> None:
+    """Require a non-empty string with no leading or trailing whitespace."""
+    if not value.strip():
+        raise ValueError(f"{field_name} must not be empty")
+    if value != value.strip():
+        raise ValueError(
+            f"{field_name} must not contain leading or trailing whitespace"
+        )
+
+
+class SimulationOutcomeProvenance(ContractModel):
+    """Producer provenance preserved on simulation-outcome interchange tables."""
+
+    producer_id: str
+    producer_version: str
+    model_revision: str
+    valuation_source: str
+    artifact_digest: str
+
+    @model_validator(mode="after")
+    def validate_identifiers(self) -> SimulationOutcomeProvenance:
+        """Reject blank or padded provenance identifiers without coercing them."""
+        for field_name in (
+            "producer_id",
+            "producer_version",
+            "model_revision",
+            "valuation_source",
+            "artifact_digest",
+        ):
+            validate_untrimmed_nonempty(getattr(self, field_name), field_name)
+        return self
+
+
+class SimulationOutcomeValueDeclaration(ContractModel):
+    """Explicit unit, perspective, convention, and scope declaration."""
+
+    unit: str
+    perspective: str
+    convention: Literal["utility", "net_benefit", "loss"]
+    objective: Literal["maximize", "minimize"]
+    currency_price_year: str | None = None
+    population_basis: str | None = None
+    horizon: str | None = None
+    discounting_status: str | None = None
+
+    @model_validator(mode="after")
+    def validate_declaration(self) -> SimulationOutcomeValueDeclaration:
+        """Enforce non-empty declarations and convention/objective compatibility."""
+        validate_untrimmed_nonempty(self.unit, "unit")
+        validate_untrimmed_nonempty(self.perspective, "perspective")
+        for field_name in (
+            "currency_price_year",
+            "population_basis",
+            "horizon",
+            "discounting_status",
+        ):
+            optional_value = getattr(self, field_name)
+            if optional_value is not None:
+                validate_untrimmed_nonempty(optional_value, field_name)
+        expected_objective = "minimize" if self.convention == "loss" else "maximize"
+        if self.objective != expected_objective:
+            raise ValueError(
+                "incompatible value convention and objective direction without implicit conversion"
+            )
+        return self
+
+
+class SimulationOutcomeProfileMetadata(ContractModel):
+    """Immutable metadata header embedded alongside simulation-outcome tables."""
+
+    profile_version: Literal["voiage.simulation-outcome.v1"]
+    provenance: SimulationOutcomeProvenance
+    draw_namespace: str
+    strategy_ids: tuple[str, ...]
+    value_declaration: SimulationOutcomeValueDeclaration
+    weight_semantics: Literal["equal", "probability", "relative_weight"]
+    draw_keys: tuple[str, ...]
+    parameter_names: tuple[str, ...] | None = None
+
+    @model_validator(mode="after")
+    def validate_profile_metadata(self) -> SimulationOutcomeProfileMetadata:
+        """Reject empty or duplicated strategy, draw, and parameter identifiers."""
+        validate_untrimmed_nonempty(self.draw_namespace, "draw_namespace")
+        if not self.strategy_ids:
+            raise ValueError("strategy_ids must not be empty")
+        seen_strategies: set[str] = set()
+        for strategy in self.strategy_ids:
+            validate_untrimmed_nonempty(strategy, "strategy_ids")
+            if strategy in seen_strategies:
+                raise ValueError("strategy_ids must be unique")
+            seen_strategies.add(strategy)
+        if not self.draw_keys:
+            raise ValueError("draw_keys must not be empty")
+        seen_draws: set[str] = set()
+        for draw_key in self.draw_keys:
+            validate_untrimmed_nonempty(draw_key, "draw_keys")
+            if draw_key in seen_draws:
+                raise ValueError("draw_keys must be unique")
+            seen_draws.add(draw_key)
+        if self.parameter_names is not None:
+            if not self.parameter_names:
+                raise ValueError("parameter_names must not be empty when supplied")
+            seen_params: set[str] = set()
+            for param_name in self.parameter_names:
+                validate_untrimmed_nonempty(param_name, "parameter_names")
+                if param_name in seen_params:
+                    raise ValueError("parameter_names must be unique")
+                seen_params.add(param_name)
+        return self
+
+
 def _validate_string(raw: object, label: str) -> str:
     """Require an untrimmed non-empty string."""
-    from voiage.contracts.normalized_input import validate_untrimmed_nonempty
-
     if not isinstance(raw, str):
         raise TypeError(f"{label} must be a string")
-    return validate_untrimmed_nonempty(raw, label)
+    validate_untrimmed_nonempty(raw, label)
+    return raw
+
+
+def _validate_weight_semantics(
+    raw: object,
+) -> Literal["equal", "probability", "relative_weight"]:
+    """Require one of the declared simulation-outcome weight modes."""
+    semantics = _validate_string(raw, "weight_semantics")
+    if semantics == "equal":
+        return "equal"
+    if semantics == "probability":
+        return "probability"
+    if semantics == "relative_weight":
+        return "relative_weight"
+    raise ValueError(f"unsupported weight_semantics: {semantics!r}")
 
 
 def _validate_outcome_rows(
@@ -187,8 +309,6 @@ def _validate_outcome_rows(
     dict[str, float],
 ]:
     """Validate paired `(draw_key, strategy_id)` records while preserving row order."""
-    from voiage.contracts.normalized_input import SimulationOutcomeValueDeclaration
-
     if not isinstance(raw_outcomes, Sequence) or isinstance(raw_outcomes, str | bytes):
         raise TypeError("outcomes must be a non-empty sequence")
     rows = list(raw_outcomes)
@@ -332,13 +452,6 @@ def simulation_outcome_table(
     chunk_size: int | None = None,
 ) -> pa.Table:
     """Build an Arrow table preserving `voiage.simulation-outcome.v1` semantics."""
-    from voiage.contracts.normalized_input import (
-        SIMULATION_OUTCOME_PROFILE_VERSION_V1,
-        SimulationOutcomeProfileMetadata,
-        SimulationOutcomeProvenance,
-        SimulationOutcomeValueDeclaration,
-    )
-
     if profile.get("profile_version") != SIMULATION_OUTCOME_PROFILE_VERSION_V1:
         raise ValueError(
             f"unsupported simulation outcome profile_version: {profile.get('profile_version')!r}"
@@ -356,11 +469,7 @@ def simulation_outcome_table(
     value_declaration = SimulationOutcomeValueDeclaration.model_validate(
         profile.get("value_declaration")
     )
-    weight_semantics = _validate_string(
-        profile.get("weight_semantics"), "weight_semantics"
-    )
-    if weight_semantics not in {"equal", "probability", "relative_weight"}:
-        raise ValueError(f"unsupported weight_semantics: {weight_semantics!r}")
+    weight_semantics = _validate_weight_semantics(profile.get("weight_semantics"))
 
     outcome_rows, draw_keys, _ = _validate_outcome_rows(
         profile.get("outcomes"),
@@ -380,9 +489,7 @@ def simulation_outcome_table(
         draw_namespace=draw_namespace,
         strategy_ids=strategy_ids,
         value_declaration=value_declaration,
-        weight_semantics=cast(
-            "object", weight_semantics
-        ),  # validated against literal options
+        weight_semantics=weight_semantics,
         draw_keys=draw_keys,
         parameter_names=param_names,
     )
@@ -428,11 +535,6 @@ def simulation_outcome_table(
 
 def parse_simulation_outcome_table(table: pa.Table) -> dict[str, object]:
     """Validate and restore a `voiage.simulation-outcome.v1` profile from Arrow."""
-    from voiage.contracts.normalized_input import (
-        SIMULATION_OUTCOME_PROFILE_VERSION_V1,
-        SimulationOutcomeProfileMetadata,
-    )
-
     schema_meta = table.schema.metadata or {}
     for key in _REQUIRED_OUTCOME_META_KEYS:
         if key not in schema_meta:
@@ -462,7 +564,7 @@ def parse_simulation_outcome_table(table: pa.Table) -> dict[str, object]:
     except Exception as error:
         raise ValueError("invalid simulation-outcome metadata header") from error
 
-    expected_columns = list(_CORE_OUTCOME_COLUMNS)
+    expected_columns: list[str] = list(_CORE_OUTCOME_COLUMNS)
     if profile_meta.parameter_names is not None:
         expected_columns.extend(
             f"{_PARAM_COLUMN_PREFIX}{name}" for name in profile_meta.parameter_names
@@ -498,7 +600,7 @@ def parse_simulation_outcome_table(table: pa.Table) -> dict[str, object]:
     ]
     reconstructed_params: list[dict[str, object]] | None = None
     if profile_meta.parameter_names is not None:
-        param_by_draw: dict[str, dict[str, object]] = {}
+        param_by_draw: dict[str, dict[str, float]] = {}
         for row in raw_rows:
             draw_key = _validate_string(row.get("draw_key"), "draw_key")
             values = {
@@ -530,7 +632,7 @@ def parse_simulation_outcome_table(table: pa.Table) -> dict[str, object]:
     )
     if draw_keys != profile_meta.draw_keys:
         raise ValueError("simulation-outcome draw_keys do not match metadata header")
-    _validate_parameter_samples(
+    _ = _validate_parameter_samples(
         reconstructed_params,
         draw_namespace=profile_meta.draw_namespace,
         expected_draw_keys=draw_keys,
