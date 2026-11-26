@@ -1,4 +1,8 @@
 //! Dependency-free Rust kernels linked into the `voiageR` source package.
+//!
+//! Deterministic `#![no_std]` vendored authority aligned with
+//! `rust/crates/voiage-numerics/src/{evpi,enbs}.rs` and verified by
+//! `tests/test_q02_rust_authority_parity.py`.
 
 #![no_std]
 
@@ -6,6 +10,19 @@ use core::{panic::PanicInfo, slice};
 
 const OK: i32 = 0;
 const INVALID_ARGUMENT: i32 = 1;
+
+#[inline]
+fn neumaier_step(sum: f64, comp: f64, value: f64) -> (f64, f64) {
+    let next = sum + value;
+    let abs_sum = if sum < 0.0 { -sum } else { sum };
+    let abs_val = if value < 0.0 { -value } else { value };
+    let next_comp = if abs_sum >= abs_val {
+        comp + ((sum - next) + value)
+    } else {
+        comp + ((value - next) + sum)
+    };
+    (next, next_comp)
+}
 
 #[panic_handler]
 fn panic(_info: &PanicInfo<'_>) -> ! {
@@ -42,29 +59,41 @@ pub unsafe extern "C" fn voiage_rust_evpi(
         return INVALID_ARGUMENT;
     }
 
-    let rows = rows as usize;
+    let divisor = f64::from(rows);
     let columns = columns as usize;
-    let mut expected_perfect = 0.0;
+    let mut perfect_sum = 0.0;
+    let mut perfect_comp = 0.0;
     for row in samples.chunks_exact(columns) {
         let mut row_best = f64::NEG_INFINITY;
         for value in row.iter().copied() {
             row_best = row_best.max(value);
         }
-        expected_perfect += row_best;
+        (perfect_sum, perfect_comp) = neumaier_step(perfect_sum, perfect_comp, row_best / divisor);
     }
-    expected_perfect /= rows as f64;
+    let expected_perfect = perfect_sum + perfect_comp;
+    if !expected_perfect.is_finite() {
+        return INVALID_ARGUMENT;
+    }
     let mut current_best = f64::NEG_INFINITY;
     for column in 0..columns {
-        let column_sum: f64 = samples
-            .iter()
-            .skip(column)
-            .step_by(columns)
-            .copied()
-            .sum();
-        current_best = current_best.max(column_sum / rows as f64);
+        let mut col_sum = 0.0;
+        let mut col_comp = 0.0;
+        for value in samples.iter().skip(column).step_by(columns).copied() {
+            (col_sum, col_comp) = neumaier_step(col_sum, col_comp, value / divisor);
+        }
+        let col_mean = col_sum + col_comp;
+        if !col_mean.is_finite() {
+            return INVALID_ARGUMENT;
+        }
+        current_best = current_best.max(col_mean);
     }
+    let diff = expected_perfect - current_best;
+    if !current_best.is_finite() || !diff.is_finite() {
+        return INVALID_ARGUMENT;
+    }
+    let result = diff.max(0.0);
     // SAFETY: the caller contract supplies one writable output double.
-    unsafe { out.write(expected_perfect - current_best) };
+    unsafe { out.write(result) };
     OK
 }
 

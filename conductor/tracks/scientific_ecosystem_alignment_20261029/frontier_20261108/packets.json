@@ -32,7 +32,7 @@
     {
       "id": "Q02",
       "title": "One shared Rust numerical authority",
-      "status": "planned",
+      "status": "completed",
       "depends_on": [
         "Q01"
       ],

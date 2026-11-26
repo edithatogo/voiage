@@ -104,9 +104,9 @@ R_DISTRIBUTION_OBJECTS = {
     "rust/crates/voiage-ffi": "b9f6728a6f7ae5ee8ef6018ca4dbbce404861266",
     "specs/numerical-reference": "bb3ca823420fbe8f95b85b9c92ce07b3988cea2b",
 }
-# Only the optional Python minimum changed in this exact R source tree.
-# This is pending requalification, never inherited distribution acceptance.
-R_PY315_PENDING_TREE = "f1d48ff44f4288056f364b28e080279c121824dc"
+# The optional Python minimum and Q02 Rust EVPI authority alignment changed in
+# this exact R source tree; this is pending requalification, never inherited acceptance.
+R_Q02_PENDING_TREE = "ea0ab59da73a17d43deaeb5d098b40702b4c03a1"
 R_MANUAL_RECEIPT = {
     "path": "conductor/tracks/remaining_backlog_delivery_20260831/r-manual-check-20260901.json",
     "sha256": "520af27e4d3463d9e9404c06e64e86d5a38a9db66bb3cb77e8338ac014fdf3a7",
@@ -213,7 +213,7 @@ def validate_r_distribution_evidence(
         ):
             continue  # Historical execution only; no current-workflow claim.
         if relative == "r-package/voiageR" and not require_current_workflow:
-            if _git_object(root, "HEAD", relative) != R_PY315_PENDING_TREE:
+            if _git_object(root, "HEAD", relative) != R_Q02_PENDING_TREE:
                 raise ValueError("R pending runtime source tree does not match")
             continue  # Exact new metadata is unqualified; retain the old receipt.
         # Hosted pull-request checkouts are deliberately shallow and need not
@@ -627,7 +627,7 @@ def validate_ropensci_evidence(path: Path, root: Path) -> dict[str, Any]:
         record = json.loads(
             (
                 root
-                / "specs/submission-readiness/r-workflow-requalification-20261116-stepsecurity.json"
+                / "specs/submission-readiness/r-workflow-requalification-20261126-q02-rust-authority.json"
             ).read_text(encoding="utf-8")
         )
         content = (root / ".github/workflows/bindings-ci.yml").read_bytes()
@@ -638,14 +638,19 @@ def validate_ropensci_evidence(path: Path, root: Path) -> dict[str, Any]:
         historical_digest = (
             "fc27591363ee7fab541fd4c4f4a26b882978450e89aad2a1e9452ed5e0721947"
         )
-        previous_path = (
+        prior_py315_path = (
             "specs/submission-readiness/r-workflow-requalification-20261115.json"
         )
-        previous_digest = (
+        prior_py315_digest = (
             "89049b7069a8a122a14322159a7790c8c3926d2819713ce7612b23dc4dca5eb7"
+        )
+        previous_path = "specs/submission-readiness/r-workflow-requalification-20261116-stepsecurity.json"
+        previous_digest = (
+            "26fe50862459d3e8a2fe8e086d33f37581a8ed980a3f907d9bb8065a82623318"
         )
         for relative, expected in (
             (historical_path, historical_digest),
+            (prior_py315_path, prior_py315_digest),
             (previous_path, previous_digest),
         ):
             if hashlib.sha256((root / relative).read_bytes()).hexdigest() != expected:
@@ -653,9 +658,12 @@ def validate_ropensci_evidence(path: Path, root: Path) -> dict[str, Any]:
         if record != {
             "state": "hosted_pending",
             "workflow_sha256": digest,
-            "unqualified_r_source_tree": R_PY315_PENDING_TREE,
+            "unqualified_r_source_tree": R_Q02_PENDING_TREE,
             "historical_receipt": R_DISTRIBUTION_RECEIPT.as_posix(),
-            "reason": "Python 3.15.2 and workflow security instrumentation require fresh hosted qualification.",
+            "reason": (
+                "Python 3.15.2, workflow security instrumentation, and Q02 Rust EVPI "
+                "numerical-authority alignment require fresh hosted qualification."
+            ),
             "current_workflow_qualified": False,
             "new_hosted_execution_claimed": False,
             "previous_requalification": {

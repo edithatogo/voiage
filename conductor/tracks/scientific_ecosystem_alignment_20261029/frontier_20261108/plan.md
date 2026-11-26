@@ -68,10 +68,10 @@ and build scripts under `r-package/voiageR/`. Keep source moves smaller than alg
 **Consumes:** Q01 contracts. **Produces:** one shared implementation with a minimal
 Rust-only consumer and reproducible offline R packaging.
 
-- [ ] Add independent EVPI witnesses for payoff rows `[[0,100],[100,0]]`: equal weights yield 50; weights 0.9/0.1 yield 10 where weighted support is declared. Unsupported weighted paths must reject explicitly.
-- [ ] Add translated, scaled, tied, extreme-finite and invalid-input cases; test installed R/native agreement and shared-source identity. Do not inflate tolerances to preserve a faulty implementation.
-- [ ] Choose a dependency-light shared crate or deterministic vendoring of the same source; preserve offline source builds and document the choice.
-- [ ] Run Cargo numerical/FFI tests and offline R build/check plus installed smoke tests. A Rust-only consumer must have no Python/PyO3 runtime requirement.
+- [x] Add independent EVPI witnesses for payoff rows `[[0,100],[100,0]]`: equal weights yield 50; weights 0.9/0.1 yield 10 where weighted support is declared. Unsupported weighted paths must reject explicitly. (`rust/crates/voiage-numerics/tests/q02_rust_authority_witnesses.rs`)
+- [x] Add translated, scaled, tied, extreme-finite and invalid-input cases; test installed R/native agreement and shared-source identity. Do not inflate tolerances to preserve a faulty implementation. (`tests/test_q02_rust_authority_parity.py`)
+- [x] Choose a dependency-light shared crate or deterministic vendoring of the same source; preserve offline source builds and document the choice. (Deterministic `#![no_std]` vendored alignment in `r-package/voiageR/src/rust/src/lib.rs` with per-row scaling + Neumaier summation + non-negativity clamp matching `voiage-numerics/src/evpi.rs`)
+- [x] Run Cargo numerical/FFI tests and offline R build/check plus installed smoke tests. A Rust-only consumer must have no Python/PyO3 runtime requirement.
 
 ### Q03 — Admit the independent reference corpus
 

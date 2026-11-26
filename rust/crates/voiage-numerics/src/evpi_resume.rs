@@ -53,46 +53,48 @@ fn input_hash(input: &SampleMatrix, rows: usize, columns: usize) -> String {
     input_hash
 }
 
-fn finish_evpi(payload: &[u8], rows: usize, columns: usize) -> Result<f64, String> {
-    let mut strategies = Vec::new();
-    strategies
+fn finish_evpi(payload: &[u8], _rows: usize, columns: usize) -> Result<f64, String> {
+    let mut strategy_sums = Vec::new();
+    strategy_sums
         .try_reserve_exact(columns)
         .map_err(|_| "allocation failed")?;
-    for _ in 0..columns {
-        let mut values = Vec::new();
-        values
-            .try_reserve_exact(rows)
-            .map_err(|_| "allocation failed")?;
-        strategies.push(values);
-    }
-    let mut perfect = Vec::new();
-    perfect
-        .try_reserve_exact(rows)
-        .map_err(|_| "allocation failed")?;
+    strategy_sums.resize(columns, (0.0_f64, 0.0_f64));
+    let mut perfect_sum = 0.0_f64;
+    let mut perfect_comp = 0.0_f64;
     for record in payload.chunks_exact((columns + 1) * 8) {
-        for (i, values) in strategies.iter_mut().enumerate() {
-            values.push(f64::from_bits(u64::from_le_bytes(
+        for (i, (col_sum, col_comp)) in strategy_sums.iter_mut().enumerate() {
+            let value = f64::from_bits(u64::from_le_bytes(
                 record[i * 8..i * 8 + 8]
                     .try_into()
                     .map_err(|_| "invalid payload")?,
-            )));
+            ));
+            (*col_sum, *col_comp) = crate::evpi::neumaier_step(*col_sum, *col_comp, value);
         }
-        perfect.push(f64::from_bits(u64::from_le_bytes(
+        let max_value = f64::from_bits(u64::from_le_bytes(
             record[columns * 8..columns * 8 + 8]
                 .try_into()
                 .map_err(|_| "invalid payload")?,
-        )));
+        ));
+        (perfect_sum, perfect_comp) =
+            crate::evpi::neumaier_step(perfect_sum, perfect_comp, max_value);
     }
-    perfect.sort_by(f64::total_cmp);
-    let perfect_sum: f64 = perfect.into_iter().sum();
-    let current = strategies
-        .into_iter()
-        .map(|mut v| {
-            v.sort_by(f64::total_cmp);
-            v.into_iter().sum::<f64>()
-        })
-        .fold(f64::NEG_INFINITY, f64::max);
-    Ok((perfect_sum - current).max(0.0))
+    let perfect_mean = perfect_sum + perfect_comp;
+    if !perfect_mean.is_finite() {
+        return Err("expected perfect-information net benefit is non-finite".into());
+    }
+    let mut current = f64::NEG_INFINITY;
+    for (col_sum, col_comp) in strategy_sums {
+        let col_mean = col_sum + col_comp;
+        if !col_mean.is_finite() {
+            return Err("expected strategy net benefit is non-finite".into());
+        }
+        current = current.max(col_mean);
+    }
+    let diff = perfect_mean - current;
+    if !current.is_finite() || !diff.is_finite() {
+        return Err("expected value of perfect information is non-finite".into());
+    }
+    Ok(diff.max(0.0))
 }
 
 fn check_memory_budget(rows: usize, columns: usize) -> Result<(), String> {
