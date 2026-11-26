@@ -1148,13 +1148,13 @@ track at the top of this registry; completed repository slices stay closed.
 
 ---
 
-- [~] **Track: Optional simulation-outcome boundary for cross-domain VOI**
-  *Link: [./tracks/simulation_outcome_boundary_20261107/index.md](./tracks/simulation_outcome_boundary_20261107/index.md)*
-  O01–O08 implemented and merged (#1411: `voiage-domain`, `voiage-numerics`, Arrow/Parquet interchange, EVPI analytical equivalence, and isolated packaged-crate consumer); retained in progress pending archival. Synthetic fixtures do not replace full real-producer qualification; existing scientific alignment retains provider/pin ownership.
+- [x] **Track: Optional simulation-outcome boundary for cross-domain VOI** [completed: 2026-11-26]
+  *Link: [./archive/simulation_outcome_boundary_20261107/index.md](./archive/simulation_outcome_boundary_20261107/index.md)*
+  O01–O08 implemented, merged (#1411: `voiage-domain`, `voiage-numerics`, Arrow/Parquet interchange, EVPI analytical equivalence, and isolated packaged-crate consumer), and archived. Synthetic fixtures do not replace full real-producer qualification; existing scientific alignment retains provider/pin ownership.
   GitHub: https://github.com/edithatogo/voiage/issues/1283
 
 ---
-- [~] **Track: Credal LP dominance and endogenous censored EVSI for tobac**
-  *Link: [./tracks/tobac_credal_endogenous_voi_20261110/index.md](./tracks/tobac_credal_endogenous_voi_20261110/index.md)*
-  CE01–CE05 (native credal/censored kernels, Arrow/Polars interchange, experimental Python bindings, and installed `tobac` parity) are complete and evidenced (`2026-11-26`); upstream consumer pin promotion (`edithatogo/tobac#178`) and track archival remain open.
+- [x] **Track: Credal LP dominance and endogenous censored EVSI for tobac** [completed: 2026-11-26]
+  *Link: [./archive/tobac_credal_endogenous_voi_20261110/index.md](./archive/tobac_credal_endogenous_voi_20261110/index.md)*
+  CE01–CE05 (native credal/censored kernels, Arrow/Polars interchange, experimental Python bindings, and installed `tobac` parity) are complete, evidenced (`2026-11-26`), and archived; upstream consumer pin promotion (`edithatogo/tobac#178`) remains with the external `tobac` repository.
   GitHub: https://github.com/edithatogo/voiage/issues/1290

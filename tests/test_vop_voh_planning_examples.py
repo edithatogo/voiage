@@ -13,7 +13,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 EXAMPLES = (
     ROOT
-    / "conductor/tracks/simulation_outcome_boundary_20261107"
+    / "conductor/archive/simulation_outcome_boundary_20261107"
     / "vop-voh-reference-cases.json"
 )
 

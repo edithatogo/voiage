@@ -51,7 +51,7 @@ Completed prerequisite records remain linked for navigation:
 `conductor/tracks/translation_reference_20261026/`.
 
 - [~] Continue the existing [v2.2 release and venue track](conductor/tracks/v2_2_release_and_venue_submissions_20260830/index.md) from its maintainer gate.
-- [~] Implement the [optional simulation-outcome boundary](conductor/tracks/simulation_outcome_boundary_20261107/index.md): paired draws, explicit value conventions, and optional installed use. O01–O08 implemented and locally verified; awaiting PR merge, hosted CI, and archival; the [VOP/VOH planning supplement](conductor/tracks/simulation_outcome_boundary_20261107/value-perspective-heterogeneity.md) and scientific-alignment/HPC owners remain retained.
+- [x] Implement the [optional simulation-outcome boundary](conductor/archive/simulation_outcome_boundary_20261107/index.md): paired draws, explicit value conventions, and optional installed use. O01–O08 merged (#1411) and archived; the [VOP/VOH planning supplement](conductor/archive/simulation_outcome_boundary_20261107/value-perspective-heterogeneity.md) and scientific-alignment/HPC owners remain retained.
 - [x] Qualify the non-HPC installed Innovate, MARS, tobac and published VOP
   reference cases against Voiage 3.1.0. The current tobac adapter default passes.
   See the [14 November receipt](conductor/tracks/scientific_ecosystem_alignment_20261029/installed-adapters-20261114.md).
