@@ -5,7 +5,7 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
-from voiage.contracts.evsi_study import (
+from voiage.contracts.study_design import (
     EvsiDiagnosticsV1,
     EvsiStudyResultV1,
     PosteriorSampleBoundaryV1,
