@@ -185,14 +185,14 @@ class SimulationOutcomeProvenance(ContractModel):
     @model_validator(mode="after")
     def validate_identifiers(self) -> SimulationOutcomeProvenance:
         """Reject blank or padded provenance identifiers without coercing them."""
-        for field_name in (
-            "producer_id",
-            "producer_version",
-            "model_revision",
-            "valuation_source",
-            "artifact_digest",
+        for field_name, value in (
+            ("producer_id", self.producer_id),
+            ("producer_version", self.producer_version),
+            ("model_revision", self.model_revision),
+            ("valuation_source", self.valuation_source),
+            ("artifact_digest", self.artifact_digest),
         ):
-            validate_untrimmed_nonempty(getattr(self, field_name), field_name)
+            validate_untrimmed_nonempty(value, field_name)
         return self
 
 
@@ -213,13 +213,12 @@ class SimulationOutcomeValueDeclaration(ContractModel):
         """Enforce non-empty declarations and convention/objective compatibility."""
         validate_untrimmed_nonempty(self.unit, "unit")
         validate_untrimmed_nonempty(self.perspective, "perspective")
-        for field_name in (
-            "currency_price_year",
-            "population_basis",
-            "horizon",
-            "discounting_status",
+        for field_name, optional_value in (
+            ("currency_price_year", self.currency_price_year),
+            ("population_basis", self.population_basis),
+            ("horizon", self.horizon),
+            ("discounting_status", self.discounting_status),
         ):
-            optional_value = getattr(self, field_name)
             if optional_value is not None:
                 validate_untrimmed_nonempty(optional_value, field_name)
         expected_objective = "minimize" if self.convention == "loss" else "maximize"

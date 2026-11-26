@@ -169,7 +169,7 @@ def test_mismatched_arrow_column_types_fail_closed() -> None:
         pa.array([1] * table.num_rows, type=pa.int64()),
     )
     meta_int = dict(int_value_table.schema.metadata or {})
-    meta_int[b"voiage.schema_fingerprint"] = schema_fingerprint(
+    meta_int[b"vop_voiage.schema_fingerprint"] = schema_fingerprint(
         int_value_table.schema
     ).encode("ascii")
     with pytest.raises(ValueError, match="float64 Arrow type"):
@@ -183,11 +183,25 @@ def test_mismatched_arrow_column_types_fail_closed() -> None:
         pa.array([1] * table.num_rows, type=pa.int64()),
     )
     meta_str = dict(int_key_table.schema.metadata or {})
-    meta_str[b"voiage.schema_fingerprint"] = schema_fingerprint(
+    meta_str[b"vop_voiage.schema_fingerprint"] = schema_fingerprint(
         int_key_table.schema
     ).encode("ascii")
     with pytest.raises(ValueError, match="string Arrow type"):
         parse_simulation_outcome_table(int_key_table.replace_schema_metadata(meta_str))
+
+    large_str_table = table.set_column(
+        table.column_names.index("draw_key"),
+        "draw_key",
+        table.column("draw_key").cast(pa.large_string()),
+    )
+    meta_large = dict(large_str_table.schema.metadata or {})
+    meta_large[b"vop_voiage.schema_fingerprint"] = schema_fingerprint(
+        large_str_table.schema
+    ).encode("ascii")
+    restored_large = parse_simulation_outcome_table(
+        large_str_table.replace_schema_metadata(meta_large)
+    )
+    assert "draw_keys" not in restored_large
 
 
 def test_reexports_and_model_validation_boundaries() -> None:
