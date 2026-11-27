@@ -21,6 +21,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@aebdcf6156ab6691adf63218240e476564a1ed4c # v2.23.0
+        with:
+          egress-policy: audit
+
       - name: Assess fair-software.eu recommendations
         continue-on-error: true
         uses: fair-software/howfairis-github-action@4c11146488125aa6e1531184eed51d781bcd5871 # 0.2.1
