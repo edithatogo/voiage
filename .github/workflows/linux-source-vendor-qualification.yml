@@ -38,7 +38,7 @@ jobs:
           persist-credentials: false
       - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.13.6"
+          version: "0.13.8"
       - run: |
           uv venv --python 3.15.2 .venv
           uv pip install --python .venv/bin/python pytest==9.1.1
@@ -81,7 +81,7 @@ jobs:
           persist-credentials: false
       - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.13.6"
+          version: "0.13.8"
       - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
           toolchain: ${{ matrix.toolchain }}
@@ -140,10 +140,10 @@ jobs:
           persist-credentials: false
       - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
         with:
-          version: "0.13.6"
+          version: "0.13.8"
       - uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c
         with:
-          toolchain: "1.99.1"
+          toolchain: "1.100.0"
       - name: Prepare source-only EasyBuild probe
         run: |
           sudo apt-get update -qq
